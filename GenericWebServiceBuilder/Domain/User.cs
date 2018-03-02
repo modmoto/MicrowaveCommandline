@@ -5,12 +5,12 @@ namespace Domain
 {
     public partial class User
     {
-        public UserCreateEvent Create(string Name)
+        public GenericWebServiceBuilder.UserCreateEvent Create(string Name)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public UserCreateEvent UpdateAge(int Age)
+        public GenericWebServiceBuilder.UserCreateEvent UpdateAge(int Age)
         {
             throw new NotImplementedException();
         }

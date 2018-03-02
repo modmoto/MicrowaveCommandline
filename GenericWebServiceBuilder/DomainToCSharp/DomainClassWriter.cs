@@ -1,10 +1,11 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
-using GenericWebServiceBuilder.DSL;
+using GenericWebServiceBuilder.DomainSpecificGrammar;
 using Microsoft.CSharp;
 
-namespace GenericWebServiceBuilder.Parsing
+namespace GenericWebServiceBuilder.DomainToCSharp
 {
     public class DomainClassWriter
     {
@@ -20,6 +21,38 @@ namespace GenericWebServiceBuilder.Parsing
             _propertyParser = propertyParser;
             _classParser = classParser;
             _domain = domainNameSpace;
+        }
+
+        internal void Write(DomainEvent domainEvent)
+        {
+            var nameSpace = new CodeNamespace(_domain);
+
+            var targetClass = _classParser.Parse(domainEvent);
+
+            nameSpace.Types.Add(targetClass);
+
+            foreach (var proptery in domainEvent.Properties)
+            {
+                var property = _propertyParser.Parse(proptery);
+                targetClass.Members.Add(property.Field);
+                targetClass.Members.Add(property.Property);
+            }
+
+            WriteToFile(domainEvent.Name, nameSpace);
+        }
+
+        private static void WriteToFile(string fileName, CodeNamespace nameSpace)
+        {
+            var targetUnit = new CodeCompileUnit();
+            targetUnit.Namespaces.Add(nameSpace);
+
+            var provider = new CSharpCodeProvider();
+            var options = new CodeGeneratorOptions();
+            options.BracingStyle = "C";
+            using (var sourceWriter = new StreamWriter($"Domain/Generated/{fileName}.g.cs"))
+            {
+                provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
+            }
         }
 
         public void Write(DomainClass userClass)
@@ -40,17 +73,8 @@ namespace GenericWebServiceBuilder.Parsing
                 targetClass.Members.Add(property.Field);
                 targetClass.Members.Add(property.Property);
             }
-
-            var targetUnit = new CodeCompileUnit();
-            targetUnit.Namespaces.Add(nameSpace);
-
-            var provider = new CSharpCodeProvider();
-            var options = new CodeGeneratorOptions();
-            options.BracingStyle = "C";
-            using (var sourceWriter = new StreamWriter($"Domain/Generated/{userClass.Name}.g.cs"))
-            {
-                provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
-            }
+             
+            WriteToFile(userClass.Name, nameSpace);
         }
     }
 }

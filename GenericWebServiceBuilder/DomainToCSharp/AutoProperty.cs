@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 
-namespace GenericWebServiceBuilder.Parsing
+namespace GenericWebServiceBuilder.DomainToCSharp
 {
     public class AutoProperty
     {

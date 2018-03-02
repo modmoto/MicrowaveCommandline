@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using GenericWebServiceBuilder.DSL;
-using GenericWebServiceBuilder.Parsing;
+using GenericWebServiceBuilder.DomainToCSharp;
+using GenericWebServiceBuilder.FileToDSL;
 
 namespace GenericWebServiceBuilder
 {
@@ -8,57 +8,19 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
-            using (var sr = new StreamReader("Schema.wsb"))
-            {
-                var userClass = new DomainClass
-                {
-                    Name = "User",
-                    Functions =
-                    {
-                        new DomainFunction
-                        {
-                            Name = "Create",
-                            ReturnType = typeof(UserCreateEvent),
-                            Parameters =
-                            {
-                                new Parameter
-                                {
-                                    Type = typeof(string),
-                                    Name = "Name"
-                                }
-                            }
-                        },
-                        new DomainFunction
-                        {
-                            Name = "UpdateAge",
-                            ReturnType = typeof(UserCreateEvent),
-                            Parameters =
-                            {
-                                new Parameter
-                                {
-                                    Type = typeof(int),
-                                    Name = "Age"
-                                }
-                            }
-                        }
-                    },
-                    Propteries =
-                    {
-                        new Property
-                        {
-                            Type = typeof(string),
-                            Name = "Name"
-                        },
-                        new Property
-                        {
-                            Type = typeof(int),
-                            Name = "Age"
-                        }
-                    }
-                };
+            var classWriter = new DomainClassWriter(new InterfaceParser(), new PropertyParser(), new ClassParser());
 
-                var writer = new DomainClassWriter(new InterfaceParser(), new PropertyParser(), new ClassParser());
-                writer.Write(userClass);
+            using (var reader = new StreamReader("Schema.wsb"))
+            {
+                var content = reader.ReadToEnd();
+                var dslParser = new DslParser();
+                var domainTree = dslParser.Parse(content);
+
+                foreach (var domainClass in domainTree.Classes)
+                    classWriter.Write(domainClass);
+
+                foreach (var domainEvent in domainTree.Events)
+                    classWriter.Write(domainEvent);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GenericWebServiceBuilder.DSL
+namespace GenericWebServiceBuilder.DomainSpecificGrammar
 {
     public class DomainEvent
     {
@@ -10,6 +10,6 @@ namespace GenericWebServiceBuilder.DSL
         }
 
         public string Name { get; set; }
-        public IList<Property> Properties { get; set; }
+        public ICollection<Property> Properties { get; set; }
     }
 }

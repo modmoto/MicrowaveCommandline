@@ -1,8 +1,8 @@
 ﻿using System.CodeDom;
 using System.Reflection;
-using GenericWebServiceBuilder.DSL;
+using GenericWebServiceBuilder.DomainSpecificGrammar;
 
-namespace GenericWebServiceBuilder.Parsing
+namespace GenericWebServiceBuilder.DomainToCSharp
 {
     internal class ClassParser : IClassParser
     {
@@ -14,10 +14,19 @@ namespace GenericWebServiceBuilder.Parsing
             targetClass.TypeAttributes = TypeAttributes.Public;
             return targetClass;
         }
+
+        public CodeTypeDeclaration Parse(DomainEvent domainEvent)
+        {
+            var targetClass = new CodeTypeDeclaration(domainEvent.Name);
+            targetClass.IsClass = true;
+            targetClass.TypeAttributes = TypeAttributes.Public;
+            return targetClass;
+        }
     }
 
     public interface IClassParser
     {
         CodeTypeDeclaration Parse(DomainClass userClass);
+        CodeTypeDeclaration Parse(DomainEvent domainEvent);
     }
 }
