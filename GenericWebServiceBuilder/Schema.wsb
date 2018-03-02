@@ -2,13 +2,27 @@
 	String Name
 	Int Age
 	DomainFunction UserCreateEvent Create
-	DomainFunction UpdateAge
-	DomainFunction UpdateName
-	[Post] posts 
+	DomainFunction UpdateAgeEvent UpdateAge
+	DomainFunction UpdateNameEvent UpdateName
+	[Post] Posts 
 }
 
 DomainClass Post {
 	String Title
 	String Body
 	DomainFunction create
+}
+
+DomainEvent UserCreateEvent {
+	Id UserId
+}
+
+DomainEvent UpdateAgeEvent {
+	Id UserId
+	Int Age
+}
+
+DomainEvent UpdateNameEvent {
+	Id UserId
+	String Name
 }
