@@ -9,4 +9,8 @@
     <PackageReference Include="System.CodeDom" Version="4.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\Generated\" />
+  </ItemGroup>
+
 </Project>

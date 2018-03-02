@@ -90,7 +90,7 @@ namespace GenericWebServiceBuilder
                 CSharpCodeProvider provider = new CSharpCodeProvider();
                 CodeGeneratorOptions options = new CodeGeneratorOptions();
                 options.BracingStyle = "C";
-                using (StreamWriter sourceWriter = new StreamWriter($"{userClass.Name}.g.cs"))
+                using (StreamWriter sourceWriter = new StreamWriter($"Domain/Generated/{userClass.Name}.g.cs"))
                 {
                     provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
                 }
