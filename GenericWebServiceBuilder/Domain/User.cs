@@ -1,3 +1,4 @@
+using System;
 using GenericWebServiceBuilder;
 
 namespace Domain
@@ -11,7 +12,7 @@ namespace Domain
 
         public UserCreateEvent UpdateAge(int Age)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

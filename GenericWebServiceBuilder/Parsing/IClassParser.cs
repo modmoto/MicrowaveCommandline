@@ -4,7 +4,7 @@ using GenericWebServiceBuilder.DSL;
 
 namespace GenericWebServiceBuilder.Parsing
 {
-    class ClassParser : IClassParser
+    internal class ClassParser : IClassParser
     {
         public CodeTypeDeclaration Parse(DomainClass userClass)
         {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GenericWebServiceBuilder.DSL
 {
@@ -11,6 +9,7 @@ namespace GenericWebServiceBuilder.DSL
             Functions = new List<DomainFunction>();
             Propteries = new List<Property>();
         }
+
         public IList<DomainFunction> Functions { get; set; }
         public string Name { get; set; }
         public IList<Property> Propteries { get; set; }

@@ -1,7 +1,6 @@
 ﻿using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
-using System.Reflection;
 using GenericWebServiceBuilder.DSL;
 using Microsoft.CSharp;
 
@@ -9,21 +8,23 @@ namespace GenericWebServiceBuilder.Parsing
 {
     public class DomainClassWriter
     {
-        private readonly IInterfaceParser _interfaceParser;
-        private readonly IPropertyParser _propertyParser;
         private readonly IClassParser _classParser;
         private readonly string _domain;
+        private readonly IInterfaceParser _interfaceParser;
+        private readonly IPropertyParser _propertyParser;
 
-        public DomainClassWriter(IInterfaceParser interfaceParser, IPropertyParser propertyParser, IClassParser classParser, string domainNameSpace = "Domain")
+        public DomainClassWriter(IInterfaceParser interfaceParser, IPropertyParser propertyParser,
+            IClassParser classParser, string domainNameSpace = "Domain")
         {
             _interfaceParser = interfaceParser;
             _propertyParser = propertyParser;
             _classParser = classParser;
             _domain = domainNameSpace;
         }
+
         public void Write(DomainClass userClass)
         {
-            CodeNamespace nameSpace = new CodeNamespace(_domain);
+            var nameSpace = new CodeNamespace(_domain);
 
             var iface = _interfaceParser.Parse(userClass);
             nameSpace.Types.Add(iface);
@@ -43,10 +44,10 @@ namespace GenericWebServiceBuilder.Parsing
             var targetUnit = new CodeCompileUnit();
             targetUnit.Namespaces.Add(nameSpace);
 
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CodeGeneratorOptions options = new CodeGeneratorOptions();
+            var provider = new CSharpCodeProvider();
+            var options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            using (StreamWriter sourceWriter = new StreamWriter($"Domain/Generated/{userClass.Name}.g.cs"))
+            using (var sourceWriter = new StreamWriter($"Domain/Generated/{userClass.Name}.g.cs"))
             {
                 provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
             }

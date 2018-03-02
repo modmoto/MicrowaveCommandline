@@ -1,15 +1,14 @@
-﻿using GenericWebServiceBuilder.DSL;
-using System;
-using System.IO;
+﻿using System.IO;
+using GenericWebServiceBuilder.DSL;
 using GenericWebServiceBuilder.Parsing;
 
 namespace GenericWebServiceBuilder
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            using (StreamReader sr = new StreamReader("Schema.wsb"))
+            using (var sr = new StreamReader("Schema.wsb"))
             {
                 var userClass = new DomainClass
                 {
@@ -24,7 +23,7 @@ namespace GenericWebServiceBuilder
                             {
                                 new Parameter
                                 {
-                                    Type = typeof(String),
+                                    Type = typeof(string),
                                     Name = "Name"
                                 }
                             }
@@ -47,7 +46,7 @@ namespace GenericWebServiceBuilder
                     {
                         new Property
                         {
-                            Type = typeof(String),
+                            Type = typeof(string),
                             Name = "Name"
                         },
                         new Property

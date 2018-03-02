@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GenericWebServiceBuilder.DSL
 {
@@ -7,7 +6,7 @@ namespace GenericWebServiceBuilder.DSL
     {
         public DomainEvent()
         {
-            Properties = new List<Property>(); 
+            Properties = new List<Property>();
         }
 
         public string Name { get; set; }

@@ -7,7 +7,7 @@ namespace GenericWebServiceBuilder.DSL
     {
         public DomainFunction()
         {
-            Parameters = new List<Parameter>(); 
+            Parameters = new List<Parameter>();
         }
 
         public string Name { get; set; }

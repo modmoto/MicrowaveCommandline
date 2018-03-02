@@ -3,7 +3,7 @@ using GenericWebServiceBuilder.DSL;
 
 namespace GenericWebServiceBuilder.Parsing
 {
-    class InterfaceParser : IInterfaceParser
+    internal class InterfaceParser : IInterfaceParser
     {
         public CodeTypeDeclaration Parse(DomainClass userClass)
         {
@@ -18,9 +18,7 @@ namespace GenericWebServiceBuilder.Parsing
                 };
 
                 foreach (var parameter in function.Parameters)
-                {
                     method.Parameters.Add(new CodeParameterDeclarationExpression(parameter.Type, parameter.Name));
-                }
 
                 iface.Members.Add(method);
             }

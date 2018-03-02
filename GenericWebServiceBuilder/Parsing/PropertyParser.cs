@@ -7,7 +7,6 @@ namespace GenericWebServiceBuilder.Parsing
     {
         public AutoProperty Parse(Property property)
         {
-
             var field = new CodeMemberField
             {
                 Attributes = MemberAttributes.Private,
