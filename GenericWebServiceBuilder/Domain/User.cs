@@ -6,7 +6,7 @@ namespace Domain
     {
         public UserCreateEvent Create(string Name)
         {
-            throw new System.NotImplementedException();
+            //gehts noch?
         }
     }
 }
