@@ -6,7 +6,12 @@ namespace Domain
     {
         public UserCreateEvent Create(string Name)
         {
-            //gehts noch?
+            return null;
+        }
+
+        public UserCreateEvent UpdateAge(int Age)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GenericWebServiceBuilder.DSL
 {
-    class DomainClass
+    public class DomainClass
     {
         public DomainClass()
         {

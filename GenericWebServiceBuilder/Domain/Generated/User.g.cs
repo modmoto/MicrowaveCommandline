@@ -16,6 +16,8 @@ namespace Domain
     {
         
         GenericWebServiceBuilder.UserCreateEvent Create(string Name);
+        
+        GenericWebServiceBuilder.UserCreateEvent UpdateAge(int Age);
     }
     
     public partial class User : IUser
@@ -23,11 +25,21 @@ namespace Domain
         
         private string _Name;
         
+        private int _Age;
+        
         public string Name
         {
             get
             {
                 return this._Name;
+            }
+        }
+        
+        public int Age
+        {
+            get
+            {
+                return this._Age;
             }
         }
     }

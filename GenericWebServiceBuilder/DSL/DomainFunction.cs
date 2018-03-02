@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GenericWebServiceBuilder.DSL
 {
-    internal class DomainFunction
+    public class DomainFunction
     {
         public DomainFunction()
         {
