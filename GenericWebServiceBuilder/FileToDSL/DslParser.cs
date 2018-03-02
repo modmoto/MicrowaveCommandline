@@ -18,7 +18,7 @@ namespace GenericWebServiceBuilder.FileToDSL
                     {
                         new Property
                         {
-                            Type = typeof(Guid),
+                            Type = "Guid",
                             Name = "UserId"
                         },
                     }
@@ -30,12 +30,12 @@ namespace GenericWebServiceBuilder.FileToDSL
                     {
                         new Property
                         {
-                            Type = typeof(Guid),
+                            Type = "Guid",
                             Name = "UserId",
                         },
                         new Property
                         {
-                            Type = typeof(int),
+                            Type = "Int32",
                             Name = "Age",
                         },
                     }
@@ -52,12 +52,12 @@ namespace GenericWebServiceBuilder.FileToDSL
                         new DomainMethod
                         {
                             Name = "Create",
-                            ReturnType = typeof(UserCreateEvent),
+                            ReturnType = "UserCreateEvent",
                             Parameters =
                             {
                                 new Parameter
                                 {
-                                    Type = typeof(string),
+                                    Type = "String",
                                     Name = "Name"
                                 }
                             }
@@ -65,12 +65,12 @@ namespace GenericWebServiceBuilder.FileToDSL
                         new DomainMethod
                         {
                             Name = "UpdateAge",
-                            ReturnType = typeof(UserCreateEvent),
+                            ReturnType = "UpdateAgeEvent",
                             Parameters =
                             {
                                 new Parameter
                                 {
-                                    Type = typeof(int),
+                                    Type = "Int32",
                                     Name = "Age"
                                 }
                             }
@@ -80,12 +80,12 @@ namespace GenericWebServiceBuilder.FileToDSL
                     {
                         new Property
                         {
-                            Type = typeof(string),
+                            Type = "String",
                             Name = "Name"
                         },
                         new Property
                         {
-                            Type = typeof(int),
+                            Type = "Int32",
                             Name = "Age"
                         }
                     }

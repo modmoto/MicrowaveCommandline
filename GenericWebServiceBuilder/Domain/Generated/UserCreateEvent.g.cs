@@ -10,14 +10,15 @@
 
 namespace Domain
 {
+    using System;
     
     
     public class UserCreateEvent
     {
         
-        private System.Guid _UserId;
+        private Guid _UserId;
         
-        public System.Guid UserId
+        public Guid UserId
         {
             get
             {

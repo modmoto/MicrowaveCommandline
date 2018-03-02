@@ -10,24 +10,25 @@
 
 namespace Domain
 {
+    using System;
     
     
     public interface IUser
     {
         
-        GenericWebServiceBuilder.UserCreateEvent Create(string Name);
+        UserCreateEvent Create(String Name);
         
-        GenericWebServiceBuilder.UserCreateEvent UpdateAge(int Age);
+        UpdateAgeEvent UpdateAge(Int32 Age);
     }
     
     public partial class User : IUser
     {
         
-        private string _Name;
+        private String _Name;
         
-        private int _Age;
+        private Int32 _Age;
         
-        public string Name
+        public String Name
         {
             get
             {
@@ -35,7 +36,7 @@ namespace Domain
             }
         }
         
-        public int Age
+        public Int32 Age
         {
             get
             {

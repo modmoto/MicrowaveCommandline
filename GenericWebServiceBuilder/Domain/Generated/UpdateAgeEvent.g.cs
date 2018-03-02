@@ -10,16 +10,17 @@
 
 namespace Domain
 {
+    using System;
     
     
     public class UpdateAgeEvent
     {
         
-        private System.Guid _UserId;
+        private Guid _UserId;
         
-        private int _Age;
+        private Int32 _Age;
         
-        public System.Guid UserId
+        public Guid UserId
         {
             get
             {
@@ -27,7 +28,7 @@ namespace Domain
             }
         }
         
-        public int Age
+        public Int32 Age
         {
             get
             {

@@ -1,7 +1,7 @@
 ﻿DomainClass User {
-	ID Id
+	Guid Id
 	String Name
-	Int Age
+	Int32 Age
 	DomainFunction UserCreateEvent Create
 	DomainFunction UpdateAgeEvent UpdateAge
 	DomainFunction UpdateNameEvent UpdateName
@@ -9,22 +9,22 @@
 }
 
 DomainClass Post {
-	ID Id
+	Guid Id
 	String Title
 	String Body
 	DomainFunction create
 }
 
 DomainEvent UserCreateEvent {
-	Id UserId
+	Guid UserId
 }
 
 DomainEvent UpdateAgeEvent {
-	Id UserId
-	Int Age
+	Guid UserId
+	Int32 Age
 }
 
 DomainEvent UpdateNameEvent {
-	Id UserId
+	Guid UserId
 	String Name
 }

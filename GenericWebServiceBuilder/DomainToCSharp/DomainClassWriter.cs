@@ -30,6 +30,7 @@ namespace GenericWebServiceBuilder.DomainToCSharp
             var targetClass = _classParser.Parse(domainEvent);
 
             nameSpace.Types.Add(targetClass);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
             foreach (var proptery in domainEvent.Properties)
             {
@@ -66,6 +67,7 @@ namespace GenericWebServiceBuilder.DomainToCSharp
             targetClass.BaseTypes.Add(iface.Name);
 
             nameSpace.Types.Add(targetClass);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
             foreach (var proptery in userClass.Propteries)
             {

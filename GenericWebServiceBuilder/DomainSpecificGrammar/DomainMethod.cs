@@ -12,7 +12,7 @@ namespace GenericWebServiceBuilder.DomainSpecificGrammar
         }
 
         public string Name { get; set; }
-        public Type ReturnType { get; set; }
+        public string ReturnType { get; set; }
         public ICollection<Parameter> Parameters { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using GenericWebServiceBuilder.DomainSpecificGrammar;
 
 namespace GenericWebServiceBuilder.DomainToCSharp
 {
-    internal class ClassParser : IClassParser
+    public class ClassParser : IClassParser
     {
         public CodeTypeDeclaration Parse(DomainClass userClass)
         {
