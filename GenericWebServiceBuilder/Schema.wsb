@@ -1,0 +1,14 @@
+﻿DomainClass User {
+	String Name
+	Int Age
+	DomainFunction UserCreateEvent Create
+	DomainFunction UpdateAge
+	DomainFunction UpdateName
+	[Post] posts 
+}
+
+DomainClass Post {
+	String Title
+	String Body
+	DomainFunction create
+}
