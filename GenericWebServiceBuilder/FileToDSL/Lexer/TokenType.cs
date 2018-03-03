@@ -3,8 +3,8 @@
     public enum TokenType
     {
         NotDefined,
-        OpenParenthesis,
-        CloseParenthesis,
+        ObjectBracketOpen,
+        ObjectBracketClose,
         DomainClass,
         DomainEvent,
         ListBracketOpen,
@@ -15,7 +15,6 @@
         TypeNameDef,
         TypeName,
         TypeDef,
-        PropertyDefEnd,
         SequenceTerminator
     }
 }

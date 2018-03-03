@@ -10,8 +10,8 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
         {
             _tokenDefinitions = new List<TokenDefinition>
             {
-                new TokenDefinition(TokenType.OpenParenthesis, "^\\{"),
-                new TokenDefinition(TokenType.CloseParenthesis, "^\\}"),
+                new TokenDefinition(TokenType.ObjectBracketOpen, "^\\{"),
+                new TokenDefinition(TokenType.ObjectBracketClose, "^\\}"),
 
                 new TokenDefinition(TokenType.ParameterBracketOpen, "^\\("),
                 new TokenDefinition(TokenType.ParameterBracketClose, "^\\)"),
@@ -20,7 +20,6 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
                 new TokenDefinition(TokenType.ListBracketClose, "^\\]"),
 
                 new TokenDefinition(TokenType.TypeDef, "^:"),
-                new TokenDefinition(TokenType.PropertyDefEnd, "^;"),
 
                 new TokenDefinition(TokenType.DomainClass, "^DomainClass"),
                 new TokenDefinition(TokenType.DomainEvent, "^DomainEvent"),
