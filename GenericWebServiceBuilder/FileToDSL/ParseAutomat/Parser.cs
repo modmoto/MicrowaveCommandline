@@ -8,58 +8,12 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 {
     public class Parser
     {
-        private readonly DomainTree _domainTree;
-
-        private readonly Dictionary<Tuple<DslState, TokenType>, DslState> _transitions =
-            new Dictionary<Tuple<DslState, TokenType>, DslState>
-            {
-                {Tuple.Create(DslState.Start, TokenType.DomainClass), DslState.DomainClassIdentifierFound},
-                {Tuple.Create(DslState.DomainClassIdentifierFound, TokenType.Value), DslState.DomainClassNameFound},
-                {
-                    Tuple.Create(DslState.DomainClassNameFound, TokenType.ObjectBracketOpen),
-                    DslState.DomainClassOpened
-                },
-                {
-                    Tuple.Create(DslState.DomainClassOpened, TokenType.ObjectBracketClose),
-                    DslState.DomainClassClosed
-                },
-                {
-                    Tuple.Create(DslState.DomainClassOpened, TokenType.Value),
-                    DslState.PropertyNameFound
-                },
-                {
-                    Tuple.Create(DslState.PropertyNameFound, TokenType.TypeDefSeparator),
-                    DslState.TypeDefSeparatorFound
-                },
-                {
-                    Tuple.Create(DslState.TypeDefSeparatorFound, TokenType.Value),
-                    DslState.PropertyTypeEnded
-                },
-                {
-                    Tuple.Create(DslState.PropertyTypeEnded, TokenType.ObjectBracketClose),
-                    DslState.DomainClassClosed
-                }
-            };
+        private ParseState _currentState = new StartState(null);
 
         private readonly IEnumerable<DslToken> _tokens;
 
-        private DomainClass _currentClass;
-        private DomainEvent _currentEvent;
-        private DomainMethod _currentMethod;
-        private Property _currentProperty;
-        private DslState _state = DslState.Start;
-
-        private readonly IList<DslState> stuffToHappen = new List<DslState>
-        {
-            DslState.DomainClassClosed,
-            DslState.DomainClassNameFound,
-            DslState.PropertyTypeEnded,
-            DslState.PropertyNameFound
-        };
-
         public Parser(IEnumerable<DslToken> tokens)
         {
-            _domainTree = new DomainTree(new List<DomainClass>(), new List<DomainEvent>());
             var dslTokens = tokens.ToList();
             _tokens = dslTokens;
         }
@@ -67,74 +21,116 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         public DomainTree Parse()
         {
             foreach (var token in _tokens)
-                Parse(token);
+                _currentState = _currentState.Parse(token);
 
-            return _domainTree;
+            return new DomainTree(_currentState.Classes, _currentState.Events);
         }
+    }
 
-        private void Parse(DslToken token)
+    public class StartState : ParseState
+    {
+        public StartState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
         {
-            var transition = Tuple.Create(_state, token.TokenType);
-            if (_transitions.ContainsKey(transition))
-            {
-                _state = _transitions[transition];
-
-                if (stuffToHappen.Contains(_state))
-                    AddToTree(token);
-            }
-            else
-            {
-                throw new Exception($"token not InStateMachine: {token.TokenType} {token.Value}");
-            }
-        }
-
-        private void AddToTree(DslToken token)
+            {TokenType.DomainClass, DomainClassIdentifierFound}
+        })
         {
-            switch (_state)
-            {
-                case DslState.DomainClassNameFound:
-                    OpenNewClass(token);
-                    break;
-                case DslState.DomainClassClosed:
-                    CloseCurrentClass();
-                    break;
-                case DslState.PropertyTypeEnded:
-                    CloseCurrentProperty(token);
-                    break;
-                case DslState.PropertyNameFound:
-                    OpenNewProperty(token);
-                    break;
-                default: throw new Exception($"token not in Doing Block: {token.TokenType} {token.Value}");
-            }
         }
 
-        private void OpenNewProperty(DslToken token)
+        private static ParseState DomainClassIdentifierFound(StateAndTokenTuple arg)
         {
-            var property = new Property
-            {
-                Name = token.Value
-            };
-            _currentProperty = property;
+            return new DomainClassIdentifierFoundState(arg.State);
         }
+    }
 
-        private void CloseCurrentProperty(DslToken token)
+    public class DomainClassIdentifierFoundState : ParseState
+    {
+        public DomainClassIdentifierFoundState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
         {
-            _currentProperty.Type = token.Value;
-            _currentClass.Propteries.Add(_currentProperty);
-        }
-
-        private void CloseCurrentClass()
+            {TokenType.Value, DomainClassNameFound}
+        })
         {
-            _domainTree.Classes.Add(_currentClass);
         }
 
-        private void OpenNewClass(DslToken token)
+        private static ParseState DomainClassNameFound(StateAndTokenTuple arg)
         {
             var domainClass = new DomainClass
             {
-                Name = token.Value
+                Name = arg.Token.Value
             };
-            _currentClass = domainClass;
+            arg.State.CurrentClass = domainClass;
+            var domainClassNameFoundState = new DomainClassNameFoundState(arg.State);
+            return domainClassNameFoundState;
         }
+    }
+
+    public class DomainClassNameFoundState : ParseState
+    {
+        public DomainClassNameFoundState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
+        {
+            {TokenType.ObjectBracketOpen, BracketOpeneFound}
+        })
+        {
+        }
+
+        private static ParseState BracketOpeneFound(StateAndTokenTuple arg)
+        {
+            return new DomainClassOpenedState(arg.State);
+        }
+    }
+
+    public class DomainClassOpenedState : ParseState
+    {
+        public DomainClassOpenedState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
+        {
+            {TokenType.ObjectBracketClose, DomainClassClosed}
+        })
+        {
+        }
+
+        private static ParseState DomainClassClosed(StateAndTokenTuple arg)
+        {
+            arg.State.Classes.Add(arg.State.CurrentClass);
+            return new StartState(arg.State);
+        }
+    }
+
+    public abstract class ParseState
+    {
+        protected readonly Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>> Transitions;
+
+        public IList<DomainClass> Classes;
+        public IList<DomainEvent> Events;
+        public DomainClass CurrentClass;
+        public DomainEvent CurrentEvent;
+        public DomainMethod CurrentMethod;
+        public Property CurrentProperty;
+        public DomainTree DomainTree;
+
+        protected ParseState(ParseState state, Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>> transitions)
+        {
+            Transitions = transitions;
+
+            Classes = state?.Classes ?? new List<DomainClass>();
+            Events = state?.Events ?? new List<DomainEvent>();
+
+            CurrentClass = state?.CurrentClass;
+            CurrentEvent = state?.CurrentEvent;
+            CurrentMethod = state?.CurrentMethod;
+            CurrentProperty = state?.CurrentProperty;
+        }
+
+        public ParseState Parse(DslToken token)
+        {
+            if (Transitions.ContainsKey(token.TokenType))
+                return Transitions[token.TokenType](new StateAndTokenTuple {State = this, Token = token});
+
+            throw new Exception($"Transition not possible: {GetType()} to {token.TokenType}");
+        }
+    }
+
+    public class StateAndTokenTuple
+    {
+        public ParseState State { get; set; }
+        public DslToken Token { get; set; }
     }
 }
