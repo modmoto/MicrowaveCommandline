@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GenericWebServiceBuilder.DomainSpecificGrammar
+﻿namespace GenericWebServiceBuilder.DomainSpecificGrammar
 {
     public class Property
     {

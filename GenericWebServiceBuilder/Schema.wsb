@@ -3,9 +3,9 @@
 	Name: String;
 	Age: Int32;
 
-	Create ( Name: String) : UserCreateEvent;
-	UpdateAge ( Age: Int32) : UpdateAgeEvent;
-	UpdateName ( Name: String) : UpdateNameEvent;
+	Create(Name: String): UserCreateEvent;
+	UpdateAge(Age: Int32): UpdateAgeEvent;
+	UpdateName(Name: String): UpdateNameEvent;
 
 	Posts: [Post];
 }
@@ -15,7 +15,7 @@ DomainClass Post {
 	Title: String;
 	Body: String;
 
-	Create ( Name: String): PostCreateEvent;
+	Create(Name: String): PostCreateEvent;
 }
 
 DomainEvent UserCreateEvent {
