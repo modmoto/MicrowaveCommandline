@@ -47,7 +47,6 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         private DomainEvent _currentEvent;
         private DomainMethod _currentMethod;
         private Property _currentProperty;
-        private IList<DomainEvent> _events;
         private DslState _state = DslState.Start;
 
         private readonly IList<DslState> stuffToHappen = new List<DslState>
