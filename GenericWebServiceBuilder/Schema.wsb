@@ -1,11 +1,21 @@
 ﻿DomainClass User {
-	Id: Guid;
-	Name: String;
-	Age: Int32;
+	Id: Guid
+	Name: String
+	Age: Int32
 
-	Create(Name: String): UserCreateEvent;
-	UpdateAge(Age: Int32): UpdateAgeEvent;
-	UpdateName(Name: String): UpdateNameEvent;
+	Create(Name: String): {
+		UserId: Guid
+	}
+
+	UpdateAge(Age: Int32): {
+		UserId: Guid
+		Age: Int32
+	}
+
+	UpdateName(Name: String): {
+		UserId: Guid
+		Name: String
+	}
 
 	Posts: [Post];
 }
@@ -15,19 +25,5 @@ DomainClass Post {
 	Title: String;
 	Body: String;
 
-	Create(Name: String): PostCreateEvent;
-}
-
-DomainEvent UserCreateEvent {
-	UserId: Guid;
-}
-
-DomainEvent UpdateAgeEvent {
-	UserId: Guid;
-	Age: Int32;
-}
-
-DomainEvent UpdateNameEvent {
-	UserId: Guid;
-	Name: String;
+	Create(Name: String): PostCreateEvent
 }
