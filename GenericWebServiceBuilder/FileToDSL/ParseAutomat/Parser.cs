@@ -13,13 +13,15 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 
         public Parser(IEnumerable<DslToken> tokens)
         {
+            Classes = new List<DomainClass>();
+            Events = new List<DomainEvent>();
             var dslTokens = tokens.ToList();
             _tokens = dslTokens;
             _currentState = new StartState(this);
         }
 
-        public IList<DomainClass> Classes => new List<DomainClass>();
-        public IList<DomainEvent> Events => new List<DomainEvent>();
+        public IList<DomainClass> Classes { get; }
+        public IList<DomainEvent> Events { get; }
         public DomainClass CurrentClass { get; set; }
         public DomainEvent CurrentEvent { get; set; }
         public DomainMethod CurrentMethod { get; set; }
