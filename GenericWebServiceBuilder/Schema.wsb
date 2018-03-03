@@ -25,5 +25,8 @@ DomainClass Post {
 	Title: String;
 	Body: String;
 
-	Create(Name: String): PostCreateEvent
+	DomainMethod Create(Title: String): {
+		UserId: Guid
+		Title: String
+	}
 }

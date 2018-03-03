@@ -33,12 +33,15 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
             var tokens = new List<DslToken>();
             var remainingText = lqlText;
 
+            var lineCounter = 1;
             while (!string.IsNullOrWhiteSpace(remainingText))
             {
+                if (remainingText.StartsWith("\r\n"))
+                    lineCounter++;
                 var match = FindMatch(remainingText);
                 if (match.IsMatch)
                 {
-                    tokens.Add(new DslToken(match.TokenType, match.Value));
+                    tokens.Add(new DslToken(match.TokenType, match.Value, lineCounter));
                     remainingText = match.RemainingText;
                 }
                 else
@@ -47,7 +50,7 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
                 }
             }
 
-            tokens.Add(new DslToken(TokenType.SequenceTerminator, string.Empty));
+            tokens.Add(new DslToken(TokenType.SequenceTerminator, string.Empty, lineCounter));
 
             return tokens;
         }

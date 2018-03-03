@@ -15,10 +15,10 @@ namespace FileToDslTests
             
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.DomainClass, "DomainClass"),
-                new DslToken(TokenType.Value, "User"),
-                new DslToken(TokenType.ObjectBracketOpen, "{"),
-                new DslToken(TokenType.ObjectBracketClose, "}")
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.ObjectBracketClose, "}", 2)
             };
 
             var parser = new Parser(tokens);
@@ -36,13 +36,13 @@ namespace FileToDslTests
 
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.DomainClass, "DomainClass"),
-                new DslToken(TokenType.Value, "User"),
-                new DslToken(TokenType.ObjectBracketOpen, "{"),
-                new DslToken(TokenType.Value, "VorName"),
-                new DslToken(TokenType.TypeDefSeparator, ":"),
-                new DslToken(TokenType.Value, "String"),
-                new DslToken(TokenType.ObjectBracketClose, "}")
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "VorName", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.Value, "String", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
             var parser = new Parser(tokens);

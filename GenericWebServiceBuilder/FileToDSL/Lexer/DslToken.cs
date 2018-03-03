@@ -2,13 +2,15 @@
 {
     public class DslToken
     {
-        public DslToken(TokenType tokenType, string value)
+        public DslToken(TokenType tokenType, string value, int lineNumber)
         {
             TokenType = tokenType;
             Value = value;
+            LineNumber = lineNumber;
         }
 
-        public TokenType TokenType { get; set; }
-        public string Value { get; set; }
+        public TokenType TokenType { get; }
+        public string Value { get; }
+        public int LineNumber { get; }
     }
 }
