@@ -10,7 +10,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
     {
         private readonly DomainTree _domainTree;
 
-        private readonly Dictionary<Tuple<DslState, TokenType>, DslState> _stateMachine =
+        private readonly Dictionary<Tuple<DslState, TokenType>, DslState> _transitions =
             new Dictionary<Tuple<DslState, TokenType>, DslState>
             {
                 {Tuple.Create(DslState.Start, TokenType.DomainClass), DslState.DomainClassIdentifierFound},
@@ -75,11 +75,12 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         private void Parse(DslToken token)
         {
             var transition = Tuple.Create(_state, token.TokenType);
-            if (_stateMachine.ContainsKey(transition))
+            if (_transitions.ContainsKey(transition))
             {
-                _state = _stateMachine[transition];
+                _state = _transitions[transition];
 
-                if (stuffToHappen.Contains(_state)) AddToTree(token);
+                if (stuffToHappen.Contains(_state))
+                    AddToTree(token);
             }
             else
             {
