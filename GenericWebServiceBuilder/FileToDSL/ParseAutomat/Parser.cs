@@ -8,129 +8,146 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 {
     public class Parser
     {
-        private ParseState _currentState = new StartState(null);
-
         private readonly IEnumerable<DslToken> _tokens;
+        private ParseState _currentState;
 
         public Parser(IEnumerable<DslToken> tokens)
         {
             var dslTokens = tokens.ToList();
             _tokens = dslTokens;
+            _currentState = new StartState(this);
         }
+
+        public IList<DomainClass> Classes => new List<DomainClass>();
+        public IList<DomainEvent> Events => new List<DomainEvent>();
+        public DomainClass CurrentClass { get; set; }
+        public DomainEvent CurrentEvent { get; set; }
+        public DomainMethod CurrentMethod { get; set; }
+        public Property CurrentProperty { get; set; }
 
         public DomainTree Parse()
         {
             foreach (var token in _tokens)
                 _currentState = _currentState.Parse(token);
 
-            return new DomainTree(_currentState.Classes, _currentState.Events);
+            return new DomainTree(Classes, Events);
         }
     }
 
     public class StartState : ParseState
     {
-        public StartState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
-        {
-            {TokenType.DomainClass, DomainClassIdentifierFound}
-        })
+        public StartState(Parser parser) : base(parser)
         {
         }
 
-        private static ParseState DomainClassIdentifierFound(StateAndTokenTuple arg)
+        private ParseState DomainClassIdentifierFound()
         {
-            return new DomainClassIdentifierFoundState(arg.State);
+            return new DomainClassIdentifierFoundState(Parser);
+        }
+
+        public override ParseState Parse(DslToken token)
+        {
+            switch (token.TokenType)
+            {
+                case TokenType.DomainClass:
+                    return DomainClassIdentifierFound();
+                default:
+                    throw new NoTransitionException(this);
+            }
         }
     }
 
     public class DomainClassIdentifierFoundState : ParseState
     {
-        public DomainClassIdentifierFoundState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
-        {
-            {TokenType.Value, DomainClassNameFound}
-        })
+        public DomainClassIdentifierFoundState(Parser parser) : base(parser)
         {
         }
 
-        private static ParseState DomainClassNameFound(StateAndTokenTuple arg)
+        private ParseState DomainClassNameFound(DslToken token)
         {
             var domainClass = new DomainClass
             {
-                Name = arg.Token.Value
+                Name = token.Value
             };
-            arg.State.CurrentClass = domainClass;
-            var domainClassNameFoundState = new DomainClassNameFoundState(arg.State);
+            Parser.CurrentClass = domainClass;
+            var domainClassNameFoundState = new DomainClassNameFoundState(Parser);
             return domainClassNameFoundState;
+        }
+
+        public override ParseState Parse(DslToken token)
+        {
+            switch (token.TokenType)
+            {
+                case TokenType.Value:
+                    return DomainClassNameFound(token);
+                default:
+                    throw new NoTransitionException(this);
+            }
         }
     }
 
     public class DomainClassNameFoundState : ParseState
     {
-        public DomainClassNameFoundState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
-        {
-            {TokenType.ObjectBracketOpen, BracketOpeneFound}
-        })
+        public DomainClassNameFoundState(Parser parser) : base(parser)
         {
         }
 
-        private static ParseState BracketOpeneFound(StateAndTokenTuple arg)
+        private ParseState BracketOpeneFound()
         {
-            return new DomainClassOpenedState(arg.State);
+            return new DomainClassOpenedState(Parser);
+        }
+
+        public override ParseState Parse(DslToken token)
+        {
+            switch (token.TokenType)
+            {
+                case TokenType.ObjectBracketOpen:
+                    return BracketOpeneFound();
+                default:
+                    throw new NoTransitionException(this);
+            }
         }
     }
 
     public class DomainClassOpenedState : ParseState
     {
-        public DomainClassOpenedState(ParseState state) : base(state, new Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>>
-        {
-            {TokenType.ObjectBracketClose, DomainClassClosed}
-        })
+        public DomainClassOpenedState(Parser parser) : base(parser)
         {
         }
 
-        private static ParseState DomainClassClosed(StateAndTokenTuple arg)
+        private ParseState DomainClassClosed()
         {
-            arg.State.Classes.Add(arg.State.CurrentClass);
-            return new StartState(arg.State);
+            Parser.Classes.Add(Parser.CurrentClass);
+            return new StartState(Parser);
+        }
+
+        public override ParseState Parse(DslToken token)
+        {
+            switch (token.TokenType)
+            {
+                case TokenType.ObjectBracketClose:
+                    return DomainClassClosed();
+                default:
+                    throw new NoTransitionException(this);
+            }
+        }
+    }
+
+    public class NoTransitionException : Exception
+    {
+        public NoTransitionException(ParseState state) : base($"There is no Transition defined for {state.GetType()}")
+        {
         }
     }
 
     public abstract class ParseState
     {
-        protected readonly Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>> Transitions;
-
-        public IList<DomainClass> Classes;
-        public IList<DomainEvent> Events;
-        public DomainClass CurrentClass;
-        public DomainEvent CurrentEvent;
-        public DomainMethod CurrentMethod;
-        public Property CurrentProperty;
-        public DomainTree DomainTree;
-
-        protected ParseState(ParseState state, Dictionary<TokenType, Func<StateAndTokenTuple, ParseState>> transitions)
+        protected ParseState(Parser parser)
         {
-            Transitions = transitions;
-
-            Classes = state?.Classes ?? new List<DomainClass>();
-            Events = state?.Events ?? new List<DomainEvent>();
-
-            CurrentClass = state?.CurrentClass;
-            CurrentEvent = state?.CurrentEvent;
-            CurrentMethod = state?.CurrentMethod;
-            CurrentProperty = state?.CurrentProperty;
+            Parser = parser;
         }
 
-        public ParseState Parse(DslToken token)
-        {
-            if (Transitions.ContainsKey(token.TokenType))
-                return Transitions[token.TokenType](new StateAndTokenTuple {State = this, Token = token});
-
-            throw new Exception($"Transition not possible: {GetType()} to {token.TokenType}");
-        }
-    }
-
-    public class StateAndTokenTuple
-    {
-        public ParseState State { get; set; }
-        public DslToken Token { get; set; }
+        public Parser Parser { get; }
+        public abstract ParseState Parse(DslToken token);
     }
 }
