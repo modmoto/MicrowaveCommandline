@@ -15,7 +15,7 @@ namespace GenericWebServiceBuilder
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
-                
+
                 var dslParser = new DslParser(tokenizer);
                 var domainTree = dslParser.Parse(content);
 

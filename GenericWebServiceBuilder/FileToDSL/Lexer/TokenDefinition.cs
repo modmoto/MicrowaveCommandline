@@ -4,8 +4,8 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
 {
     public class TokenDefinition
     {
-        private readonly TokenType _returnsToken;
         private readonly Regex _regex;
+        private readonly TokenType _returnsToken;
 
         public TokenDefinition(TokenType returnsToken, string regexPattern)
         {

@@ -22,11 +22,11 @@ namespace FileToDslTests
                                 }");
             Assert.AreEqual(28, tokens.Count);
 
-            Assert.AreEqual(TokenType.DomainClass, tokens[0].TokenType); 
-            Assert.AreEqual(TokenType.Value, tokens[1].TokenType); 
-            Assert.AreEqual(TokenType.ObjectBracketOpen, tokens[2].TokenType); 
-            Assert.AreEqual(TokenType.Value, tokens[3].TokenType); 
-            Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[7].TokenType); 
+            Assert.AreEqual(TokenType.DomainClass, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.ObjectBracketOpen, tokens[2].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[7].TokenType);
             Assert.AreEqual("UpdateName", tokens[6].Value);
             Assert.AreEqual("Name", tokens[8].Value);
             Assert.AreEqual("String", tokens[10].Value);
@@ -55,7 +55,7 @@ namespace FileToDslTests
                                                 Id: Guid
                                             }");
             Assert.AreEqual(8, tokens.Count);
-            
+
             Assert.AreEqual("Id", tokens[3].Value);
             Assert.AreEqual(TokenType.TypeDef, tokens[4].TokenType);
             Assert.AreEqual("Guid", tokens[5].Value);
@@ -72,7 +72,7 @@ namespace FileToDslTests
 	                                            }
                                             }");
             Assert.AreEqual(20, tokens.Count);
-            
+
             Assert.AreEqual("UpdateName", tokens[3].Value);
             Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[4].TokenType);
             Assert.AreEqual(TokenType.TypeDef, tokens[6].TokenType);

@@ -74,7 +74,7 @@ namespace GenericWebServiceBuilder.DomainToCSharp
                 targetClass.Members.Add(property.Field);
                 targetClass.Members.Add(property.Property);
             }
-             
+
             WriteToFile(userClass.Name, nameSpace);
         }
     }
