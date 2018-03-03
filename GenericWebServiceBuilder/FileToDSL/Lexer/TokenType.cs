@@ -12,9 +12,7 @@
         Value,
         ParameterBracketOpen,
         ParameterBracketClose,
-        TypeNameDef,
-        TypeName,
-        TypeDef,
+        TypeDefSeparator,
         SequenceTerminator
     }
 }

@@ -19,7 +19,7 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
                 new TokenDefinition(TokenType.ListBracketOpen, "^\\["),
                 new TokenDefinition(TokenType.ListBracketClose, "^\\]"),
 
-                new TokenDefinition(TokenType.TypeDef, "^:"),
+                new TokenDefinition(TokenType.TypeDefSeparator, "^:"),
 
                 new TokenDefinition(TokenType.DomainClass, "^DomainClass"),
                 new TokenDefinition(TokenType.DomainEvent, "^DomainEvent"),

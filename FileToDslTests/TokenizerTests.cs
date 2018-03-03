@@ -57,7 +57,7 @@ namespace FileToDslTests
             Assert.AreEqual(8, tokens.Count);
 
             Assert.AreEqual("Id", tokens[3].Value);
-            Assert.AreEqual(TokenType.TypeDef, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[4].TokenType);
             Assert.AreEqual("Guid", tokens[5].Value);
         }
 
@@ -75,11 +75,11 @@ namespace FileToDslTests
 
             Assert.AreEqual("UpdateName", tokens[3].Value);
             Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[4].TokenType);
-            Assert.AreEqual(TokenType.TypeDef, tokens[6].TokenType);
-            Assert.AreEqual(TokenType.TypeDef, tokens[9].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[6].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[9].TokenType);
             Assert.AreEqual(TokenType.ObjectBracketOpen, tokens[10].TokenType);
             Assert.AreEqual("UserId", tokens[11].Value);
-            Assert.AreEqual(TokenType.TypeDef, tokens[12].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[12].TokenType);
             Assert.AreEqual("Guid", tokens[13].Value);
         }
     }
