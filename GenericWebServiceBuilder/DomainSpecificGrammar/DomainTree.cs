@@ -2,7 +2,7 @@
 
 namespace GenericWebServiceBuilder.DomainSpecificGrammar
 {
-    internal class DomainTree
+    public class DomainTree
     {
         public DomainTree(ICollection<DomainClass> classes, ICollection<DomainEvent> events)
         {

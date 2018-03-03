@@ -1,5 +1,4 @@
 using System;
-using GenericWebServiceBuilder;
 
 namespace Domain
 {
