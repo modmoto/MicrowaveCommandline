@@ -4,13 +4,13 @@ namespace GenericWebServiceBuilder.DomainSpecificGrammar
 {
     public class DomainTree
     {
-        public DomainTree(ICollection<DomainClass> classes, ICollection<DomainEvent> events)
+        public DomainTree(IList<DomainClass> classes, IList<DomainEvent> events)
         {
             Classes = classes;
             Events = events;
         }
 
-        public ICollection<DomainClass> Classes { get; }
-        public ICollection<DomainEvent> Events { get; }
+        public IList<DomainClass> Classes { get; }
+        public IList<DomainEvent> Events { get; }
     }
 }

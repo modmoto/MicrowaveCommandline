@@ -12,7 +12,6 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         private readonly Dictionary<DslState, Type> _finishStates = new Dictionary<DslState, Type>
         {
             {DslState.DomainClassClosed, typeof(DomainClass)},
-            {DslState.DomainEventClosed, typeof(DomainEvent)}
         };
 
         private readonly ICollection<DslToken> _stackOfSavedElements;
@@ -32,8 +31,8 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
                 }
             };
 
-        private ICollection<DomainClass> _classes;
-        private ICollection<DomainEvent> _events;
+        private IList<DomainClass> _classes;
+        private IList<DomainEvent> _events;
         private DslState _state = DslState.Start;
 
         public Parser()
@@ -43,8 +42,8 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {
-            _events = new Collection<DomainEvent>();
-            _classes = new Collection<DomainClass>();
+            _events = new List<DomainEvent>();
+            _classes = new List<DomainClass>();
 
             foreach (var token in tokens)
                 Parse(token);

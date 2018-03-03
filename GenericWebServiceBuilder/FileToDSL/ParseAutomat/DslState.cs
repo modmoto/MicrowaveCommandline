@@ -8,6 +8,8 @@
         OpeningBracketForDomainClassFound,
         DomainClassOpened,
         DomainClassClosed,
-        DomainEventClosed
+        PropertyNameFound,
+        PropertyDefCharFound,
+        PropertyTypeEnded,
     }
 }

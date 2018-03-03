@@ -18,7 +18,7 @@ namespace GenericWebServiceBuilder.FileToDSL
         {
             var dslTokens = _tokenizer.Tokenize(file);
 
-            ICollection<DomainEvent> events = new Collection<DomainEvent>
+            var events = new List<DomainEvent>
             {
                 new DomainEvent
                 {
@@ -51,7 +51,7 @@ namespace GenericWebServiceBuilder.FileToDSL
                 }
             };
 
-            ICollection<DomainClass> classes = new Collection<DomainClass>
+            var classes = new List<DomainClass>
             {
                 new DomainClass
                 {
