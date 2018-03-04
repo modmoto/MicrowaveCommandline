@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GenericWebServiceBuilder.DomainSpecificGrammar;
+﻿using GenericWebServiceBuilder.DomainSpecificGrammar;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
 using GenericWebServiceBuilder.FileToDSL.ParseAutomat;
 
@@ -19,9 +18,7 @@ namespace GenericWebServiceBuilder.FileToDSL
         public DomainTree Parse(string file)
         {
             var dslTokens = _tokenizer.Tokenize(file);
-
             var domainTree = _parser.Parse(dslTokens);
-
             return domainTree;
         }
     }

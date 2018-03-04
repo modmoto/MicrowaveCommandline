@@ -1,7 +1,7 @@
 ﻿using System.CodeDom;
 using GenericWebServiceBuilder.DomainSpecificGrammar;
 
-namespace GenericWebServiceBuilder.DomainToCSharp
+namespace GenericWebServiceBuilder.DslToCSharp
 {
     public class PropertyParser : IPropertyParser
     {

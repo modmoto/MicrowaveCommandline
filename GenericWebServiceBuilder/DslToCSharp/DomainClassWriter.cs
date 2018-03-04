@@ -4,7 +4,7 @@ using System.IO;
 using GenericWebServiceBuilder.DomainSpecificGrammar;
 using Microsoft.CSharp;
 
-namespace GenericWebServiceBuilder.DomainToCSharp
+namespace GenericWebServiceBuilder.DslToCSharp
 {
     public class DomainClassWriter
     {

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using GenericWebServiceBuilder.DomainToCSharp;
+using GenericWebServiceBuilder.DslToCSharp;
 using GenericWebServiceBuilder.FileToDSL;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
 using GenericWebServiceBuilder.FileToDSL.ParseAutomat;

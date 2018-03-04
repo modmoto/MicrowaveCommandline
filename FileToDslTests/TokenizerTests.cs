@@ -20,7 +20,7 @@ namespace FileToDslTests
 
 	                                Posts: [Post]
                                 }");
-            Assert.AreEqual(28, tokens.Count);
+            Assert.AreEqual(27, tokens.Count);
 
             Assert.AreEqual(TokenType.DomainClass, tokens[0].TokenType);
             Assert.AreEqual(TokenType.Value, tokens[1].TokenType);
@@ -38,7 +38,7 @@ namespace FileToDslTests
             var tokenizer = new Tokenizer();
             var tokens = tokenizer.Tokenize(@"DomainClass User{
                                 }");
-            Assert.AreEqual(5, tokens.Count);
+            Assert.AreEqual(4, tokens.Count);
 
             Assert.AreEqual(TokenType.DomainClass, tokens[0].TokenType);
             Assert.AreEqual(TokenType.Value, tokens[1].TokenType);
@@ -54,7 +54,7 @@ namespace FileToDslTests
             var tokens = tokenizer.Tokenize(@"DomainClass User{
                                                 Id: Guid
                                             }");
-            Assert.AreEqual(8, tokens.Count);
+            Assert.AreEqual(7, tokens.Count);
 
             Assert.AreEqual("Id", tokens[3].Value);
             Assert.AreEqual(TokenType.TypeDefSeparator, tokens[4].TokenType);
@@ -71,7 +71,7 @@ namespace FileToDslTests
 		                                            Age: Int32
 	                                            }
                                             }");
-            Assert.AreEqual(20, tokens.Count);
+            Assert.AreEqual(19, tokens.Count);
 
             Assert.AreEqual("UpdateName", tokens[3].Value);
             Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[4].TokenType);

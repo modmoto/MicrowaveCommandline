@@ -2,7 +2,7 @@
 using System.Reflection;
 using GenericWebServiceBuilder.DomainSpecificGrammar;
 
-namespace GenericWebServiceBuilder.DomainToCSharp
+namespace GenericWebServiceBuilder.DslToCSharp
 {
     public class ClassParser : IClassParser
     {

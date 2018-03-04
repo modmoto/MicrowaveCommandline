@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 
-namespace GenericWebServiceBuilder.DomainToCSharp
+namespace GenericWebServiceBuilder.DslToCSharp
 {
     public class AutoProperty
     {
