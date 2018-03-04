@@ -30,7 +30,6 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
 
         private ParseState MethodParamClosedStateFound()
         {
-            Parser.CurrentClass.Methods.Add(Parser.CurrentMethod);
             return new MethodParamClosedState(Parser);
         }
     }

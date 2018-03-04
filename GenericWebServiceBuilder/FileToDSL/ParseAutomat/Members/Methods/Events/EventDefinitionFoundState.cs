@@ -23,6 +23,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
 
         private ParseState EventDefinitionEndFound()
         {
+            Parser.CurrentClass.Methods.Add(Parser.CurrentMethod);
             var emptyEvent = new DomainEvent {Name = Parser.CurrentMethod.ReturnType};
             Parser.Events.Add(emptyEvent);
             return new DomainClassOpenedState(Parser);

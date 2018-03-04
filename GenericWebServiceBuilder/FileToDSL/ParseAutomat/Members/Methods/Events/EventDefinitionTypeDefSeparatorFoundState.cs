@@ -1,11 +1,10 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
-using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
 {
-    internal class MethodParamClosedState : ParseState
+    internal class EventDefinitionTypeDefSeparatorFoundState : ParseState
     {
-        public MethodParamClosedState(Parser parser) : base(parser)
+        public EventDefinitionTypeDefSeparatorFoundState(Parser parser) : base(parser)
         {
         }
 
@@ -13,7 +12,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
         {
             switch (token.TokenType)
             {
-                case TokenType.TypeDefSeparator:
+                case TokenType.ObjectBracketOpen:
                     return EventDefinitionFound();
                 default:
                     throw new NoTransitionException(token);
@@ -22,7 +21,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
 
         private ParseState EventDefinitionFound()
         {
-            return new EventDefinitionTypeDefSeparatorFoundState(Parser);
+            return new EventDefinitionFoundState(Parser);
         }
     }
 }
