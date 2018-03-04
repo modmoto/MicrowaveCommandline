@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DslModelToCSharp\DslModelToCSharp.csproj" />
+    <PackageReference Include="System.CodeDom" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DslModel\DslModel.csproj" />
-    <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
 
 </Project>
