@@ -3,9 +3,9 @@ using GenericWebServiceBuilder.FileToDSL.Lexer;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
 {
-    public class PropertyNameFoundState : ParseState
+    internal class AdditionalParamState : ParseState
     {
-        public PropertyNameFoundState(Parser parser) : base(parser)
+        public AdditionalParamState(Parser parser) : base(parser)
         {
         }
 
@@ -13,16 +13,17 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
         {
             switch (token.TokenType)
             {
-                case TokenType.TypeDefSeparator:
-                    return PropertySeparatorFound(token);
+                case TokenType.Value:
+                    return MethodParamNameFound(token);
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState PropertySeparatorFound(DslToken token)
+        private ParseState MethodParamNameFound(DslToken token)
         {
-            return new PropertySeparatorFoundState(Parser);
+            Parser.CurrentParam = new Parameter {Name = token.Value};
+            return new MethodParamNameFoundState(Parser);
         }
     }
 }

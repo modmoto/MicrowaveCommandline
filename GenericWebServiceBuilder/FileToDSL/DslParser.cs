@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using GenericWebServiceBuilder.DomainSpecificGrammar;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
 
@@ -56,12 +55,11 @@ namespace GenericWebServiceBuilder.FileToDSL
                 new DomainClass
                 {
                     Name = "User",
-                    Functions =
+                    Methods =
                     {
                         new DomainMethod
                         {
                             Name = "Create",
-                            ReturnType = "UserCreateEvent",
                             Parameters =
                             {
                                 new Parameter
@@ -74,7 +72,6 @@ namespace GenericWebServiceBuilder.FileToDSL
                         new DomainMethod
                         {
                             Name = "UpdateAge",
-                            ReturnType = "UpdateAgeEvent",
                             Parameters =
                             {
                                 new Parameter

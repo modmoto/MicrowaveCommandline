@@ -13,6 +13,7 @@
         ParameterBracketOpen,
         ParameterBracketClose,
         TypeDefSeparator,
-        SequenceTerminator
+        SequenceTerminator,
+        ParamSeparator
     }
 }

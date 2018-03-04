@@ -11,7 +11,7 @@ namespace GenericWebServiceBuilder.DomainSpecificGrammar
         }
 
         public string Name { get; set; }
-        public string ReturnType { get; set; }
+        public string ReturnType => $"{Name}Event";
         public ICollection<Parameter> Parameters { get; set; }
     }
 }

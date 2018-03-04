@@ -1,5 +1,4 @@
-﻿using GenericWebServiceBuilder.DomainSpecificGrammar;
-using GenericWebServiceBuilder.FileToDSL.Lexer;
+﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
 using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
@@ -31,8 +30,8 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 
         private ParseState PropertyStarted(DslToken token)
         {
-            Parser.CurrentProperty = new Property { Name = token.Value };
-            return new PropertyNameFoundState(Parser);
+            Parser.CurrentMemberName = token.Value;
+            return new MemberNameFoundState(Parser);
         }
     }
 }

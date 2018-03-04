@@ -7,11 +7,11 @@ namespace GenericWebServiceBuilder.DomainSpecificGrammar
     {
         public DomainClass()
         {
-            Functions = new Collection<DomainMethod>();
+            Methods = new Collection<DomainMethod>();
             Propteries = new Collection<Property>();
         }
 
-        public ICollection<DomainMethod> Functions { get; set; }
+        public ICollection<DomainMethod> Methods { get; set; }
         public string Name { get; set; }
         public ICollection<Property> Propteries { get; set; }
     }

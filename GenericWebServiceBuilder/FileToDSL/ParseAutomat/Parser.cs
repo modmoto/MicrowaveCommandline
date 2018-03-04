@@ -25,6 +25,8 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         public DomainEvent CurrentEvent { get; set; }
         public DomainMethod CurrentMethod { get; set; }
         public Property CurrentProperty { get; set; }
+        public Parameter CurrentParam { get; set; }
+        public string CurrentMemberName { get; set; }
 
         public DomainTree Parse()
         {

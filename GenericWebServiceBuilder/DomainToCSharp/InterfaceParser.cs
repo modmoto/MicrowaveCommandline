@@ -9,7 +9,7 @@ namespace GenericWebServiceBuilder.DomainToCSharp
         {
             var iface = new CodeTypeDeclaration($"I{userClass.Name}") {IsInterface = true};
 
-            foreach (var function in userClass.Functions)
+            foreach (var function in userClass.Methods)
             {
                 var method = new CodeMemberMethod
                 {
