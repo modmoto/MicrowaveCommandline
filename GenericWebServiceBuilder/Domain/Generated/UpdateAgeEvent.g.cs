@@ -13,7 +13,7 @@ namespace Domain
     using System;
     
     
-    public class UserUpdateAgeEvent
+    public class UpdateAgeEvent
     {
         
         private Guid _UserId;

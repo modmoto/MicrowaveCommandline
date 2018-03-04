@@ -51,8 +51,6 @@ namespace GenericWebServiceBuilder.FileToDSL.Lexer
                 }
             }
 
-            tokens.Add(new DslToken(TokenType.SequenceTerminator, string.Empty, lineCounter));
-
             return tokens;
         }
 

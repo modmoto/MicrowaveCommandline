@@ -13,24 +13,20 @@ namespace Domain
     using System;
     
     
-    public interface IUser
+    public interface IPost
     {
         
-        CreateEvent Create(String Name);
-        
-        UpdateAgeEvent UpdateAge(Int32 Age);
-        
-        UpdateNameEvent UpdateName(String Name);
+        CreateEvent Create(String Title);
     }
     
-    public partial class User : IUser
+    public partial class Post : IPost
     {
         
         private Guid _Id;
         
-        private String _Name;
+        private String _Title;
         
-        private Int32 _Age;
+        private String _Body;
         
         public Guid Id
         {
@@ -40,19 +36,19 @@ namespace Domain
             }
         }
         
-        public String Name
+        public String Title
         {
             get
             {
-                return this._Name;
+                return this._Title;
             }
         }
         
-        public Int32 Age
+        public String Body
         {
             get
             {
-                return this._Age;
+                return this._Body;
             }
         }
     }

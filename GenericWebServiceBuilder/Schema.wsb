@@ -16,8 +16,6 @@
 		UserId: Guid
 		Name: String
 	}
-
-	Posts: [Post];
 }
 
 DomainClass Post {
@@ -25,7 +23,7 @@ DomainClass Post {
 	Title: String;
 	Body: String;
 
-	DomainMethod Create(Title: String): {
+	Create(Title: String): {
 		UserId: Guid
 		Title: String
 	}

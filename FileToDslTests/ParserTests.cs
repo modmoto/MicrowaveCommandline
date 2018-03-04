@@ -21,8 +21,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 2)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.Count);
             Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
@@ -45,8 +45,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.Count);
             Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
@@ -73,8 +73,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
             Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
@@ -105,8 +105,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
             Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
@@ -144,8 +144,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
             Assert.AreEqual("CreateUser", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
@@ -180,8 +180,8 @@ namespace FileToDslTests
                 new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
-            var parser = new Parser(tokens);
-            var domainTree = parser.Parse();
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
             Assert.AreEqual("CreateUser", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);

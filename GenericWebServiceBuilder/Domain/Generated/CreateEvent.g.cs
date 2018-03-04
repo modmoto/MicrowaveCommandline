@@ -13,16 +13,26 @@ namespace Domain
     using System;
     
     
-    public class UserCreateEvent
+    public class CreateEvent
     {
         
         private Guid _UserId;
+        
+        private String _Title;
         
         public Guid UserId
         {
             get
             {
                 return this._UserId;
+            }
+        }
+        
+        public String Title
+        {
+            get
+            {
+                return this._Title;
             }
         }
     }

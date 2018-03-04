@@ -1,104 +1,28 @@
 ﻿using System.Collections.Generic;
 using GenericWebServiceBuilder.DomainSpecificGrammar;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat;
 
 namespace GenericWebServiceBuilder.FileToDSL
 {
     public class DslParser
     {
         private readonly ITokenizer _tokenizer;
+        private readonly Parser _parser;
 
-        public DslParser(ITokenizer tokenizer)
+        public DslParser(ITokenizer tokenizer, Parser parser)
         {
             _tokenizer = tokenizer;
+            _parser = parser;
         }
 
         public DomainTree Parse(string file)
         {
             var dslTokens = _tokenizer.Tokenize(file);
 
-            var events = new List<DomainEvent>
-            {
-                new DomainEvent
-                {
-                    Name = "UserCreateEvent",
-                    Properties =
-                    {
-                        new Property
-                        {
-                            Type = "Guid",
-                            Name = "UserId"
-                        }
-                    }
-                },
-                new DomainEvent
-                {
-                    Name = "UserUpdateAgeEvent",
-                    Properties =
-                    {
-                        new Property
-                        {
-                            Type = "Guid",
-                            Name = "UserId"
-                        },
-                        new Property
-                        {
-                            Type = "Int32",
-                            Name = "Age"
-                        }
-                    }
-                }
-            };
+            var domainTree = _parser.Parse(dslTokens);
 
-            var classes = new List<DomainClass>
-            {
-                new DomainClass
-                {
-                    Name = "User",
-                    Methods =
-                    {
-                        new DomainMethod
-                        {
-                            Name = "UserCreate",
-                            Parameters =
-                            {
-                                new Parameter
-                                {
-                                    Type = "String",
-                                    Name = "Name"
-                                }
-                            }
-                        },
-                        new DomainMethod
-                        {
-                            Name = "UserUpdateAge",
-                            Parameters =
-                            {
-                                new Parameter
-                                {
-                                    Type = "Int32",
-                                    Name = "Age"
-                                }
-                            }
-                        }
-                    },
-                    Propteries =
-                    {
-                        new Property
-                        {
-                            Type = "String",
-                            Name = "Name"
-                        },
-                        new Property
-                        {
-                            Type = "Int32",
-                            Name = "Age"
-                        }
-                    }
-                }
-            };
-
-            return new DomainTree(classes, events);
+            return domainTree;
         }
     }
 }

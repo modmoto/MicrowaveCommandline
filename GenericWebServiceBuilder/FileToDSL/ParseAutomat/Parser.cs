@@ -5,17 +5,14 @@ using GenericWebServiceBuilder.FileToDSL.Lexer;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 {
-    public class Parser
+    public class Parser : IParser
     {
-        private readonly IEnumerable<DslToken> _tokens;
         private ParseState _currentState;
 
-        public Parser(IEnumerable<DslToken> tokens)
+        public Parser()
         {
             Classes = new List<DomainClass>();
             Events = new List<DomainEvent>();
-            var dslTokens = tokens.ToList();
-            _tokens = dslTokens;
             _currentState = new StartState(this);
         }
 
@@ -28,9 +25,9 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
         public Parameter CurrentParam { get; set; }
         public string CurrentMemberName { get; set; }
 
-        public DomainTree Parse()
+        public DomainTree Parse(IEnumerable<DslToken> tokens)
         {
-            foreach (var token in _tokens)
+            foreach (var token in tokens)
                 _currentState = _currentState.Parse(token);
 
             return new DomainTree(Classes, Events);

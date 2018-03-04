@@ -1,17 +1,20 @@
-using System;
-
-namespace Domain
+﻿namespace Domain
 {
     public partial class User
     {
-        public UserCreateEvent UserCreate(string Name)
+        public CreateEvent Create(string Name)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
-        public UserUpdateAgeEvent UserUpdateAge(int Age)
+        public UpdateAgeEvent UpdateAge(int Age)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
+        }
+
+        public UpdateNameEvent UpdateName(string Name)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
