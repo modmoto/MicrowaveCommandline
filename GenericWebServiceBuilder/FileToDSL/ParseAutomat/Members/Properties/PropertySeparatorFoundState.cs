@@ -1,6 +1,7 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Properties
 {
     public class PropertySeparatorFoundState : ParseState
     {

@@ -1,4 +1,5 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
 {

@@ -16,9 +16,9 @@ namespace Domain
     public interface IUser
     {
         
-        UserCreateEvent Create(String Name);
+        UserCreateEvent UserCreate(String Name);
         
-        UpdateAgeEvent UpdateAge(Int32 Age);
+        UserUpdateAgeEvent UserUpdateAge(Int32 Age);
     }
     
     public partial class User : IUser

@@ -4,12 +4,12 @@ namespace Domain
 {
     public partial class User
     {
-        public UserCreateEvent Create(string Name)
+        public UserCreateEvent UserCreate(string Name)
         {
             throw new NotImplementedException();
         }
 
-        public UpdateAgeEvent UpdateAge(int Age)
+        public UserUpdateAgeEvent UserUpdateAge(int Age)
         {
             throw new NotImplementedException();
         }

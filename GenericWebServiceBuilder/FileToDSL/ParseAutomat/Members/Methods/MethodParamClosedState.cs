@@ -1,6 +1,7 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
 {
     internal class MethodParamClosedState : ParseState
     {

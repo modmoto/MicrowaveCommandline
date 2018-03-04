@@ -1,6 +1,6 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods
 {
     internal class MethodParamNameFoundState : ParseState
     {

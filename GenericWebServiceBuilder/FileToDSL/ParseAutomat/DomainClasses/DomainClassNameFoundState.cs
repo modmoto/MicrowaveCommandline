@@ -1,6 +1,6 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses
 {
     public class DomainClassNameFoundState : ParseState
     {

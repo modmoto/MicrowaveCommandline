@@ -1,7 +1,9 @@
 ﻿using GenericWebServiceBuilder.DomainSpecificGrammar;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Properties;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members
 {
     public class MemberNameFoundState : ParseState
     {

@@ -1,7 +1,7 @@
 ﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
-using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Properties;
+using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members;
 
-namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat
+namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses
 {
     public class DomainClassOpenedState : ParseState
     {

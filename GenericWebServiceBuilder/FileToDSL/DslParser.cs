@@ -33,7 +33,7 @@ namespace GenericWebServiceBuilder.FileToDSL
                 },
                 new DomainEvent
                 {
-                    Name = "UpdateAgeEvent",
+                    Name = "UserUpdateAgeEvent",
                     Properties =
                     {
                         new Property
@@ -59,7 +59,7 @@ namespace GenericWebServiceBuilder.FileToDSL
                     {
                         new DomainMethod
                         {
-                            Name = "Create",
+                            Name = "UserCreate",
                             Parameters =
                             {
                                 new Parameter
@@ -71,7 +71,7 @@ namespace GenericWebServiceBuilder.FileToDSL
                         },
                         new DomainMethod
                         {
-                            Name = "UpdateAge",
+                            Name = "UserUpdateAge",
                             Parameters =
                             {
                                 new Parameter
