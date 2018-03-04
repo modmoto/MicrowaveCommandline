@@ -4,7 +4,7 @@ using GenericWebServiceBuilder.FileToDslModel.Lexer;
 using GenericWebServiceBuilder.FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FileToDslTests
+namespace FileToDslModel.Tests
 {
     [TestClass]
     public class ParserTests

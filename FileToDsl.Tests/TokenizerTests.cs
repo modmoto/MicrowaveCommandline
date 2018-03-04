@@ -1,7 +1,7 @@
 using GenericWebServiceBuilder.FileToDslModel.Lexer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FileToDslTests
+namespace FileToDslModel.Tests
 {
     [TestClass]
     public class TokenizerTests
