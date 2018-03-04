@@ -123,5 +123,48 @@ namespace FileToDslTests
             Assert.AreEqual("CreateUserEvent", domainTree.Events.ToList()[0].Name);
             Assert.AreEqual(0, domainTree.Events.ToList()[0].Properties.Count);
         }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_MultipleParameters()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "CreateUser", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.Value, "UserName", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.Value, "String", 2),
+                new DslToken(TokenType.ParamSeparator, ",", 2),
+                new DslToken(TokenType.Value, "Age", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.Value, "Int32", 2),
+                new DslToken(TokenType.ParameterBracketClose, ")", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 3)
+            };
+
+            var parser = new Parser(tokens);
+            var domainTree = parser.Parse();
+
+            Assert.AreEqual(1, domainTree.Classes.Count);
+            Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
+            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
+            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
+            Assert.AreEqual("CreateUser", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
+            Assert.AreEqual(2, domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.Count);
+            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Name);
+            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Type);
+            Assert.AreEqual("Age", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[1].Name);
+            Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[1].Type);
+            Assert.AreEqual("CreateUserEvent", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
+
+            Assert.AreEqual("CreateUserEvent", domainTree.Events.ToList()[0].Name);
+            Assert.AreEqual(0, domainTree.Events.ToList()[0].Properties.Count);
+        }
     }
 }
