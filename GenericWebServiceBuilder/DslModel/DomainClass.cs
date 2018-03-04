@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace GenericWebServiceBuilder.DomainSpecificGrammar
+namespace GenericWebServiceBuilder.DslModel
 {
     public class DomainClass
     {

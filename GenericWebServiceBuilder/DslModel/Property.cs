@@ -1,6 +1,6 @@
-﻿namespace GenericWebServiceBuilder.DomainSpecificGrammar
+﻿namespace GenericWebServiceBuilder.DslModel
 {
-    public class Parameter
+    public class Property
     {
         public string Type { get; set; }
         public string Name { get; set; }

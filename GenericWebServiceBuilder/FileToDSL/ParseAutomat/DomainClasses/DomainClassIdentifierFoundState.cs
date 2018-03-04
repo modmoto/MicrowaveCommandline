@@ -1,4 +1,5 @@
-﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
+﻿using GenericWebServiceBuilder.DslModel;
+using GenericWebServiceBuilder.FileToDSL.Lexer;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses
 {
@@ -10,7 +11,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses
 
         private ParseState DomainClassNameFound(DslToken token)
         {
-            var domainClass = new DomainSpecificGrammar.DomainClass
+            var domainClass = new DomainClass
             {
                 Name = token.Value
             };

@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 using System.Reflection;
-using GenericWebServiceBuilder.DomainSpecificGrammar;
+using GenericWebServiceBuilder.DslModel;
 
 namespace GenericWebServiceBuilder.DslToCSharp
 {

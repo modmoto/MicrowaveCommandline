@@ -1,4 +1,4 @@
-﻿using GenericWebServiceBuilder.DomainSpecificGrammar;
+﻿using GenericWebServiceBuilder.DslModel;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
 using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods;
 using GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Properties;

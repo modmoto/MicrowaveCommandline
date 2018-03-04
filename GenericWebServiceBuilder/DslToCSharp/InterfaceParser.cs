@@ -1,5 +1,5 @@
 ﻿using System.CodeDom;
-using GenericWebServiceBuilder.DomainSpecificGrammar;
+using GenericWebServiceBuilder.DslModel;
 
 namespace GenericWebServiceBuilder.DslToCSharp
 {

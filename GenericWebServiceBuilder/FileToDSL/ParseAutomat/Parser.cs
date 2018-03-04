@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GenericWebServiceBuilder.DomainSpecificGrammar;
+using GenericWebServiceBuilder.DslModel;
 using GenericWebServiceBuilder.FileToDSL.Lexer;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat

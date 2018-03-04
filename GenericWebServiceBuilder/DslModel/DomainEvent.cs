@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GenericWebServiceBuilder.DomainSpecificGrammar
+namespace GenericWebServiceBuilder.DslModel
 {
     public class DomainEvent
     {

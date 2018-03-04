@@ -1,7 +1,7 @@
 ﻿using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
-using GenericWebServiceBuilder.DomainSpecificGrammar;
+using GenericWebServiceBuilder.DslModel;
 using Microsoft.CSharp;
 
 namespace GenericWebServiceBuilder.DslToCSharp
