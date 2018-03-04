@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
-using GenericWebServiceBuilder.FileToDSL.Lexer;
-using GenericWebServiceBuilder.FileToDSL.ParseAutomat;
+using GenericWebServiceBuilder.FileToDslModel.Lexer;
+using GenericWebServiceBuilder.FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FileToDslTests

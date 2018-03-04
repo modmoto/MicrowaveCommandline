@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using GenericWebServiceBuilder.DslToCSharp;
-using GenericWebServiceBuilder.FileToDSL;
-using GenericWebServiceBuilder.FileToDSL.Lexer;
-using GenericWebServiceBuilder.FileToDSL.ParseAutomat;
+using GenericWebServiceBuilder.DslModelToCSharp;
+using GenericWebServiceBuilder.FileToDslModel;
+using GenericWebServiceBuilder.FileToDslModel.Lexer;
+using GenericWebServiceBuilder.FileToDslModel.ParseAutomat;
 
 namespace GenericWebServiceBuilder
 {

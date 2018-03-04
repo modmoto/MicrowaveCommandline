@@ -1,4 +1,4 @@
-using GenericWebServiceBuilder.FileToDSL.Lexer;
+using GenericWebServiceBuilder.FileToDslModel.Lexer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FileToDslTests
