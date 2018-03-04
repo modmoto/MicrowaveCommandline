@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GenericWebServiceBuilder\GenericWebServiceBuilder.csproj" />
+    <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
 
 </Project>
