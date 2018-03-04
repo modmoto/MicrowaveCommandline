@@ -1,4 +1,5 @@
-﻿using GenericWebServiceBuilder.FileToDSL.Lexer;
+﻿using GenericWebServiceBuilder.DomainSpecificGrammar;
+using GenericWebServiceBuilder.FileToDSL.Lexer;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
 {
@@ -21,6 +22,7 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
 
         private ParseState EventDefinitionFound()
         {
+            Parser.CurrentEvent = new DomainEvent { Name = Parser.CurrentMethod.ReturnType };
             return new EventDefinitionFoundState(Parser);
         }
     }

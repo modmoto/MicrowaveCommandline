@@ -4,7 +4,7 @@ using GenericWebServiceBuilder.FileToDSL.ParseAutomat.DomainClasses;
 
 namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
 {
-    internal class EventDefinitionFoundState : ParseState
+    public class EventDefinitionFoundState : ParseState
     {
         public EventDefinitionFoundState(Parser parser) : base(parser)
         {
@@ -16,16 +16,23 @@ namespace GenericWebServiceBuilder.FileToDSL.ParseAutomat.Members.Methods.Events
             {
                 case TokenType.ObjectBracketClose:
                     return EventDefinitionEndFound();
+                case TokenType.Value:
+                    return PropertyNameFound(token);
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
+        private ParseState PropertyNameFound(DslToken token)
+        {
+            Parser.CurrentProperty = new Property {Name = token.Value};
+            return new EventPropertyNameFoundState(Parser);
+        }
+
         private ParseState EventDefinitionEndFound()
         {
             Parser.CurrentClass.Methods.Add(Parser.CurrentMethod);
-            var emptyEvent = new DomainEvent {Name = Parser.CurrentMethod.ReturnType};
-            Parser.Events.Add(emptyEvent);
+            Parser.Events.Add(Parser.CurrentEvent);
             return new DomainClassOpenedState(Parser);
         }
     }
