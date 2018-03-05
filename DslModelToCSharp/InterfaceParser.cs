@@ -23,21 +23,6 @@ namespace DslModelToCSharp
                 iface.Members.Add(method);
             }
 
-            foreach (var function in userClass.CreateMethods)
-            {
-                var method = new CodeMemberMethod
-                {
-                    Name = function.Name,
-                    ReturnType = new CodeTypeReference(function.ReturnType),
-                    Attributes = MemberAttributes.Static
-                };
-
-                foreach (var parameter in function.Parameters)
-                    method.Parameters.Add(new CodeParameterDeclarationExpression(parameter.Type, parameter.Name));
-
-                iface.Members.Add(method);
-            }
-
             return iface;
         }
     }

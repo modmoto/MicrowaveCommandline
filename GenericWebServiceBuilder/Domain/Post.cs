@@ -1,10 +1,17 @@
-﻿namespace Domain
+﻿using System;
+
+namespace Domain
 {
     public partial class Post
     {
-        public CreatePostEvent Create(string Title)
+        public Post(String title)
         {
-            throw new System.NotImplementedException();
+            if (title.Length <= 5)
+            {
+
+            }
+
+            throw new Exception();
         }
     }
 }
