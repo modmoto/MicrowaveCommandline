@@ -32,6 +32,7 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
             var constructor = new CodeConstructor();
+            var emptyConstructor = new CodeConstructor();
 
             foreach (var proptery in domainEvent.Properties)
             {
@@ -47,6 +48,7 @@ namespace DslModelToCSharp
                 constructor.Statements.Add(body);
             }
 
+            targetClass.Members.Add(emptyConstructor);
             targetClass.Members.Add(constructor);
             WriteToFile(domainEvent.Name, nameSpace);
         }
@@ -79,6 +81,7 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
             var constructor = new CodeConstructor();
+            var emptyConstructor = new CodeConstructor();
 
             foreach (var proptery in userClass.Propteries)
             {
@@ -95,6 +98,7 @@ namespace DslModelToCSharp
             }
 
             targetClass.Members.Add(constructor);
+            targetClass.Members.Add(emptyConstructor);
             WriteToFile(userClass.Name, nameSpace);
         }
     }

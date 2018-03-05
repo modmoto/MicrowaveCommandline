@@ -37,6 +37,10 @@ namespace Domain
             this._Age = Age;
         }
         
+        private User()
+        {
+        }
+        
         public Guid Id
         {
             get

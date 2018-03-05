@@ -20,6 +20,10 @@ namespace Domain
         
         private Int32 _Age;
         
+        private UserUpdateAgeEvent()
+        {
+        }
+        
         private UserUpdateAgeEvent(Guid UserId, Int32 Age)
         {
             this._UserId = UserId;

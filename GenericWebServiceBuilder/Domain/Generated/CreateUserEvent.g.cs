@@ -18,6 +18,10 @@ namespace Domain
         
         private User _User;
         
+        private CreateUserEvent()
+        {
+        }
+        
         private CreateUserEvent(User User)
         {
             this._User = User;

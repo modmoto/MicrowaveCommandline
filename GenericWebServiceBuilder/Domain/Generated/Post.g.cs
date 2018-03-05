@@ -33,6 +33,10 @@ namespace Domain
             this._Body = Body;
         }
         
+        private Post()
+        {
+        }
+        
         public Guid Id
         {
             get

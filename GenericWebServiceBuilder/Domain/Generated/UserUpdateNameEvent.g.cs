@@ -20,6 +20,10 @@ namespace Domain
         
         private String _Name;
         
+        private UserUpdateNameEvent()
+        {
+        }
+        
         private UserUpdateNameEvent(Guid UserId, String Name)
         {
             this._UserId = UserId;

@@ -18,6 +18,10 @@ namespace Domain
         
         private Post _Post;
         
+        private CreatePostEvent()
+        {
+        }
+        
         private CreatePostEvent(Post Post)
         {
             this._Post = Post;
