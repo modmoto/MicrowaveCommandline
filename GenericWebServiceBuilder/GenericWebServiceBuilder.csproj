@@ -8,7 +8,4 @@
     <ProjectReference Include="..\DslModel\DslModel.csproj" />
     <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
-  </ItemGroup>
 </Project>
