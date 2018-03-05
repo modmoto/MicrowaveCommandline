@@ -62,7 +62,7 @@ namespace DslModelToCSharp
             var provider = new CSharpCodeProvider();
             var options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            using (var sourceWriter = new StreamWriter($"../GenericWebservice/Domain/Generated/{fileName}.g.cs"))
+            using (var sourceWriter = new StreamWriter($"../GeneratedWebService/Domain/Generated/{fileName}.g.cs"))
             {
                 provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
             }
