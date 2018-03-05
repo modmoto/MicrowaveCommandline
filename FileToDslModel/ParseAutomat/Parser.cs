@@ -23,6 +23,7 @@ namespace FileToDslModel.ParseAutomat
         public Property CurrentProperty { get; set; }
         public Parameter CurrentParam { get; set; }
         public string CurrentMemberName { get; set; }
+        public CreateMethod CurrentCreateMethod { get; set; }
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {

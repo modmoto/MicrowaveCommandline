@@ -30,7 +30,7 @@ namespace FileToDslModel.ParseAutomat.Members.Methods
 
         private ParseState MethodParamClosedStateFound()
         {
-            return new MethodParamClosedState(Parser);
+            return new MethodParamEndedState(Parser);
         }
     }
 }

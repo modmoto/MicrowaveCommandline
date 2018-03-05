@@ -6,13 +6,13 @@
         ObjectBracketOpen,
         ObjectBracketClose,
         DomainClass,
-        DomainEvent,
         ListBracketOpen,
         ListBracketClose,
         Value,
         ParameterBracketOpen,
         ParameterBracketClose,
         TypeDefSeparator,
-        ParamSeparator
+        ParamSeparator,
+        CreateMethod
     }
 }

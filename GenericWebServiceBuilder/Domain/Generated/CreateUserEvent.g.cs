@@ -13,40 +13,16 @@ namespace Domain
     using System;
     
     
-    public interface IPost
-    {
-    }
-    
-    public partial class Post : IPost
+    public class CreateUserEvent
     {
         
-        private Guid _Id;
+        private User _User;
         
-        private String _Title;
-        
-        private String _Body;
-        
-        public Guid Id
+        public User User
         {
             get
             {
-                return this._Id;
-            }
-        }
-        
-        public String Title
-        {
-            get
-            {
-                return this._Title;
-            }
-        }
-        
-        public String Body
-        {
-            get
-            {
-                return this._Body;
+                return this._User;
             }
         }
     }

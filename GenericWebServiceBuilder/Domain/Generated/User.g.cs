@@ -16,8 +16,6 @@ namespace Domain
     public interface IUser
     {
         
-        UserCreateEvent Create(String Name);
-        
         UserUpdateAgeEvent UpdateAge(Int32 Age);
         
         UserUpdateNameEvent UpdateName(String Name);

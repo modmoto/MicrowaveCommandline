@@ -3,9 +3,7 @@
 	Name: String
 	Age: Int32
 
-	Create(Name: String): {
-		UserId: Guid
-	}
+	Create(Name: String)
 
 	UpdateAge(Age: Int32): {
 		UserId: Guid
@@ -23,8 +21,5 @@ DomainClass Post {
 	Title: String;
 	Body: String;
 
-	Create(Title: String): {
-		UserId: Guid
-		Title: String
-	}
+	Create(Title: String)
 }

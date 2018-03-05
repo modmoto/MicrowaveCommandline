@@ -22,8 +22,8 @@ namespace FileToDslModel.Lexer
                 new TokenDefinition(TokenType.TypeDefSeparator, "^:"),
                 new TokenDefinition(TokenType.ParamSeparator, "^,"),
 
+                new TokenDefinition(TokenType.CreateMethod, "^Create"),
                 new TokenDefinition(TokenType.DomainClass, "^DomainClass"),
-                new TokenDefinition(TokenType.DomainEvent, "^DomainEvent"),
 
                 new TokenDefinition(TokenType.Value, "^\\w+")
             };

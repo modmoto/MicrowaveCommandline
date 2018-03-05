@@ -3,9 +3,9 @@ using FileToDslModel.ParseAutomat.Members.Methods.Events;
 
 namespace FileToDslModel.ParseAutomat.Members.Methods
 {
-    internal class MethodParamClosedState : ParseState
+    internal class MethodParamEndedState : ParseState
     {
-        public MethodParamClosedState(Parser parser) : base(parser)
+        public MethodParamEndedState(Parser parser) : base(parser)
         {
         }
 

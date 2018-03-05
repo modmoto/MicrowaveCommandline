@@ -3,9 +3,9 @@ using FileToDslModel.Lexer;
 
 namespace FileToDslModel.ParseAutomat.Members.Methods
 {
-    internal class AdditionalParamState : ParseState
+    internal class AdditionalMethodParamState : ParseState
     {
-        public AdditionalParamState(Parser parser) : base(parser)
+        public AdditionalMethodParamState(Parser parser) : base(parser)
         {
         }
 
