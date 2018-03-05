@@ -18,11 +18,20 @@ namespace Domain
         
         private User _User;
         
+        private CreateUserEvent(User User)
+        {
+            this.User = User;
+        }
+        
         public User User
         {
             get
             {
                 return this._User;
+            }
+            set
+            {
+                this.User = User;
             }
         }
     }

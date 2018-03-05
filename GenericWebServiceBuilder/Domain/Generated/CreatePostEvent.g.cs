@@ -18,11 +18,20 @@ namespace Domain
         
         private Post _Post;
         
+        private CreatePostEvent(Post Post)
+        {
+            this.Post = Post;
+        }
+        
         public Post Post
         {
             get
             {
                 return this._Post;
+            }
+            set
+            {
+                this.Post = Post;
             }
         }
     }

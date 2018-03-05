@@ -20,11 +20,21 @@ namespace Domain
         
         private String _Name;
         
+        private UserUpdateNameEvent(Guid UserId, String Name)
+        {
+            this.UserId = UserId;
+            this.Name = Name;
+        }
+        
         public Guid UserId
         {
             get
             {
                 return this._UserId;
+            }
+            set
+            {
+                this.UserId = UserId;
             }
         }
         
@@ -33,6 +43,10 @@ namespace Domain
             get
             {
                 return this._Name;
+            }
+            set
+            {
+                this.Name = Name;
             }
         }
     }

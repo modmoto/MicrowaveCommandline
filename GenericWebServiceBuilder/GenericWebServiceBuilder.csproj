@@ -8,4 +8,7 @@
     <ProjectReference Include="..\DslModel\DslModel.csproj" />
     <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Generated\" />
+  </ItemGroup>
 </Project>

@@ -31,13 +31,23 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
+            var constructor = new CodeConstructor();
+
             foreach (var proptery in domainEvent.Properties)
             {
-                var property = _propertyParser.Parse(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
+                var autoProperty = _propertyParser.Parse(proptery);
+                targetClass.Members.Add(autoProperty.Field);
+                targetClass.Members.Add(autoProperty.Property);
+                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
+                CodeAssignStatement body = new CodeAssignStatement
+                {
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), proptery.Name),
+                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
+                };
+                constructor.Statements.Add(body);
             }
 
+            targetClass.Members.Add(constructor);
             WriteToFile(domainEvent.Name, nameSpace);
         }
 
@@ -68,13 +78,23 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
+            var constructor = new CodeConstructor();
+
             foreach (var proptery in userClass.Propteries)
             {
                 var property = _propertyParser.Parse(proptery);
                 targetClass.Members.Add(property.Field);
                 targetClass.Members.Add(property.Property);
+                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
+                CodeAssignStatement body = new CodeAssignStatement
+                {
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), proptery.Name),
+                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
+                };
+                constructor.Statements.Add(body);
             }
 
+            targetClass.Members.Add(constructor);
             WriteToFile(userClass.Name, nameSpace);
         }
     }

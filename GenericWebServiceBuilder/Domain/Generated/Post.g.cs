@@ -26,11 +26,22 @@ namespace Domain
         
         private String _Body;
         
+        private Post(Guid Id, String Title, String Body)
+        {
+            this.Id = Id;
+            this.Title = Title;
+            this.Body = Body;
+        }
+        
         public Guid Id
         {
             get
             {
                 return this._Id;
+            }
+            set
+            {
+                this.Id = Id;
             }
         }
         
@@ -40,6 +51,10 @@ namespace Domain
             {
                 return this._Title;
             }
+            set
+            {
+                this.Title = Title;
+            }
         }
         
         public String Body
@@ -47,6 +62,10 @@ namespace Domain
             get
             {
                 return this._Body;
+            }
+            set
+            {
+                this.Body = Body;
             }
         }
     }

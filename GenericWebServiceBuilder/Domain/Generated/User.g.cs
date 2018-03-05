@@ -30,11 +30,22 @@ namespace Domain
         
         private Int32 _Age;
         
+        private User(Guid Id, String Name, Int32 Age)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Age = Age;
+        }
+        
         public Guid Id
         {
             get
             {
                 return this._Id;
+            }
+            set
+            {
+                this.Id = Id;
             }
         }
         
@@ -44,6 +55,10 @@ namespace Domain
             {
                 return this._Name;
             }
+            set
+            {
+                this.Name = Name;
+            }
         }
         
         public Int32 Age
@@ -51,6 +66,10 @@ namespace Domain
             get
             {
                 return this._Age;
+            }
+            set
+            {
+                this.Age = Age;
             }
         }
     }

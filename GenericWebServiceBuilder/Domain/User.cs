@@ -11,10 +11,5 @@
         {
             throw new System.NotImplementedException();
         }
-
-        public CreateUserEvent Create(string Name)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

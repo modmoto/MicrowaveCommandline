@@ -17,9 +17,9 @@
 }
 
 DomainClass Post {
-	Id: Guid;
-	Title: String;
-	Body: String;
+	Id: Guid
+	Title: String
+	Body: String
 
 	Create(Title: String)
 }

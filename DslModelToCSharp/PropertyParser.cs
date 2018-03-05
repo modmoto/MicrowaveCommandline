@@ -19,11 +19,18 @@ namespace DslModelToCSharp
                 Attributes = MemberAttributes.Public | MemberAttributes.Final,
                 Name = property.Name,
                 HasGet = true,
+                HasSet = true,
                 Type = new CodeTypeReference(property.Type)
             };
             csProperty.GetStatements.Add(new CodeMethodReturnStatement(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(), $"_{property.Name}")));
+            CodeAssignStatement setStatement = new CodeAssignStatement
+            {
+                Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), property.Name),
+                Right = new CodeFieldReferenceExpression(null, property.Name)
+            };
+            csProperty.SetStatements.Add(setStatement);
 
             return new AutoProperty(field, csProperty);
         }
