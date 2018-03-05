@@ -9,6 +9,6 @@
     <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Domain\Generated\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
   </ItemGroup>
 </Project>

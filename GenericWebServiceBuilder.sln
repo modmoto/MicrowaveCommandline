@@ -5,13 +5,15 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericWebServiceBuilder", "GenericWebServiceBuilder\GenericWebServiceBuilder.csproj", "{F88BF061-8F16-46A5-9BB0-BD3F6E7A7350}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileToDslModel", "FileToDslModel\FileToDslModel.csproj", "{BAF09E3B-1D00-4E14-A67C-59A968085A62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileToDslModel", "FileToDslModel\FileToDslModel.csproj", "{BAF09E3B-1D00-4E14-A67C-59A968085A62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DslModel", "DslModel\DslModel.csproj", "{0CA6742E-59CF-40F0-9839-BE27C18762CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DslModel", "DslModel\DslModel.csproj", "{0CA6742E-59CF-40F0-9839-BE27C18762CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DslModelToCSharp", "DslModelToCSharp\DslModelToCSharp.csproj", "{7332A0A1-AA53-41A5-96FC-7E5BD2080840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DslModelToCSharp", "DslModelToCSharp\DslModelToCSharp.csproj", "{7332A0A1-AA53-41A5-96FC-7E5BD2080840}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileToDslModel.Tests", "FileToDslModel.Tests\FileToDslModel.Tests.csproj", "{FE20D9D4-8623-4FE7-A5AB-69C487DAE05C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericWebservice", "GenericWebservice\GenericWebservice.csproj", "{E893191A-8A27-41F4-99E7-7E889146F5BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FE20D9D4-8623-4FE7-A5AB-69C487DAE05C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE20D9D4-8623-4FE7-A5AB-69C487DAE05C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE20D9D4-8623-4FE7-A5AB-69C487DAE05C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E893191A-8A27-41F4-99E7-7E889146F5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E893191A-8A27-41F4-99E7-7E889146F5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E893191A-8A27-41F4-99E7-7E889146F5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E893191A-8A27-41F4-99E7-7E889146F5BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,6 @@
 ﻿using DslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat.Members;
-using FileToDslModel.ParseAutomat.Members.Methods.Events;
 
 namespace FileToDslModel.ParseAutomat.DomainClasses
 {
