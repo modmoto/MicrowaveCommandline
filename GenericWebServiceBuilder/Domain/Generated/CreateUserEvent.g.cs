@@ -22,7 +22,7 @@ namespace Domain
         {
         }
         
-        private CreateUserEvent(User User)
+        public CreateUserEvent(User User)
         {
             this._User = User;
         }

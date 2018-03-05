@@ -22,7 +22,7 @@ namespace Domain
         {
         }
         
-        private CreatePostEvent(Post Post)
+        public CreatePostEvent(Post Post)
         {
             this._Post = Post;
         }

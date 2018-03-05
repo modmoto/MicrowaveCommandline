@@ -24,7 +24,7 @@ namespace Domain
         {
         }
         
-        private UserUpdateAgeEvent(Guid UserId, Int32 Age)
+        public UserUpdateAgeEvent(Guid UserId, Int32 Age)
         {
             this._UserId = UserId;
             this._Age = Age;

@@ -24,7 +24,7 @@ namespace Domain
         {
         }
         
-        private UserUpdateNameEvent(Guid UserId, String Name)
+        public UserUpdateNameEvent(Guid UserId, String Name)
         {
             this._UserId = UserId;
             this._Name = Name;

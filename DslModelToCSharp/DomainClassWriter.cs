@@ -32,6 +32,7 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
             var constructor = new CodeConstructor();
+            constructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             var emptyConstructor = new CodeConstructor();
 
             foreach (var proptery in domainEvent.Properties)
