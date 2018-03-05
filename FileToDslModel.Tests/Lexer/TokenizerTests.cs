@@ -82,5 +82,20 @@ namespace FileToDslModel.Tests.Lexer
             Assert.AreEqual(TokenType.TypeDefSeparator, tokens[12].TokenType);
             Assert.AreEqual("Guid", tokens[13].Value);
         }
+
+        [TestMethod]
+        public void Tokenize_CreateMethod()
+        {
+            var tokenizer = new Tokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                Create(Name: String)
+                                            }");
+            Assert.AreEqual(10, tokens.Count);
+
+            Assert.AreEqual("Create", tokens[3].Value);
+            Assert.AreEqual(TokenType.CreateMethod, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[6].TokenType);
+        }
     }
 }
