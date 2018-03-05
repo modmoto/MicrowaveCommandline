@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
 using Domain;
 
 namespace GenericWebServiceBuilder.Domain
 {
-    public class AggregateStore : DbContext
+    public class AggregateStore
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Post> Posts { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public async Task AddAggregate<T>(T aggregate)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
+            using (var aggregateStore = new AggregateStoreContext())
+            {
+                var user = aggregate as User;
+                if (user != null) aggregateStore.Users.Add(user);
+
+                await aggregateStore.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateAggregate<T>(T aggregate)
+        {
+            using (var aggregateStore = new AggregateStoreContext())
+            {
+                var user = aggregate as User;
+                if (user != null) aggregateStore.Users.Update(user);
+
+                await aggregateStore.SaveChangesAsync();
+            }
         }
     }
 }
