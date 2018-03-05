@@ -20,7 +20,7 @@ namespace Domain
         
         private CreateUserEvent(User User)
         {
-            this.User = User;
+            this._User = User;
         }
         
         public User User
@@ -28,10 +28,6 @@ namespace Domain
             get
             {
                 return this._User;
-            }
-            set
-            {
-                this.User = User;
             }
         }
     }

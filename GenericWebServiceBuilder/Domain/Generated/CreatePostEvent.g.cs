@@ -20,7 +20,7 @@ namespace Domain
         
         private CreatePostEvent(Post Post)
         {
-            this.Post = Post;
+            this._Post = Post;
         }
         
         public Post Post
@@ -28,10 +28,6 @@ namespace Domain
             get
             {
                 return this._Post;
-            }
-            set
-            {
-                this.Post = Post;
             }
         }
     }

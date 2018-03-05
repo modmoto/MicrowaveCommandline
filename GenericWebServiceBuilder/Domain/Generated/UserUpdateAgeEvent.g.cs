@@ -22,8 +22,8 @@ namespace Domain
         
         private UserUpdateAgeEvent(Guid UserId, Int32 Age)
         {
-            this.UserId = UserId;
-            this.Age = Age;
+            this._UserId = UserId;
+            this._Age = Age;
         }
         
         public Guid UserId
@@ -32,10 +32,6 @@ namespace Domain
             {
                 return this._UserId;
             }
-            set
-            {
-                this.UserId = UserId;
-            }
         }
         
         public Int32 Age
@@ -43,10 +39,6 @@ namespace Domain
             get
             {
                 return this._Age;
-            }
-            set
-            {
-                this.Age = Age;
             }
         }
     }

@@ -41,7 +41,7 @@ namespace DslModelToCSharp
                 constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
                 CodeAssignStatement body = new CodeAssignStatement
                 {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), proptery.Name),
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
                     Right = new CodeFieldReferenceExpression(null, proptery.Name)
                 };
                 constructor.Statements.Add(body);
@@ -88,7 +88,7 @@ namespace DslModelToCSharp
                 constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
                 CodeAssignStatement body = new CodeAssignStatement
                 {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), proptery.Name),
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
                     Right = new CodeFieldReferenceExpression(null, proptery.Name)
                 };
                 constructor.Statements.Add(body);
