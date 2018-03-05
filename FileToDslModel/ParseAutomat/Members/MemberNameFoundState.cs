@@ -26,7 +26,11 @@ namespace FileToDslModel.ParseAutomat.Members
 
         private ParseState MethodParamOpenFound()
         {
-            Parser.CurrentMethod = new DomainMethod {Name = Parser.CurrentMemberName};
+            Parser.CurrentMethod = new DomainMethod
+            {
+                Name = Parser.CurrentMemberName,
+                ReturnType = $"{Parser.CurrentClass.Name}{Parser.CurrentMemberName}Event"
+            };
             return new MethodParamOpenState(Parser);
         }
 

@@ -2,17 +2,17 @@
 {
     public partial class User
     {
-        public CreateEvent Create(string Name)
+        public UserCreateEvent Create(string Name)
         {
             throw new System.NotImplementedException();
         }
 
-        public UpdateAgeEvent UpdateAge(int Age)
+        public UserUpdateAgeEvent UpdateAge(int Age)
         {
             throw new System.NotImplementedException();
         }
 
-        public UpdateNameEvent UpdateName(string Name)
+        public UserUpdateNameEvent UpdateName(string Name)
         {
             throw new System.NotImplementedException();
         }

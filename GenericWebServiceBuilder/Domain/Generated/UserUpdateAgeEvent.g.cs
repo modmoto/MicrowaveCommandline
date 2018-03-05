@@ -13,38 +13,18 @@ namespace Domain
     using System;
     
     
-    public interface IUser
+    public class UserUpdateAgeEvent
     {
         
-        UserCreateEvent Create(String Name);
-        
-        UserUpdateAgeEvent UpdateAge(Int32 Age);
-        
-        UserUpdateNameEvent UpdateName(String Name);
-    }
-    
-    public partial class User : IUser
-    {
-        
-        private Guid _Id;
-        
-        private String _Name;
+        private Guid _UserId;
         
         private Int32 _Age;
         
-        public Guid Id
+        public Guid UserId
         {
             get
             {
-                return this._Id;
-            }
-        }
-        
-        public String Name
-        {
-            get
-            {
-                return this._Name;
+                return this._UserId;
             }
         }
         

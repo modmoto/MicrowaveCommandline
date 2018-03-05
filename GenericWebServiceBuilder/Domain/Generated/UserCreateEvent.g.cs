@@ -13,26 +13,16 @@ namespace Domain
     using System;
     
     
-    public class UpdateAgeEvent
+    public class UserCreateEvent
     {
         
         private Guid _UserId;
-        
-        private Int32 _Age;
         
         public Guid UserId
         {
             get
             {
                 return this._UserId;
-            }
-        }
-        
-        public Int32 Age
-        {
-            get
-            {
-                return this._Age;
             }
         }
     }

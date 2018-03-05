@@ -13,7 +13,7 @@ namespace Domain
     using System;
     
     
-    public class CreateEvent
+    public class PostCreateEvent
     {
         
         private Guid _UserId;
