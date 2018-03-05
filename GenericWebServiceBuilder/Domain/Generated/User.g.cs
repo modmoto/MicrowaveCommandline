@@ -19,6 +19,8 @@ namespace Domain
         UserUpdateAgeEvent UpdateAge(Int32 Age);
         
         UserUpdateNameEvent UpdateName(String Name);
+        
+        CreateUserEvent Create(String Name);
     }
     
     public partial class User : IUser

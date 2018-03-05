@@ -15,6 +15,8 @@ namespace Domain
     
     public interface IPost
     {
+        
+        CreatePostEvent Create(String Title);
     }
     
     public partial class Post : IPost

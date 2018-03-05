@@ -2,7 +2,7 @@
 {
     public partial class Post
     {
-        public PostCreateEvent Create(string Title)
+        public CreatePostEvent Create(string Title)
         {
             throw new System.NotImplementedException();
         }
