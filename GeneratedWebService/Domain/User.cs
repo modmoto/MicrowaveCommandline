@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Users
 {
     public partial class User
     {
-        public static CreateUserEvent Create(string name, int age)
+        public static ValidationResult Create(string name, int age)
         {
             var newGuid = Guid.NewGuid();
-            return new CreateUserEvent(new User(newGuid, name, age));
+            return null;
+            //return new ValidationResult(true, new List<DomainEventBase>(new CreateUserEvent(new User(newGuid, name, age))),  new List<string>());
         }
 
         public ValidationResult UpdateAge(int Age)
