@@ -45,7 +45,7 @@ namespace GeneratedWebService.Controllers
 
     public class UserRepo
     {
-        public DomainValidationResult CreateUser(CreateUserCommand createUserCommand)
+        public ValidationResult CreateUser(CreateUserCommand createUserCommand)
         {
             using (var store = new AggregateStoreContext())
             {
@@ -53,11 +53,11 @@ namespace GeneratedWebService.Controllers
                 if (createUserEvent != null)
                 {
                     store.Users.Add(createUserEvent.User);
-                    return DomainValidationResult.OkResult(null);
+                    return ValidationResult.OkResult(null);
                 }
                 else
                 {
-                    return DomainValidationResult.ErrorResult(null);
+                    return ValidationResult.ErrorResult(null);
                 }
             }
         }

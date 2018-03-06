@@ -13,7 +13,7 @@ namespace Domain.Posts
     using System;
     
     
-    public class CreatePostEvent
+    public class CreatePostEvent : IDomainEvent
     {
         
         private Post _Post;
