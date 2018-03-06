@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Domain;
 
 namespace GenericWebServiceBuilder.Domain
 {
-    public class AggregateStore
+    public class AggregateStore : IDisposable
     {
         public async Task AddAggregate<T>(T aggregate)
         {
@@ -25,6 +27,10 @@ namespace GenericWebServiceBuilder.Domain
 
                 await aggregateStore.SaveChangesAsync();
             }
+        }
+        
+        public void Dispose()
+        {
         }
     }
 }

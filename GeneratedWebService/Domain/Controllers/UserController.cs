@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain;
+using GenericWebServiceBuilder.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
@@ -8,6 +9,13 @@ namespace GeneratedWebService.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        private readonly UserRepo _repo;
+
+        protected UserController(UserRepo repo)
+        {
+            _repo = repo;
+        }
+
         [HttpGet]
         public IEnumerable<User> Get()
         {
@@ -21,10 +29,10 @@ namespace GeneratedWebService.Controllers
         }
 
         [HttpPost]
-        public User CreateUser([FromBody]string name, int age)
+        public User CreateUser([FromBody]CreateUserCommand createUserCommand)
         {
-            var createUserCommand = new CreateUserCommand(name, age);
-            return createUserCommand.Run();
+            var res = _repo.CreateUser(createUserCommand);
+            return null;
         }
 
         [HttpPut("{id}")]
@@ -34,21 +42,35 @@ namespace GeneratedWebService.Controllers
         }
     }
 
+    public class UserRepo
+    {
+        public DomainValidationResult CreateUser(CreateUserCommand createUserCommand)
+        {
+            using (var store = new AggregateStoreContext())
+            {
+                var createUserEvent = User.Create(createUserCommand.Name, createUserCommand.Age);
+                if (createUserEvent != null)
+                {
+                    store.Users.Add(createUserEvent.User);
+                    return DomainValidationResult.OkResult(null);
+                }
+                else
+                {
+                    return DomainValidationResult.ErrorResult(null);
+                }
+            }
+        }
+    }
+
     public class CreateUserCommand
     {
-        private readonly string _name;
-        private int _age;
+        public string Name { get; }
+        public int Age { get; }
 
         public CreateUserCommand(string name, int age)
         {
-            _name = name;
-            _age = age;
-        }
-
-
-        public User Run()
-        {
-            return User.Create(_name, _age).User;
+            Name = name;
+            Age = age;
         }
     }
 }
