@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Domain;
+using Domain.Posts;
 using Domain.Users;
 
 namespace GenericWebServiceBuilder.Domain
