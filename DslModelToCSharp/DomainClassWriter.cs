@@ -51,10 +51,10 @@ namespace DslModelToCSharp
 
             targetClass.Members.Add(emptyConstructor);
             targetClass.Members.Add(constructor);
-            WriteToFile(domainEvent.Name, nameSpace);
+            WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);
         }
 
-        private static void WriteToFile(string fileName, CodeNamespace nameSpace)
+        private static void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace)
         {
             var targetUnit = new CodeCompileUnit();
             targetUnit.Namespaces.Add(nameSpace);
@@ -62,7 +62,8 @@ namespace DslModelToCSharp
             var provider = new CSharpCodeProvider();
             var options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            using (var sourceWriter = new StreamWriter($"../GeneratedWebService/Domain/Generated/{fileName}.g.cs"))
+            Directory.CreateDirectory($"../GeneratedWebService/Domain/Generated/{folderName}");
+            using (var sourceWriter = new StreamWriter($"../GeneratedWebService/Domain/Generated/{folderName}/{fileName}.g.cs"))
             {
                 provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
             }
@@ -107,7 +108,7 @@ namespace DslModelToCSharp
                 Write(domainEvent, nameSpaceName);
             }
 
-            WriteToFile(userClass.Name, nameSpace);
+            WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace);
         }
     }
 }
