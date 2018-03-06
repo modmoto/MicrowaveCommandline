@@ -10,13 +10,26 @@
 
 namespace Domain
 {
+    using System;
+    using System.Collections.Generic;
     
     
     public class DomainEventBase
     {
         
-        public DomainEventBase()
+        private Guid _EntityId;
+        
+        public DomainEventBase(Guid EntityId)
         {
+            this._EntityId = EntityId;
+        }
+        
+        public Guid EntityId
+        {
+            get
+            {
+                return this._EntityId;
+            }
         }
     }
 }

@@ -18,11 +18,8 @@ namespace Domain.Posts
         
         private Post _Post;
         
-        private CreatePostEvent()
-        {
-        }
-        
-        public CreatePostEvent(Post Post)
+        public CreatePostEvent(Post Post, Guid EntityId) : 
+                base(EntityId)
         {
             this._Post = Post;
         }

@@ -7,7 +7,7 @@ namespace Domain.Posts
         public static CreatePostEvent Create(string title, string body)
         {
             var newGuid = Guid.NewGuid();
-            return new CreatePostEvent(new Post(newGuid, title, body));
+            return new CreatePostEvent(new Post(newGuid, title, body), newGuid);
         }
     }
 }

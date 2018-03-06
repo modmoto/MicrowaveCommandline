@@ -8,6 +8,7 @@ namespace DslModelToCSharp
     {
         CodeConstructor BuildPrivate(IList<Property> userClassProperties);
         CodeConstructor BuildPublic(IList<Property> userClassProperties);
+        CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties);
     }
 
     public class ConstBuilder : IConstBuilder
@@ -15,13 +16,13 @@ namespace DslModelToCSharp
         public CodeConstructor BuildPrivate(IList<Property> proterties)
         {
             var constructor = new CodeConstructor();
-            foreach (var proptery in proterties)
+            foreach (var property in proterties)
             {
-                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
+                constructor.Parameters.Add(new CodeParameterDeclarationExpression(property.Type, property.Name));
                 CodeAssignStatement body = new CodeAssignStatement
                 {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
-                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{property.Name}"),
+                    Right = new CodeFieldReferenceExpression(null, property.Name)
                 };
                 constructor.Statements.Add(body);
             }
@@ -34,6 +35,18 @@ namespace DslModelToCSharp
             var codeConstructor = BuildPrivate(userClassProperties);
             codeConstructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             return codeConstructor;
+        }
+
+        public CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties)
+        {
+            var constructor = BuildPublic(domainEventProperties);
+            foreach (var property in properties)
+            {
+                constructor.Parameters.Add(new CodeParameterDeclarationExpression(property.Type, property.Name));
+                constructor.BaseConstructorArgs.Add(new CodeArgumentReferenceExpression(property.Name));
+            }
+
+            return constructor;
         }
     }
 }

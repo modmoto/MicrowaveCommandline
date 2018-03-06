@@ -6,12 +6,10 @@
 	Create(Name: String)
 
 	UpdateAge(Age: Int32): {
-		UserId: Guid
 		Age: Int32
 	}
 
 	UpdateName(Name: String): {
-		UserId: Guid
 		Name: String
 	}
 }

@@ -18,11 +18,8 @@ namespace Domain.Users
         
         private User _User;
         
-        private CreateUserEvent()
-        {
-        }
-        
-        public CreateUserEvent(User User)
+        public CreateUserEvent(User User, Guid EntityId) : 
+                base(EntityId)
         {
             this._User = User;
         }

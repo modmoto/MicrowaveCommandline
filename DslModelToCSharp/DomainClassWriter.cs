@@ -99,14 +99,23 @@ namespace DslModelToCSharp
         {
             var nameSpaceName = $"{_domain}";
             var nameSpace = new CodeNamespace(nameSpaceName);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
 
             var targetClass = new CodeTypeDeclaration(userClass.Name);
             targetClass.IsClass = true;
             targetClass.TypeAttributes = TypeAttributes.Public;
 
+            foreach (var proptery in userClass.Properties)
+            {
+                var property = _propertyBuilder.Build(proptery);
+                targetClass.Members.Add(property.Field);
+                targetClass.Members.Add(property.Property);
+            }
+
             nameSpace.Types.Add(targetClass);
 
-            var constructor = _constBuilder.BuildPublic(new List<Property>());
+            var constructor = _constBuilder.BuildPublic(userClass.Properties);
             targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);

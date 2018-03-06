@@ -59,7 +59,7 @@ namespace Domain
             return new ValidationResult(true, DomainEvents, new List<string>());
         }
         
-        public static ValidationResult OkResult(List<string> DomainErrors)
+        public static ValidationResult ErrorResult(List<string> DomainErrors)
         {
             return new ValidationResult(false, new List<DomainEventBase>(), DomainErrors);
         }

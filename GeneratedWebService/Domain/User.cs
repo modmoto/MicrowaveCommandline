@@ -9,7 +9,7 @@ namespace Domain.Users
         {
             var newGuid = Guid.NewGuid();
             var domainEventBases = new List<DomainEventBase>();
-            domainEventBases.Add(new CreateUserEvent(new User(newGuid, name, age)));
+            domainEventBases.Add(new CreateUserEvent(new User(newGuid, name, age), newGuid));
             return ValidationResult.OkResult(domainEventBases);
         }
 

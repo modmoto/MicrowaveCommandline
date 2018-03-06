@@ -14,7 +14,11 @@ namespace GenericWebservice.Domain
     {
         public T Load<T>(Guid id)
         {
-            throw new System.NotImplementedException();
+            using (var storeContext = new EventStoreContext())
+            {
+                throw new NotImplementedException();
+                //storeContext.EventHistory.
+            }
         }
 
         public void AppendAll(List<DomainEventBase> domainEvents)

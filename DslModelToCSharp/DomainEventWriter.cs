@@ -34,8 +34,7 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            var constructor = _constBuilder.BuildPublic(domainEvent.Properties);
-            var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
+            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties);
 
             foreach (var proptery in domainEvent.Properties)
             {
@@ -45,7 +44,6 @@ namespace DslModelToCSharp
             }
 
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
-            targetClass.Members.Add(emptyConstructor);
             targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);

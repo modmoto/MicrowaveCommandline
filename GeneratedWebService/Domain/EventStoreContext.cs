@@ -1,4 +1,5 @@
-﻿using Domain.Posts;
+﻿using Domain;
+using Domain.Posts;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace GenericWebservice.Domain
         public DbSet<UserUpdateNameEvent> UserUpdateNameEvents { get; set; }
         public DbSet<CreateUserEvent> CreateUserEvents { get; set; }
         public DbSet<CreatePostEvent> CreatePostEvents { get; set; }
+        public DbSet<DomainEventBase> EventHistory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -16,26 +16,12 @@ namespace Domain.Users
     public class UserUpdateAgeEvent : DomainEventBase
     {
         
-        private Guid _UserId;
-        
         private Int32 _Age;
         
-        private UserUpdateAgeEvent()
+        public UserUpdateAgeEvent(Int32 Age, Guid EntityId) : 
+                base(EntityId)
         {
-        }
-        
-        public UserUpdateAgeEvent(Guid UserId, Int32 Age)
-        {
-            this._UserId = UserId;
             this._Age = Age;
-        }
-        
-        public Guid UserId
-        {
-            get
-            {
-                return this._UserId;
-            }
         }
         
         public Int32 Age

@@ -10,6 +10,6 @@ namespace DslModel
         }
 
         public string Name { get; set; }
-        public IList<Property> Properties { get; set; }
+        public IList<Property> Properties { get; }
     }
 }
