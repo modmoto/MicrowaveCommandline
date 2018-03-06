@@ -7,7 +7,7 @@ namespace DslModel
         public DomainClass()
         {
             Methods = new List<DomainMethod>();
-            Propteries = new List<Property>();
+            Properties = new List<Property>();
             CreateMethods = new List<CreateMethod>();
             Events = new List<DomainEvent>();
         }
@@ -16,6 +16,6 @@ namespace DslModel
         public IList<DomainEvent> Events { get; }
         public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
-        public IList<Property> Propteries { get; }
+        public IList<Property> Properties { get; }
     }
 }

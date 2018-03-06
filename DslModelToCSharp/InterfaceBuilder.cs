@@ -3,9 +3,9 @@ using DslModel;
 
 namespace DslModelToCSharp
 {
-    public class InterfaceParser : IInterfaceParser
+    public class InterfaceBuilder : IInterfaceBuilder
     {
-        public CodeTypeDeclaration Parse(DomainClass userClass)
+        public CodeTypeDeclaration Build(DomainClass userClass)
         {
             var iface = new CodeTypeDeclaration($"I{userClass.Name}") {IsInterface = true};
 
@@ -27,8 +27,8 @@ namespace DslModelToCSharp
         }
     }
 
-    public interface IInterfaceParser
+    public interface IInterfaceBuilder
     {
-        CodeTypeDeclaration Parse(DomainClass userClass);
+        CodeTypeDeclaration Build(DomainClass userClass);
     }
 }

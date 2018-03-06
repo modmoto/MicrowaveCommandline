@@ -27,7 +27,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual(1, domainTree.Classes.Count);
             Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
             Assert.AreEqual(0, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
+            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Properties.Count);
         }
 
         [TestMethod]
@@ -51,9 +51,9 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual(1, domainTree.Classes.Count);
             Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
             Assert.AreEqual(0, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Propteries.Count);
-            Assert.AreEqual("VorName", domainTree.Classes.ToList()[0].Propteries.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Propteries.ToList()[0].Type);
+            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Properties.Count);
+            Assert.AreEqual("VorName", domainTree.Classes.ToList()[0].Properties.ToList()[0].Name);
+            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Properties.ToList()[0].Type);
         }
 
         [TestMethod]
@@ -77,7 +77,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes[0].Propteries.Count);
+            Assert.AreEqual(0, domainTree.Classes[0].Properties.Count);
             Assert.AreEqual("Disable", domainTree.Classes[0].Methods[0].Name);
             Assert.AreEqual("ValidationResult", domainTree.Classes[0].Methods[0].ReturnType);
 
@@ -109,7 +109,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes[0].Propteries.Count);
+            Assert.AreEqual(0, domainTree.Classes[0].Properties.Count);
             Assert.AreEqual("UpdateStuff", domainTree.Classes[0].Methods[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Methods[0].Parameters.Count);
             Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods[0].Parameters[0].Name);

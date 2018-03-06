@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Reflection;
 using DslModel;
 
@@ -7,20 +8,23 @@ namespace DslModelToCSharp
     public class DomainClassWriter
     {
         private readonly IClassParser _classParser;
+        private readonly IConstBuilder _constBuilder;
+        private readonly string _domain;
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly IFileWriter _fileWriter;
-        private readonly string _domain;
-        private readonly IInterfaceParser _interfaceParser;
-        private readonly IPropertyParser _propertyParser;
+        private readonly IInterfaceBuilder _interfaceBuilder;
+        private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainClassWriter(IInterfaceParser interfaceParser, IPropertyParser propertyParser,
-            IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter, string domainNameSpace = "Domain")
+        public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
+            IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
+            IConstBuilder constBuilder, string domainNameSpace = "Domain")
         {
-            _interfaceParser = interfaceParser;
-            _propertyParser = propertyParser;
+            _interfaceBuilder = interfaceBuilder;
+            _propertyBuilder = propertyBuilder;
             _classParser = classParser;
             _domainEventWriter = domainEventWriter;
             _fileWriter = fileWriter;
+            _constBuilder = constBuilder;
             _domain = domainNameSpace;
         }
 
@@ -29,39 +33,29 @@ namespace DslModelToCSharp
             var nameSpaceName = $"{_domain}.{userClass.Name}s";
             var nameSpace = new CodeNamespace(nameSpaceName);
 
-            var iface = _interfaceParser.Parse(userClass);
+            var iface = _interfaceBuilder.Build(userClass);
             nameSpace.Types.Add(iface);
 
-            var targetClass = _classParser.Parse(userClass);
+            var targetClass = _classParser.Build(userClass);
             targetClass.BaseTypes.Add(iface.Name);
 
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            var constructor = new CodeConstructor();
-            var emptyConstructor = new CodeConstructor();
+            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+            var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
 
-            foreach (var proptery in userClass.Propteries)
+            foreach (var proptery in userClass.Properties)
             {
-                var property = _propertyParser.Parse(proptery);
+                var property = _propertyBuilder.Build(proptery);
                 targetClass.Members.Add(property.Field);
                 targetClass.Members.Add(property.Property);
-                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
-                CodeAssignStatement body = new CodeAssignStatement
-                {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
-                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
-                };
-                constructor.Statements.Add(body);
             }
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(emptyConstructor);
 
-            foreach (var domainEvent in userClass.Events)
-            {
-                _domainEventWriter.Write(domainEvent, nameSpaceName);
-            }
+            foreach (var domainEvent in userClass.Events) _domainEventWriter.Write(domainEvent, nameSpaceName);
 
             _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace);
         }
@@ -79,20 +73,14 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
 
-            var constructor = new CodeConstructor();
+
+            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
             foreach (var proptery in userClass.Properties)
             {
-                var property = _propertyParser.Parse(proptery);
+                var property = _propertyBuilder.Build(proptery);
                 targetClass.Members.Add(property.Field);
                 targetClass.Members.Add(property.Property);
-                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
-                CodeAssignStatement body = new CodeAssignStatement
-                {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
-                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
-                };
-                constructor.Statements.Add(body);
             }
 
             targetClass.Members.Add(constructor);
@@ -111,8 +99,7 @@ namespace DslModelToCSharp
 
             nameSpace.Types.Add(targetClass);
 
-            var constructor = new CodeConstructor();
-            constructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
+            var constructor = _constBuilder.BuildPublic(new List<Property>());
             targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);

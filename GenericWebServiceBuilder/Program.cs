@@ -11,8 +11,10 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
-            IDomainEventWriter domainEventWriter = new DomainEventWriter(new PropertyParser(), new FileWriter(),  new ClassParser());
-            var classWriter = new DomainClassWriter(new InterfaceParser(), new PropertyParser(), new ClassParser(), domainEventWriter, new FileWriter());
+            IDomainEventWriter domainEventWriter =
+                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
+            var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
+                domainEventWriter, new FileWriter(), new ConstBuilder());
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 

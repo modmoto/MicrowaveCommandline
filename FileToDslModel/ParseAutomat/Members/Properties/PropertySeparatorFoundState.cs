@@ -23,7 +23,7 @@ namespace FileToDslModel.ParseAutomat.Members.Properties
         private ParseState PropertyTypeDefFound(DslToken token)
         {
             Parser.CurrentProperty.Type = token.Value;
-            Parser.CurrentClass.Propteries.Add(Parser.CurrentProperty);
+            Parser.CurrentClass.Properties.Add(Parser.CurrentProperty);
             return new DomainClassOpenedState(Parser);
         }
     }

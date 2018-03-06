@@ -4,9 +4,9 @@ using DslModel;
 
 namespace DslModelToCSharp
 {
-    public class ClassParser : IClassParser
+    public class ClassBuilder : IClassParser
     {
-        public CodeTypeDeclaration Parse(DomainClass userClass)
+        public CodeTypeDeclaration Build(DomainClass userClass)
         {
             var targetClass = new CodeTypeDeclaration(userClass.Name);
             targetClass.IsClass = true;
@@ -15,7 +15,7 @@ namespace DslModelToCSharp
             return targetClass;
         }
 
-        public CodeTypeDeclaration Parse(DomainEvent domainEvent)
+        public CodeTypeDeclaration Build(DomainEvent domainEvent)
         {
             var targetClass = new CodeTypeDeclaration(domainEvent.Name);
             targetClass.IsClass = true;
@@ -26,7 +26,7 @@ namespace DslModelToCSharp
 
     public interface IClassParser
     {
-        CodeTypeDeclaration Parse(DomainClass userClass);
-        CodeTypeDeclaration Parse(DomainEvent domainEvent);
+        CodeTypeDeclaration Build(DomainClass userClass);
+        CodeTypeDeclaration Build(DomainEvent domainEvent);
     }
 }

@@ -3,9 +3,9 @@ using DslModel;
 
 namespace DslModelToCSharp
 {
-    public class PropertyParser : IPropertyParser
+    public class PropBuilder : IPropertyBuilder
     {
-        public AutoProperty Parse(Property property)
+        public AutoProperty Build(Property property)
         {
             var field = new CodeMemberField
             {
@@ -29,8 +29,8 @@ namespace DslModelToCSharp
         }
     }
 
-    public interface IPropertyParser
+    public interface IPropertyBuilder
     {
-        AutoProperty Parse(Property property);
+        AutoProperty Build(Property property);
     }
 }

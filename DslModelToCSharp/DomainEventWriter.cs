@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using DslModel;
 
 namespace DslModelToCSharp
@@ -11,46 +12,42 @@ namespace DslModelToCSharp
     public class DomainEventWriter : IDomainEventWriter
     {
         private readonly IClassParser _classParser;
+        private readonly IConstBuilder _constBuilder;
         private readonly IFileWriter _fileWriter;
-        private readonly IPropertyParser _propertyParser;
+        private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainEventWriter(IPropertyParser propertyParser, IFileWriter fileWriter, IClassParser classParser)
+        public DomainEventWriter(IPropertyBuilder propertyBuilder, IFileWriter fileWriter, IClassParser classParser,
+            IConstBuilder constBuilder)
         {
-            _propertyParser = propertyParser;
+            _propertyBuilder = propertyBuilder;
             _fileWriter = fileWriter;
             _classParser = classParser;
+            _constBuilder = constBuilder;
         }
 
         public void Write(DomainEvent domainEvent, string nameSpaceName)
         {
             var nameSpace = new CodeNamespace(nameSpaceName);
 
-            var targetClass = _classParser.Parse(domainEvent);
+            var targetClass = _classParser.Build(domainEvent);
 
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            var constructor = new CodeConstructor();
-            constructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
-            var emptyConstructor = new CodeConstructor();
+            var constructor = _constBuilder.BuildPublic(domainEvent.Properties);
+            var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
 
             foreach (var proptery in domainEvent.Properties)
             {
-                var autoProperty = _propertyParser.Parse(proptery);
+                var autoProperty = _propertyBuilder.Build(proptery);
                 targetClass.Members.Add(autoProperty.Field);
                 targetClass.Members.Add(autoProperty.Property);
-                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
-                var body = new CodeAssignStatement
-                {
-                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
-                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
-                };
-                constructor.Statements.Add(body);
             }
 
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
             targetClass.Members.Add(emptyConstructor);
             targetClass.Members.Add(constructor);
+
             _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);
         }
     }

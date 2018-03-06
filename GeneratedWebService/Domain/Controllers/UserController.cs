@@ -49,16 +49,17 @@ namespace GeneratedWebService.Controllers
         {
             using (var store = new AggregateStoreContext())
             {
-                var createUserEvent = User.Create(createUserCommand.Name, createUserCommand.Age);
-                if (createUserEvent != null)
-                {
-                    store.Users.Add(createUserEvent.User);
-                    return ValidationResult.OkResult(null);
-                }
-                else
-                {
-                    return ValidationResult.ErrorResult(null);
-                }
+//                var createUserEvent = User.Create(createUserCommand.Name, createUserCommand.Age);
+//                if (createUserEvent != null)
+//                {
+//                    store.Users.Add(createUserEvent.User);
+//                    return ValidationResult.OkResult(null);
+//                }
+//                else
+//                {
+//                    return ValidationResult.ErrorResult(null);
+//                }
+                return null;
             }
         }
     }
