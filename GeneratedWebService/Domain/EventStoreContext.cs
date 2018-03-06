@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Domain.Posts;
+using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace GenericWebservice.Domain

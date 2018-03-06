@@ -76,13 +76,13 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
-            Assert.AreEqual("Disable", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
-            Assert.AreEqual("UserDisableEvent", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual(0, domainTree.Classes[0].Propteries.Count);
+            Assert.AreEqual("Disable", domainTree.Classes[0].Methods[0].Name);
+            Assert.AreEqual("UserDisableEvent", domainTree.Classes[0].Methods[0].ReturnType);
 
-            Assert.AreEqual("UserDisableEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(0, domainTree.Events.ToList()[0].Properties.Count);
+            Assert.AreEqual("UserDisableEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
         }
 
         [TestMethod]
@@ -108,16 +108,16 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Propteries.Count);
-            Assert.AreEqual("UpdateStuff", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.Count);
-            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Type);
-            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual(0, domainTree.Classes[0].Propteries.Count);
+            Assert.AreEqual("UpdateStuff", domainTree.Classes[0].Methods[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].Methods[0].Parameters.Count);
+            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods[0].Parameters[0].Name);
+            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Methods[0].Parameters[0].Type);
+            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Methods[0].ReturnType);
 
-            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(0, domainTree.Events.ToList()[0].Properties.Count);
+            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
         }
 
         [TestMethod]
@@ -156,8 +156,8 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[1].Type);
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(0, domainTree.Events.ToList()[0].Properties.Count);
+            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
         }
 
         [TestMethod]
@@ -187,10 +187,10 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("UpdateStuff", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Events.ToList()[0].Properties.Count);
-            Assert.AreEqual("UserId", domainTree.Events.ToList()[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("Guid", domainTree.Events.ToList()[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
+            Assert.AreEqual("UserId", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
+            Assert.AreEqual("Guid", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
         }
 
         [TestMethod]
@@ -214,10 +214,10 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("Create", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Name);
             Assert.AreEqual("CreateUserEvent", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Events.ToList()[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
         }
 
         [TestMethod]
@@ -247,10 +247,10 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("String", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Type);
             Assert.AreEqual("CreateUserEvent", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Events.ToList()[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
         }
 
         [TestMethod]
@@ -286,10 +286,10 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[1].Type);
             Assert.AreEqual("CreateUserEvent", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Events.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Events.ToList()[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Events.ToList()[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
         }
     }
 }

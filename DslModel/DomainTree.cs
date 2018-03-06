@@ -4,13 +4,11 @@ namespace DslModel
 {
     public class DomainTree
     {
-        public DomainTree(IList<DomainClass> classes, IList<DomainEvent> events)
+        public DomainTree(IList<DomainClass> classes)
         {
             Classes = classes;
-            Events = events;
         }
 
         public IList<DomainClass> Classes { get; }
-        public IList<DomainEvent> Events { get; }
     }
 }

@@ -22,9 +22,9 @@ namespace DslModelToCSharp
             _domain = domainNameSpace;
         }
 
-        public void Write(DomainEvent domainEvent)
+        public void Write(DomainEvent domainEvent, string nameSpaceName)
         {
-            var nameSpace = new CodeNamespace(_domain);
+            var nameSpace = new CodeNamespace(nameSpaceName);
 
             var targetClass = _classParser.Parse(domainEvent);
 
@@ -70,7 +70,8 @@ namespace DslModelToCSharp
 
         public void Write(DomainClass userClass)
         {
-            var nameSpace = new CodeNamespace(_domain);
+            var nameSpaceName = $"{_domain}.{userClass.Name}s";
+            var nameSpace = new CodeNamespace(nameSpaceName);
 
             var iface = _interfaceParser.Parse(userClass);
             nameSpace.Types.Add(iface);
@@ -100,6 +101,12 @@ namespace DslModelToCSharp
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(emptyConstructor);
+
+            foreach (var domainEvent in userClass.Events)
+            {
+                Write(domainEvent, nameSpaceName);
+            }
+
             WriteToFile(userClass.Name, nameSpace);
         }
     }

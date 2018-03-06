@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain;
+using Domain.Users;
 using GenericWebServiceBuilder.Domain;
 using Microsoft.AspNetCore.Mvc;
 

@@ -7,14 +7,16 @@ namespace DslModel
     {
         public DomainClass()
         {
-            Methods = new Collection<DomainMethod>();
-            Propteries = new Collection<Property>();
-            CreateMethods = new Collection<CreateMethod>();
+            Methods = new List<DomainMethod>();
+            Propteries = new List<Property>();
+            CreateMethods = new List<CreateMethod>();
+            Events = new List<DomainEvent>();
         }
 
-        public ICollection<DomainMethod> Methods { get; set; }
-        public ICollection<CreateMethod> CreateMethods { get; set; }
+        public IList<DomainMethod> Methods { get; }
+        public IList<DomainEvent> Events { get; }
+        public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
-        public ICollection<Property> Propteries { get; set; }
+        public IList<Property> Propteries { get; }
     }
 }

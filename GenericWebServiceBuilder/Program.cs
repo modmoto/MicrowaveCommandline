@@ -23,9 +23,6 @@ namespace GenericWebServiceBuilder
 
                 foreach (var domainClass in domainTree.Classes)
                     classWriter.Write(domainClass);
-
-                foreach (var domainEvent in domainTree.Events)
-                    classWriter.Write(domainEvent);
             }
         }
     }

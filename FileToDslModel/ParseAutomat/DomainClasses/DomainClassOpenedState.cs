@@ -90,7 +90,7 @@ namespace FileToDslModel.ParseAutomat.DomainClasses
         private ParseState CreateMethodParamsFinished()
         {
             Parser.CurrentClass.CreateMethods.Add(Parser.CurrentCreateMethod);
-            Parser.Events.Add(Parser.CurrentEvent);
+            Parser.CurrentClass.Events.Add(Parser.CurrentEvent);
             return new DomainClassOpenedState(Parser);
         }
 
@@ -176,7 +176,7 @@ namespace FileToDslModel.ParseAutomat.DomainClasses
         private ParseState CreateMethodParamsFinished()
         {
             Parser.CurrentClass.CreateMethods.Add(Parser.CurrentCreateMethod);
-            Parser.Events.Add(Parser.CurrentEvent);
+            Parser.CurrentClass.Events.Add(Parser.CurrentEvent);
             return new DomainClassOpenedState(Parser);
         }
         

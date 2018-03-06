@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Domain;
+using Domain.Users;
 
 namespace GenericWebservice.Domain
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
+using Domain.Users;
 
 namespace GenericWebServiceBuilder.Domain
 {

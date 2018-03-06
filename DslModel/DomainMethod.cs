@@ -7,11 +7,11 @@ namespace DslModel
     {
         public DomainMethod()
         {
-            Parameters = new Collection<Parameter>();
+            Parameters = new List<Parameter>();
         }
 
         public string Name { get; set; }
         public string ReturnType { get; set; }
-        public ICollection<Parameter> Parameters { get; }
+        public IList<Parameter> Parameters { get; }
     }
 }

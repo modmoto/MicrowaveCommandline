@@ -32,7 +32,7 @@ namespace FileToDslModel.ParseAutomat.Members.Methods.Events
         private ParseState EventDefinitionEndFound()
         {
             Parser.CurrentClass.Methods.Add(Parser.CurrentMethod);
-            Parser.Events.Add(Parser.CurrentEvent);
+            Parser.CurrentClass.Events.Add(Parser.CurrentEvent);
             return new DomainClassOpenedState(Parser);
         }
     }

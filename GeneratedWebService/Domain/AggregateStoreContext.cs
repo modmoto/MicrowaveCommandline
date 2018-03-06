@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Domain;
+using Domain.Users;
 
 namespace GenericWebServiceBuilder.Domain
 {
