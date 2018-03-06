@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
 {
-    public interface IUserRepository
+    public interface IUserCommandHandler
     {
         IActionResult CreateUser(CreateUserCommand createUserCommand);
         IActionResult UpdateUserName(UpdateUserNameCommand updateUserNameCommand);

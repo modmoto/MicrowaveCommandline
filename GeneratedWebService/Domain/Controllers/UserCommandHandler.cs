@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
 {
-    public class UserRepository : IUserRepository
+    public class UserCommandHandler : IUserCommandHandler
     {
         private readonly IEventStore _eventStore;
 
-        public UserRepository(IEventStore eventStore)
+        public UserCommandHandler(IEventStore eventStore)
         {
             _eventStore = eventStore;
         }

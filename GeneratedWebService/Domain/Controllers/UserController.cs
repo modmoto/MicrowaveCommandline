@@ -8,30 +8,30 @@ namespace GeneratedWebService.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserCommandHandler _commandHandler;
 
-        protected UserController(IUserRepository repository)
+        protected UserController(IUserCommandHandler commandHandler)
         {
-            _repository = repository;
+            _commandHandler = commandHandler;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
-            return _repository.GetUser(id);
+            return _commandHandler.GetUser(id);
         }
 
         [HttpPost]
         public IActionResult CreateUser([FromBody] CreateUserCommand createUserCommand)
         {
-            return _repository.CreateUser(createUserCommand);
+            return _commandHandler.CreateUser(createUserCommand);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateUserName(Guid id, [FromBody] string name)
         {
             var updateUserNameCommand = new UpdateUserNameCommand(id, name);
-            return _repository.UpdateUserName(updateUserNameCommand);
+            return _commandHandler.UpdateUserName(updateUserNameCommand);
         }
     }
 }
