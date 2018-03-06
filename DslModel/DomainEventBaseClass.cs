@@ -1,7 +1,7 @@
-﻿namespace DslModelToCSharp
+﻿namespace DslModel
 {
     public class DomainEventBaseClass
     {
-        public static string Name => "IDomainEvent";
+        public string Name => "DomainEventBase";
     }
 }

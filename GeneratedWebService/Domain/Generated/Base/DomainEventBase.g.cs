@@ -8,31 +8,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Posts
+namespace Domain
 {
-    using System;
     
     
-    public class CreatePostEvent : DomainEventBase
+    public class DomainEventBase
     {
         
-        private Post _Post;
-        
-        private CreatePostEvent()
+        public DomainEventBase()
         {
-        }
-        
-        public CreatePostEvent(Post Post)
-        {
-            this._Post = Post;
-        }
-        
-        public Post Post
-        {
-            get
-            {
-                return this._Post;
-            }
         }
     }
 }

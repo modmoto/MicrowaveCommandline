@@ -13,7 +13,7 @@ namespace Domain.Users
     using System;
     
     
-    public class UserUpdateNameEvent : IDomainEvent
+    public class UserUpdateNameEvent : DomainEventBase
     {
         
         private Guid _UserId;

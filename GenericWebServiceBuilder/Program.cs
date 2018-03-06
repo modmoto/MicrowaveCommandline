@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using DslModel;
 using DslModelToCSharp;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -24,6 +25,9 @@ namespace GenericWebServiceBuilder
 
                 foreach (var domainClass in domainTree.Classes)
                     classWriter.Write(domainClass);
+
+                classWriter.Write(new ValidationResultBaseClass());
+                classWriter.Write(new DomainEventBaseClass());
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Reflection;
 using DslModel;
 
 namespace DslModelToCSharp
@@ -63,6 +64,58 @@ namespace DslModelToCSharp
             }
 
             _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace);
+        }
+
+        public void Write(ValidationResultBaseClass userClass)
+        {
+            var nameSpaceName = $"{_domain}";
+            var nameSpace = new CodeNamespace(nameSpaceName);
+
+            var targetClass = new CodeTypeDeclaration(userClass.Name);
+            targetClass.IsClass = true;
+            targetClass.TypeAttributes = TypeAttributes.Public;
+
+            nameSpace.Types.Add(targetClass);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+
+            var constructor = new CodeConstructor();
+
+            foreach (var proptery in userClass.Properties)
+            {
+                var property = _propertyParser.Parse(proptery);
+                targetClass.Members.Add(property.Field);
+                targetClass.Members.Add(property.Property);
+                constructor.Parameters.Add(new CodeParameterDeclarationExpression(proptery.Type, proptery.Name));
+                CodeAssignStatement body = new CodeAssignStatement
+                {
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), $"_{proptery.Name}"),
+                    Right = new CodeFieldReferenceExpression(null, proptery.Name)
+                };
+                constructor.Statements.Add(body);
+            }
+
+            targetClass.Members.Add(constructor);
+
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
+        }
+
+        public void Write(DomainEventBaseClass userClass)
+        {
+            var nameSpaceName = $"{_domain}";
+            var nameSpace = new CodeNamespace(nameSpaceName);
+
+            var targetClass = new CodeTypeDeclaration(userClass.Name);
+            targetClass.IsClass = true;
+            targetClass.TypeAttributes = TypeAttributes.Public;
+
+            nameSpace.Types.Add(targetClass);
+
+            var constructor = new CodeConstructor();
+            constructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
+            targetClass.Members.Add(constructor);
+
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
     }
 }

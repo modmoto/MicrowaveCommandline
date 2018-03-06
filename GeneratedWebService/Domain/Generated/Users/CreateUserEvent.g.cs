@@ -13,7 +13,7 @@ namespace Domain.Users
     using System;
     
     
-    public class CreateUserEvent : IDomainEvent
+    public class CreateUserEvent : DomainEventBase
     {
         
         private User _User;
