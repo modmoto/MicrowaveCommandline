@@ -15,6 +15,7 @@ namespace GenericWebServiceBuilder
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
+            // test checkin from vs on vm
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
