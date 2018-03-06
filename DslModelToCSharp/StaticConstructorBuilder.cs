@@ -31,7 +31,7 @@ namespace DslModelToCSharp
         {
             var method = new CodeMemberMethod
             {
-                Name = "OkResult",
+                Name = "ErrorResult",
                 ReturnType = new CodeTypeReference(new ValidationResultBaseClass().Name)
             };
 
