@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
