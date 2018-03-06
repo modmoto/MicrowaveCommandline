@@ -13,13 +13,13 @@ namespace FileToDslModel.ParseAutomat.Members.Methods
             switch (token.TokenType)
             {
                 case TokenType.TypeDefSeparator:
-                    return MethodParamTypeDefSeparatorFound(token);
+                    return MethodParamTypeDefSeparatorFound();
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState MethodParamTypeDefSeparatorFound(DslToken token)
+        private ParseState MethodParamTypeDefSeparatorFound()
         {
             return new MethodParamTypeDefSeparatorFoundState(Parser);
         }

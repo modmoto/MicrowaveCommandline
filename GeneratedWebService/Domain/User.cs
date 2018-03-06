@@ -9,14 +9,15 @@ namespace Domain.Users
             var newGuid = Guid.NewGuid();
             return new CreateUserEvent(new User(newGuid, name, age));
         }
-        public UserUpdateAgeEvent UpdateAge(int Age)
+
+        public ValidationResult UpdateAge(int Age)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public UserUpdateNameEvent UpdateName(string Name)
+        public ValidationResult UpdateName(string Name)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

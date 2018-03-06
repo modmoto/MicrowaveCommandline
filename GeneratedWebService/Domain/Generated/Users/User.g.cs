@@ -16,9 +16,9 @@ namespace Domain.Users
     public interface IUser
     {
         
-        UserUpdateAgeEvent UpdateAge(Int32 Age);
+        ValidationResult UpdateAge(Int32 Age);
         
-        UserUpdateNameEvent UpdateName(String Name);
+        ValidationResult UpdateName(String Name);
     }
     
     public partial class User : IUser

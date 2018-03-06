@@ -48,7 +48,7 @@ namespace DslModelToCSharp
                 constructor.Statements.Add(body);
             }
 
-            targetClass.BaseTypes.Add(new CodeTypeReference("IDomainEvent"));
+            targetClass.BaseTypes.Add(new CodeTypeReference(DomainEventBaseClass.Name));
             targetClass.Members.Add(emptyConstructor);
             targetClass.Members.Add(constructor);
             _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);

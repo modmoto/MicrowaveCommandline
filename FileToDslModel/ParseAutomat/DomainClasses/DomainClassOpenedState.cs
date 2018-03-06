@@ -35,13 +35,14 @@ namespace FileToDslModel.ParseAutomat.DomainClasses
         {
             Parser.CurrentEvent = new DomainEvent {Name = $"Create{Parser.CurrentClass.Name}Event"};
             Parser.CurrentEvent.Properties.Add(new Property {Name = Parser.CurrentClass.Name, Type = Parser.CurrentClass.Name });
-            Parser.CurrentCreateMethod = new CreateMethod {ReturnType = Parser.CurrentEvent.Name};
+            Parser.CurrentCreateMethod = new CreateMethod {ReturnType = ValidationResultBaseClass.Name };
             return new CreateMethodFoundState(Parser);
         }
 
         private ParseState PropertyStarted(DslToken token)
         {
             Parser.CurrentMemberName = token.Value;
+            Parser.CurrentEvent = new DomainEvent { Name = $"{Parser.CurrentClass.Name}{token.Value}Event" };
             return new MemberNameFoundState(Parser);
         }
     }

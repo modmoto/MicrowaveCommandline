@@ -29,7 +29,7 @@ namespace FileToDslModel.ParseAutomat.Members
             Parser.CurrentMethod = new DomainMethod
             {
                 Name = Parser.CurrentMemberName,
-                ReturnType = $"{Parser.CurrentClass.Name}{Parser.CurrentMemberName}Event"
+                ReturnType = ValidationResultBaseClass.Name
             };
             return new MethodParamOpenState(Parser);
         }

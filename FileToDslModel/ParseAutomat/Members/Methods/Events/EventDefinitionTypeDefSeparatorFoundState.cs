@@ -1,5 +1,4 @@
-﻿using DslModel;
-using FileToDslModel.Lexer;
+﻿using FileToDslModel.Lexer;
 
 namespace FileToDslModel.ParseAutomat.Members.Methods.Events
 {
@@ -22,7 +21,6 @@ namespace FileToDslModel.ParseAutomat.Members.Methods.Events
 
         private ParseState EventDefinitionFound()
         {
-            Parser.CurrentEvent = new DomainEvent { Name = Parser.CurrentMethod.ReturnType };
             return new EventDefinitionFoundState(Parser);
         }
     }
