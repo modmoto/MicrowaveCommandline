@@ -19,11 +19,11 @@ namespace Domain
         
         private Boolean _Ok;
         
-        private IList<DomainEventBase> _DomainEvents;
+        private List<DomainEventBase> _DomainEvents;
         
-        private IList<string> _DomainErrors;
+        private List<string> _DomainErrors;
         
-        private ValidationResult(Boolean Ok, IList<DomainEventBase> DomainEvents, IList<string> DomainErrors)
+        private ValidationResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> DomainErrors)
         {
             this._Ok = Ok;
             this._DomainEvents = DomainEvents;
@@ -38,7 +38,7 @@ namespace Domain
             }
         }
         
-        public IList<DomainEventBase> DomainEvents
+        public List<DomainEventBase> DomainEvents
         {
             get
             {
@@ -46,12 +46,22 @@ namespace Domain
             }
         }
         
-        public IList<string> DomainErrors
+        public List<string> DomainErrors
         {
             get
             {
                 return this._DomainErrors;
             }
+        }
+        
+        public static ValidationResult OkResult(List<DomainEventBase> DomainEvents)
+        {
+            return new ValidationResult(true, DomainEvents, new List<string>());
+        }
+        
+        public static ValidationResult OkResult(List<string> DomainErrors)
+        {
+            return new ValidationResult(false, new List<DomainEventBase>(), DomainErrors);
         }
     }
 }

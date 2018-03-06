@@ -9,8 +9,8 @@ namespace DslModel
         public IList<Property> Properties => new List<Property>
         {
             new Property {Name = "Ok", Type = "Boolean" },
-            new Property {Name = "DomainEvents", Type = $"IList<{new DomainEventBaseClass().Name}>"},
-            new Property {Name = "DomainErrors", Type = "IList<string>"}
+            new Property {Name = "DomainEvents", Type = $"List<{new DomainEventBaseClass().Name}>"},
+            new Property {Name = "DomainErrors", Type = "List<string>"}
         };
     }
 }

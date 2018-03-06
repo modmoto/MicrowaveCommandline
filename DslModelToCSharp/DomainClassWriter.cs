@@ -9,6 +9,7 @@ namespace DslModelToCSharp
     {
         private readonly IClassParser _classParser;
         private readonly IConstBuilder _constBuilder;
+        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private readonly string _domain;
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly IFileWriter _fileWriter;
@@ -17,7 +18,7 @@ namespace DslModelToCSharp
 
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
             IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
-            IConstBuilder constBuilder, string domainNameSpace = "Domain")
+            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder, string domainNameSpace = "Domain")
         {
             _interfaceBuilder = interfaceBuilder;
             _propertyBuilder = propertyBuilder;
@@ -25,6 +26,7 @@ namespace DslModelToCSharp
             _domainEventWriter = domainEventWriter;
             _fileWriter = fileWriter;
             _constBuilder = constBuilder;
+            _staticConstructorBuilder = staticConstructorBuilder;
             _domain = domainNameSpace;
         }
 
@@ -83,7 +85,12 @@ namespace DslModelToCSharp
                 targetClass.Members.Add(property.Property);
             }
 
+            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties);
+            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(userClass.Properties);
+
             targetClass.Members.Add(constructor);
+            targetClass.Members.Add(buildOkResultConstructor);
+            targetClass.Members.Add(errorResultConstructor);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
