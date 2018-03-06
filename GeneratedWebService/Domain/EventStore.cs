@@ -1,30 +1,25 @@
-﻿using System.Threading.Tasks;
-using Domain.Users;
+﻿using System;
+using System.Collections.Generic;
+using Domain;
 
 namespace GenericWebservice.Domain
 {
-    public class EventStore
+    public interface IEventStore
     {
-        public async Task AddAggregate<T>(T aggregate)
-        {
-            using (var aggregateStore = new EventStoreContext())
-            {
-                var user = aggregate as CreateUserEvent;
-                if (user != null) aggregateStore.CreateUserEvents.Add(user);
+        T Load<T>(Guid id);
+        void AppendAll(List<DomainEventBase> domainEvents);
+    }
 
-                await aggregateStore.SaveChangesAsync();
-            }
+    public class EventStore : IEventStore
+    {
+        public T Load<T>(Guid id)
+        {
+            throw new System.NotImplementedException();
         }
 
-        public async Task UpdateAggregate<T>(T aggregate)
+        public void AppendAll(List<DomainEventBase> domainEvents)
         {
-            using (var aggregateStore = new EventStoreContext())
-            {
-                var user = aggregate as UserUpdateAgeEvent;
-                if (user != null) aggregateStore.UserUpdateAgeEvents.Update(user);
-
-                await aggregateStore.SaveChangesAsync();
-            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Domain.Users;
-using GenericWebServiceBuilder.Domain;
+using GenericWebservice.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
@@ -45,56 +44,49 @@ namespace GeneratedWebService.Controllers
 
     public class UserRepo
     {
+        private readonly IEventStore _eventStore;
+
+        public UserRepo(IEventStore eventStore)
+        {
+            _eventStore = eventStore;
+        }
+
         public IActionResult CreateUser(CreateUserCommand createUserCommand)
         {
-            using (var store = new AggregateStoreContext())
+            var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
+            if (createUserResult.Ok)
             {
-                var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
-                if (createUserResult.Ok)
-                {
-                    var domainEventBases = createUserResult.DomainEvents.Select(ev => (CreateUserEvent) ev);
-                    var usersCreated = domainEventBases.Select(ev => ev.User);
-                    store.Users.AddRange(usersCreated);
-                    return new CreatedResult("uri", usersCreated);
-                }
-
-                return new BadRequestResult();
+                _eventStore.AppendAll(createUserResult.DomainEvents);
+                return new CreatedResult("uri", null);
             }
+
+            return new BadRequestObjectResult(createUserResult.DomainErrors);
         }
 
         public IActionResult UpdateUser(UpdateUserNameCommand updateUserNameCommand)
         {
-            using (var store = new AggregateStoreContext())
+            var user = _eventStore.Load<User>(updateUserNameCommand.Id);
+            if (user != null)
             {
-                var users = store.Users.Where(user => user.Id == updateUserNameCommand.Id);
-                if (users.Count() == 1)
+                var validationResult = user.UpdateName(updateUserNameCommand.Name);
+                if (validationResult.Ok)
                 {
-                    var user = users.First();
-                    var validationResult = user.UpdateName(updateUserNameCommand.Name);
-                    if (validationResult.Ok)
-                    {
-                        return new OkResult();
-                    }
-                    return new BadRequestResult();
+                    _eventStore.AppendAll(validationResult.DomainEvents);
+                    return new OkResult();
                 }
 
-                return new NotFoundResult();
+                return new BadRequestObjectResult(validationResult.DomainErrors);
             }
+
+            return new NotFoundResult();
         }
 
         public IActionResult GetUser(Guid id)
         {
-            using (var store = new AggregateStoreContext())
-            {
-                var users = store.Users.Where(user => user.Id == id);
-                if (users.Count() == 1)
-                {
-                    var user = users.First();
-                    return new JsonResult(user);
-                }
+            var user = _eventStore.Load<User>(id);
+            if (user != null) return new JsonResult(user);
 
-                return new NotFoundResult();
-            }
+            return new NotFoundResult();
         }
     }
 
