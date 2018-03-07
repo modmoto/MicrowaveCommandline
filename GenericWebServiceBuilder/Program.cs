@@ -30,6 +30,7 @@ namespace GenericWebServiceBuilder
 
                 classWriter.Write(new ValidationResultBaseClass());
                 classWriter.Write(new DomainEventBaseClass());
+                classWriter.Write(new CreationResultBaseClass());
             }
         }
     }

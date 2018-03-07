@@ -14,7 +14,8 @@ namespace Domain
     using System.Collections.Generic;
     
     
-    public class ValidationResult
+    public class CreationResult<T>
+        where T :  class
     {
         
         private Boolean _Ok;
@@ -23,11 +24,14 @@ namespace Domain
         
         private List<string> _DomainErrors;
         
-        private ValidationResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> DomainErrors)
+        private T _CreatedEntity;
+        
+        private CreationResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> DomainErrors, T CreatedEntity)
         {
             this._Ok = Ok;
             this._DomainEvents = DomainEvents;
             this._DomainErrors = DomainErrors;
+            this._CreatedEntity = CreatedEntity;
         }
         
         public Boolean Ok
@@ -54,14 +58,22 @@ namespace Domain
             }
         }
         
-        public static ValidationResult OkResult(List<DomainEventBase> DomainEvents, List<string> DomainErrors)
+        public T CreatedEntity
         {
-            return new ValidationResult(false, DomainEvents, new List<string>());
+            get
+            {
+                return this._CreatedEntity;
+            }
         }
         
-        public static ValidationResult ErrorResult(List<DomainEventBase> DomainEvents, List<string> DomainErrors)
+        public static CreationResult<T> OkResult(List<DomainEventBase> DomainEvents, T CreatedEntity)
         {
-            return new ValidationResult(false, new List<DomainEventBase>(), DomainErrors);
+            return new CreationResult<T>(false, DomainEvents, new List<string>(), CreatedEntity);
+        }
+        
+        public static CreationResult<T> ErrorResult(List<string> DomainErrors)
+        {
+            return new CreationResult<T>(false, new List<DomainEventBase>(), DomainErrors, null);
         }
     }
 }

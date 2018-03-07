@@ -21,8 +21,7 @@ namespace Domain.Users
             if (age > 0)
             {
                 var user = new User(newGuid, name, age);
-                return CreationResult<User>.OkResult(user,
-                    new List<DomainEventBase> {new CreateUserEvent(user, newGuid)});
+                return CreationResult<User>.OkResult(new List<DomainEventBase> {new CreateUserEvent(user, newGuid)}, user);
             }
 
             return CreationResult<User>.ErrorResult(new List<string> {"Age Can not be negative"});

@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using DslModel;
 
@@ -9,16 +10,17 @@ namespace DslModelToCSharp
     {
         private readonly IClassParser _classParser;
         private readonly IConstBuilder _constBuilder;
-        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private readonly string _domain;
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
+        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
             IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
-            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder, string domainNameSpace = "Domain")
+            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder,
+            string domainNameSpace = "Domain")
         {
             _interfaceBuilder = interfaceBuilder;
             _propertyBuilder = propertyBuilder;
@@ -85,8 +87,10 @@ namespace DslModelToCSharp
                 targetClass.Members.Add(property.Property);
             }
 
-            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties);
-            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(userClass.Properties);
+            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties,
+                new List<Property> {userClass.Properties[1], userClass.Properties[2]}, userClass.Name);
+            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(userClass.Properties,
+                new List<Property> {userClass.Properties[1], userClass.Properties[2]}, userClass.Name);
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);
@@ -117,6 +121,48 @@ namespace DslModelToCSharp
 
             var constructor = _constBuilder.BuildPublic(userClass.Properties);
             targetClass.Members.Add(constructor);
+
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
+        }
+
+        public void Write(CreationResultBaseClass userClass)
+        {
+            var nameSpaceName = $"{_domain}";
+            var nameSpace = new CodeNamespace(nameSpaceName);
+
+            var targetClass = new CodeTypeDeclaration(userClass.Name);
+            targetClass.IsClass = true;
+            targetClass.TypeAttributes = TypeAttributes.Public;
+            var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
+            var codeTypeReference = new CodeTypeReference(new DomainEventBaseClass().Name);
+            userClassGenericType.Constraints.Add(" class");
+            targetClass.TypeParameters.Add(userClassGenericType);
+
+            nameSpace.Types.Add(targetClass);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+
+
+            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+
+            foreach (var proptery in userClass.Properties)
+            {
+                var property = _propertyBuilder.Build(proptery);
+                targetClass.Members.Add(property.Field);
+                targetClass.Members.Add(property.Property);
+            }
+
+            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties,
+                new List<Property> {userClass.Properties[1], userClass.Properties[3]}, userClass.Name,
+                userClass.GenericType, $"<{userClass.GenericType}>");
+            var properties = userClass.Properties.Take(3).ToList();
+            properties.Add(new Property {Name = "null"});
+            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(properties,
+                new List<Property> {userClass.Properties[2]}, userClass.Name, userClass.GenericType, $"<{userClass.GenericType}>");
+
+            targetClass.Members.Add(constructor);
+            targetClass.Members.Add(buildOkResultConstructor);
+            targetClass.Members.Add(errorResultConstructor);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
