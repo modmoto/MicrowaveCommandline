@@ -22,10 +22,14 @@ namespace GeneratedWebService.Controllers
             var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
             if (createUserResult.Ok)
             {
-                await _eventStore.AppendAll(createUserResult.DomainEvents);
-                await _userRepository.CreateUser(createUserResult.CreatedEntity);
+                var hookResult = await _eventStore.AppendAll(createUserResult.DomainEvents);
+                if (hookResult.Ok)
+                {
+                    await _userRepository.CreateUser(createUserResult.CreatedEntity);
+                    return new CreatedResult("uri", createUserResult.CreatedEntity);
+                }
 
-                return new CreatedResult("uri", createUserResult.CreatedEntity);
+                return new BadRequestObjectResult(hookResult.Errors);
             }
 
             return new BadRequestObjectResult(createUserResult.DomainErrors);
@@ -34,14 +38,19 @@ namespace GeneratedWebService.Controllers
         public async Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand)
         {
             var user = await _userRepository.GetUser(updateUserNameCommand.Id);
-            if (user is User parsedUser)
+            if (user != null)
             {
-                var validationResult = parsedUser.UpdateName(updateUserNameCommand.Name);
+                var validationResult = user.UpdateName(updateUserNameCommand.Name);
                 if (validationResult.Ok)
                 {
-                    await _userRepository.UpdateUser(parsedUser);
-                    await _eventStore.AppendAll(validationResult.DomainEvents);
-                    return new OkResult();
+                    var hookResult = await _eventStore.AppendAll(validationResult.DomainEvents);
+                    if (hookResult.Ok)
+                    {
+                        await _userRepository.UpdateUser(user);
+                        return new OkResult();
+                    }
+
+                    return new BadRequestObjectResult(hookResult.Errors);
                 }
 
                 return new BadRequestObjectResult(validationResult.DomainErrors);

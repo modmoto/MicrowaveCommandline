@@ -9,7 +9,7 @@ namespace GenericWebservice.Domain
 {
     public interface IEventStore
     {
-        Task<ValidationResult> AppendAll(List<DomainEventBase> domainEvents);
+        Task<HookResult> AppendAll(List<DomainEventBase> domainEvents);
     }
 
     public class EventStore : IEventStore
@@ -19,11 +19,10 @@ namespace GenericWebservice.Domain
             DomainHooks = new List<IDomainHook> {new CreateUserEventHook()};
         }
 
-        public IEnumerable<IDomainHook> DomainHooks { get; set; }
+        public IEnumerable<IDomainHook> DomainHooks { get; }
 
-        public async Task<ValidationResult> AppendAll(List<DomainEventBase> domainEvents)
+        public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)
         {
-            var mergedValidationResults = ValidationResult.OkResult(new List<DomainEventBase>());
             foreach (var domainEvent in domainEvents)
             {
                 var domainHooks = DomainHooks.Where(hook => hook.Event.GetType() == domainEvent.GetType());
@@ -31,23 +30,15 @@ namespace GenericWebservice.Domain
                 {
                     var validationResult = domainHook.Execute(domainEvent);
                     if (!validationResult.Ok)
-                        mergedValidationResults.DomainErrors.AddRange(validationResult.DomainErrors);
-                    else
-                        mergedValidationResults.DomainEvents.AddRange(validationResult.DomainEvents);
+                        return validationResult;
                 }
-            }
-
-            if (mergedValidationResults.Ok)
-            {
-                var newEventsResult = await AppendAll(mergedValidationResults.DomainEvents);
-                return newEventsResult;
             }
 
             using (var context = new EventStoreContext())
             {
                 context.EventHistory.AddRange(domainEvents);
                 await context.SaveChangesAsync();
-                return mergedValidationResults;
+                return HookResult.OkResult();
             }
         }
     }
@@ -55,7 +46,7 @@ namespace GenericWebservice.Domain
     public interface IDomainHook
     {
         DomainEventBase Event { get; }
-        ValidationResult Execute(DomainEventBase domainEvent);
+        HookResult Execute(DomainEventBase domainEvent);
     }
 
     public partial class CreateUserEventHook : IDomainHook
@@ -65,16 +56,38 @@ namespace GenericWebservice.Domain
 
     public partial class CreateUserEventHook
     {
-        public ValidationResult Execute(DomainEventBase domainEvent)
+        public HookResult Execute(DomainEventBase domainEvent)
         {
             if (domainEvent is CreateUserEvent parsedEvent)
             {
                 var newUserAge = parsedEvent.User.Age + 10;
                 var domainEventBases = new List<DomainEventBase>();
                 domainEventBases.Add(new UserUpdateAgeEvent(newUserAge, Guid.NewGuid()));
-                return ValidationResult.OkResult(domainEventBases);
+                return HookResult.OkResult();
             }
-            return ValidationResult.ErrorResult(new List<string> {"Irgend ein fehler"});
+            return HookResult.ErrorResult(new List<string> {"Irgend ein fehler"});
         }
+    }
+
+    public class HookResult
+    {
+        private HookResult(List<string> errors)
+        {
+            Errors = errors;
+        }
+
+        public static HookResult OkResult()
+        {
+            return new HookResult(new List<string>());
+        }
+
+        public static HookResult ErrorResult(List<string> errors)
+        {
+            return new HookResult(errors);
+        }
+
+        public List<string> Errors { get; }
+
+        public bool Ok => Errors.Count > 0;
     }
 }
