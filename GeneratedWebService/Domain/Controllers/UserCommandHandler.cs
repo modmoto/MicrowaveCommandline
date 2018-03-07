@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Domain.Users;
 using GenericWebservice.Domain;
-using GenericWebServiceBuilder.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
@@ -12,8 +11,7 @@ namespace GeneratedWebService.Controllers
         private readonly IEventStore _eventStore;
         private readonly IUserRepository _userRepository;
 
-        public UserCommandHandler(IEventStore eventStore, IAggregateStore aggregateStore,
-            IUserRepository userRepository)
+        public UserCommandHandler(IEventStore eventStore, IUserRepository userRepository)
         {
             _eventStore = eventStore;
             _userRepository = userRepository;
@@ -59,12 +57,5 @@ namespace GeneratedWebService.Controllers
 
             return new NotFoundResult();
         }
-    }
-
-    public interface IUserRepository
-    {
-        Task<User> GetUser(Guid id);
-        Task UpdateUser(User parsedUser);
-        Task CreateUser(User userEventUser);
     }
 }
