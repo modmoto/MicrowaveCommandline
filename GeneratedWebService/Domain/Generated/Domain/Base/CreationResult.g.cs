@@ -68,7 +68,7 @@ namespace Domain
         
         public static CreationResult<T> OkResult(List<DomainEventBase> DomainEvents, T CreatedEntity)
         {
-            return new CreationResult<T>(false, DomainEvents, new List<string>(), CreatedEntity);
+            return new CreationResult<T>(true, DomainEvents, new List<string>(), CreatedEntity);
         }
         
         public static CreationResult<T> ErrorResult(List<string> DomainErrors)
