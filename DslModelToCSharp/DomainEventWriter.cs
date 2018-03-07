@@ -5,7 +5,7 @@ namespace DslModelToCSharp
 {
     public interface IDomainEventWriter
     {
-        void Write(DomainEvent domainEvent, string nameSpaceName);
+        void Write(DomainEvent domainEvent, string nameSpaceName, string basePath);
     }
 
     public class DomainEventWriter : IDomainEventWriter
@@ -24,7 +24,7 @@ namespace DslModelToCSharp
             _constBuilder = constBuilder;
         }
 
-        public void Write(DomainEvent domainEvent, string nameSpaceName)
+        public void Write(DomainEvent domainEvent, string nameSpaceName, string basePath)
         {
             var nameSpace = new CodeNamespace(nameSpaceName);
 
@@ -45,7 +45,7 @@ namespace DslModelToCSharp
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
             targetClass.Members.Add(constructor);
 
-            _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);
+            _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace, basePath);
         }
     }
 }

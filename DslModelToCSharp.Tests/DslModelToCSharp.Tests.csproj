@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
+    <Compile Remove="DomainExpected\EventStore.cs" />
+    <Compile Remove="DomainExpected\EventStoreContext.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Base\CreationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Base\DomainEventBase.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Base\ValidationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Posts\CreatePostEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Posts\Post.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Users\CreateUserEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Users\User.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Users\UserUpdateAgeEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Domain\Users\UserUpdateNameEvent.g.cs" />
+    <Compile Remove="DomainExpected\Post.cs" />
+    <Compile Remove="DomainExpected\User.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DslModelToCSharp\DslModelToCSharp.csproj" />
+    <ProjectReference Include="..\DslModel\DslModel.csproj" />
+    <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DomainExpected\Generated\Domain\Base\" />
+    <Folder Include="DomainExpected\Generated\Domain\Posts\" />
+    <Folder Include="DomainExpected\Generated\Domain\Users\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Schema.wsb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

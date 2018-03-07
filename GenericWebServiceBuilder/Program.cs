@@ -18,6 +18,8 @@ namespace GenericWebServiceBuilder
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
+            var basePath = "../GeneratedWebService/Domain/Generated/";
+
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -26,11 +28,11 @@ namespace GenericWebServiceBuilder
                 var domainTree = dslParser.Parse(content);
 
                 foreach (var domainClass in domainTree.Classes)
-                    classWriter.Write(domainClass);
+                    classWriter.Write(domainClass, basePath);
 
-                classWriter.Write(new ValidationResultBaseClass());
-                classWriter.Write(new DomainEventBaseClass());
-                classWriter.Write(new CreationResultBaseClass());
+                classWriter.Write(new ValidationResultBaseClass(), basePath);
+                classWriter.Write(new DomainEventBaseClass(), basePath);
+                classWriter.Write(new CreationResultBaseClass(), basePath);
             }
         }
     }

@@ -7,12 +7,12 @@ namespace DslModelToCSharp
 {
     public interface IFileWriter
     {
-        void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace);
+        void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace, string basePath);
     }
 
     public class FileWriter : IFileWriter
     {
-        public void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace)
+        public void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace, string basePath)
         {
             var targetUnit = new CodeCompileUnit();
             targetUnit.Namespaces.Add(nameSpace);
@@ -20,9 +20,9 @@ namespace DslModelToCSharp
             var provider = new CSharpCodeProvider();
             var options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            Directory.CreateDirectory($"../GeneratedWebService/Domain/Generated/{nameSpace.Name.Split(".")[0]}/{folderName}");
+            Directory.CreateDirectory($"{basePath}/{nameSpace.Name.Split(".")[0]}/{folderName}");
             using (var sourceWriter =
-                new StreamWriter($"../GeneratedWebService/Domain/Generated/{nameSpace.Name.Split(".")[0]}/{folderName}/{fileName}.g.cs"))
+                new StreamWriter($"{basePath}/{nameSpace.Name.Split(".")[0]}/{folderName}/{fileName}.g.cs"))
             {
                 provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
             }
