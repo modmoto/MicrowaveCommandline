@@ -10,21 +10,24 @@ namespace GeneratedWebService.Controllers
     public class UserCommandHandler : IUserCommandHandler
     {
         private readonly IEventStore _eventStore;
-        private readonly IAggregateStore _aggregateStore;
+        private readonly IUserRepository _userRepository;
 
-        public UserCommandHandler(IEventStore eventStore, IAggregateStore aggregateStore)
+        public UserCommandHandler(IEventStore eventStore, IAggregateStore aggregateStore,
+            IUserRepository userRepository)
         {
             _eventStore = eventStore;
-            _aggregateStore = aggregateStore;
+            _userRepository = userRepository;
         }
 
-        public IActionResult CreateUser(CreateUserCommand createUserCommand)
+        public async Task<IActionResult> CreateUser(CreateUserCommand createUserCommand)
         {
             var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
             if (createUserResult.Ok)
             {
                 _eventStore.AppendAll(createUserResult.DomainEvents);
-                return new CreatedResult("uri", null);
+                await _userRepository.CreateUser(createUserResult.CreatedEntity);
+
+                return new CreatedResult("uri", createUserResult.CreatedEntity);
             }
 
             return new BadRequestObjectResult(createUserResult.DomainErrors);
@@ -32,12 +35,13 @@ namespace GeneratedWebService.Controllers
 
         public async Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand)
         {
-            var user = await _aggregateStore.GetAggregate<User>(updateUserNameCommand.Id);
+            var user = await _userRepository.GetUser(updateUserNameCommand.Id);
             if (user is User parsedUser)
             {
                 var validationResult = parsedUser.UpdateName(updateUserNameCommand.Name);
                 if (validationResult.Ok)
                 {
+                    await _userRepository.UpdateUser(parsedUser);
                     _eventStore.AppendAll(validationResult.DomainEvents);
                     return new OkResult();
                 }
@@ -46,15 +50,21 @@ namespace GeneratedWebService.Controllers
             }
 
             return new NotFoundResult();
-
         }
 
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = await _aggregateStore.GetAggregate<User>(id);
+            var user = await _userRepository.GetUser(id);
             if (user != null) return new JsonResult(user);
 
             return new NotFoundResult();
         }
+    }
+
+    public interface IUserRepository
+    {
+        Task<User> GetUser(Guid id);
+        Task UpdateUser(User parsedUser);
+        Task CreateUser(User userEventUser);
     }
 }

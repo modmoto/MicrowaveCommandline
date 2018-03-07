@@ -5,14 +5,6 @@ namespace Domain.Users
 {
     public partial class User
     {
-        public static ValidationResult Create(string name, int age)
-        {
-            var newGuid = Guid.NewGuid();
-            var domainEventBases = new List<DomainEventBase>();
-            domainEventBases.Add(new CreateUserEvent(new User(newGuid, name, age), newGuid));
-            return ValidationResult.OkResult(domainEventBases);
-        }
-
         public ValidationResult UpdateAge(int Age)
         {
             throw new NotImplementedException();
@@ -21,6 +13,19 @@ namespace Domain.Users
         public ValidationResult UpdateName(string Name)
         {
             throw new NotImplementedException();
+        }
+
+        public static CreationResult<User> Create(string name, int age)
+        {
+            var newGuid = Guid.NewGuid();
+            if (age > 0)
+            {
+                var user = new User(newGuid, name, age);
+                return CreationResult<User>.OkResult(user,
+                    new List<DomainEventBase> {new CreateUserEvent(user, newGuid)});
+            }
+
+            return CreationResult<User>.ErrorResult(new List<string> {"Age Can not be negative"});
         }
     }
 }

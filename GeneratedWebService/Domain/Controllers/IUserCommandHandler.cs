@@ -6,7 +6,7 @@ namespace GeneratedWebService.Controllers
 {
     public interface IUserCommandHandler
     {
-        IActionResult CreateUser(CreateUserCommand createUserCommand);
+        Task<IActionResult> CreateUser(CreateUserCommand createUserCommand);
         Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand);
         Task<IActionResult> GetUser(Guid id);
     }

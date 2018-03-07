@@ -21,9 +21,9 @@ namespace GeneratedWebService.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateUser([FromBody] CreateUserCommand createUserCommand)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
         {
-            return _commandHandler.CreateUser(createUserCommand);
+            return await _commandHandler.CreateUser(createUserCommand);
         }
 
         [HttpPut("{id}")]
