@@ -88,9 +88,9 @@ namespace DslModelToCSharp
             }
 
             var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties,
-                new List<Property> {userClass.Properties[1], userClass.Properties[2]}, userClass.Name);
+                new List<Property> {userClass.Properties[1]}, userClass.Name);
             var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(userClass.Properties,
-                new List<Property> {userClass.Properties[1], userClass.Properties[2]}, userClass.Name);
+                new List<Property> {userClass.Properties[2]}, userClass.Name);
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);

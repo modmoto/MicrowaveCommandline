@@ -54,12 +54,12 @@ namespace Domain
             }
         }
         
-        public static ValidationResult OkResult(List<DomainEventBase> DomainEvents, List<string> DomainErrors)
+        public static ValidationResult OkResult(List<DomainEventBase> DomainEvents)
         {
             return new ValidationResult(false, DomainEvents, new List<string>());
         }
         
-        public static ValidationResult ErrorResult(List<DomainEventBase> DomainEvents, List<string> DomainErrors)
+        public static ValidationResult ErrorResult(List<string> DomainErrors)
         {
             return new ValidationResult(false, new List<DomainEventBase>(), DomainErrors);
         }

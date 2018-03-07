@@ -22,7 +22,7 @@ namespace GeneratedWebService.Controllers
             var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
             if (createUserResult.Ok)
             {
-                _eventStore.AppendAll(createUserResult.DomainEvents);
+                _eventStore.Append(createUserResult.DomainEvents);
                 await _userRepository.CreateUser(createUserResult.CreatedEntity);
 
                 return new CreatedResult("uri", createUserResult.CreatedEntity);
@@ -40,7 +40,7 @@ namespace GeneratedWebService.Controllers
                 if (validationResult.Ok)
                 {
                     await _userRepository.UpdateUser(parsedUser);
-                    _eventStore.AppendAll(validationResult.DomainEvents);
+                    _eventStore.Append(validationResult.DomainEvents);
                     return new OkResult();
                 }
 
