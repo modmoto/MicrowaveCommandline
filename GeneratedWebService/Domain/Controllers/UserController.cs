@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
@@ -14,9 +15,9 @@ namespace GeneratedWebService.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return _commandHandler.GetUser(id);
+            return await _commandHandler.GetUser(id);
         }
 
         [HttpPost]
@@ -26,10 +27,10 @@ namespace GeneratedWebService.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUserName(Guid id, [FromBody] string name)
+        public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] string name)
         {
             var updateUserNameCommand = new UpdateUserNameCommand(id, name);
-            return _commandHandler.UpdateUserName(updateUserNameCommand);
+            return await _commandHandler.UpdateUserName(updateUserNameCommand);
         }
     }
 }

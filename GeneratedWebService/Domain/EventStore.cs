@@ -22,8 +22,12 @@ namespace GenericWebservice.Domain
             }
         }
 
-        private T Replay<T>(IQueryable<DomainEventBase> domainEventBases) where T : class
+        private T Replay<T>(IQueryable<DomainEventBase> domainEvents) where T : class
         {
+            foreach (var domainEvent in domainEvents)
+            {
+                //if ()
+            }
             return null;
         }
 

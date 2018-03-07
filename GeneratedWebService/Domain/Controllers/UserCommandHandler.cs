@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Domain.Users;
 using GenericWebservice.Domain;
+using GenericWebServiceBuilder.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
@@ -8,10 +10,12 @@ namespace GeneratedWebService.Controllers
     public class UserCommandHandler : IUserCommandHandler
     {
         private readonly IEventStore _eventStore;
+        private readonly IAggregateStore _aggregateStore;
 
-        public UserCommandHandler(IEventStore eventStore)
+        public UserCommandHandler(IEventStore eventStore, IAggregateStore aggregateStore)
         {
             _eventStore = eventStore;
+            _aggregateStore = aggregateStore;
         }
 
         public IActionResult CreateUser(CreateUserCommand createUserCommand)
@@ -26,12 +30,12 @@ namespace GeneratedWebService.Controllers
             return new BadRequestObjectResult(createUserResult.DomainErrors);
         }
 
-        public IActionResult UpdateUserName(UpdateUserNameCommand updateUserNameCommand)
+        public async Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand)
         {
-            var user = _eventStore.Load<User>(updateUserNameCommand.Id);
-            if (user != null)
+            var user = await _aggregateStore.GetAggregate<User>(updateUserNameCommand.Id);
+            if (user is User parsedUser)
             {
-                var validationResult = user.UpdateName(updateUserNameCommand.Name);
+                var validationResult = parsedUser.UpdateName(updateUserNameCommand.Name);
                 if (validationResult.Ok)
                 {
                     _eventStore.AppendAll(validationResult.DomainEvents);
@@ -42,11 +46,12 @@ namespace GeneratedWebService.Controllers
             }
 
             return new NotFoundResult();
+
         }
 
-        public IActionResult GetUser(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = _eventStore.Load<User>(id);
+            var user = await _aggregateStore.GetAggregate<User>(id);
             if (user != null) return new JsonResult(user);
 
             return new NotFoundResult();

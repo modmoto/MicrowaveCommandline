@@ -4,7 +4,14 @@ using Domain.Users;
 
 namespace GenericWebServiceBuilder.Domain
 {
-    public class AggregateStore : IDisposable
+    public interface IAggregateStore
+    {
+        Task AddAggregate<T>(T aggregate);
+        Task UpdateAggregate<T>(T aggregate);
+        Task<dynamic> GetAggregate<T>(Guid id);
+    }
+
+    public class AggregateStore : IAggregateStore
     {
         public async Task AddAggregate<T>(T aggregate)
         {
@@ -27,9 +34,18 @@ namespace GenericWebServiceBuilder.Domain
                 await aggregateStore.SaveChangesAsync();
             }
         }
-        
-        public void Dispose()
+
+        public async Task<dynamic> GetAggregate<T>(Guid id)
         {
+            using (var aggregateStore = new AggregateStoreContext())
+            {
+                if (typeof(T) == typeof(User))
+                {
+                    return await aggregateStore.Users.FindAsync(id);
+                }
+
+                return null;
+            }
         }
     }
 }
