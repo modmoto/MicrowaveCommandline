@@ -22,7 +22,7 @@ namespace DslModelToCSharp
                 method.Parameters.Add(new CodeParameterDeclarationExpression(prop.Type, prop.Name));
             }
 
-            var methodSignature = $"new {name}{genericTypeArgument}(false, {props[1].Name}, new {props[2].Type}()";
+            var methodSignature = $"new {name}{genericTypeArgument}(true, {props[1].Name}, new {props[2].Type}()";
             foreach (var prop in props.Skip(3))
             {
                 methodSignature += $", {prop.Name}";
