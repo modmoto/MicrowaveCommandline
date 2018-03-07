@@ -1,39 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain;
 
 namespace GenericWebservice.Domain
 {
     public interface IEventStore
     {
-        T Load<T>(Guid id) where T : class;
-        void AppendAll(List<DomainEventBase> domainEvents);
+        Task AppendAll(List<DomainEventBase> domainEvents);
     }
 
     public class EventStore : IEventStore
     {
-        public T Load<T>(Guid id) where T : class
+        public async Task AppendAll(List<DomainEventBase> domainEvents)
         {
-            using (var storeContext = new EventStoreContext())
+            using (var context = new EventStoreContext())
             {
-                var domainEventBases = storeContext.EventHistory.Where(ev => ev.EntityId == id);
-                return Replay<T>(domainEventBases);
+                context.EventHistory.AddRange(domainEvents);
+                await context.SaveChangesAsync();
             }
-        }
-
-        private T Replay<T>(IQueryable<DomainEventBase> domainEvents) where T : class
-        {
-            foreach (var domainEvent in domainEvents)
-            {
-                //if ()
-            }
-            return null;
-        }
-
-        public void AppendAll(List<DomainEventBase> domainEvents)
-        {
-            throw new NotImplementedException();
         }
     }
 }
