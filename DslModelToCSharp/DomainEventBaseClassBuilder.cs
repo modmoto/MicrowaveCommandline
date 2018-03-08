@@ -24,7 +24,7 @@ namespace DslModelToCSharp
 
         public void Build(string name, IList<Property> properties)
         {
-            var nameSpace = _nameSpaceBuilder.Build(_domain);
+            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
             var generatedClass = ClassBuilder(name);
 

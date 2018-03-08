@@ -16,10 +16,11 @@ namespace DslModelToCSharp
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
+        private readonly INameSpaceBuilder _nameSpaceBuilder;
 
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
             IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
-            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder,
+            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder, INameSpaceBuilder nameSpaceBuilder,
             string domainNameSpace)
         {
             _interfaceBuilder = interfaceBuilder;
@@ -29,22 +30,20 @@ namespace DslModelToCSharp
             _fileWriter = fileWriter;
             _constBuilder = constBuilder;
             _staticConstructorBuilder = staticConstructorBuilder;
+            _nameSpaceBuilder = nameSpaceBuilder;
             _domain = domainNameSpace;
         }
 
         public void Write(DomainClass userClass, string basePath)
         {
-            var nameSpaceName = $"{_domain}.{userClass.Name}s";
-            var nameSpace = new CodeNamespace(nameSpaceName);
+            var nameSpace = _nameSpaceBuilder.Build($"{_domain}.{userClass.Name}s");
 
             var iface = _interfaceBuilder.Build(userClass);
-            nameSpace.Types.Add(iface);
 
             var targetClass = _classParser.Build(userClass);
             targetClass.BaseTypes.Add(iface.Name);
 
-            nameSpace.Types.Add(targetClass);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            nameSpace.Types.Add(iface);
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
             var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
@@ -55,24 +54,20 @@ namespace DslModelToCSharp
             targetClass.Members.Add(emptyConstructor);
 
             foreach (var domainEvent in userClass.Events)
-                _domainEventWriter.Write(domainEvent, nameSpaceName, basePath);
+                _domainEventWriter.Write(domainEvent, nameSpace.Name, basePath);
 
-            _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace);
+            nameSpace.Types.Add(targetClass);
+
+            _fileWriter.WriteToFile(userClass.Name, nameSpace.Name.Split(".")[1], nameSpace);
         }
 
         public void Write(ValidationResultBaseClass userClass)
         {
-            var nameSpaceName = $"{_domain}";
-            var nameSpace = new CodeNamespace(nameSpaceName);
-
             var targetClass = new CodeTypeDeclaration(userClass.Name);
             targetClass.IsClass = true;
             targetClass.TypeAttributes = TypeAttributes.Public;
 
-            nameSpace.Types.Add(targetClass);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-
+            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
@@ -87,13 +82,14 @@ namespace DslModelToCSharp
             targetClass.Members.Add(buildOkResultConstructor);
             targetClass.Members.Add(errorResultConstructor);
 
+            nameSpace.Types.Add(targetClass);
+
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
 
         public void Write(CreationResultBaseClass userClass)
         {
-            var nameSpaceName = $"{_domain}";
-            var nameSpace = new CodeNamespace(nameSpaceName);
+            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
             var targetClass = new CodeTypeDeclaration(userClass.Name);
             targetClass.IsClass = true;
@@ -101,11 +97,6 @@ namespace DslModelToCSharp
             var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
             userClassGenericType.Constraints.Add(" class");
             targetClass.TypeParameters.Add(userClassGenericType);
-
-            nameSpace.Types.Add(targetClass);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
@@ -123,6 +114,8 @@ namespace DslModelToCSharp
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);
             targetClass.Members.Add(errorResultConstructor);
+
+            nameSpace.Types.Add(targetClass);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }

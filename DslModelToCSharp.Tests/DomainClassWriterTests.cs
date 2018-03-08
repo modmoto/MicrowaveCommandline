@@ -26,7 +26,8 @@ namespace DslModelToCSharp.Tests
             var domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
+                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
+                new NameSpaceBuilder(), _domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
@@ -58,7 +59,8 @@ namespace DslModelToCSharp.Tests
             var domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
+                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
+                new NameSpaceBuilder(), _domainNameSpace);
 
             classWriter.Write(new CreationResultBaseClass());
 
@@ -84,6 +86,7 @@ namespace DslModelToCSharp.Tests
                 new DomainEventWriter(new PropBuilder(), new FileWriter(""), new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
                 domainEventWriter, new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(),
+                new NameSpaceBuilder(),
                 _domainNameSpace);
 
             classWriter.Write(new ValidationResultBaseClass());
