@@ -8,7 +8,7 @@ namespace DslModelToCSharp
 {
     public class DomainClassWriter
     {
-        private readonly IClassParser _classParser;
+        private readonly IClassBuilder _classBuilder;
         private readonly IConstBuilder _constBuilder;
         private readonly string _domain;
         private readonly IDomainEventWriter _domainEventWriter;
@@ -19,13 +19,13 @@ namespace DslModelToCSharp
         private readonly INameSpaceBuilder _nameSpaceBuilder;
 
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
-            IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
+            IClassBuilder classBuilder, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
             IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder, INameSpaceBuilder nameSpaceBuilder,
             string domainNameSpace)
         {
             _interfaceBuilder = interfaceBuilder;
             _propertyBuilder = propertyBuilder;
-            _classParser = classParser;
+            _classBuilder = classBuilder;
             _domainEventWriter = domainEventWriter;
             _fileWriter = fileWriter;
             _constBuilder = constBuilder;
@@ -40,7 +40,7 @@ namespace DslModelToCSharp
 
             var iface = _interfaceBuilder.Build(userClass);
 
-            var targetClass = _classParser.Build(userClass);
+            var targetClass = _classBuilder.BuildPartial(userClass.Name);
             targetClass.BaseTypes.Add(iface.Name);
 
             nameSpace.Types.Add(iface);
@@ -63,9 +63,7 @@ namespace DslModelToCSharp
 
         public void Write(ValidationResultBaseClass userClass)
         {
-            var targetClass = new CodeTypeDeclaration(userClass.Name);
-            targetClass.IsClass = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
+            var targetClass = _classBuilder.Build(userClass.Name);
 
             var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
@@ -91,9 +89,8 @@ namespace DslModelToCSharp
         {
             var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
-            var targetClass = new CodeTypeDeclaration(userClass.Name);
-            targetClass.IsClass = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
+            var targetClass = _classBuilder.Build(userClass.Name);
+
             var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
             userClassGenericType.Constraints.Add(" class");
             targetClass.TypeParameters.Add(userClassGenericType);

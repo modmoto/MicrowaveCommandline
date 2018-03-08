@@ -10,17 +10,17 @@ namespace DslModelToCSharp
 
     public class DomainEventWriter : IDomainEventWriter
     {
-        private readonly IClassParser _classParser;
+        private readonly IClassBuilder _classBuilder;
         private readonly IConstBuilder _constBuilder;
         private readonly IFileWriter _fileWriter;
         private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainEventWriter(IPropertyBuilder propertyBuilder, IFileWriter fileWriter, IClassParser classParser,
+        public DomainEventWriter(IPropertyBuilder propertyBuilder, IFileWriter fileWriter, IClassBuilder classBuilder,
             IConstBuilder constBuilder)
         {
             _propertyBuilder = propertyBuilder;
             _fileWriter = fileWriter;
-            _classParser = classParser;
+            _classBuilder = classBuilder;
             _constBuilder = constBuilder;
         }
 
@@ -28,7 +28,7 @@ namespace DslModelToCSharp
         {
             var nameSpace = new CodeNamespace(nameSpaceName);
 
-            var targetClass = _classParser.Build(domainEvent);
+            var targetClass = _classBuilder.Build(domainEvent.Name);
 
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));

@@ -1,24 +1,25 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using DslModel;
 
 namespace DslModelToCSharp
 {
     public class DomainEventBaseClassBuilder
     {
-        private readonly string _domain;
-        private readonly IPropertyBuilder _propertyBuilder;
         private readonly IConstBuilder _constBuilder;
+        private readonly string _domain;
         private readonly IFileWriter _fileWriter;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
+        private readonly IClassBuilder _classBuilder;
+        private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainEventBaseClassBuilder(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder, IFileWriter fileWriter, INameSpaceBuilder nameSpaceBuilder, string domain)
+        public DomainEventBaseClassBuilder(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder,
+            IFileWriter fileWriter, INameSpaceBuilder nameSpaceBuilder, IClassBuilder classBuilder, string domain)
         {
             _propertyBuilder = propertyBuilder;
             _constBuilder = constBuilder;
             _fileWriter = fileWriter;
             _nameSpaceBuilder = nameSpaceBuilder;
+            _classBuilder = classBuilder;
             _domain = domain;
         }
 
@@ -26,7 +27,7 @@ namespace DslModelToCSharp
         {
             var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
-            var generatedClass = ClassBuilder(name);
+            var generatedClass = _classBuilder.Build(name);
 
             generatedClass = _propertyBuilder.Build(generatedClass, properties);
 
@@ -36,14 +37,6 @@ namespace DslModelToCSharp
             generatedClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(name, "Base", nameSpace);
-        }
-
-        private static CodeTypeDeclaration ClassBuilder(string name)
-        {
-            var targetClass = new CodeTypeDeclaration(name);
-            targetClass.IsClass = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
-            return targetClass;
         }
     }
 }

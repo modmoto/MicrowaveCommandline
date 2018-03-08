@@ -72,7 +72,7 @@ namespace DslModelToCSharp.Tests
         public void DomainEventBaseClass_Builder()
         {
             var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(),
-                new FileWriter(""), new NameSpaceBuilder(), _domainNameSpace);
+                new FileWriter(""), new NameSpaceBuilder(), new ClassBuilder(), _domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/DomainEventBase.g.cs"),

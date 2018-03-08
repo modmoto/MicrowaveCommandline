@@ -1,32 +1,31 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.Reflection;
 using DslModel;
 
 namespace DslModelToCSharp
 {
-    public class ClassBuilder : IClassParser
+    public class ClassBuilder : IClassBuilder
     {
-        public CodeTypeDeclaration Build(DomainClass userClass)
+        public CodeTypeDeclaration BuildPartial(string name)
         {
-            var targetClass = new CodeTypeDeclaration(userClass.Name);
-            targetClass.IsClass = true;
+            var targetClass = Build(name);
             targetClass.IsPartial = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
             return targetClass;
         }
 
-        public CodeTypeDeclaration Build(DomainEvent domainEvent)
+        public CodeTypeDeclaration Build(string name)
         {
-            var targetClass = new CodeTypeDeclaration(domainEvent.Name);
+            var targetClass = new CodeTypeDeclaration(name);
             targetClass.IsClass = true;
             targetClass.TypeAttributes = TypeAttributes.Public;
             return targetClass;
         }
     }
 
-    public interface IClassParser
+    public interface IClassBuilder
     {
-        CodeTypeDeclaration Build(DomainClass userClass);
-        CodeTypeDeclaration Build(DomainEvent domainEvent);
+        CodeTypeDeclaration Build(string name);
+        CodeTypeDeclaration BuildPartial(string name);
     }
 }
