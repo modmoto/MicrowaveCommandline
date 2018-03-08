@@ -11,7 +11,6 @@ namespace DslModelToCSharp
         private readonly IClassBuilder _classBuilder;
         private readonly IConstBuilder _constBuilder;
         private readonly string _domain;
-        private readonly IDomainEventWriter _domainEventWriter;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
@@ -19,14 +18,13 @@ namespace DslModelToCSharp
         private readonly INameSpaceBuilder _nameSpaceBuilder;
 
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
-            IClassBuilder classBuilder, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
+            IClassBuilder classBuilder, IFileWriter fileWriter,
             IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder, INameSpaceBuilder nameSpaceBuilder,
             string domainNameSpace)
         {
             _interfaceBuilder = interfaceBuilder;
             _propertyBuilder = propertyBuilder;
             _classBuilder = classBuilder;
-            _domainEventWriter = domainEventWriter;
             _fileWriter = fileWriter;
             _constBuilder = constBuilder;
             _staticConstructorBuilder = staticConstructorBuilder;
@@ -34,10 +32,9 @@ namespace DslModelToCSharp
             _domain = domainNameSpace;
         }
 
-        public void Write(DomainClass userClass, string basePath)
+        public void Write(DomainClass userClass)
         {
             var nameSpace = _nameSpaceBuilder.Build($"{_domain}.{userClass.Name}s");
-
             var iface = _interfaceBuilder.Build(userClass);
 
             var targetClass = _classBuilder.BuildPartial(userClass.Name);
@@ -52,9 +49,6 @@ namespace DslModelToCSharp
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(emptyConstructor);
-
-            foreach (var domainEvent in userClass.Events)
-                _domainEventWriter.Write(domainEvent, nameSpace.Name, basePath);
 
             nameSpace.Types.Add(targetClass);
 

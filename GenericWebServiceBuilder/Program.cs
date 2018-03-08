@@ -18,9 +18,10 @@ namespace GenericWebServiceBuilder
             var classBuilder = new ClassBuilder();
             IDomainEventWriter domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, classBuilder, new ConstBuilder());
+            var domainNameSpace = "Domain";
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), classBuilder,
-                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), nameSpaceBuilder,
-                "Domain");
+                fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), nameSpaceBuilder,
+                domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
@@ -33,14 +34,18 @@ namespace GenericWebServiceBuilder
                 var domainTree = dslParser.Parse(content);
 
                 foreach (var domainClass in domainTree.Classes)
-                    classWriter.Write(domainClass, basePath);
+                {
+                    foreach (var domainEvent in domainClass.Events)
+                        domainEventWriter.Write(domainEvent, $"{domainNameSpace}.{domainClass.Name}s", basePath);
+                    classWriter.Write(domainClass);
+                }
 
                 classWriter.Write(new ValidationResultBaseClass());
                 classWriter.Write(new CreationResultBaseClass());
             }
 
             var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(),
-                fileWriter, nameSpaceBuilder, classBuilder, "Domain");
+                fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
         }
     }

@@ -25,8 +25,8 @@ namespace DslModelToCSharp.Tests
             var fileWriter = new FileWriter("");
             var domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
-            var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
+            var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder()
+                , fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
                 new NameSpaceBuilder(), _domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
@@ -39,7 +39,11 @@ namespace DslModelToCSharp.Tests
                 var domainTree = dslParser.Parse(content);
 
                 foreach (var domainClass in domainTree.Classes)
-                    classWriter.Write(domainClass, _basePath);
+                {
+                    foreach (var domainEvent in domainClass.Events)
+                        domainEventWriter.Write(domainEvent, $"{_domainNameSpace}.{domainClass.Name}s", _basePath);
+                    classWriter.Write(domainClass);
+                }
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/CreateUserEvent.g.cs"),
@@ -56,10 +60,8 @@ namespace DslModelToCSharp.Tests
         public void CreateionResultBase_Builder()
         {
             var fileWriter = new FileWriter("");
-            var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
+                fileWriter, new ConstBuilder(), new StaticConstructorBuilder(),
                 new NameSpaceBuilder(), _domainNameSpace);
 
             classWriter.Write(new CreationResultBaseClass());
@@ -82,10 +84,8 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void ValidationResultBaseClass_Builder()
         {
-            var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(""), new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(),
+                new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(),
                 new NameSpaceBuilder(),
                 _domainNameSpace);
 
