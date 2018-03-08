@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Linq;
 using DslModel;
 
 namespace DslModelToCSharp
@@ -33,7 +34,7 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties);
+            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties.Skip(1).ToList());
 
             targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
 

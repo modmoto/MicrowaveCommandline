@@ -18,52 +18,20 @@ namespace Domain
         where T :  class
     {
         
-        private Boolean _Ok;
+        public Boolean Ok { get; private set; }
         
-        private List<DomainEventBase> _DomainEvents;
+        public List<DomainEventBase> DomainEvents { get; private set; }
         
-        private List<string> _DomainErrors;
+        public List<string> DomainErrors { get; private set; }
         
-        private T _CreatedEntity;
+        public T CreatedEntity { get; private set; }
         
         private CreationResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> DomainErrors, T CreatedEntity)
         {
-            this._Ok = Ok;
-            this._DomainEvents = DomainEvents;
-            this._DomainErrors = DomainErrors;
-            this._CreatedEntity = CreatedEntity;
-        }
-        
-        public Boolean Ok
-        {
-            get
-            {
-                return this._Ok;
-            }
-        }
-        
-        public List<DomainEventBase> DomainEvents
-        {
-            get
-            {
-                return this._DomainEvents;
-            }
-        }
-        
-        public List<string> DomainErrors
-        {
-            get
-            {
-                return this._DomainErrors;
-            }
-        }
-        
-        public T CreatedEntity
-        {
-            get
-            {
-                return this._CreatedEntity;
-            }
+            this.Ok = Ok;
+            this.DomainEvents = DomainEvents;
+            this.DomainErrors = DomainErrors;
+            this.CreatedEntity = CreatedEntity;
         }
         
         public static CreationResult<T> OkResult(List<DomainEventBase> DomainEvents, T CreatedEntity)

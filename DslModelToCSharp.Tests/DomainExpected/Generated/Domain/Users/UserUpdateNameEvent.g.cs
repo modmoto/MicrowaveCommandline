@@ -16,20 +16,12 @@ namespace Domain.Users
     public class UserUpdateNameEvent : DomainEventBase
     {
         
-        private String _Name;
+        public String Name { get; private set; }
         
         public UserUpdateNameEvent(String Name, Guid EntityId) : 
                 base(EntityId)
         {
-            this._Name = Name;
-        }
-        
-        public String Name
-        {
-            get
-            {
-                return this._Name;
-            }
+            this.Name = Name;
         }
     }
 }

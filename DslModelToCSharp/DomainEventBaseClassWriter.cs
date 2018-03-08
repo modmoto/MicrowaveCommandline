@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DslModel;
 
 namespace DslModelToCSharp
@@ -33,7 +34,7 @@ namespace DslModelToCSharp
 
             nameSpace.Types.Add(generatedClass);
 
-            var constructor = _constBuilder.BuildPublic(properties);
+            var constructor = _constBuilder.BuildPublicWithIdCreateInBody(properties.Skip(1).ToList(), properties[0].Name);
             generatedClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(name, "Base", nameSpace);

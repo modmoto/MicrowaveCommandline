@@ -8,27 +8,33 @@ namespace DslModelToCSharp
     {
         public CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<Property> properties)
         {
-            foreach (var property in properties)
+            if (generatedClass.Name.StartsWith("Create"))
             {
-                var field = new CodeMemberField
+                foreach (var property in properties)
                 {
-                    Attributes = MemberAttributes.Private,
-                    Name = $"_{property.Name}",
-                    Type = new CodeTypeReference(property.Type)
-                };
+                    var field = new CodeMemberField
+                    {
+                        Name = property.Name + " { get; }NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515",
+                        Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                        Type = new CodeTypeReference(property.Type)
+                    };
 
-                var csProperty = new CodeMemberProperty
+                    generatedClass.Members.Add(field);
+                }
+            }
+            else
+            {
+                foreach (var property in properties)
                 {
-                    Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                    Name = property.Name,
-                    HasGet = true,
-                    Type = new CodeTypeReference(property.Type)
-                };
-                csProperty.GetStatements.Add(new CodeMethodReturnStatement(
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(), $"_{property.Name}")));
-                generatedClass.Members.Add(field);
-                generatedClass.Members.Add(csProperty);
+                    var field = new CodeMemberField
+                    {
+                        Name = property.Name + " { get; private set; }NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515",
+                        Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                        Type = new CodeTypeReference(property.Type)
+                    };
+
+                    generatedClass.Members.Add(field);
+                }
             }
 
             return generatedClass;

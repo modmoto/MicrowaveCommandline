@@ -16,20 +16,12 @@ namespace Domain.Posts
     public class CreatePostEvent : DomainEventBase
     {
         
-        private Post _Post;
+        public Post Post { get; }
         
         public CreatePostEvent(Post Post, Guid EntityId) : 
                 base(EntityId)
         {
-            this._Post = Post;
-        }
-        
-        public Post Post
-        {
-            get
-            {
-                return this._Post;
-            }
+            this.Post = Post;
         }
     }
 }

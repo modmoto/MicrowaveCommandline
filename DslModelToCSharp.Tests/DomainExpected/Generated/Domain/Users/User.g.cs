@@ -24,45 +24,21 @@ namespace Domain.Users
     public partial class User : IUser
     {
         
-        private Guid _Id;
+        public Guid Id { get; private set; }
         
-        private String _Name;
+        public String Name { get; private set; }
         
-        private Int32 _Age;
+        public Int32 Age { get; private set; }
         
         private User(Guid Id, String Name, Int32 Age)
         {
-            this._Id = Id;
-            this._Name = Name;
-            this._Age = Age;
+            this.Id = Id;
+            this.Name = Name;
+            this.Age = Age;
         }
         
         private User()
         {
-        }
-        
-        public Guid Id
-        {
-            get
-            {
-                return this._Id;
-            }
-        }
-        
-        public String Name
-        {
-            get
-            {
-                return this._Name;
-            }
-        }
-        
-        public Int32 Age
-        {
-            get
-            {
-                return this._Age;
-            }
         }
     }
 }

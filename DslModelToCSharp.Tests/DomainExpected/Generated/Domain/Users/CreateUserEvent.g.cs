@@ -16,20 +16,12 @@ namespace Domain.Users
     public class CreateUserEvent : DomainEventBase
     {
         
-        private User _User;
+        public User User { get; }
         
         public CreateUserEvent(User User, Guid EntityId) : 
                 base(EntityId)
         {
-            this._User = User;
-        }
-        
-        public User User
-        {
-            get
-            {
-                return this._User;
-            }
+            this.User = User;
         }
     }
 }

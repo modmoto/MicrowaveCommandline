@@ -47,6 +47,8 @@ namespace GenericWebServiceBuilder
             var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
+
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }
     }
 }

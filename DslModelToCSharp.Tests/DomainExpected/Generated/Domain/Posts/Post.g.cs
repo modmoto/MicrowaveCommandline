@@ -20,45 +20,21 @@ namespace Domain.Posts
     public partial class Post : IPost
     {
         
-        private Guid _Id;
+        public Guid Id { get; private set; }
         
-        private String _Title;
+        public String Title { get; private set; }
         
-        private String _Body;
+        public String Body { get; private set; }
         
         private Post(Guid Id, String Title, String Body)
         {
-            this._Id = Id;
-            this._Title = Title;
-            this._Body = Body;
+            this.Id = Id;
+            this.Title = Title;
+            this.Body = Body;
         }
         
         private Post()
         {
-        }
-        
-        public Guid Id
-        {
-            get
-            {
-                return this._Id;
-            }
-        }
-        
-        public String Title
-        {
-            get
-            {
-                return this._Title;
-            }
-        }
-        
-        public String Body
-        {
-            get
-            {
-                return this._Body;
-            }
         }
     }
 }

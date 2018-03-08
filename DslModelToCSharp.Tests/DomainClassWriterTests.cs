@@ -46,6 +46,8 @@ namespace DslModelToCSharp.Tests
                 }
             }
 
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_domainNameSpace);
+
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/CreateUserEvent.g.cs"),
                 File.ReadAllText("Domain/Users/CreateUserEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/User.g.cs"),
@@ -65,6 +67,7 @@ namespace DslModelToCSharp.Tests
                 new NameSpaceBuilder(), _domainNameSpace);
 
             classWriter.Write(new CreationResultBaseClass());
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_domainNameSpace);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/CreationResult.g.cs"),
                 File.ReadAllText("Domain/Base/CreationResult.g.cs"));
@@ -76,6 +79,7 @@ namespace DslModelToCSharp.Tests
             var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 new FileWriter(""), new NameSpaceBuilder(), new ClassBuilder(), _domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_domainNameSpace);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/DomainEventBase.g.cs"),
                 File.ReadAllText("Domain/Base/DomainEventBase.g.cs"));
@@ -90,6 +94,7 @@ namespace DslModelToCSharp.Tests
                 _domainNameSpace);
 
             classWriter.Write(new ValidationResultBaseClass());
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_domainNameSpace);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/ValidationResult.g.cs"),
                 File.ReadAllText("Domain/Base/ValidationResult.g.cs"));

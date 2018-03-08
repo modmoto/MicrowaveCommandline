@@ -17,41 +17,17 @@ namespace Domain
     public class ValidationResult
     {
         
-        private Boolean _Ok;
+        public Boolean Ok { get; private set; }
         
-        private List<DomainEventBase> _DomainEvents;
+        public List<DomainEventBase> DomainEvents { get; private set; }
         
-        private List<string> _DomainErrors;
+        public List<string> DomainErrors { get; private set; }
         
         private ValidationResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> DomainErrors)
         {
-            this._Ok = Ok;
-            this._DomainEvents = DomainEvents;
-            this._DomainErrors = DomainErrors;
-        }
-        
-        public Boolean Ok
-        {
-            get
-            {
-                return this._Ok;
-            }
-        }
-        
-        public List<DomainEventBase> DomainEvents
-        {
-            get
-            {
-                return this._DomainEvents;
-            }
-        }
-        
-        public List<string> DomainErrors
-        {
-            get
-            {
-                return this._DomainErrors;
-            }
+            this.Ok = Ok;
+            this.DomainEvents = DomainEvents;
+            this.DomainErrors = DomainErrors;
         }
         
         public static ValidationResult OkResult(List<DomainEventBase> DomainEvents)
