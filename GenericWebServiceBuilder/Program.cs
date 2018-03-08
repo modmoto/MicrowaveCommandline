@@ -11,7 +11,7 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
-            var basePath = "../GeneratedWebService/Domain/Generated/";
+            var basePath = "../../GeneratedWebService/GeneratedWebService/Domain/Generated/";
 
             var nameSpaceBuilder = new NameSpaceBuilder();
             var fileWriter = new FileWriter(basePath);
