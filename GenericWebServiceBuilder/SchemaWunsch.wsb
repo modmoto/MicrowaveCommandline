@@ -24,6 +24,6 @@ DomainClass Post {
 
 SynchronousDomainHook User.Create SendWelcomeMail
 
-AsyncDomainHook @(http://vertragsservice.de).Vertrag.ChangeUser SyncUserVertaege
+AsyncDomainHook @(http://vertragsservice.de).Vertrag.RemoveUser SyncUserVertaege
 
 TimeHook (*, *, *, 1, *, *) UpdateUserAge
