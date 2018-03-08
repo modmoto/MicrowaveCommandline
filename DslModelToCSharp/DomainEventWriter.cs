@@ -5,7 +5,7 @@ namespace DslModelToCSharp
 {
     public interface IDomainEventWriter
     {
-        void Write(DomainEvent domainEvent, string nameSpaceName, string basePath);
+        void Write(DomainEvent domainEvent, string nameSpaceName);
     }
 
     public class DomainEventWriter : IDomainEventWriter
@@ -24,7 +24,7 @@ namespace DslModelToCSharp
             _constBuilder = constBuilder;
         }
 
-        public void Write(DomainEvent domainEvent, string nameSpaceName, string basePath)
+        public void Write(DomainEvent domainEvent, string nameSpaceName)
         {
             var nameSpace = new CodeNamespace(nameSpaceName);
 

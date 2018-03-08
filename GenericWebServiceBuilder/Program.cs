@@ -36,7 +36,7 @@ namespace GenericWebServiceBuilder
                 foreach (var domainClass in domainTree.Classes)
                 {
                     foreach (var domainEvent in domainClass.Events)
-                        domainEventWriter.Write(domainEvent, $"{domainNameSpace}.{domainClass.Name}s", basePath);
+                        domainEventWriter.Write(domainEvent, $"{domainNameSpace}.{domainClass.Name}s");
                     classWriter.Write(domainClass);
                 }
 
@@ -44,7 +44,7 @@ namespace GenericWebServiceBuilder
                 classWriter.Write(new CreationResultBaseClass());
             }
 
-            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(),
+            var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
         }

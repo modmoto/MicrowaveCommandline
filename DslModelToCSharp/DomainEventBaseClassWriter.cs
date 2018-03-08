@@ -3,7 +3,7 @@ using DslModel;
 
 namespace DslModelToCSharp
 {
-    public class DomainEventBaseClassBuilder
+    public class DomainEventBaseClassWriter
     {
         private readonly IConstBuilder _constBuilder;
         private readonly string _domain;
@@ -12,7 +12,7 @@ namespace DslModelToCSharp
         private readonly IClassBuilder _classBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainEventBaseClassBuilder(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder,
+        public DomainEventBaseClassWriter(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder,
             IFileWriter fileWriter, INameSpaceBuilder nameSpaceBuilder, IClassBuilder classBuilder, string domain)
         {
             _propertyBuilder = propertyBuilder;

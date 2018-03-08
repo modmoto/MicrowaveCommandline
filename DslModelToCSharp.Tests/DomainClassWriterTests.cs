@@ -41,7 +41,7 @@ namespace DslModelToCSharp.Tests
                 foreach (var domainClass in domainTree.Classes)
                 {
                     foreach (var domainEvent in domainClass.Events)
-                        domainEventWriter.Write(domainEvent, $"{_domainNameSpace}.{domainClass.Name}s", _basePath);
+                        domainEventWriter.Write(domainEvent, $"{_domainNameSpace}.{domainClass.Name}s");
                     classWriter.Write(domainClass);
                 }
             }
@@ -73,7 +73,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
-            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(),
+            var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 new FileWriter(""), new NameSpaceBuilder(), new ClassBuilder(), _domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
 
