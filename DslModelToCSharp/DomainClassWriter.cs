@@ -59,7 +59,8 @@ namespace DslModelToCSharp
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(emptyConstructor);
 
-            foreach (var domainEvent in userClass.Events) _domainEventWriter.Write(domainEvent, nameSpaceName, basePath);
+            foreach (var domainEvent in userClass.Events)
+                _domainEventWriter.Write(domainEvent, nameSpaceName, basePath);
 
             _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace, basePath);
         }
@@ -99,32 +100,6 @@ namespace DslModelToCSharp
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
         }
 
-        public void Write(DomainEventBaseClass userClass, string basePath)
-        {
-            var nameSpaceName = $"{_domain}";
-            var nameSpace = new CodeNamespace(nameSpaceName);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-
-            var targetClass = new CodeTypeDeclaration(userClass.Name);
-            targetClass.IsClass = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
-
-            foreach (var proptery in userClass.Properties)
-            {
-                var property = _propertyBuilder.Build(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
-            }
-
-            nameSpace.Types.Add(targetClass);
-
-            var constructor = _constBuilder.BuildPublic(userClass.Properties);
-            targetClass.Members.Add(constructor);
-
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
-        }
-
         public void Write(CreationResultBaseClass userClass, string basePath)
         {
             var nameSpaceName = $"{_domain}";
@@ -134,7 +109,6 @@ namespace DslModelToCSharp
             targetClass.IsClass = true;
             targetClass.TypeAttributes = TypeAttributes.Public;
             var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
-            var codeTypeReference = new CodeTypeReference(new DomainEventBaseClass().Name);
             userClassGenericType.Constraints.Add(" class");
             targetClass.TypeParameters.Add(userClassGenericType);
 
@@ -158,11 +132,38 @@ namespace DslModelToCSharp
             var properties = userClass.Properties.Take(3).ToList();
             properties.Add(new Property {Name = "null"});
             var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(properties,
-                new List<Property> {userClass.Properties[2]}, userClass.Name, userClass.GenericType, $"<{userClass.GenericType}>");
+                new List<Property> {userClass.Properties[2]}, userClass.Name, userClass.GenericType,
+                $"<{userClass.GenericType}>");
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);
             targetClass.Members.Add(errorResultConstructor);
+
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
+        }
+
+        public void Write(DomainEventBaseClass userClass, string basePath)
+        {
+            var nameSpaceName = $"{_domain}";
+            var nameSpace = new CodeNamespace(nameSpaceName);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+
+            var targetClass = new CodeTypeDeclaration(userClass.Name);
+            targetClass.IsClass = true;
+            targetClass.TypeAttributes = TypeAttributes.Public;
+
+            foreach (var proptery in userClass.Properties)
+            {
+                var property = _propertyBuilder.Build(proptery);
+                targetClass.Members.Add(property.Field);
+                targetClass.Members.Add(property.Property);
+            }
+
+            nameSpace.Types.Add(targetClass);
+
+            var constructor = _constBuilder.BuildPublic(userClass.Properties);
+            targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
         }
