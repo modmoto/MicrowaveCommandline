@@ -1,0 +1,29 @@
+﻿DomainClass User {
+	Id: Guid
+	Name: String
+	Age: Int32
+
+	Create(Name: String)
+
+	UpdateAge(Age: Int32): {
+		Age: Int32
+	}
+
+	UpdateName(Name: String): {
+		Name: String
+	}
+}
+
+DomainClass Post {
+	Id: Guid
+	Title: String
+	Body: String
+
+	Create(Title: String)
+}
+
+SynchronousDomainHook User.Create SendWelcomeMail
+
+AsyncDomainHook @(http://vertragsservice.de).Vertrag.ChangeUser SyncUserVertaege
+
+TimeHook (*, *, *, 1, *, *) UpdateUserAge
