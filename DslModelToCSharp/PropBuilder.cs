@@ -1,36 +1,42 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using DslModel;
 
 namespace DslModelToCSharp
 {
     public class PropBuilder : IPropertyBuilder
     {
-        public AutoProperty Build(Property property)
+        public CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<Property> properties)
         {
-            var field = new CodeMemberField
+            foreach (var property in properties)
             {
-                Attributes = MemberAttributes.Private,
-                Name = $"_{property.Name}",
-                Type = new CodeTypeReference(property.Type)
-            };
+                var field = new CodeMemberField
+                {
+                    Attributes = MemberAttributes.Private,
+                    Name = $"_{property.Name}",
+                    Type = new CodeTypeReference(property.Type)
+                };
 
-            var csProperty = new CodeMemberProperty
-            {
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = property.Name,
-                HasGet = true,
-                Type = new CodeTypeReference(property.Type)
-            };
-            csProperty.GetStatements.Add(new CodeMethodReturnStatement(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(), $"_{property.Name}")));
+                var csProperty = new CodeMemberProperty
+                {
+                    Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                    Name = property.Name,
+                    HasGet = true,
+                    Type = new CodeTypeReference(property.Type)
+                };
+                csProperty.GetStatements.Add(new CodeMethodReturnStatement(
+                    new CodeFieldReferenceExpression(
+                        new CodeThisReferenceExpression(), $"_{property.Name}")));
+                generatedClass.Members.Add(field);
+                generatedClass.Members.Add(csProperty);
+            }
 
-            return new AutoProperty(field, csProperty);
+            return generatedClass;
         }
     }
 
     public interface IPropertyBuilder
     {
-        AutoProperty Build(Property property);
+        CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<Property> properties);
     }
 }

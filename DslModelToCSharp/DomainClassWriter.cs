@@ -20,7 +20,7 @@ namespace DslModelToCSharp
         public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
             IClassParser classParser, IDomainEventWriter domainEventWriter, IFileWriter fileWriter,
             IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder,
-            string domainNameSpace = "Domain")
+            string domainNameSpace)
         {
             _interfaceBuilder = interfaceBuilder;
             _propertyBuilder = propertyBuilder;
@@ -49,12 +49,7 @@ namespace DslModelToCSharp
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
             var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
 
-            foreach (var proptery in userClass.Properties)
-            {
-                var property = _propertyBuilder.Build(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
-            }
+            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(emptyConstructor);
@@ -62,10 +57,10 @@ namespace DslModelToCSharp
             foreach (var domainEvent in userClass.Events)
                 _domainEventWriter.Write(domainEvent, nameSpaceName, basePath);
 
-            _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace, basePath);
+            _fileWriter.WriteToFile(userClass.Name, nameSpaceName.Split(".")[1], nameSpace);
         }
 
-        public void Write(ValidationResultBaseClass userClass, string basePath)
+        public void Write(ValidationResultBaseClass userClass)
         {
             var nameSpaceName = $"{_domain}";
             var nameSpace = new CodeNamespace(nameSpaceName);
@@ -81,12 +76,7 @@ namespace DslModelToCSharp
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
-            foreach (var proptery in userClass.Properties)
-            {
-                var property = _propertyBuilder.Build(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
-            }
+            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties,
                 new List<Property> {userClass.Properties[1]}, userClass.Name);
@@ -97,10 +87,10 @@ namespace DslModelToCSharp
             targetClass.Members.Add(buildOkResultConstructor);
             targetClass.Members.Add(errorResultConstructor);
 
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
 
-        public void Write(CreationResultBaseClass userClass, string basePath)
+        public void Write(CreationResultBaseClass userClass)
         {
             var nameSpaceName = $"{_domain}";
             var nameSpace = new CodeNamespace(nameSpaceName);
@@ -119,12 +109,7 @@ namespace DslModelToCSharp
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
-            foreach (var proptery in userClass.Properties)
-            {
-                var property = _propertyBuilder.Build(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
-            }
+            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(userClass.Properties,
                 new List<Property> {userClass.Properties[1], userClass.Properties[3]}, userClass.Name,
@@ -139,33 +124,7 @@ namespace DslModelToCSharp
             targetClass.Members.Add(buildOkResultConstructor);
             targetClass.Members.Add(errorResultConstructor);
 
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
-        }
-
-        public void Write(DomainEventBaseClass userClass, string basePath)
-        {
-            var nameSpaceName = $"{_domain}";
-            var nameSpace = new CodeNamespace(nameSpaceName);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-
-            var targetClass = new CodeTypeDeclaration(userClass.Name);
-            targetClass.IsClass = true;
-            targetClass.TypeAttributes = TypeAttributes.Public;
-
-            foreach (var proptery in userClass.Properties)
-            {
-                var property = _propertyBuilder.Build(proptery);
-                targetClass.Members.Add(property.Field);
-                targetClass.Members.Add(property.Property);
-            }
-
-            nameSpace.Types.Add(targetClass);
-
-            var constructor = _constBuilder.BuildPublic(userClass.Properties);
-            targetClass.Members.Add(constructor);
-
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace, basePath);
+            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
         }
     }
 }

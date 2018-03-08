@@ -11,6 +11,7 @@ namespace DslModelToCSharp.Tests
     public class DomainClassWriterTests
     {
         private readonly string _basePath = "DomainActual/Generated";
+        private string _domainNameSpace = "Domain";
 
         [TestInitialize]
         public void Setup()
@@ -21,10 +22,11 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void TestAll_Snapshot()
         {
+            var fileWriter = new FileWriter("");
             var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
+                new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(), new ConstBuilder(), new StaticConstructorBuilder());
+                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
@@ -40,55 +42,52 @@ namespace DslModelToCSharp.Tests
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/CreateUserEvent.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Users/CreateUserEvent.g.cs"));
+                File.ReadAllText("Domain/Users/CreateUserEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/User.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Users/User.g.cs"));
+                File.ReadAllText("/Domain/Users/User.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/UserUpdateAgeEvent.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Users/UserUpdateAgeEvent.g.cs"));
+                File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/UserUpdateNameEvent.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Users/UserUpdateNameEvent.g.cs"));
+                File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"));
         }
 
         [TestMethod]
         public void CreateionResultBase_Builder()
         {
+            var fileWriter = new FileWriter("");
             var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
+                new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(), new ConstBuilder(), new StaticConstructorBuilder());
+                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
 
-            classWriter.Write(new CreationResultBaseClass(), _basePath);
+            classWriter.Write(new CreationResultBaseClass());
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/CreationResult.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Base/CreationResult.g.cs"));
+                File.ReadAllText("Domain/Base/CreationResult.g.cs"));
         }
 
         [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
-            var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
-            var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(), new ConstBuilder(), new StaticConstructorBuilder());
-
-            classWriter.Write(new DomainEventBaseClass(), _basePath);
+            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(), new FileWriter(""), _domainNameSpace);
+            domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/DomainEventBase.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Base/DomainEventBase.g.cs"));
+                File.ReadAllText("Domain/Base/DomainEventBase.g.cs"));
         }
 
         [TestMethod]
         public void ValidationResultBaseClass_Builder()
         {
             var domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
+                new DomainEventWriter(new PropBuilder(), new FileWriter(""), new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(), new ConstBuilder(), new StaticConstructorBuilder());
+                domainEventWriter, new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
 
-            classWriter.Write(new ValidationResultBaseClass(), _basePath);
+            classWriter.Write(new ValidationResultBaseClass());
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/ValidationResult.g.cs"),
-                File.ReadAllText("DomainActual/Generated/Domain/Base/ValidationResult.g.cs"));
+                File.ReadAllText("Domain/Base/ValidationResult.g.cs"));
         }
     }
 }

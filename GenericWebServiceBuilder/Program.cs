@@ -11,15 +11,17 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
+            var basePath = "../GeneratedWebService/Domain/Generated/";
+
+            var fileWriter = new FileWriter(basePath);
             IDomainEventWriter domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), new FileWriter(), new ClassBuilder(), new ConstBuilder());
+                new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(), new ConstBuilder(), new StaticConstructorBuilder());
+                domainEventWriter, fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), "Domain");
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
-            var basePath = "../GeneratedWebService/Domain/Generated/";
-
+           
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -30,10 +32,12 @@ namespace GenericWebServiceBuilder
                 foreach (var domainClass in domainTree.Classes)
                     classWriter.Write(domainClass, basePath);
 
-                classWriter.Write(new ValidationResultBaseClass(), basePath);
-                classWriter.Write(new DomainEventBaseClass(), basePath);
-                classWriter.Write(new CreationResultBaseClass(), basePath);
+                classWriter.Write(new ValidationResultBaseClass());
+                classWriter.Write(new CreationResultBaseClass());
             }
+
+            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(), fileWriter, "Domain");
+            domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
         }
     }
 }
