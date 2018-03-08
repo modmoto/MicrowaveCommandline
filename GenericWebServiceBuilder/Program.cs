@@ -13,6 +13,7 @@ namespace GenericWebServiceBuilder
         {
             var basePath = "../GeneratedWebService/Domain/Generated/";
 
+            var nameSpaceBuilder = new NameSpaceBuilder();
             var fileWriter = new FileWriter(basePath);
             IDomainEventWriter domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, new ClassBuilder(), new ConstBuilder());
@@ -36,7 +37,7 @@ namespace GenericWebServiceBuilder
                 classWriter.Write(new CreationResultBaseClass());
             }
 
-            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(), fileWriter, "Domain");
+            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(), fileWriter, nameSpaceBuilder, "Domain");
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
         }
     }

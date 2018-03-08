@@ -11,7 +11,7 @@ namespace DslModelToCSharp.Tests
     public class DomainClassWriterTests
     {
         private readonly string _basePath = "DomainActual/Generated";
-        private string _domainNameSpace = "Domain";
+        private readonly string _domainNameSpace = "Domain";
 
         [TestInitialize]
         public void Setup()
@@ -44,7 +44,7 @@ namespace DslModelToCSharp.Tests
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/CreateUserEvent.g.cs"),
                 File.ReadAllText("Domain/Users/CreateUserEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/User.g.cs"),
-                File.ReadAllText("/Domain/Users/User.g.cs"));
+                File.ReadAllText("Domain/Users/User.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/UserUpdateAgeEvent.g.cs"),
                 File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/UserUpdateNameEvent.g.cs"),
@@ -69,7 +69,8 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
-            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(), new FileWriter(""), _domainNameSpace);
+            var domainEventBaseClassBuilder = new DomainEventBaseClassBuilder(new PropBuilder(), new ConstBuilder(),
+                new FileWriter(""), new NameSpaceBuilder(), _domainNameSpace);
             domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Base/DomainEventBase.g.cs"),
@@ -82,7 +83,8 @@ namespace DslModelToCSharp.Tests
             var domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), new FileWriter(""), new ClassBuilder(), new ConstBuilder());
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder(),
-                domainEventWriter, new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(), _domainNameSpace);
+                domainEventWriter, new FileWriter(""), new ConstBuilder(), new StaticConstructorBuilder(),
+                _domainNameSpace);
 
             classWriter.Write(new ValidationResultBaseClass());
 

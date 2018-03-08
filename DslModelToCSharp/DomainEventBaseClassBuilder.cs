@@ -11,18 +11,20 @@ namespace DslModelToCSharp
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IConstBuilder _constBuilder;
         private readonly IFileWriter _fileWriter;
+        private readonly INameSpaceBuilder _nameSpaceBuilder;
 
-        public DomainEventBaseClassBuilder(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder, IFileWriter fileWriter, string domain)
+        public DomainEventBaseClassBuilder(IPropertyBuilder propertyBuilder, IConstBuilder constBuilder, IFileWriter fileWriter, INameSpaceBuilder nameSpaceBuilder, string domain)
         {
             _propertyBuilder = propertyBuilder;
             _constBuilder = constBuilder;
             _fileWriter = fileWriter;
+            _nameSpaceBuilder = nameSpaceBuilder;
             _domain = domain;
         }
 
         public void Build(string name, IList<Property> properties)
         {
-            var nameSpace = NameSpaceBuilder();
+            var nameSpace = _nameSpaceBuilder.Build(_domain);
 
             var generatedClass = ClassBuilder(name);
 
@@ -34,15 +36,6 @@ namespace DslModelToCSharp
             generatedClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(name, "Base", nameSpace);
-        }
-
-        private CodeNamespace NameSpaceBuilder()
-        {
-            var nameSpaceName = _domain;
-            var nameSpace = new CodeNamespace(nameSpaceName);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            return nameSpace;
         }
 
         private static CodeTypeDeclaration ClassBuilder(string name)
