@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using DslModel;
 using DslModelToCSharp;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -25,7 +24,10 @@ namespace GenericWebServiceBuilder
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
-
+            var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
+                fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
+            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder);
+            
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -33,22 +35,8 @@ namespace GenericWebServiceBuilder
                 var dslParser = new DslParser(tokenizer, parser);
                 var domainTree = dslParser.Parse(content);
 
-                foreach (var domainClass in domainTree.Classes)
-                {
-                    foreach (var domainEvent in domainClass.Events)
-                        domainEventWriter.Write(domainEvent, $"{domainNameSpace}.{domainClass.Name}s");
-                    classWriter.Write(domainClass);
-                }
-
-                classWriter.Write(new ValidationResultBaseClass());
-                classWriter.Write(new CreationResultBaseClass());
+                domainBuilder.Build(domainTree, domainNameSpace, basePath);
             }
-
-            var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
-                fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
-            domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }
     }
 }

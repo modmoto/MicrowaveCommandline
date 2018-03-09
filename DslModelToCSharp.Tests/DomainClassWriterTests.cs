@@ -31,6 +31,9 @@ namespace DslModelToCSharp.Tests
             var tokenizer = new Tokenizer();
             var parser = new Parser();
 
+            var baseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(), fileWriter,
+                new NameSpaceBuilder(), new ClassBuilder(), _domainNameSpace);
+            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, baseClassBuilder);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -38,15 +41,8 @@ namespace DslModelToCSharp.Tests
                 var dslParser = new DslParser(tokenizer, parser);
                 var domainTree = dslParser.Parse(content);
 
-                foreach (var domainClass in domainTree.Classes)
-                {
-                    foreach (var domainEvent in domainClass.Events)
-                        domainEventWriter.Write(domainEvent, $"{_domainNameSpace}.{domainClass.Name}s");
-                    classWriter.Write(domainClass);
-                }
+                domainBuilder.Build(domainTree, _domainNameSpace, _domainNameSpace);
             }
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_domainNameSpace);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Domain/Users/CreateUserEvent.g.cs"),
                 File.ReadAllText("Domain/Users/CreateUserEvent.g.cs"));
