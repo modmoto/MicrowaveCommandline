@@ -35,24 +35,33 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            if (!domainEvent.Name.StartsWith(new CreateMethod().Name))
-            {
-                targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
-            }
-            else
-            {
-                var first = domainEvent.Properties.First();
-                targetClass = _propertyBuilder.BuildWithoutSet(targetClass, new List<Property> { first });
-                var properties = domainEvent.Properties.Except(new List<Property> { first }).ToList();
-                targetClass = _propertyBuilder.Build(targetClass, properties);
-            }
+            targetClass = !domainEvent.Name.StartsWith(new CreateMethod().Name)
+                ? BuildProperties(domainEvent, targetClass)
+                : BuildPropertiesWithoutSelfLink(domainEvent, targetClass);
 
-            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties.Skip(1).ToList());
+            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties,
+                new DomainEventBaseClass().Properties.Skip(1).ToList());
 
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
             targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);
+        }
+
+        private CodeTypeDeclaration BuildPropertiesWithoutSelfLink(DomainEvent domainEvent,
+            CodeTypeDeclaration targetClass)
+        {
+            var first = domainEvent.Properties.First();
+            targetClass = _propertyBuilder.BuildWithoutSet(targetClass, new List<Property> {first});
+            var properties = domainEvent.Properties.Except(new List<Property> {first}).ToList();
+            targetClass = _propertyBuilder.Build(targetClass, properties);
+            return targetClass;
+        }
+
+        private CodeTypeDeclaration BuildProperties(DomainEvent domainEvent, CodeTypeDeclaration targetClass)
+        {
+            targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
+            return targetClass;
         }
     }
 }
