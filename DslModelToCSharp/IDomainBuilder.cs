@@ -12,13 +12,15 @@ namespace DslModelToCSharp
         private readonly DomainClassWriter _classWriter;
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly DomainEventBaseClassWriter _domainEventBaseClassBuilder;
+        private readonly ValidationResultBaseClassBuilder _validationResultBaseClassBuilder;
 
         public DomainBuilder(DomainClassWriter classWriter, IDomainEventWriter domainEventWriter,
-            DomainEventBaseClassWriter domainEventBaseClassBuilder)
+            DomainEventBaseClassWriter domainEventBaseClassBuilder, ValidationResultBaseClassBuilder validationResultBaseClassBuilder)
         {
             _classWriter = classWriter;
             _domainEventWriter = domainEventWriter;
             _domainEventBaseClassBuilder = domainEventBaseClassBuilder;
+            _validationResultBaseClassBuilder = validationResultBaseClassBuilder;
         }
 
         public void Build(DomainTree domainTree, string domainNameSpace, string basePath)
@@ -30,7 +32,7 @@ namespace DslModelToCSharp
                 _classWriter.Write(domainClass);
             }
 
-            _classWriter.Write(new ValidationResultBaseClass());
+            _validationResultBaseClassBuilder.Write(new ValidationResultBaseClass());
             _classWriter.Write(new CreationResultBaseClass());
             _domainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
 

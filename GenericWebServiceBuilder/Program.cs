@@ -18,17 +18,18 @@ namespace GenericWebServiceBuilder
             var classBuilder = new ClassBuilder();
             IDomainEventWriter domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, classBuilder, new ConstBuilder());
-            
+
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), classBuilder,
                 fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), nameSpaceBuilder,
                 domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
-
+            var valBaseClassBuilder = new ValidationResultBaseClassBuilder(domainNameSpace, fileWriter,
+                new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder, classBuilder);
             var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
-            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder);
-            
+            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder);
+
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();

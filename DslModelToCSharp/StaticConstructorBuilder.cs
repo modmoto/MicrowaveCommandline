@@ -7,29 +7,21 @@ namespace DslModelToCSharp
 {
     public class StaticConstructorBuilder : IStaticConstructorBuilder
     {
-        public CodeMemberMethod BuildOkResult(IList<Property> props, IList<Property> propsInMethod, string name, string genericType = "", string genericTypeArgument = "")
+        public CodeMemberMethod BuildOkResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType)
         {
-            var codeTypeReference = new CodeTypeReference(name);
-            if (genericType != string.Empty) codeTypeReference.TypeArguments.Add(genericType);
+            return BuildResult(argumentsPassedToConst, propsInMethod, classType, "OkResult", true);
+        }
 
-            var method = new CodeMemberMethod
-            {
-                Name = "OkResult",
-                ReturnType = codeTypeReference
-            };
+        private static CodeMemberMethod BuildResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod,
+            string classType, string resultName, bool isOk)
+        {
+            var codeTypeReference = new CodeTypeReference(classType);
 
-            foreach (var prop in propsInMethod) {
-                method.Parameters.Add(new CodeParameterDeclarationExpression(prop.Type, prop.Name));
-            }
+            var method = createBaseMethod(propsInMethod, codeTypeReference, resultName);
 
-            var methodSignature = $"new {name}{genericTypeArgument}(true, {props[1].Name}, new {props[2].Type}()";
-            foreach (var prop in props.Skip(3))
-            {
-                methodSignature += $", {prop.Name}";
-            }
-            methodSignature += ")";
-            var codeArgumentReferenceExpression =
-                new CodeArgumentReferenceExpression(methodSignature);
+            var methodSignature = CreateMethodCallToConstructor(argumentsPassedToConst, classType, "", isOk);
+
+            var codeArgumentReferenceExpression = new CodeArgumentReferenceExpression(methodSignature);
 
             method.Attributes = MemberAttributes.Public | MemberAttributes.Final | MemberAttributes.Static;
             method.Statements.Add(new CodeMethodReturnStatement(codeArgumentReferenceExpression));
@@ -37,14 +29,11 @@ namespace DslModelToCSharp
             return method;
         }
 
-        public CodeMemberMethod BuildErrorResult(IList<Property> props, IList<Property> propsInMethod, string name, string genericType = "", string genericTypeArgument = "")
+        private static CodeMemberMethod createBaseMethod(IList<Property> propsInMethod, CodeTypeReference codeTypeReference, string name)
         {
-            var codeTypeReference = new CodeTypeReference(name);
-            if (genericType != string.Empty) codeTypeReference.TypeArguments.Add(genericType);
-
             var method = new CodeMemberMethod
             {
-                Name = "ErrorResult",
+                Name = name,
                 ReturnType = codeTypeReference
             };
 
@@ -53,25 +42,64 @@ namespace DslModelToCSharp
                 method.Parameters.Add(new CodeParameterDeclarationExpression(prop.Type, prop.Name));
             }
 
-            var methodSignature = $"new {name}{genericTypeArgument}(false, new {props[1].Type}(), {props[2].Name}";
-            foreach (var prop in props.Skip(3))
+            return method;
+        }
+
+        private static string CreateMethodCallToConstructor(IList<string> argumentsPassedToConst, string classType, string genericType,
+            bool isOk)
+        {
+            var methodSignature = $"new {classType}{genericType}({isOk.ToString().ToLower()}";
+            foreach (var argument in argumentsPassedToConst)
             {
-                methodSignature += $", {prop.Name}";
+                methodSignature += $", {argument}";
             }
+
             methodSignature += ")";
-            var codeArgumentReferenceExpression =
-                new CodeArgumentReferenceExpression(methodSignature);
+            return methodSignature;
+        }
+
+        public CodeMemberMethod BuildOkResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType, string genericType)
+        {
+            return BuildGenericResult(argumentsPassedToConst, propsInMethod, classType, genericType, "OkResult", true);
+        }
+
+        public CodeMemberMethod BuildErrorResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType,
+            string genericType)
+        {
+            return BuildGenericResult(argumentsPassedToConst, propsInMethod, classType, genericType, "ErrorResult", false);
+        }
+
+        private static CodeMemberMethod BuildGenericResult(IList<string> argumentsPassedToConst,
+            IList<Property> propsInMethod, string classType,
+            string genericType, string resultName, bool isOk)
+        {
+            var codeTypeReference = new CodeTypeReference(classType);
+
+            var method = createBaseMethod(propsInMethod, codeTypeReference, resultName);
+            codeTypeReference.TypeArguments.Add(genericType);
+            method.ReturnType = codeTypeReference;
+
+            var methodSignature = CreateMethodCallToConstructor(argumentsPassedToConst, classType, $"<{genericType}>", isOk);
+
+            var codeArgumentReferenceExpression = new CodeArgumentReferenceExpression(methodSignature);
 
             method.Attributes = MemberAttributes.Public | MemberAttributes.Final | MemberAttributes.Static;
             method.Statements.Add(new CodeMethodReturnStatement(codeArgumentReferenceExpression));
 
             return method;
         }
+
+        public CodeMemberMethod BuildErrorResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType)
+        {
+            return BuildResult(argumentsPassedToConst, propsInMethod, classType, "ErrorResult", false);
+        }
     }
 
     public interface IStaticConstructorBuilder
     {
-        CodeMemberMethod BuildOkResult(IList<Property> propsInConstructor, IList<Property> propsInMethod, string name, string genericType = "", string genericTypeArgument = "");
-        CodeMemberMethod BuildErrorResult(IList<Property> userClassProperties, IList<Property> propsInMethod, string name, string genericType = "", string genericTypeArgument = "");
+        CodeMemberMethod BuildOkResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType);
+        CodeMemberMethod BuildOkResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType, string genericType);
+        CodeMemberMethod BuildErrorResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType, string genericType);
+        CodeMemberMethod BuildErrorResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType);
     }
 }
