@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
     <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
     <Compile Remove="DomainExpected\EventStore.cs" />
     <Compile Remove="DomainExpected\EventStoreContext.cs" />
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ApplicationExpected\Generated\Base\" />
     <Folder Include="DomainExpected\Generated\Base\" />
     <Folder Include="DomainExpected\Generated\Posts\" />
     <Folder Include="DomainExpected\Generated\Users\" />

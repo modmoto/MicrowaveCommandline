@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
-using DslModel;
+using DslModel.Domain;
 
 namespace DslModelToCSharp
 {

@@ -1,4 +1,4 @@
-﻿using DslModel;
+﻿using DslModel.Domain;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat.DomainClasses;
 

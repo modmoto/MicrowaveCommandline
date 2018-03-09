@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DslModel;
+using DslModel.Domain;
 using FileToDslModel.Lexer;
 
 namespace FileToDslModel.ParseAutomat

@@ -9,13 +9,14 @@ namespace DslModelToCSharp.Tests
     public class TestBase
     {
         protected readonly string DomainNameSpace = "Domain";
+        protected readonly string BasePathDomain = "Domain/";
+        protected readonly string ApplicationNameSpace = "Application";
+        protected readonly string BasePathApplication = "Application/";
         protected DomainEventBaseClassWriter BaseClassBuilder;
-        protected string BasePath = "Generated/";
         protected DomainClassWriter ClassWriter;
         protected DomainEventBaseClassWriter DomainEventBaseClassBuilder;
         protected DomainEventWriter DomainEventWriter;
         protected DslParser DslParser;
-        protected FileWriter FileWriter;
         protected Parser Parser;
         protected PropBuilder PropBuilder;
         protected StaticConstructorBuilder StaticConstructorBuilder;
@@ -27,13 +28,11 @@ namespace DslModelToCSharp.Tests
         {
             if (Directory.Exists("DomainActual")) Directory.Delete("DomainActual", true);
 
-            FileWriter = new FileWriter(BasePath);
-
             DomainEventWriter =
-                new DomainEventWriter(new PropBuilder(), FileWriter, new ClassBuilder(), new ConstBuilder());
+                new DomainEventWriter(new PropBuilder(), new FileWriter(DomainNameSpace), new ClassBuilder(), new ConstBuilder());
 
             ClassWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), new ClassBuilder()
-                , FileWriter, new ConstBuilder(), new StaticConstructorBuilder(), new NameSpaceBuilder(),
+                , new FileWriter(DomainNameSpace), new ConstBuilder(), new StaticConstructorBuilder(), new NameSpaceBuilder(),
                 DomainNameSpace);
 
             StaticConstructorBuilder = new StaticConstructorBuilder();
@@ -47,12 +46,12 @@ namespace DslModelToCSharp.Tests
             DslParser = new DslParser(Tokenizer, Parser);
 
             DomainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
-                new FileWriter(BasePath), new NameSpaceBuilder(), new ClassBuilder(), DomainNameSpace);
+                new FileWriter(BasePathDomain), new NameSpaceBuilder(), new ClassBuilder(), DomainNameSpace);
 
-            BaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(), FileWriter,
+            BaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(), new FileWriter(DomainNameSpace),
                 new NameSpaceBuilder(), new ClassBuilder(), DomainNameSpace);
 
-            ValidationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, FileWriter,
+            ValidationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, new FileWriter(DomainNameSpace),
                 StaticConstructorBuilder, PropBuilder, new ConstBuilder(), new NameSpaceBuilder(), new ClassBuilder());
         }
     }

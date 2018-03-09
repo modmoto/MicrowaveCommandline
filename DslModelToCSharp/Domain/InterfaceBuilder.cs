@@ -1,5 +1,5 @@
 ﻿using System.CodeDom;
-using DslModel;
+using DslModel.Domain;
 
 namespace DslModelToCSharp
 {

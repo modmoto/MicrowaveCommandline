@@ -1,4 +1,4 @@
-﻿using DslModel;
+﻿using DslModel.Domain;
 
 namespace DslModelToCSharp
 {

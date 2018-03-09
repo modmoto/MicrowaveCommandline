@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace DslModel
+namespace DslModel.Domain
 {
     public class CreateMethod
     {

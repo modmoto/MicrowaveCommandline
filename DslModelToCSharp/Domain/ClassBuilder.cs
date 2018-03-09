@@ -1,7 +1,5 @@
-﻿using System;
-using System.CodeDom;
+﻿using System.CodeDom;
 using System.Reflection;
-using DslModel;
 
 namespace DslModelToCSharp
 {

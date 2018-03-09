@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
-using DslModel;
+using DslModel.Domain;
 
 namespace DslModelToCSharp
 {
@@ -39,9 +39,7 @@ namespace DslModelToCSharp
 
             var buildOkResultConstructor = BuildOkResultConstructor(userClass);
 
-            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(
-                new List<string> { $"new {userClass.Properties[1].Type}()", userClass.Properties[2].Name},
-                new List<Property> { userClass.Properties[2] }, userClass.Name);
+            var errorResultConstructor = BuildErrorResultConstructor(userClass);
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);
@@ -50,6 +48,14 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
 
             _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
+        }
+
+        private CodeMemberMethod BuildErrorResultConstructor(ValidationResultBaseClass userClass)
+        {
+            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(
+                new List<string> {$"new {userClass.Properties[1].Type}()", userClass.Properties[2].Name},
+                new List<Property> {userClass.Properties[2]}, userClass.Name);
+            return errorResultConstructor;
         }
 
         private CodeMemberMethod BuildOkResultConstructor(ValidationResultBaseClass userClass)

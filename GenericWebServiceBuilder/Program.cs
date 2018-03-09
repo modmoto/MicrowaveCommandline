@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using DslModelToCSharp;
+using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
@@ -11,10 +12,12 @@ namespace GenericWebServiceBuilder
         private static void Main(string[] args)
         {
             var domainNameSpace = "Domain";
-            var basePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
+            var applicationNameSpace = "Application";
+            var domainBasePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
+            var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
 
             var nameSpaceBuilder = new NameSpaceBuilder();
-            var fileWriter = new FileWriter(basePath);
+            var fileWriter = new FileWriter(domainBasePath);
             var classBuilder = new ClassBuilder();
             IDomainEventWriter domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, classBuilder, new ConstBuilder());
@@ -30,6 +33,10 @@ namespace GenericWebServiceBuilder
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
             var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder);
 
+            var hookResultBuilder = new HookResultBuilder(applicationNameSpace, new FileWriter(applicationBasePath), new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder,classBuilder);
+            hookResultBuilder.Write(new HookResultBaseClass());
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(applicationBasePath);
+
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -37,7 +44,7 @@ namespace GenericWebServiceBuilder
                 var dslParser = new DslParser(tokenizer, parser);
                 var domainTree = dslParser.Parse(content);
 
-                domainBuilder.Build(domainTree, domainNameSpace, basePath);
+                domainBuilder.Build(domainTree, domainNameSpace, domainBasePath);
             }
         }
     }

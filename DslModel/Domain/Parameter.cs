@@ -1,6 +1,6 @@
-﻿namespace DslModel
+﻿namespace DslModel.Domain
 {
-    public class Property
+    public class Parameter
     {
         public string Type { get; set; }
         public string Name { get; set; }
