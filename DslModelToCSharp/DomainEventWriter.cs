@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using DslModel;
 
@@ -34,9 +35,19 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties.Skip(1).ToList());
+            if (!domainEvent.Name.StartsWith(new CreateMethod().Name))
+            {
+                targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
+            }
+            else
+            {
+                var first = domainEvent.Properties.First();
+                targetClass = _propertyBuilder.BuildWithoutSet(targetClass, new List<Property> { first });
+                var properties = domainEvent.Properties.Except(new List<Property> { first }).ToList();
+                targetClass = _propertyBuilder.Build(targetClass, properties);
+            }
 
-            targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
+            var constructor = _constBuilder.BuildPublicWithBaseCall(domainEvent.Properties, new DomainEventBaseClass().Properties.Skip(1).ToList());
 
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
             targetClass.Members.Add(constructor);

@@ -38,10 +38,10 @@ namespace DslModelToCSharp
             return codeConstructor;
         }
 
-        public CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string IdName)
+        public CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string idName)
         {
             var codeConstructor = BuildPublic(userClassProperties);
-            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + IdName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
+            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
             return codeConstructor;
         }
 
