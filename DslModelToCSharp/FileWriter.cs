@@ -27,9 +27,9 @@ namespace DslModelToCSharp
             var provider = new CSharpCodeProvider();
             var options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            Directory.CreateDirectory($"{_basePath}{nameSpace.Name.Split(".")[0]}/{folderName}");
+            Directory.CreateDirectory($"{_basePath}{folderName}");
             using (var sourceWriter =
-                new StreamWriter($"{_basePath}{nameSpace.Name.Split(".")[0]}/{folderName}/{fileName}.g.cs"))
+                new StreamWriter($"{_basePath}{folderName}/{fileName}.g.cs"))
             {
                 provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
             }

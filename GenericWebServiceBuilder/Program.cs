@@ -10,14 +10,15 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
-            var basePath = "../../GeneratedWebService/GeneratedWebService/Domain/Generated/";
+            var domainNameSpace = "Domain";
+            var basePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
 
             var nameSpaceBuilder = new NameSpaceBuilder();
             var fileWriter = new FileWriter(basePath);
             var classBuilder = new ClassBuilder();
             IDomainEventWriter domainEventWriter =
                 new DomainEventWriter(new PropBuilder(), fileWriter, classBuilder, new ConstBuilder());
-            var domainNameSpace = "Domain";
+            
             var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), classBuilder,
                 fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), nameSpaceBuilder,
                 domainNameSpace);

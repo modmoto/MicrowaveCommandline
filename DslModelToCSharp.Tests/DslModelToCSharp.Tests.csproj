@@ -10,15 +10,15 @@
     <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
     <Compile Remove="DomainExpected\EventStore.cs" />
     <Compile Remove="DomainExpected\EventStoreContext.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Base\CreationResult.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Base\DomainEventBase.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Base\ValidationResult.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Posts\CreatePostEvent.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Posts\Post.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Users\CreateUserEvent.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Users\User.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Users\UserUpdateAgeEvent.g.cs" />
-    <Compile Remove="DomainExpected\Generated\Domain\Users\UserUpdateNameEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\CreationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\DomainEventBase.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\ValidationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\CreatePostEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\Post.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\CreateUserEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\User.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserUpdateAgeEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserUpdateNameEvent.g.cs" />
     <Compile Remove="DomainExpected\Post.cs" />
     <Compile Remove="DomainExpected\User.cs" />
   </ItemGroup>
@@ -37,9 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DomainExpected\Generated\Domain\Base\" />
-    <Folder Include="DomainExpected\Generated\Domain\Posts\" />
-    <Folder Include="DomainExpected\Generated\Domain\Users\" />
+    <Folder Include="DomainExpected\Generated\Base\" />
+    <Folder Include="DomainExpected\Generated\Posts\" />
+    <Folder Include="DomainExpected\Generated\Users\" />
   </ItemGroup>
 
   <ItemGroup>
