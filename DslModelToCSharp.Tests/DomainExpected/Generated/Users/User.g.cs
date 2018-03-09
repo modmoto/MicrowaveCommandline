@@ -30,11 +30,10 @@ namespace Domain.Users
         
         public Int32 Age { get; private set; }
         
-        private User(Guid Id, String Name, Int32 Age)
+        private User(Guid Id, String Name)
         {
             this.Id = Id;
             this.Name = Name;
-            this.Age = Age;
         }
         
         private User()

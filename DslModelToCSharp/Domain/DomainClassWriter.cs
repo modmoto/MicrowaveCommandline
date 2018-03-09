@@ -32,27 +32,31 @@ namespace DslModelToCSharp
             _domain = domainNameSpace;
         }
 
-        public void Write(DomainClass userClass)
+        public void Write(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilder.Build($"{_domain}.{userClass.Name}s");
-            var iface = _interfaceBuilder.Build(userClass);
+            var nameSpace = _nameSpaceBuilder.Build($"{_domain}.{domainClass.Name}s");
+            var iface = _interfaceBuilder.Build(domainClass);
 
-            var targetClass = _classBuilder.BuildPartial(userClass.Name);
+            var targetClass = _classBuilder.BuildPartial(domainClass.Name);
             targetClass.BaseTypes.Add(iface.Name);
 
             nameSpace.Types.Add(iface);
 
-            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+            foreach (var createMethod in domainClass.CreateMethods)
+            {
+                var properties = createMethod.Parameters.Select(param => new Property() {Name = param.Name, Type = param.Type}).ToList();
+                var constructor = _constBuilder.BuildPrivateWithAdditionalId(properties);
+                targetClass.Members.Add(constructor);
+            }
+
             var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
 
-            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
-
-            targetClass.Members.Add(constructor);
+            targetClass = _propertyBuilder.Build(targetClass, domainClass.Properties);
             targetClass.Members.Add(emptyConstructor);
 
             nameSpace.Types.Add(targetClass);
 
-            _fileWriter.WriteToFile(userClass.Name, nameSpace.Name.Split(".")[1], nameSpace);
+            _fileWriter.WriteToFile(domainClass.Name, nameSpace.Name.Split(".")[1], nameSpace);
         }
 
         public void Write(CreationResultBaseClass userClass)

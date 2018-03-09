@@ -10,6 +10,7 @@ namespace DslModelToCSharp
         CodeConstructor BuildPublic(IList<Property> userClassProperties);
         CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties);
         CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string IdName);
+        CodeTypeMember BuildPrivateWithAdditionalId(List<Property> properties);
     }
 
     public class ConstBuilder : IConstBuilder
@@ -43,6 +44,13 @@ namespace DslModelToCSharp
             var codeConstructor = BuildPublic(userClassProperties);
             codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
             return codeConstructor;
+        }
+
+        public CodeTypeMember BuildPrivateWithAdditionalId(List<Property> properties)
+        {
+            var newList = new List<Property> {new Property() {Name = "Id", Type = "Guid"}};
+            newList.AddRange(properties);
+            return BuildPrivate(newList);
         }
 
         public CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties)
