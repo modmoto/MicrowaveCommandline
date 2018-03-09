@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApplicationExpected\Generated\Posts\**" />
+    <Compile Remove="ApplicationExpected\Generated\Users\**" />
+    <EmbeddedResource Remove="ApplicationExpected\Generated\Posts\**" />
+    <EmbeddedResource Remove="ApplicationExpected\Generated\Users\**" />
+    <None Remove="ApplicationExpected\Generated\Posts\**" />
+    <None Remove="ApplicationExpected\Generated\Users\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
     <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
     <Compile Remove="DomainExpected\EventStore.cs" />

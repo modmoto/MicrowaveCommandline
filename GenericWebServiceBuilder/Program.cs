@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using DslModel.Application;
 using DslModelToCSharp;
 using DslModelToCSharp.Application;
 using FileToDslModel;
@@ -31,12 +32,14 @@ namespace GenericWebServiceBuilder
                 new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder, classBuilder);
             var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
-            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder);
+            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder, new FileWriter(domainBasePath));
 
             var hookResultBuilder = new HookResultBuilder(applicationNameSpace, new FileWriter(applicationBasePath), new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder,classBuilder);
             hookResultBuilder.Write(new HookResultBaseClass());
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(applicationBasePath);
 
+
+            var applicationWriter = new ApplicationWriter(new FileWriter(applicationBasePath));
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -45,6 +48,7 @@ namespace GenericWebServiceBuilder
                 var domainTree = dslParser.Parse(content);
 
                 domainBuilder.Build(domainTree, domainNameSpace, domainBasePath);
+                applicationWriter.Write(domainTree, applicationBasePath);
             }
         }
     }

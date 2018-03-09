@@ -10,7 +10,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void TestAll_Snapshot()
         {
-            var domainBuilder = new DomainBuilder(ClassWriter, DomainEventWriter, BaseClassBuilder, ValidationResultBaseClassBuilder);
+            var domainBuilder = new DomainBuilder(ClassWriter, DomainEventWriter, BaseClassBuilder, ValidationResultBaseClassBuilder, new FileWriter(BasePathDomain));
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
