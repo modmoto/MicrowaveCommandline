@@ -26,11 +26,10 @@ namespace Domain.Posts
         
         public String Body { get; private set; }
         
-        private Post(Guid Id, String Title, String Body)
+        private Post(Guid Id, String Title)
         {
             this.Id = Id;
             this.Title = Title;
-            this.Body = Body;
         }
         
         private Post()

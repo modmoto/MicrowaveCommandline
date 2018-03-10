@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using DslModelToCSharp.Application;
+using DslModelToCSharp.Domain;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
@@ -24,23 +25,25 @@ namespace DslModelToCSharp.Tests.Application
                 {
                     var codeNamespaces = commandBuilder.Build(domainClass);
 
-                    var fileWriter = new FileWriter(BasePathApplication);
+                    var fileWriter = new FileWriter(BasePathDomain);
                     foreach (var codeNamespace in codeNamespaces)
                     {
                         fileWriter.WriteToFile(codeNamespace.Types[0].Name, $"{domainClass.Name}s/Commands", codeNamespace);
                     }
+
+                    new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
                     
                 }
             }
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Commands/UserCreateCommand.g.cs"),
-                File.ReadAllText("Application/Users/Commands/UserCreateCommand.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Commands/UserUpdateAgeCommand.g.cs"),
-                File.ReadAllText("Application/Users/Commands/UserUpdateAgeCommand.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Commands/UserUpdateNameCommand.g.cs"),
-                File.ReadAllText("Application/Users/Commands/UserUpdateNameCommand.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/Commands/PostCreateCommand.g.cs"),
-                File.ReadAllText("Application/Posts/Commands/PostCreateCommand.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserCreateCommand.g.cs"),
+                File.ReadAllText("Domain/Users/Commands/UserCreateCommand.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateAgeCommand.g.cs"),
+                File.ReadAllText("Domain/Users/Commands/UserUpdateAgeCommand.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateNameCommand.g.cs"),
+                File.ReadAllText("Domain/Users/Commands/UserUpdateNameCommand.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Posts/Commands/PostCreateCommand.g.cs"),
+                File.ReadAllText("Domain/Posts/Commands/PostCreateCommand.g.cs"));
         }
     }
 }

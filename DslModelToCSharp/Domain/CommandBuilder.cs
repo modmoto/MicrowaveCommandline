@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
+using DslModelToCSharp.Application;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.Domain
 {
     public class CommandBuilder
     {
@@ -11,6 +12,7 @@ namespace DslModelToCSharp.Application
         private readonly ConstBuilder _constBuilder;
         private readonly NameSpaceBuilder _nameSpaceBuilder;
         private PropBuilder _propBuilder;
+        private NameBuilder _nameBuilder;
 
         public CommandBuilder()
         {
@@ -18,6 +20,7 @@ namespace DslModelToCSharp.Application
             _constBuilder = new ConstBuilder();
             _nameSpaceBuilder = new NameSpaceBuilder();
             _propBuilder = new PropBuilder();
+            _nameBuilder = new NameBuilder();
         }
 
         public List<CodeNamespace> Build(DomainClass domainClass)
@@ -25,8 +28,8 @@ namespace DslModelToCSharp.Application
             var commandList = new List<CodeNamespace>();
             foreach (var method in domainClass.Methods)
             {
-                var commandNameSpace = _nameSpaceBuilder.BuildWithListImport($"Application.{domainClass.Name}s.Commands");
-                var commandName = domainClass.Name + method.Name + "Command";
+                var commandNameSpace = _nameSpaceBuilder.BuildWithListImport($"Domain.{domainClass.Name}s");
+                var commandName = _nameBuilder.UpdateCommandName(domainClass, method);
                 var properties = method.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
                 var command = _classBuilder.Build(commandName);
                 var codeConstructor = _constBuilder.BuildPublic(properties);
@@ -38,8 +41,8 @@ namespace DslModelToCSharp.Application
 
             foreach (var method in domainClass.CreateMethods)
             {
-                var commandNameSpace = _nameSpaceBuilder.BuildWithListImport($"Application.{domainClass.Name}s.Commands");
-                var commandName = domainClass.Name + method.Name + "Command";
+                var commandNameSpace = _nameSpaceBuilder.BuildWithListImport($"Domain.{domainClass.Name}s");
+                var commandName = _nameBuilder.CreateCommandName(domainClass, method);
                 var properties = method.Parameters.Select(param => new Property { Name = param.Name, Type = param.Type }).ToList();
                 var command = _classBuilder.Build(commandName);
                 var codeConstructor = _constBuilder.BuildPublic(properties);

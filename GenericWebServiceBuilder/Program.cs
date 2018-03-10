@@ -19,9 +19,9 @@ namespace GenericWebServiceBuilder
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();
-            var domainBuilder = new DomainBuilder(domainNameSpace, domainBasePath);
+            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath);
 
-            var applicationWriter = new ApplicationWriter(applicationBasePath, applicationNameSpace);
+            var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();

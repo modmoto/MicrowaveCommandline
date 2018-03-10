@@ -17,8 +17,7 @@ namespace DslModelToCSharp
                     ReturnType = new CodeTypeReference(function.ReturnType)
                 };
 
-                foreach (var parameter in function.Parameters)
-                    method.Parameters.Add(new CodeParameterDeclarationExpression(parameter.Type, parameter.Name));
+                method.Parameters.Add(new CodeParameterDeclarationExpression {Type = new CodeTypeReference($"{userClass.Name}{function.Name}Command"), Name = "command"});
 
                 iface.Members.Add(method);
             }

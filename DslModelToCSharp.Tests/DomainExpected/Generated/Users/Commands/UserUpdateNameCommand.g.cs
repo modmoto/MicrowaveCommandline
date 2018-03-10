@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Users.Commands
+namespace Domain.Users
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Application.Users.Commands
     public class UserUpdateNameCommand
     {
         
-        public String Name { get; private set; }NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515;
+        public String Name { get; private set; }
         
         public UserUpdateNameCommand(String Name)
         {

@@ -3,19 +3,19 @@ using DslModelToCSharp.Application;
 
 namespace DslModelToCSharp
 {
-    public interface IDomainBuilder
+    public interface IDomainWriter
     {
         void Build(DomainTree domainTree, string domainNameSpace, string basePath);
     }
 
-    public class DomainBuilder : IDomainBuilder
+    public class DomainWriter : IDomainWriter
     {
         private readonly DomainClassWriter _classWriter;
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly DomainEventBaseClassWriter _domainEventBaseClassBuilder;
         private readonly ValidationResultBaseClassBuilder _validationResultBaseClassBuilder;
 
-        public DomainBuilder(string domain, string basePath)
+        public DomainWriter(string domain, string basePath)
         {
             _classWriter = new DomainClassWriter(domain, basePath);
             _domainEventWriter = new DomainEventWriter(basePath);

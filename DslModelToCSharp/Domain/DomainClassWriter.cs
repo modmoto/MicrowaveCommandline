@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
+using DslModelToCSharp.Domain;
 
 namespace DslModelToCSharp
 {
@@ -15,6 +16,7 @@ namespace DslModelToCSharp
         private readonly INameSpaceBuilder _nameSpaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
+        private CommandBuilder _commandBuilder;
 
         public DomainClassWriter(string domainNameSpace, string basePath)
         {
@@ -26,6 +28,7 @@ namespace DslModelToCSharp
             _staticConstructorBuilder = new StaticConstructorBuilder();
             _nameSpaceBuilder = new NameSpaceBuilder();
             _domain = domainNameSpace;
+            _commandBuilder = new CommandBuilder();
         }
 
         public void Write(DomainClass domainClass)
@@ -43,6 +46,14 @@ namespace DslModelToCSharp
                 var properties = createMethod.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
                 var constructor = _constBuilder.BuildPrivateWithAdditionalId(properties);
                 targetClass.Members.Add(constructor);
+            }
+
+
+            var commands = _commandBuilder.Build(domainClass);
+
+            foreach (var command in commands)
+            {
+                _fileWriter.WriteToFile(command.Types[0].Name, $"{domainClass.Name}s/Commands", command);
             }
 
             var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());

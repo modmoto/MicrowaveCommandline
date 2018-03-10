@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Users.Commands
+namespace Domain.Posts
 {
     using System;
-    using System.Collections.Generic;
     
     
-    public class UserUpdateAgeCommand
+    public class PostCreateEvent : DomainEventBase
     {
         
-        public Int32 Age { get; private set; }NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515;
+        public Post Post { get; }
         
-        public UserUpdateAgeCommand(Int32 Age)
+        public PostCreateEvent(Post Post, Guid EntityId) : 
+                base(EntityId)
         {
-            this.Age = Age;
+            this.Post = Post;
         }
     }
 }
