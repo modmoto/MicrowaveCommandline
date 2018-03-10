@@ -17,22 +17,9 @@ namespace GenericWebServiceBuilder
             var domainBasePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
             var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
 
-            var nameSpaceBuilder = new NameSpaceBuilder();
-            var fileWriter = new FileWriter(domainBasePath);
-            var classBuilder = new ClassBuilder();
-            IDomainEventWriter domainEventWriter =
-                new DomainEventWriter(new PropBuilder(), fileWriter, classBuilder, new ConstBuilder());
-
-            var classWriter = new DomainClassWriter(new InterfaceBuilder(), new PropBuilder(), classBuilder,
-                fileWriter, new ConstBuilder(), new StaticConstructorBuilder(), nameSpaceBuilder,
-                domainNameSpace);
             var tokenizer = new Tokenizer();
             var parser = new Parser();
-            var valBaseClassBuilder = new ValidationResultBaseClassBuilder(domainNameSpace, fileWriter,
-                new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder, classBuilder);
-            var domainEventBaseClassBuilder = new DomainEventBaseClassWriter(new PropBuilder(), new ConstBuilder(),
-                fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
-            var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder, new FileWriter(domainBasePath));
+            var domainBuilder = new DomainBuilder(domainNameSpace, domainBasePath);
 
             var applicationWriter = new ApplicationWriter(applicationBasePath, applicationNameSpace);
             using (var reader = new StreamReader("Schema.wsb"))

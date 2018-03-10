@@ -16,19 +16,15 @@ namespace DslModelToCSharp
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
-        public DomainClassWriter(IInterfaceBuilder interfaceBuilder, IPropertyBuilder propertyBuilder,
-            IClassBuilder classBuilder, IFileWriter fileWriter,
-            IConstBuilder constBuilder, IStaticConstructorBuilder staticConstructorBuilder,
-            INameSpaceBuilder nameSpaceBuilder,
-            string domainNameSpace)
+        public DomainClassWriter(string domainNameSpace, string basePath)
         {
-            _interfaceBuilder = interfaceBuilder;
-            _propertyBuilder = propertyBuilder;
-            _classBuilder = classBuilder;
-            _fileWriter = fileWriter;
-            _constBuilder = constBuilder;
-            _staticConstructorBuilder = staticConstructorBuilder;
-            _nameSpaceBuilder = nameSpaceBuilder;
+            _interfaceBuilder = new InterfaceBuilder();
+            _propertyBuilder = new PropBuilder();
+            _classBuilder = new ClassBuilder();
+            _fileWriter = new FileWriter(basePath);
+            _constBuilder = new ConstBuilder();
+            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _nameSpaceBuilder = new NameSpaceBuilder();
             _domain = domainNameSpace;
         }
 

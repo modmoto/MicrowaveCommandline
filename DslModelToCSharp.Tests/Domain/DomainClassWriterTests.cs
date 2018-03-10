@@ -1,5 +1,8 @@
 using System.IO;
 using DslModel.Domain;
+using FileToDslModel;
+using FileToDslModel.Lexer;
+using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests
@@ -10,11 +13,11 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void TestAll_Snapshot()
         {
-            var domainBuilder = new DomainBuilder(ClassWriter, DomainEventWriter, BaseClassBuilder, ValidationResultBaseClassBuilder, new FileWriter(BasePathDomain));
+            var domainBuilder = new DomainBuilder(DomainNameSpace, BasePathDomain);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
-                var domainTree = DslParser.Parse(content);
+                var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
                 domainBuilder.Build(domainTree, DomainNameSpace, BasePathDomain);
             }
 
@@ -31,7 +34,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void CreateionResultBase_Builder()
         {
-            ClassWriter.Write(new CreationResultBaseClass());
+            new DomainClassWriter(DomainNameSpace, BasePathDomain).Write(new CreationResultBaseClass());
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"),
@@ -41,7 +44,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
-            DomainEventBaseClassBuilder.Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
+            new DomainEventBaseClassWriter(DomainNameSpace, BasePathDomain).Build(new DomainEventBaseClass().Name, new DomainEventBaseClass().Properties);
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/DomainEventBase.g.cs"),

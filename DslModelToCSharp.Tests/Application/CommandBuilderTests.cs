@@ -1,6 +1,8 @@
 ﻿using System.IO;
-using DslModel.Domain;
 using DslModelToCSharp.Application;
+using FileToDslModel;
+using FileToDslModel.Lexer;
+using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.Application
@@ -16,7 +18,7 @@ namespace DslModelToCSharp.Tests.Application
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
-                var domainTree = DslParser.Parse(content);
+                var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
 
                 foreach (var domainClass in domainTree.Classes)
                 {

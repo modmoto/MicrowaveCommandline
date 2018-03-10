@@ -10,9 +10,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void Write()
         {
-            var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, new FileWriter(DomainNameSpace),
-                new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(),
-                new NameSpaceBuilder(), new ClassBuilder());
+            var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, BasePathDomain);
 
             validationResultBaseClassBuilder.Write(new ValidationResultBaseClass());
 

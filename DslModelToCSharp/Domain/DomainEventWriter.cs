@@ -17,13 +17,12 @@ namespace DslModelToCSharp
         private readonly IFileWriter _fileWriter;
         private readonly IPropertyBuilder _propertyBuilder;
 
-        public DomainEventWriter(IPropertyBuilder propertyBuilder, IFileWriter fileWriter, IClassBuilder classBuilder,
-            IConstBuilder constBuilder)
+        public DomainEventWriter(string basePath)
         {
-            _propertyBuilder = propertyBuilder;
-            _fileWriter = fileWriter;
-            _classBuilder = classBuilder;
-            _constBuilder = constBuilder;
+            _propertyBuilder = new PropBuilder();
+            _fileWriter = new FileWriter(basePath);
+            _classBuilder = new ClassBuilder();
+            _constBuilder = new ConstBuilder();
         }
 
         public void Write(DomainEvent domainEvent, string nameSpaceName)

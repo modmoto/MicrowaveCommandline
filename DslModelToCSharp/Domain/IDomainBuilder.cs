@@ -14,18 +14,13 @@ namespace DslModelToCSharp
         private readonly IDomainEventWriter _domainEventWriter;
         private readonly DomainEventBaseClassWriter _domainEventBaseClassBuilder;
         private readonly ValidationResultBaseClassBuilder _validationResultBaseClassBuilder;
-        private readonly CommandBuilder _commandBuilder;
-        private readonly FileWriter _fileWriter;
 
-        public DomainBuilder(DomainClassWriter classWriter, IDomainEventWriter domainEventWriter,
-            DomainEventBaseClassWriter domainEventBaseClassBuilder, ValidationResultBaseClassBuilder validationResultBaseClassBuilder, FileWriter fileWriter)
+        public DomainBuilder(string domain, string basePath)
         {
-            _classWriter = classWriter;
-            _domainEventWriter = domainEventWriter;
-            _domainEventBaseClassBuilder = domainEventBaseClassBuilder;
-            _validationResultBaseClassBuilder = validationResultBaseClassBuilder;
-            _fileWriter = fileWriter;
-            _commandBuilder = new CommandBuilder();
+            _classWriter = new DomainClassWriter(domain, basePath);
+            _domainEventWriter = new DomainEventWriter(basePath);
+            _domainEventBaseClassBuilder = new DomainEventBaseClassWriter(domain, basePath);
+            _validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(domain, basePath);
         }
 
         public void Build(DomainTree domainTree, string domainNameSpace, string basePath)

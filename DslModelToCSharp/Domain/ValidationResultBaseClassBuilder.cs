@@ -14,17 +14,15 @@ namespace DslModelToCSharp
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
-        public ValidationResultBaseClassBuilder(string domain, IFileWriter fileWriter,
-            IStaticConstructorBuilder staticConstructorBuilder, IPropertyBuilder propertyBuilder,
-            IConstBuilder constBuilder, INameSpaceBuilder nameSpaceBuilder, IClassBuilder classBuilder)
+        public ValidationResultBaseClassBuilder(string domain, string basePath)
         {
             _domain = domain;
-            _fileWriter = fileWriter;
-            _staticConstructorBuilder = staticConstructorBuilder;
-            _propertyBuilder = propertyBuilder;
-            _constBuilder = constBuilder;
-            _nameSpaceBuilder = nameSpaceBuilder;
-            _classBuilder = classBuilder;
+            _fileWriter = new FileWriter(basePath);
+            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _propertyBuilder = new PropBuilder();
+            _constBuilder = new ConstBuilder();
+            _nameSpaceBuilder = new NameSpaceBuilder();
+            _classBuilder = new ClassBuilder();
         }
 
         public void Write(ValidationResultBaseClass userClass)
