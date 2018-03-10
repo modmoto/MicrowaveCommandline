@@ -21,8 +21,8 @@ namespace DslModelToCSharp.Tests
                 domainBuilder.Build(domainTree, DomainNameSpace, BasePathDomain);
             }
 
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/CreateUserEvent.g.cs"),
-                File.ReadAllText("Domain/Users/CreateUserEvent.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserCreateEvent.g.cs"),
+                File.ReadAllText("Domain/Users/UserCreateEvent.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/User.g.cs"),
                 File.ReadAllText("Domain/Users/User.g.cs"));
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"),

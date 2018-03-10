@@ -13,8 +13,9 @@ namespace DslModelToCSharp.Tests.Application
         {
             var hookResultBuilder = new HookResultBuilder(ApplicationNameSpace);
 
-            hookResultBuilder.Write(new HookResultBaseClass());
+            var codeNamespace = hookResultBuilder.Write(new HookResultBaseClass());
 
+            new FileWriter(BasePathApplication).WriteToFile(codeNamespace.Types[0].Name, "Base", codeNamespace);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
 

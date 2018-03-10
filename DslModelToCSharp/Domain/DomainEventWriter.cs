@@ -34,7 +34,7 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
 
-            targetClass = !domainEvent.Name.StartsWith(new CreateMethod().Name)
+            targetClass = !IsCreateEvent(domainEvent)
                 ? BuildProperties(domainEvent, targetClass)
                 : BuildPropertiesWithoutSelfLink(domainEvent, targetClass);
 
@@ -45,6 +45,11 @@ namespace DslModelToCSharp
             targetClass.Members.Add(constructor);
 
             _fileWriter.WriteToFile(domainEvent.Name, nameSpaceName.Split(".")[1], nameSpace);
+        }
+
+        private static bool IsCreateEvent(DomainEvent domainEvent)
+        {
+            return domainEvent.Name.StartsWith(domainEvent.Properties[0].Type + new CreateMethod().Name);
         }
 
         private CodeTypeDeclaration BuildPropertiesWithoutSelfLink(DomainEvent domainEvent,

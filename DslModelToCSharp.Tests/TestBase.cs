@@ -16,7 +16,8 @@ namespace DslModelToCSharp.Tests
         [TestInitialize]
         public void Setup()
         {
-            if (Directory.Exists("DomainActual")) Directory.Delete("DomainActual", true);
+            if (Directory.Exists("Application")) Directory.Delete("Application", true);
+            if (Directory.Exists("Domain")) Directory.Delete("Domain", true);
         }
     }
 }

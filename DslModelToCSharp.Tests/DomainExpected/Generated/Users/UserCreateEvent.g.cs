@@ -13,12 +13,12 @@ namespace Domain.Users
     using System;
     
     
-    public class CreateUserEvent : DomainEventBase
+    public class UserCreateEvent : DomainEventBase
     {
         
         public User User { get; }
         
-        public CreateUserEvent(User User, Guid EntityId) : 
+        public UserCreateEvent(User User, Guid EntityId) : 
                 base(EntityId)
         {
             this.User = User;
