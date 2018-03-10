@@ -11,7 +11,7 @@ namespace DslModelToCSharp.Tests.Application
         [TestMethod]
         public void Write()
         {
-            var hookResultBuilder = new HookResultBuilder(ApplicationNameSpace, new FileWriter(ApplicationNameSpace), StaticConstructorBuilder, PropBuilder, new ConstBuilder(), new NameSpaceBuilder(), new ClassBuilder() );
+            var hookResultBuilder = new HookResultBuilder(ApplicationNameSpace);
 
             hookResultBuilder.Write(new HookResultBaseClass());
 

@@ -44,7 +44,7 @@ namespace DslModelToCSharp
 
             foreach (var createMethod in domainClass.CreateMethods)
             {
-                var properties = createMethod.Parameters.Select(param => new Property() {Name = param.Name, Type = param.Type}).ToList();
+                var properties = createMethod.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
                 var constructor = _constBuilder.BuildPrivateWithAdditionalId(properties);
                 targetClass.Members.Add(constructor);
             }

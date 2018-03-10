@@ -10,25 +10,21 @@ namespace DslModelToCSharp.Application
         private readonly IClassBuilder _classBuilder;
         private readonly IConstBuilder _constBuilder;
         private readonly string _nameSpace;
-        private readonly IFileWriter _fileWriter;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
-        public HookResultBuilder(string nameSpace, IFileWriter fileWriter,
-            IStaticConstructorBuilder staticConstructorBuilder, IPropertyBuilder propertyBuilder,
-            IConstBuilder constBuilder, INameSpaceBuilder nameSpaceBuilder, IClassBuilder classBuilder)
+        public HookResultBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _fileWriter = fileWriter;
-            _staticConstructorBuilder = staticConstructorBuilder;
-            _propertyBuilder = propertyBuilder;
-            _constBuilder = constBuilder;
-            _nameSpaceBuilder = nameSpaceBuilder;
-            _classBuilder = classBuilder;
+            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _propertyBuilder = new PropBuilder();
+            _constBuilder = new ConstBuilder();
+            _nameSpaceBuilder = new NameSpaceBuilder();
+            _classBuilder = new ClassBuilder();
         }
 
-        public void Write(HookResultBaseClass userClass)
+        public CodeNamespace Write(HookResultBaseClass userClass)
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
@@ -48,7 +44,7 @@ namespace DslModelToCSharp.Application
 
             nameSpace.Types.Add(targetClass);
 
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
+            return nameSpace;
         }
 
         private CodeMemberMethod BuildErrorResultConstructor(HookResultBaseClass userClass)

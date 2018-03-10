@@ -214,7 +214,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("Create", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Name);
             Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
@@ -247,7 +247,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("String", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Type);
             Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
@@ -286,7 +286,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[1].Type);
             Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
 
-            Assert.AreEqual("CreateUserEvent", domainTree.Classes[0].Events[0].Name);
+            Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);

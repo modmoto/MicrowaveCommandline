@@ -34,12 +34,7 @@ namespace GenericWebServiceBuilder
                 fileWriter, nameSpaceBuilder, classBuilder, domainNameSpace);
             var domainBuilder = new DomainBuilder(classWriter, domainEventWriter, domainEventBaseClassBuilder, valBaseClassBuilder, new FileWriter(domainBasePath));
 
-            var hookResultBuilder = new HookResultBuilder(applicationNameSpace, new FileWriter(applicationBasePath), new StaticConstructorBuilder(), new PropBuilder(), new ConstBuilder(), nameSpaceBuilder,classBuilder);
-            hookResultBuilder.Write(new HookResultBaseClass());
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(applicationBasePath);
-
-
-            var applicationWriter = new ApplicationWriter(new FileWriter(applicationBasePath));
+            var applicationWriter = new ApplicationWriter(applicationBasePath, applicationNameSpace);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();

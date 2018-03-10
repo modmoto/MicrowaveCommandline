@@ -33,7 +33,7 @@ namespace FileToDslModel.ParseAutomat.DomainClasses
 
         private ParseState CreateMethodFound()
         {
-            Parser.CurrentEvent = new DomainEvent {Name = $"Create{Parser.CurrentClass.Name}Event"};
+            Parser.CurrentEvent = new DomainEvent {Name = $"{Parser.CurrentClass.Name}CreateEvent" };
             Parser.CurrentEvent.Properties.Add(new Property {Name = Parser.CurrentClass.Name, Type = Parser.CurrentClass.Name });
             Parser.CurrentCreateMethod = new CreateMethod {ReturnType = new ValidationResultBaseClass().Name };
             return new CreateMethodFoundState(Parser);
