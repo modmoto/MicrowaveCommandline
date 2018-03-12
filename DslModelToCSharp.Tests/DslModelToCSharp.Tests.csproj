@@ -1,11 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Posts\**" />
     <Compile Remove="ApplicationExpected\Generated\Users\**" />
@@ -14,7 +11,6 @@
     <None Remove="ApplicationExpected\Generated\Posts\**" />
     <None Remove="ApplicationExpected\Generated\Users\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
     <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
@@ -38,20 +34,17 @@
     <Compile Remove="DomainExpected\Post.cs" />
     <Compile Remove="DomainExpected\User.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\DslModelToCSharp\DslModelToCSharp.csproj" />
     <ProjectReference Include="..\DslModel\DslModel.csproj" />
     <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="ApplicationExpected\Generated\Base\" />
     <Folder Include="DomainExpected\Generated\Base\" />
@@ -60,11 +53,9 @@
     <Folder Include="DomainExpected\Generated\Users\" />
     <Folder Include="DomainExpected\Generated\Users\Commands\" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Schema.wsb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
