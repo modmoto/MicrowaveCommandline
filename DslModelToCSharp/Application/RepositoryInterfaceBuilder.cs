@@ -1,15 +1,14 @@
 ﻿using System.CodeDom;
-using System.Reflection;
 using DslModel.Domain;
 
 namespace DslModelToCSharp.Application
 {
-    public class IRepositoryBuilder
+    public class RepositoryInterfaceBuilder
     {
         private readonly string _nameSpace;
         private readonly NameSpaceBuilder _nameSpaceBuilder;
 
-        public IRepositoryBuilder(string nameSpace)
+        public RepositoryInterfaceBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
             _nameSpaceBuilder = new NameSpaceBuilder();

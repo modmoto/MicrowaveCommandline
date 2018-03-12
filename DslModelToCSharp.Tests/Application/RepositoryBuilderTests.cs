@@ -13,7 +13,7 @@ namespace DslModelToCSharp.Tests.Application
         [TestMethod]
         public void Build()
         {
-            var commandHandlerBuilder = new IRepositoryBuilder(ApplicationNameSpace);
+            var commandHandlerBuilder = new RepositoryInterfaceBuilder(ApplicationNameSpace);
 
             using (var reader = new StreamReader("Schema.wsb"))
             {

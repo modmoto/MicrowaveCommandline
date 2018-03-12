@@ -14,14 +14,17 @@ namespace GenericWebServiceBuilder
         {
             var domainNameSpace = "Domain";
             var applicationNameSpace = "Application";
+            var sqlAdapterNameSpace = "SqlAdapter";
             var domainBasePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
             var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
+            var sqlAdapterBasePath = $"../../GeneratedWebService/{sqlAdapterNameSpace}/Generated/";
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();
             var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath);
-
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath);
+            var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
+
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -31,6 +34,7 @@ namespace GenericWebServiceBuilder
 
                 domainBuilder.Build(domainTree, domainNameSpace, domainBasePath);
                 applicationWriter.Write(domainTree, applicationBasePath);
+                sqlAdapterWriter.Write(domainTree, sqlAdapterBasePath);
             }
         }
     }
