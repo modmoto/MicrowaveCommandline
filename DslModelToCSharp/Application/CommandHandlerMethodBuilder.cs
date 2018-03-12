@@ -53,7 +53,7 @@ namespace DslModelToCSharp.Application
             method.Name = $"{createMethod.Name}{domainClass.Name}";
             method.ReturnType = new CodeTypeReference("async Task<IActionResult>");
 
-            method.Statements.Add(new CodeSnippetExpression($"var createResult = {domainClass.Name}.{createMethod.Name}(command)"));
+            method.Statements.Add(new CodeSnippetExpression($"CreationResult<{domainClass.Name}> createResult = {domainClass.Name}.{createMethod.Name}(command)"));
             var conditionalStatement = new CodeConditionStatement(
                 new CodeSnippetExpression("createResult.Ok"),
                 new CodeStatement[]

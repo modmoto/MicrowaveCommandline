@@ -30,6 +30,7 @@ namespace DslModelToCSharp
         {
             var nameSpace = BuildWithListImport(domain);
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("Domain"));
             nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
             nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Mvc"));
             return nameSpace;
@@ -37,7 +38,10 @@ namespace DslModelToCSharp
 
         public CodeNamespace BuildWithMvcApplicationImport(string domain, string domainClassName)
         {
-            var nameSpace = BuildWithMvcImport(domain, domainClassName);
+            var nameSpace = BuildWithListImport(domain);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
+            nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Mvc"));
             nameSpace.Imports.Add(new CodeNamespaceImport($"Application.{domainClassName}s"));
             return nameSpace;
         }
