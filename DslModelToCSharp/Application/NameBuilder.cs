@@ -18,5 +18,15 @@ namespace DslModelToCSharp.Application
         {
             return $"{domainClass.Name}{method.Name}Command";
         }
+
+        public string EventName(DomainClass domainClass, DomainMethod method)
+        {
+            return $"{domainClass.Name}{method.Name}Event";
+        }
+
+        public string EventName(DomainClass domainClass, CreateMethod method)
+        {
+            return $"{domainClass.Name}{method.Name}Event";
+        }
     }
 }

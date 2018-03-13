@@ -61,5 +61,13 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport($"Microsoft.EntityFrameworkCore"));
             return nameSpace;
         }
+
+        public CodeNamespace BuildWithDbImport(string domain)
+        {
+            var nameSpace = new CodeNamespace(domain);
+            nameSpace.Imports.Add(new CodeNamespaceImport("Domain"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
+            return nameSpace;
+        }
     }
 }
