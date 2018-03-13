@@ -1,5 +1,6 @@
 ﻿using DslModel.Domain;
 using FileToDslModel.Lexer;
+using FileToDslModel.ParseAutomat.Members.ListProperties;
 using FileToDslModel.ParseAutomat.Members.Methods;
 using FileToDslModel.ParseAutomat.Members.Properties;
 

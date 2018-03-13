@@ -291,5 +291,29 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
             Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
         }
+
+        [TestMethod]
+        public void Parse_ClassWithListProperty()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "Posts", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.ListBracketOpen, "[", 2),
+                new DslToken(TokenType.Value, "Post", 2),
+                new DslToken(TokenType.ListBracketClose, "]", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 3)
+            };
+
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
+
+            Assert.AreEqual(1, domainTree.Classes.ToList()[0].ListProperties.Count);
+            Assert.AreEqual("Posts", domainTree.Classes.ToList()[0].ListProperties[0].Name);
+            Assert.AreEqual("Post", domainTree.Classes.ToList()[0].ListProperties[0].Type);
+        }
     }
 }

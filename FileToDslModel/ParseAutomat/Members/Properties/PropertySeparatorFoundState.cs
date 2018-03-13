@@ -1,5 +1,7 @@
-﻿using FileToDslModel.Lexer;
+﻿using DslModel.Domain;
+using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat.DomainClasses;
+using FileToDslModel.ParseAutomat.Members.ListProperties;
 
 namespace FileToDslModel.ParseAutomat.Members.Properties
 {
@@ -15,9 +17,20 @@ namespace FileToDslModel.ParseAutomat.Members.Properties
             {
                 case TokenType.Value:
                     return PropertyTypeDefFound(token);
+                case TokenType.ListBracketOpen:
+                    return ListPropertyFound();
                 default:
                     throw new NoTransitionException(token);
             }
+        }
+
+        private ParseState ListPropertyFound()
+        {
+            Parser.CurrentListProperty = new ListProperty
+            {
+                Name = Parser.CurrentMemberName
+            };
+            return new ListPropertyStartedFoundState(Parser);
         }
 
         private ParseState PropertyTypeDefFound(DslToken token)

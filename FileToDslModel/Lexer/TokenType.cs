@@ -2,7 +2,6 @@
 {
     public enum TokenType
     {
-        NotDefined,
         ObjectBracketOpen,
         ObjectBracketClose,
         DomainClass,
@@ -13,6 +12,6 @@
         ParameterBracketClose,
         TypeDefSeparator,
         ParamSeparator,
-        CreateMethod
+        CreateMethod,
     }
 }

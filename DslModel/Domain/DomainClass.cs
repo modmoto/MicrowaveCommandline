@@ -8,10 +8,12 @@ namespace DslModel.Domain
         {
             Methods = new List<DomainMethod>();
             Properties = new List<Property>();
+            ListProperties = new List<ListProperty>();
             CreateMethods = new List<CreateMethod>();
             Events = new List<DomainEvent>();
         }
 
+        public List<ListProperty> ListProperties { get; }
         public IList<DomainMethod> Methods { get; }
         public IList<DomainEvent> Events { get; }
         public IList<CreateMethod> CreateMethods { get; }
