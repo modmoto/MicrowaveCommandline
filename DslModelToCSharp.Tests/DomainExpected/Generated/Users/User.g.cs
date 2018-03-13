@@ -11,6 +11,8 @@
 namespace Domain.Users
 {
     using System;
+    using System.Collections.Generic;
+    using Domain.Posts;
     
     
     public interface IUser
@@ -23,6 +25,8 @@ namespace Domain.Users
     
     public partial class User : IUser
     {
+        
+        public List<Post> Posts { get; private set; } = new List<Post>();
         
         public Guid Id { get; private set; }
         

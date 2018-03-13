@@ -2,6 +2,7 @@
 	Id: Guid
 	Name: String
 	Age: Int32
+	Posts: [Post]
 
 	Create(Name: String)
 
