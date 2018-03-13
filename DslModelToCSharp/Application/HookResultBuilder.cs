@@ -8,7 +8,7 @@ namespace DslModelToCSharp.Application
     public class HookResultBuilder
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly IConstBuilder _constBuilder;
+        private readonly ConstBuilder _constBuilder;
         private readonly string _nameSpace;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
         private readonly IPropertyBuilder _propertyBuilder;

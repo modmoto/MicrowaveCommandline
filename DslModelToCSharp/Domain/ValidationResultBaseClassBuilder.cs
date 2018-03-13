@@ -7,7 +7,7 @@ namespace DslModelToCSharp
     public class ValidationResultBaseClassBuilder
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly IConstBuilder _constBuilder;
+        private readonly ConstBuilder _constBuilder;
         private readonly string _domain;
         private readonly IFileWriter _fileWriter;
         private readonly INameSpaceBuilder _nameSpaceBuilder;

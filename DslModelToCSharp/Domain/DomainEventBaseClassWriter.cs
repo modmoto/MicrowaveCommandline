@@ -6,7 +6,7 @@ namespace DslModelToCSharp
 {
     public class DomainEventBaseClassWriter
     {
-        private readonly IConstBuilder _constBuilder;
+        private readonly ConstBuilder _constBuilder;
         private readonly string _domain;
         private readonly IFileWriter _fileWriter;
         private readonly INameSpaceBuilder _nameSpaceBuilder;

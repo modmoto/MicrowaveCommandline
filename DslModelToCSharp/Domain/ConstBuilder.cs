@@ -4,16 +4,7 @@ using DslModel.Domain;
 
 namespace DslModelToCSharp
 {
-    public interface IConstBuilder
-    {
-        CodeConstructor BuildPrivate(IList<Property> userClassProperties);
-        CodeConstructor BuildPublic(IList<Property> userClassProperties);
-        CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties);
-        CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string IdName);
-        CodeTypeMember BuildPrivateWithAdditionalId(List<Property> properties);
-    }
-
-    public class ConstBuilder : IConstBuilder
+    public class ConstBuilder
     {
         public CodeConstructor BuildPrivate(IList<Property> proterties)
         {
@@ -48,7 +39,7 @@ namespace DslModelToCSharp
 
         public CodeTypeMember BuildPrivateWithAdditionalId(List<Property> properties)
         {
-            var newList = new List<Property> {new Property() {Name = "Id", Type = "Guid"}};
+            var newList = new List<Property> {new Property {Name = "Id", Type = "Guid"}};
             newList.AddRange(properties);
             return BuildPrivate(newList);
         }

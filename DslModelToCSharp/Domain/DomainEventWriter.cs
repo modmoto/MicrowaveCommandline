@@ -13,7 +13,7 @@ namespace DslModelToCSharp
     public class DomainEventWriter : IDomainEventWriter
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly IConstBuilder _constBuilder;
+        private readonly ConstBuilder _constBuilder;
         private readonly IFileWriter _fileWriter;
         private readonly IPropertyBuilder _propertyBuilder;
 

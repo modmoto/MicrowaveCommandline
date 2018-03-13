@@ -9,7 +9,7 @@ namespace DslModelToCSharp
     public class DomainClassWriter
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly IConstBuilder _constBuilder;
+        private readonly ConstBuilder _constBuilder;
         private readonly string _domain;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
@@ -17,6 +17,7 @@ namespace DslModelToCSharp
         private readonly IPropertyBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private CommandBuilder _commandBuilder;
+        private ListPropBuilder _listPropBuilder;
 
         public DomainClassWriter(string domainNameSpace, string basePath)
         {
@@ -29,11 +30,12 @@ namespace DslModelToCSharp
             _nameSpaceBuilder = new NameSpaceBuilder();
             _domain = domainNameSpace;
             _commandBuilder = new CommandBuilder();
+            _listPropBuilder = new ListPropBuilder();
         }
 
         public void Write(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilder.Build($"{_domain}.{domainClass.Name}s");
+            var nameSpace = _nameSpaceBuilder.BuildWithListImport($"{_domain}.{domainClass.Name}s");
             var iface = _interfaceBuilder.Build(domainClass);
 
             var targetClass = _classBuilder.BuildPartial(domainClass.Name);
@@ -48,6 +50,12 @@ namespace DslModelToCSharp
                 targetClass.Members.Add(constructor);
             }
 
+            targetClass = _listPropBuilder.Build(targetClass, domainClass.ListProperties);
+
+            foreach (var listProperty in domainClass.ListProperties)
+            {
+                nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{listProperty.Type}s"));
+            }
 
             var commands = _commandBuilder.Build(domainClass);
 
