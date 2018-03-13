@@ -2,10 +2,11 @@
 	Id: Guid
 	Name: String
 	Age: Int32
+	Posts: [Post]
 
 	Create(Name: String)
 
-	UpdateAge(Age: Int32): {
+	UpdateAge(Age: Int32)@Posts(@Ratings, @RelatedPosts)): {
 		Age: Int32
 	}
 
@@ -18,6 +19,8 @@ DomainClass Post {
 	Id: Guid
 	Title: String
 	Body: String
+	Ratings: [Int32]
+	RelatedPosts: [Post]
 
 	Create(Title: String)
 }
