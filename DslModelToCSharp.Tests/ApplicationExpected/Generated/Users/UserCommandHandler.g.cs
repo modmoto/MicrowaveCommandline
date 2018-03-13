@@ -13,6 +13,7 @@ namespace Application.Users
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Domain;
     using Domain.Users;
     using Microsoft.AspNetCore.Mvc;
     
@@ -45,7 +46,7 @@ namespace Application.Users
         
         public async Task<IActionResult> CreateUser(UserCreateCommand command)
         {
-            var createResult = User.Create(command);
+            CreationResult<User> createResult = User.Create(command);
             if (createResult.Ok)
             {
                 var hookResult = await EventStore.AppendAll(createResult.DomainEvents);

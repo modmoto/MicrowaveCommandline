@@ -13,6 +13,7 @@ namespace Application.Posts
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Domain;
     using Domain.Posts;
     using Microsoft.AspNetCore.Mvc;
     
@@ -45,7 +46,7 @@ namespace Application.Posts
         
         public async Task<IActionResult> CreatePost(PostCreateCommand command)
         {
-            var createResult = Post.Create(command);
+            CreationResult<Post> createResult = Post.Create(command);
             if (createResult.Ok)
             {
                 var hookResult = await EventStore.AppendAll(createResult.DomainEvents);
