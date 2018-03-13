@@ -22,7 +22,9 @@ DomainClass Post {
 	Create(Title: String)
 }
 
-SynchronousDomainHook User.Create SendWelcomeMail
+SynchronousDomainHook User.Create SendPasswordMail
+
+AsyncDomainHook User.Create SendWelcomeMail
 
 AsyncDomainHook @(http://vertragsservice.de).Vertrag.RemoveUser SyncUserVertaege
 
