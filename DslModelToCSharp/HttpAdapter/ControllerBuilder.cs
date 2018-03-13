@@ -1,6 +1,7 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
+using DslModelToCSharp.Application;
 
 namespace DslModelToCSharp.SqlAdapter
 {
@@ -116,7 +117,7 @@ namespace DslModelToCSharp.SqlAdapter
             });
             updateMethod.Parameters.Add(new CodeParameterDeclarationExpression
             {
-                Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"),
+                Type = new CodeTypeReference($"[FromBody] {domainClass.Name}{domainMethod.Name}Command"),
                 Name = "command"
             });
 
@@ -136,7 +137,7 @@ namespace DslModelToCSharp.SqlAdapter
             };
             createMethod.Parameters.Add(new CodeParameterDeclarationExpression
             {
-                Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"),
+                Type = new CodeTypeReference($"[FromBody] {domainClass.Name}{domainMethod.Name}Command"),
                 Name = "command"
             });
 
