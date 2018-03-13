@@ -100,7 +100,7 @@ namespace DslModelToCSharp.SqlAdapter
             updateMethod.Statements.Add(
                 new CodeSnippetExpression($"EventStore.{domainClass.Name}s.Update({domainClass.Name.ToLower()})"));
             updateMethod.Statements.Add(
-                new CodeSnippetExpression("await EventStore.SaveChangesAsync();"));
+                new CodeSnippetExpression("await EventStore.SaveChangesAsync()"));
 
             updateMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return updateMethod;
@@ -121,7 +121,7 @@ namespace DslModelToCSharp.SqlAdapter
             createMethod.Statements.Add(
                 new CodeSnippetExpression($"EventStore.{domainClass.Name}s.Add({domainClass.Name.ToLower()})"));
             createMethod.Statements.Add(
-                new CodeSnippetExpression("await EventStore.SaveChangesAsync();"));
+                new CodeSnippetExpression("await EventStore.SaveChangesAsync()"));
 
             createMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return createMethod;
