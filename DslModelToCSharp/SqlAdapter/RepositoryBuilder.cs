@@ -8,9 +8,9 @@ namespace DslModelToCSharp.SqlAdapter
     {
         private readonly string _nameSpace;
         private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private ClassBuilder _classBuilder;
-        private PropBuilder _propBuilder;
-        private ConstBuilder _constBuilder;
+        private readonly ClassBuilder _classBuilder;
+        private readonly ConstBuilder _constBuilder;
+        private readonly PropBuilder _propBuilder;
 
         public RepositoryBuilder(string nameSpace)
         {
@@ -37,7 +37,6 @@ namespace DslModelToCSharp.SqlAdapter
             var createMethod = MakeCreateMethod(domainClass);
             repository.Members.Add(createMethod);
 
-
             var updateMethod = MakeUpdateMethod(domainClass);
             repository.Members.Add(updateMethod);
 
@@ -61,7 +60,8 @@ namespace DslModelToCSharp.SqlAdapter
             };
 
             getAllMethod.Statements.Add(
-                new CodeSnippetExpression($"return await EventStore.{domainClass.Name}s.ToListAsync()"));
+                new CodeSnippetExpression(
+                    $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}.ToListAsync()"));
 
             getAllMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return getAllMethod;
@@ -78,10 +78,20 @@ namespace DslModelToCSharp.SqlAdapter
                 new CodeParameterDeclarationExpression {Type = new CodeTypeReference("Guid"), Name = "id"});
 
             getByIdMethod.Statements.Add(
-                new CodeSnippetExpression($"return await EventStore.{domainClass.Name}s.FindAsync(id)"));
+                new CodeSnippetExpression(
+                    $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}.FirstOrDefaultAsync(entity => entity.Id == id)"));
 
             getByIdMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return getByIdMethod;
+        }
+
+        private static string LoadNestedListsArgument(DomainClass domainClass)
+        {
+            var loadNestedListsArgument = string.Empty;
+            foreach (var listProperty in domainClass.ListProperties)
+                loadNestedListsArgument += $".Include(entity => entity.{listProperty.Type}s)";
+
+            return loadNestedListsArgument;
         }
 
         private static CodeMemberMethod MakeUpdateMethod(DomainClass domainClass)
@@ -98,7 +108,8 @@ namespace DslModelToCSharp.SqlAdapter
             });
 
             updateMethod.Statements.Add(
-                new CodeSnippetExpression($"EventStore.{domainClass.Name}s.Update({domainClass.Name.ToLower()})"));
+                new CodeSnippetExpression(
+                    $"EventStore.{domainClass.Name}s.Update({domainClass.Name.ToLower()})"));
             updateMethod.Statements.Add(
                 new CodeSnippetExpression("await EventStore.SaveChangesAsync()"));
 

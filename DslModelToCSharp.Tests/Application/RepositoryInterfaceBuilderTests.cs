@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DslModelToCSharp.Tests.Application
 {
     [TestClass]
-    public class RepositoryBuilderTests : TestBase
+    public class RepositoryInterfaceBuilderTests : TestBase
     {
         [TestMethod]
         public void Build()
