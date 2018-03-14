@@ -21,12 +21,12 @@ namespace Domain.Posts
     public partial class Post : IPost
     {
         
-        public Guid Id { get; private set; }
-        
         public String Title { get; private set; }
         
         public String Body { get; private set; }
-        
+
+        public Guid Id { get; private set; }
+
         private Post(Guid Id, String Title)
         {
             this.Id = Id;

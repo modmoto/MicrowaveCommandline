@@ -66,7 +66,9 @@ namespace DslModelToCSharp
 
             var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
 
-            targetClass = _propertyBuilder.Build(targetClass, domainClass.Properties);
+            var propertiesWithDefaultId = domainClass.Properties;
+            propertiesWithDefaultId.Add(new Property {Name = "Id", Type = "Guid"});
+            targetClass = _propertyBuilder.Build(targetClass, propertiesWithDefaultId);
             targetClass.Members.Add(emptyConstructor);
 
             nameSpace.Types.Add(targetClass);
