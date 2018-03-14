@@ -12,6 +12,10 @@
 	UpdateName(Name: String): {
 		Name: String
 	}
+
+	AddPost(PostToAdd: Post@LoadFromDb): {
+		PostId: Guid
+	}
 }
 
 DomainClass Post {
