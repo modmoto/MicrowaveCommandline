@@ -20,6 +20,7 @@ namespace GenericWebServiceBuilder
             var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
             var sqlAdapterBasePath = $"../../GeneratedWebService/{sqlAdapterNameSpace}/Generated/";
             var webAdapterBasePath = $"../../GeneratedWebService/{webAdapterNameSpace}/Generated/";
+            var injectionBasePath = "../../GeneratedWebService/Generated";
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();
@@ -27,6 +28,8 @@ namespace GenericWebServiceBuilder
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new WebAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
+            
+            var dependencyInjectionWriter = new DependencyInjectionWriter(injectionBasePath);
 
             using (var reader = new StreamReader("Schema.wsb"))
             {
@@ -39,6 +42,7 @@ namespace GenericWebServiceBuilder
                 applicationWriter.Write(domainTree, applicationBasePath);
                 sqlAdapterWriter.Write(domainTree, sqlAdapterBasePath);
                 webAdapterWriter.Write(domainTree, webAdapterBasePath);
+                dependencyInjectionWriter.Write(domainTree.Classes, injectionBasePath);
             }
         }
     }
