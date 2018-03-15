@@ -20,7 +20,7 @@ namespace GenericWebServiceBuilder
             var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
             var sqlAdapterBasePath = $"../../GeneratedWebService/{sqlAdapterNameSpace}/Generated/";
             var webAdapterBasePath = $"../../GeneratedWebService/{webAdapterNameSpace}/Generated/";
-            var injectionBasePath = "../../GeneratedWebService/Generated";
+            var injectionBasePath = "../../GeneratedWebService/GeneratedWebService";
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();

@@ -8,9 +8,6 @@ namespace DslModelToCSharp.Application
     public class DependencyInjectionWriter
     {
         private readonly IFileWriter _fileWriter;
-        private HookResultBuilder _hookResultBuilder;
-        private CommandHandlerBuilder _commandHandlerBuilder;
-        private RepositoryInterfaceBuilder _repositoryInterfaceBuilder;
         private ClassBuilder _classBuilder;
         private NameSpaceBuilder _nameSpaceBuilder;
 
@@ -36,6 +33,7 @@ namespace DslModelToCSharp.Application
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Attributes = MemberAttributes.Static | MemberAttributes.Public;
             codeMemberMethod.ReturnType = new CodeTypeReference("IServiceCollection");
+            codeMemberMethod.Name = "ConfigureGeneratedServices";
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("this IServiceCollection", "collection"));
 
