@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
 
@@ -37,11 +38,29 @@ namespace DslModelToCSharp
             return codeConstructor;
         }
 
-        public CodeTypeMember BuildPrivateWithAdditionalId(List<Property> properties)
+        public CodeTypeMember BuildPrivateForCreateMethod(List<Property> properties, string commandType)
         {
-            var newList = new List<Property> {new Property {Name = "Id", Type = "Guid"}};
-            newList.AddRange(properties);
-            return BuildPrivate(newList);
+            var constructor = new CodeConstructor();
+            foreach (var property in properties)
+            {
+                CodeAssignStatement body = new CodeAssignStatement
+                {
+                    Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), property.Name),
+                    Right = new CodeFieldReferenceExpression(null, $"command.{property.Name}")
+                };
+                constructor.Statements.Add(body);
+            }
+
+            constructor.Parameters.Add(new CodeParameterDeclarationExpression("Guid", "Id"));
+            constructor.Parameters.Add(new CodeParameterDeclarationExpression(commandType, "command"));
+            CodeAssignStatement body2 = new CodeAssignStatement
+            {
+                Left = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), "Id"),
+                Right = new CodeFieldReferenceExpression(null, "Id")
+            };
+            constructor.Statements.Add(body2);
+
+            return constructor;
         }
 
         public CodeConstructor BuildPublicWithBaseCall(IList<Property> domainEventProperties, IList<Property> properties)

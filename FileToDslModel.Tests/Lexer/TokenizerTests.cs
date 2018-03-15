@@ -99,6 +99,25 @@ namespace FileToDslModel.Tests.Lexer
         }
 
         [TestMethod]
+        public void Tokenize_CreateMethod_MultipleParams()
+        {
+            var tokenizer = new Tokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                Create(Name: String, Age: Int32)
+                                            }");
+            Assert.AreEqual(14, tokens.Count);
+
+            Assert.AreEqual("Create", tokens[3].Value);
+            Assert.AreEqual(TokenType.CreateMethod, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.ParameterBracketOpen, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[6].TokenType);
+            Assert.AreEqual(TokenType.ParamSeparator, tokens[8].TokenType);
+            Assert.AreEqual("Age", tokens[9].Value);
+            Assert.AreEqual(TokenType.TypeDefSeparator, tokens[10].TokenType);
+            Assert.AreEqual("Int32", tokens[11].Value);
+        }
+
+        [TestMethod]
         public void Tokenize_ListProperty()
         {
             var tokenizer = new Tokenizer();

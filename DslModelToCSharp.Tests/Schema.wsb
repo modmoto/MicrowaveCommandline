@@ -3,7 +3,7 @@
 	Age: Int32
 	Posts: [Post]
 
-	Create(Name: String)
+	Create(Name: String, Age: Int32)
 
 	UpdateAge(Age: Int32): {
 		Age: Int32

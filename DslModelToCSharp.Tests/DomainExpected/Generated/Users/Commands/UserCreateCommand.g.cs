@@ -19,9 +19,12 @@ namespace Domain.Users
         
         public String Name { get; private set; }
         
-        public UserCreateCommand(String Name)
+        public Int32 Age { get; private set; }
+        
+        public UserCreateCommand(String Name, Int32 Age)
         {
             this.Name = Name;
+            this.Age = Age;
         }
     }
 }

@@ -24,13 +24,13 @@ namespace Domain.Posts
         public String Title { get; private set; }
         
         public String Body { get; private set; }
-
+        
         public Guid Id { get; private set; }
-
-        private Post(Guid Id, String Title)
+        
+        private Post(Guid Id, PostCreateCommand command)
         {
+            this.Title = command.Title;
             this.Id = Id;
-            this.Title = Title;
         }
         
         private Post()

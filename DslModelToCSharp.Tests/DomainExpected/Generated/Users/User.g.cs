@@ -34,10 +34,11 @@ namespace Domain.Users
         
         public Guid Id { get; private set; }
         
-        private User(Guid Id, String Name)
+        private User(Guid Id, UserCreateCommand command)
         {
+            this.Name = command.Name;
+            this.Age = command.Age;
             this.Id = Id;
-            this.Name = Name;
         }
         
         private User()
