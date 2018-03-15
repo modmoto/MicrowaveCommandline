@@ -27,6 +27,7 @@ namespace DslModelToCSharp
             codeNamespace.Imports.Add(new CodeNamespaceImport("Application"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("Microsoft.Extensions.DependencyInjection"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("Microsoft.Extensions.Configuration"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("SqlAdapter"));
 
             var codeMemberMethod = new CodeMemberMethod();
@@ -34,8 +35,9 @@ namespace DslModelToCSharp
             codeMemberMethod.Name = "ConfigureGeneratedServices";
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("IServiceCollection", "collection"));
+            codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("IConfiguration", "configuration"));
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddDbContext<EventStoreContext>(option => option.UseSqlite(\"Data Source=Eventstore.db\"))"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddDbContext<EventStoreContext>(option => option.UseSqlite(configuration.GetConnectionString(\"EventStoreDatabase\")))"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<EventStore>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddMvc().AddApplicationPart(typeof({domainClasses[0].Name}Controller).Assembly)"));

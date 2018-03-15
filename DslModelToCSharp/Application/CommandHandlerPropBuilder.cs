@@ -9,7 +9,7 @@ namespace DslModelToCSharp.Application
         {
             return new List<Property>
             {
-                new Property {Name = "EventStore", Type = "IEventStore"},
+                new Property {Name = "EventStore", Type = "EventStore"},
                 new Property {Name = $"{domainClass.Name}Repository", Type = $"I{domainClass.Name}Repository"}
             };
         }
