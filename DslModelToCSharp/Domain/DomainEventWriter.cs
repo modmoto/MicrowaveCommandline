@@ -15,7 +15,7 @@ namespace DslModelToCSharp
         private readonly IClassBuilder _classBuilder;
         private readonly ConstBuilder _constBuilder;
         private readonly IFileWriter _fileWriter;
-        private readonly IPropertyBuilder _propertyBuilder;
+        private readonly PropBuilder _propertyBuilder;
 
         public DomainEventWriter(string basePath)
         {
@@ -58,13 +58,13 @@ namespace DslModelToCSharp
             var first = domainEvent.Properties.First();
             targetClass = _propertyBuilder.BuildWithoutSet(targetClass, new List<Property> {first});
             var properties = domainEvent.Properties.Except(new List<Property> {first}).ToList();
-            targetClass = _propertyBuilder.Build(targetClass, properties);
+            _propertyBuilder.Build(targetClass, properties);
             return targetClass;
         }
 
         private CodeTypeDeclaration BuildProperties(DomainEvent domainEvent, CodeTypeDeclaration targetClass)
         {
-            targetClass = _propertyBuilder.Build(targetClass, domainEvent.Properties);
+            _propertyBuilder.Build(targetClass, domainEvent.Properties);
             return targetClass;
         }
     }

@@ -9,6 +9,7 @@ namespace DslModelToCSharp.Application
         private HookResultBuilder _hookResultBuilder;
         private CommandHandlerBuilder _commandHandlerBuilder;
         private RepositoryInterfaceBuilder _repositoryInterfaceBuilder;
+        private SynchronousHookBuilder _synchronousHookBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath)
         {
@@ -16,6 +17,7 @@ namespace DslModelToCSharp.Application
             _hookResultBuilder = new HookResultBuilder(applicationNameSpace);
             _commandHandlerBuilder = new CommandHandlerBuilder(applicationNameSpace);
             _repositoryInterfaceBuilder = new RepositoryInterfaceBuilder(applicationNameSpace);
+            _synchronousHookBuilder = new SynchronousHookBuilder(applicationNameSpace);
         }
         public void Write(DomainTree domainTree, string basePath)
         {
@@ -25,6 +27,12 @@ namespace DslModelToCSharp.Application
                 _fileWriter.WriteToFile(commandHandler.Types[0].Name, $"{domainClass.Name}s", commandHandler);
                 var iRepository = _repositoryInterfaceBuilder.Build(domainClass);
                 _fileWriter.WriteToFile(iRepository.Types[0].Name, $"{domainClass.Name}s", iRepository);
+            }
+
+            foreach (var hook in domainTree.SynchronousDomainHooks)
+            {
+                var createdHook = _synchronousHookBuilder.Build(hook);
+                _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks/", createdHook);
             }
 
             var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());

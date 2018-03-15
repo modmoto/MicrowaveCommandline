@@ -4,9 +4,9 @@ using DslModel.Domain;
 
 namespace DslModelToCSharp
 {
-    public class PropBuilder : IPropertyBuilder
+    public class PropBuilder
     {
-        public CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<Property> properties)
+        public void Build(CodeTypeDeclaration generatedClass, IList<Property> properties)
         {
             foreach (var property in properties)
             {
@@ -19,8 +19,6 @@ namespace DslModelToCSharp
 
                 generatedClass.Members.Add(field);
             }
-
-            return generatedClass;
         }
 
         public CodeTypeDeclaration BuildWithoutSet(CodeTypeDeclaration generatedClass, IList<Property> properties)
@@ -39,11 +37,5 @@ namespace DslModelToCSharp
 
             return generatedClass;
         }
-    }
-
-    public interface IPropertyBuilder
-    {
-        CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<Property> properties);
-        CodeTypeDeclaration BuildWithoutSet(CodeTypeDeclaration generatedClass, IList<Property> properties);
     }
 }

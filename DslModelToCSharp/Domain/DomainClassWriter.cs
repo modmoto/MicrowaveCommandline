@@ -16,7 +16,7 @@ namespace DslModelToCSharp
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
-        private readonly IPropertyBuilder _propertyBuilder;
+        private readonly PropBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private CommandBuilder _commandBuilder;
         private ListPropBuilder _listPropBuilder;
@@ -73,7 +73,7 @@ namespace DslModelToCSharp
 
             var propertiesWithDefaultId = domainClass.Properties;
             propertiesWithDefaultId.Add(new Property {Name = "Id", Type = "Guid"});
-            targetClass = _propertyBuilder.Build(targetClass, propertiesWithDefaultId);
+            _propertyBuilder.Build(targetClass, propertiesWithDefaultId);
             targetClass.Members.Add(emptyConstructor);
 
             nameSpace.Types.Add(targetClass);
@@ -138,7 +138,7 @@ namespace DslModelToCSharp
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
-            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
+            _propertyBuilder.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkConstructor(userClass);
             var errorResultConstructor = BuildErrorConstructor(userClass);

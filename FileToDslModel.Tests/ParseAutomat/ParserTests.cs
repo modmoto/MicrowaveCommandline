@@ -322,7 +322,7 @@ namespace FileToDslModel.Tests.ParseAutomat
             var tokens = new Collection<DslToken>
             {
                 new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
-                new DslToken(TokenType.Value, "SendPassordMail", 1),
+                new DslToken(TokenType.Value, "SendPasswordMail", 1),
                 new DslToken(TokenType.DomainHookOn, "on", 1),
                 new DslToken(TokenType.DomainHookEventDefinition, "User.Create", 1),
             };
@@ -330,8 +330,9 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual("User", domainTree.DomainHooks[0].ClassType);
-            Assert.AreEqual("Create", domainTree.DomainHooks[0].MethodName);
+            Assert.AreEqual("User", domainTree.SynchronousDomainHooks[0].ClassType);
+            Assert.AreEqual("Create", domainTree.SynchronousDomainHooks[0].MethodName);
+            Assert.AreEqual("SendPasswordMail", domainTree.SynchronousDomainHooks[0].Name);
         }
     }
 }

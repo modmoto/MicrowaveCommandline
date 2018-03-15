@@ -11,7 +11,7 @@ namespace DslModelToCSharp
         private readonly IFileWriter _fileWriter;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
         private readonly IClassBuilder _classBuilder;
-        private readonly IPropertyBuilder _propertyBuilder;
+        private readonly PropBuilder _propertyBuilder;
 
         public DomainEventBaseClassWriter(string domain, string basePath)
         {
@@ -29,7 +29,7 @@ namespace DslModelToCSharp
 
             var generatedClass = _classBuilder.Build(name);
 
-            generatedClass = _propertyBuilder.Build(generatedClass, properties);
+            _propertyBuilder.Build(generatedClass, properties);
 
             nameSpace.Types.Add(generatedClass);
 

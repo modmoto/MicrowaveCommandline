@@ -11,7 +11,7 @@ namespace DslModelToCSharp.Application
         private readonly ConstBuilder _constBuilder;
         private readonly string _nameSpace;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
-        private readonly IPropertyBuilder _propertyBuilder;
+        private readonly PropBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
         public HookResultBuilder(string nameSpace)
@@ -32,7 +32,7 @@ namespace DslModelToCSharp.Application
 
             var constructor = _constBuilder.BuildPrivate(userClass.Properties);
 
-            targetClass = _propertyBuilder.Build(targetClass, userClass.Properties);
+            _propertyBuilder.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkResultConstructor(userClass);
 
