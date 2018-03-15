@@ -25,9 +25,9 @@ namespace FileToDslModel.Tests.ParseAutomat
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.Count);
-            Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Properties.Count);
+            Assert.AreEqual("User", domainTree.Classes[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual(0, domainTree.Classes[0].Properties.Count);
         }
 
         [TestMethod]
@@ -49,11 +49,11 @@ namespace FileToDslModel.Tests.ParseAutomat
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual(1, domainTree.Classes.Count);
-            Assert.AreEqual("User", domainTree.Classes.ToList()[0].Name);
-            Assert.AreEqual(0, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Properties.Count);
-            Assert.AreEqual("VorName", domainTree.Classes.ToList()[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("User", domainTree.Classes[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual(1, domainTree.Classes[0].Properties.Count);
+            Assert.AreEqual("VorName", domainTree.Classes[0].Properties[0].Name);
+            Assert.AreEqual("String", domainTree.Classes[0].Properties[0].Type);
         }
 
         [TestMethod]
@@ -112,8 +112,8 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual(0, domainTree.Classes[0].Properties.Count);
             Assert.AreEqual("UpdateStuff", domainTree.Classes[0].Methods[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Methods[0].Parameters.Count);
-            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods[0].Parameters[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Methods[0].Parameters[0].Type);
+            Assert.AreEqual("UserName", domainTree.Classes[0].Methods[0].Parameters[0].Name);
+            Assert.AreEqual("String", domainTree.Classes[0].Methods[0].Parameters[0].Type);
             Assert.AreEqual("ValidationResult", domainTree.Classes[0].Methods[0].ReturnType);
 
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
@@ -147,14 +147,14 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual("UpdateStuff", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
-            Assert.AreEqual(2, domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.Count);
-            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[0].Type);
-            Assert.AreEqual("Age", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[1].Name);
-            Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].Methods.ToList()[0].Parameters.ToList()[1].Type);
-            Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual("UpdateStuff", domainTree.Classes[0].Methods[0].Name);
+            Assert.AreEqual(2, domainTree.Classes[0].Methods[0].Parameters.Count);
+            Assert.AreEqual("UserName", domainTree.Classes[0].Methods[0].Parameters[0].Name);
+            Assert.AreEqual("String", domainTree.Classes[0].Methods[0].Parameters[0].Type);
+            Assert.AreEqual("Age", domainTree.Classes[0].Methods[0].Parameters[1].Name);
+            Assert.AreEqual("Int32", domainTree.Classes[0].Methods[0].Parameters[1].Type);
+            Assert.AreEqual("ValidationResult", domainTree.Classes[0].Methods[0].ReturnType);
 
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
@@ -183,14 +183,14 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].Methods.Count);
-            Assert.AreEqual("UpdateStuff", domainTree.Classes.ToList()[0].Methods.ToList()[0].Name);
-            Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].Methods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].Methods.Count);
+            Assert.AreEqual("UpdateStuff", domainTree.Classes[0].Methods[0].Name);
+            Assert.AreEqual("ValidationResult", domainTree.Classes[0].Methods[0].ReturnType);
 
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
-            Assert.AreEqual("UserId", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("Guid", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("UserId", domainTree.Classes[0].Events[0].Properties[0].Name);
+            Assert.AreEqual("Guid", domainTree.Classes[0].Events[0].Properties[0].Type);
         }
 
         [TestMethod]
@@ -210,14 +210,14 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].CreateMethods.Count);
-            Assert.AreEqual("Create", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Name);
-            Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].CreateMethods.Count);
+            Assert.AreEqual("Create", domainTree.Classes[0].CreateMethods[0].Name);
+            Assert.AreEqual("ValidationResult", domainTree.Classes[0].CreateMethods[0].ReturnType);
 
             Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Type);
         }
 
         [TestMethod]
@@ -240,17 +240,17 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].CreateMethods.Count);
-            Assert.AreEqual("Create", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Name);
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList().Count);
-            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Type);
-            Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].CreateMethods.Count);
+            Assert.AreEqual("Create", domainTree.Classes[0].CreateMethods[0].Name);
+            Assert.AreEqual(1, domainTree.Classes[0].CreateMethods[0].Parameters.Count);
+            Assert.AreEqual("UserName", domainTree.Classes[0].CreateMethods[0].Parameters[0].Name);
+            Assert.AreEqual("String", domainTree.Classes[0].CreateMethods[0].Parameters[0].Type);
+            Assert.AreEqual("ValidationResult", domainTree.Classes[0].CreateMethods[0].ReturnType);
 
             Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Type);
         }
 
         [TestMethod]
@@ -277,19 +277,19 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].CreateMethods.Count);
-            Assert.AreEqual("Create", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Name);
-            Assert.AreEqual(2, domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList().Count);
-            Assert.AreEqual("UserName", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Name);
-            Assert.AreEqual("String", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[0].Type);
-            Assert.AreEqual("Age", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[1].Name);
-            Assert.AreEqual("Int32", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].Parameters.ToList()[1].Type);
-            Assert.AreEqual("ValidationResult", domainTree.Classes.ToList()[0].CreateMethods.ToList()[0].ReturnType);
+            Assert.AreEqual(1, domainTree.Classes[0].CreateMethods.Count);
+            Assert.AreEqual("Create", domainTree.Classes[0].CreateMethods[0].Name);
+            Assert.AreEqual(2, domainTree.Classes[0].CreateMethods[0].Parameters.Count);
+            Assert.AreEqual("UserName", domainTree.Classes[0].CreateMethods[0].Parameters[0].Name);
+            Assert.AreEqual("String", domainTree.Classes[0].CreateMethods[0].Parameters[0].Type);
+            Assert.AreEqual("Age", domainTree.Classes[0].CreateMethods[0].Parameters[1].Name);
+            Assert.AreEqual("Int32", domainTree.Classes[0].CreateMethods[0].Parameters[1].Type);
+            Assert.AreEqual("ValidationResult", domainTree.Classes[0].CreateMethods[0].ReturnType);
 
             Assert.AreEqual("UserCreateEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Name);
-            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties.ToList()[0].Type);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Name);
+            Assert.AreEqual("User", domainTree.Classes[0].Events[0].Properties[0].Type);
         }
 
         [TestMethod]
@@ -311,9 +311,27 @@ namespace FileToDslModel.Tests.ParseAutomat
             var parser = new Parser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual(1, domainTree.Classes.ToList()[0].ListProperties.Count);
-            Assert.AreEqual("Posts", domainTree.Classes.ToList()[0].ListProperties[0].Name);
-            Assert.AreEqual("Post", domainTree.Classes.ToList()[0].ListProperties[0].Type);
+            Assert.AreEqual(1, domainTree.Classes[0].ListProperties.Count);
+            Assert.AreEqual("Posts", domainTree.Classes[0].ListProperties[0].Name);
+            Assert.AreEqual("Post", domainTree.Classes[0].ListProperties[0].Type);
+        }
+
+        [TestMethod]
+        public void Parse_SynchronousHook()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.Value, "SendPassordMail", 1),
+                new DslToken(TokenType.DomainHookOn, "on", 1),
+                new DslToken(TokenType.DomainHookEventDefinition, "User.Create", 1),
+            };
+
+            var parser = new Parser();
+            var domainTree = parser.Parse(tokens);
+
+            Assert.AreEqual("User", domainTree.DomainHooks[0].ClassType);
+            Assert.AreEqual("Create", domainTree.DomainHooks[0].MethodName);
         }
     }
 }

@@ -118,6 +118,25 @@ namespace FileToDslModel.Tests.Lexer
         }
 
         [TestMethod]
+        public void Tokenize_DomainHook()
+        {
+            var tokenizer = new Tokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                Create()
+                                            }
+                                            SynchronousDomainHook SendPasswordMail on User.Create");
+            Assert.AreEqual(11, tokens.Count);
+
+
+            Assert.AreEqual(TokenType.SynchronousDomainHook, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
+            Assert.AreEqual("SendPasswordMail", tokens[8].Value);
+            Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
+            Assert.AreEqual("User.Create", tokens[10].Value);
+            Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);
+        }
+
+        [TestMethod]
         public void Tokenize_ListProperty()
         {
             var tokenizer = new Tokenizer();

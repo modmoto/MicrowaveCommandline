@@ -12,6 +12,6 @@ namespace DslModel.Domain
 
         public string Name => "Create";
         public string ReturnType { get; set; }
-        public ICollection<Parameter> Parameters { get; }
+        public IList<Parameter> Parameters { get; }
     }
 }

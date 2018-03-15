@@ -13,5 +13,8 @@
         TypeDefSeparator,
         ParamSeparator,
         CreateMethod,
+        SynchronousDomainHook,
+        DomainHookEventDefinition,
+        DomainHookOn
     }
 }

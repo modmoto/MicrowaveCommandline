@@ -20,3 +20,5 @@ DomainClass Post {
 
 	Create(Title: String)
 }
+
+SynchronousDomainHook SendPasswordMail on User.Create

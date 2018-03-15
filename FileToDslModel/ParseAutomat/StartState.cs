@@ -1,5 +1,6 @@
 ﻿using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat.DomainClasses;
+using FileToDslModel.ParseAutomat.Members;
 
 namespace FileToDslModel.ParseAutomat
 {
@@ -9,20 +10,26 @@ namespace FileToDslModel.ParseAutomat
         {
         }
 
-        private ParseState DomainClassIdentifierFound()
-        {
-            return new DomainClassIdentifierFoundState(Parser);
-        }
-
         public override ParseState Parse(DslToken token)
         {
             switch (token.TokenType)
             {
                 case TokenType.DomainClass:
                     return DomainClassIdentifierFound();
+                case TokenType.SynchronousDomainHook:
+                    return SynchronousDomainHookFound();
                 default:
                     throw new NoTransitionException(token);
             }
+        }
+
+        private ParseState SynchronousDomainHookFound()
+        {
+            return new SynchronousDomainHookFoundState(Parser);
+        }
+        private ParseState DomainClassIdentifierFound()
+        {
+            return new DomainClassIdentifierFoundState(Parser);
         }
     }
 }
