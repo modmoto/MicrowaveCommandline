@@ -1,9 +1,8 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
-using DslModel.Application;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp
 {
     public class DependencyInjectionWriter
     {
@@ -21,7 +20,7 @@ namespace DslModelToCSharp.Application
         public void Write(IList<DomainClass> domainClasses, string basePath)
         {
             var codeTypeDeclaration = _classBuilder.Build("GeneratedDependencies");
-            codeTypeDeclaration.Attributes = MemberAttributes.Static | MemberAttributes.Public;
+            codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             var codeNamespace = _nameSpaceBuilder.Build("GeneratedWebService");
             codeNamespace.Types.Add(codeTypeDeclaration);
 
@@ -31,11 +30,15 @@ namespace DslModelToCSharp.Application
             codeNamespace.Imports.Add(new CodeNamespaceImport("SqlAdapter"));
 
             var codeMemberMethod = new CodeMemberMethod();
-            codeMemberMethod.Attributes = MemberAttributes.Static | MemberAttributes.Public;
-            codeMemberMethod.ReturnType = new CodeTypeReference("IServiceCollection");
+            codeMemberMethod.Attributes = MemberAttributes.Static | MemberAttributes.Public |  MemberAttributes.Final;
             codeMemberMethod.Name = "ConfigureGeneratedServices";
             codeTypeDeclaration.Members.Add(codeMemberMethod);
-            codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("this IServiceCollection", "collection"));
+            codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("IServiceCollection", "collection"));
+
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddDbContext<EventStoreContext>(option => option.UseSqlite(\"Data Source=Eventstore.db\"))"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStore, EventStore>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddMvc().AddApplicationPart(typeof({domainClasses[0].Name}Controller).Assembly)"));
 
             foreach (var domainClass in domainClasses)
             {
