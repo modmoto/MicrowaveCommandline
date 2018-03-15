@@ -36,7 +36,7 @@ namespace DslModelToCSharp
             codeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression("IServiceCollection", "collection"));
 
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddDbContext<EventStoreContext>(option => option.UseSqlite(\"Data Source=Eventstore.db\"))"));
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStore, EventStore>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<EventStore>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddMvc().AddApplicationPart(typeof({domainClasses[0].Name}Controller).Assembly)"));
 
