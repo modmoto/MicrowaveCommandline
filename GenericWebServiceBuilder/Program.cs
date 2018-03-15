@@ -24,7 +24,7 @@ namespace GenericWebServiceBuilder
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();
-            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath);
+            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, "../../GeneratedWebService");
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new WebAdapterWriter(webAdapterNameSpace, webAdapterBasePath);

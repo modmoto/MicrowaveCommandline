@@ -10,6 +10,7 @@ namespace DslModelToCSharp.Tests
     {
         protected readonly string DomainNameSpace = "Domain";
         protected readonly string BasePathDomain = "Domain/";
+        protected readonly string BasePathSolution = "Solution/";
         protected readonly string ApplicationNameSpace = "Application";
         protected readonly string BasePathApplication = "Application/";
        

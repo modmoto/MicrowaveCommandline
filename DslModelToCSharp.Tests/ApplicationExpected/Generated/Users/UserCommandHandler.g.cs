@@ -21,11 +21,11 @@ namespace Application.Users
     public partial class UserCommandHandler
     {
         
-        public IEventStore EventStore { get; private set; }
+        public EventStore EventStore { get; private set; }
         
         public IUserRepository UserRepository { get; private set; }
         
-        public UserCommandHandler(IEventStore EventStore, IUserRepository UserRepository)
+        public UserCommandHandler(EventStore EventStore, IUserRepository UserRepository)
         {
             this.EventStore = EventStore;
             this.UserRepository = UserRepository;

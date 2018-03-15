@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
@@ -11,6 +12,7 @@ namespace DslModelToCSharp
         private readonly IClassBuilder _classBuilder;
         private readonly ConstBuilder _constBuilder;
         private readonly string _domain;
+        private readonly string _basePathRealClasses;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly INameSpaceBuilder _nameSpaceBuilder;
@@ -18,17 +20,20 @@ namespace DslModelToCSharp
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private CommandBuilder _commandBuilder;
         private ListPropBuilder _listPropBuilder;
+        private FileWriter _fileWriterRealClasses;
 
-        public DomainClassWriter(string domainNameSpace, string basePath)
+        public DomainClassWriter(string domainNameSpace, string basePath, string basePathRealClasses)
         {
             _interfaceBuilder = new InterfaceBuilder();
             _propertyBuilder = new PropBuilder();
             _classBuilder = new ClassBuilder();
             _fileWriter = new FileWriter(basePath);
+            _fileWriterRealClasses = new FileWriter(basePathRealClasses);
             _constBuilder = new ConstBuilder();
             _staticConstructorBuilder = new StaticConstructorBuilder();
             _nameSpaceBuilder = new NameSpaceBuilder();
             _domain = domainNameSpace;
+            _basePathRealClasses = basePathRealClasses;
             _commandBuilder = new CommandBuilder();
             _listPropBuilder = new ListPropBuilder();
         }
@@ -74,6 +79,51 @@ namespace DslModelToCSharp
             nameSpace.Types.Add(targetClass);
 
             _fileWriter.WriteToFile(domainClass.Name, nameSpace.Name.Split(".")[1], nameSpace);
+
+            if (!ClassIsAllreadyExisting(domainClass))
+            {
+                var nameSpaceRealClass = _nameSpaceBuilder.BuildWithListImport($"{_domain}.{domainClass.Name}s");
+                var targetClassReal = _classBuilder.BuildPartial(domainClass.Name);
+                foreach (var createMethod in domainClass.CreateMethods)
+                {
+                    var method = new CodeMemberMethod
+                    {
+                        Name = createMethod.Name,
+                        ReturnType = new CodeTypeReference($"{new CreationResultBaseClass().Name}<{domainClass.Name}>")
+                    };
+
+                    method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{createMethod.Name}Command"), Name = "command" });
+
+                    method.Statements.Add(new CodeSnippetExpression("var newGuid = Guid.NewGuid()"));
+                    method.Statements.Add(new CodeSnippetExpression($"var entity = new {domainClass.Name}(newGuid, command)"));
+                    method.Statements.Add(new CodeSnippetExpression($"return CreationResult<Kunde>.OkResult(new List<DomainEventBase> {{ new {domainClass.Name}CreateEvent(entity, newGuid) }}, entity)"));
+                    method.Attributes = MemberAttributes.Final | MemberAttributes.Public | MemberAttributes.Static;
+                    targetClassReal.Members.Add(method);
+                }
+
+                foreach (var domainMethod in domainClass.Methods)
+                {
+                    var method = new CodeMemberMethod
+                    {
+                        Name = domainMethod.Name,
+                        ReturnType = new CodeTypeReference(domainMethod.ReturnType)
+                    };
+                    method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"), Name = "command" });
+                    method.Attributes = MemberAttributes.Final | MemberAttributes.Public;
+                    method.Statements.Add(new CodeSnippetExpression("throw new NotImplementedException()"));
+                    targetClassReal.Members.Add(method);
+                }
+                nameSpaceRealClass.Types.Add(targetClassReal);
+
+                _fileWriterRealClasses.WriteToFile(domainClass.Name, "Domain", nameSpaceRealClass, false);
+            }
+           
+        }
+
+        private bool ClassIsAllreadyExisting(DomainClass domainClass)
+        {
+            var formattableString = $"{_basePathRealClasses}/Domain/{domainClass.Name}.cs";
+            return File.Exists(formattableString);
         }
 
         public void Write(CreationResultBaseClass userClass)

@@ -13,7 +13,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void TestAll_Snapshot()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, BasePathDomain);
+            var domainBuilder = new DomainWriter(DomainNameSpace, BasePathDomain, BasePathSolution);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
@@ -34,7 +34,7 @@ namespace DslModelToCSharp.Tests
         [TestMethod]
         public void CreateionResultBase_Builder()
         {
-            new DomainClassWriter(DomainNameSpace, BasePathDomain).Write(new CreationResultBaseClass());
+            new DomainClassWriter(DomainNameSpace, BasePathDomain, BasePathSolution).Write(new CreationResultBaseClass());
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"),

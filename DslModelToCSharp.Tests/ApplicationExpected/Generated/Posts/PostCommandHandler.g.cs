@@ -21,11 +21,11 @@ namespace Application.Posts
     public partial class PostCommandHandler
     {
         
-        public IEventStore EventStore { get; private set; }
+        public EventStore EventStore { get; private set; }
         
         public IPostRepository PostRepository { get; private set; }
         
-        public PostCommandHandler(IEventStore EventStore, IPostRepository PostRepository)
+        public PostCommandHandler(EventStore EventStore, IPostRepository PostRepository)
         {
             this.EventStore = EventStore;
             this.PostRepository = PostRepository;

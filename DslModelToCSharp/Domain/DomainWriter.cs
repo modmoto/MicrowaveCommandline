@@ -15,9 +15,9 @@ namespace DslModelToCSharp
         private readonly DomainEventBaseClassWriter _domainEventBaseClassBuilder;
         private readonly ValidationResultBaseClassBuilder _validationResultBaseClassBuilder;
 
-        public DomainWriter(string domain, string basePath)
+        public DomainWriter(string domain, string basePath, string basePathSolution)
         {
-            _classWriter = new DomainClassWriter(domain, basePath);
+            _classWriter = new DomainClassWriter(domain, basePath, basePathSolution);
             _domainEventWriter = new DomainEventWriter(basePath);
             _domainEventBaseClassBuilder = new DomainEventBaseClassWriter(domain, basePath);
             _validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(domain, basePath);
