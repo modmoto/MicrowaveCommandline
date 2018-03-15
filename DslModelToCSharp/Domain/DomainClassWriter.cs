@@ -96,7 +96,7 @@ namespace DslModelToCSharp
 
                     method.Statements.Add(new CodeSnippetExpression("var newGuid = Guid.NewGuid()"));
                     method.Statements.Add(new CodeSnippetExpression($"var entity = new {domainClass.Name}(newGuid, command)"));
-                    method.Statements.Add(new CodeSnippetExpression($"return CreationResult<Kunde>.OkResult(new List<DomainEventBase> {{ new {domainClass.Name}CreateEvent(entity, newGuid) }}, entity)"));
+                    method.Statements.Add(new CodeSnippetExpression($"return CreationResult<{domainClass.Name}>.OkResult(new List<DomainEventBase> {{ new {domainClass.Name}CreateEvent(entity, newGuid) }}, entity)"));
                     method.Attributes = MemberAttributes.Final | MemberAttributes.Public | MemberAttributes.Static;
                     targetClassReal.Members.Add(method);
                 }
