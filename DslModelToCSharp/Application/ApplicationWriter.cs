@@ -1,10 +1,12 @@
-﻿using DslModel.Application;
+﻿using System.IO;
+using DslModel.Application;
 using DslModel.Domain;
 
 namespace DslModelToCSharp.Application
 {
     public class ApplicationWriter
     {
+        private readonly string _applicationBasePathRealClasses;
         private readonly IFileWriter _fileWriter;
         private HookResultBuilder _hookResultBuilder;
         private CommandHandlerBuilder _commandHandlerBuilder;
@@ -12,9 +14,12 @@ namespace DslModelToCSharp.Application
         private SynchronousHookBuilder _synchronousHookBuilder;
         private HookBaseClassBuilder _hookBaseClassBuilder;
         private EventStoreRepositoryInterfaceBuilder _eventStoreRepositoryInterfaceBuilder;
+        private FileWriter _fileWriterRealClasses;
 
-        public ApplicationWriter(string applicationNameSpace, string basePath)
+        public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
+            _applicationBasePathRealClasses = applicationBasePathRealClasses;
+            _fileWriterRealClasses = new FileWriter(_applicationBasePathRealClasses);
             _fileWriter = new FileWriter(basePath);
             _hookResultBuilder = new HookResultBuilder(applicationNameSpace);
             _commandHandlerBuilder = new CommandHandlerBuilder(applicationNameSpace);
@@ -37,6 +42,12 @@ namespace DslModelToCSharp.Application
             {
                 var createdHook = _synchronousHookBuilder.Build(hook);
                 _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks/", createdHook);
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/{hook.Name}Hook.cs";
+                if (!File.Exists(formattableString))
+                {
+                    var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
+                    _fileWriterRealClasses.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/", buildReplacementClass, false);
+                }
             }
 
             var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());

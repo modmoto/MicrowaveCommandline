@@ -21,6 +21,7 @@ namespace GenericWebServiceBuilder
             var webAdapterNameSpace = "HttpAdapter";
             var domainBasePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
             var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
+            var applicationRealClassesBasePath = $"../../GeneratedWebService/{applicationNameSpace}/";
             var sqlAdapterBasePath = $"../../GeneratedWebService/{sqlAdapterNameSpace}/Generated/";
             var webAdapterBasePath = $"../../GeneratedWebService/{webAdapterNameSpace}/Generated/";
             var injectionBasePath = "../../GeneratedWebService/GeneratedWebService";
@@ -28,7 +29,7 @@ namespace GenericWebServiceBuilder
             var tokenizer = new Tokenizer();
             var parser = new Parser();
             var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, "../../GeneratedWebService");
-            var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath);
+            var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new WebAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
             

@@ -67,5 +67,26 @@ namespace DslModelToCSharp.Application
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
         }
+
+        public CodeNamespace BuildReplacementClass(SynchronousDomainHook domainClass)
+        {
+            var codeNamespace = _nameSpaceBuilder.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
+            var codeTypeDeclaration = _classBuilder.BuildPartial($"{domainClass.Name}Hook");
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
+            codeNamespace.Types.Add(codeTypeDeclaration);
+
+            var codeMemberMethod = new CodeMemberMethod();
+            codeMemberMethod.Parameters.Add(
+                new CodeParameterDeclarationExpression(new CodeTypeReference(new DomainEventBaseClass().Name),
+                    "domainEvent"));
+            codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
+            codeMemberMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
+            codeMemberMethod.Name = "Execute";
+
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("throw new NotImplementedException()"));
+            codeTypeDeclaration.Members.Add(codeMemberMethod);
+            return codeNamespace;
+        }
     }
 }
