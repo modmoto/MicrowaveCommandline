@@ -44,9 +44,7 @@ namespace DslModelToCSharp
             {
                 targetClass.Members.Add(new CodeMemberProperty
                 {
-                    HasSet = false,
-                    HasGet = false,
-                    GetStatements = {new CodeSnippetExpression($"return this.{property.Name}")},
+                    GetStatements = {new CodeSnippetExpression("get")},
                     Name = property.Name,
                     Type = new CodeTypeReference(property.Type)
                 });
