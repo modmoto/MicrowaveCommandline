@@ -14,10 +14,10 @@ namespace DslModel.Domain
         }
 
         public List<ListProperty> ListProperties { get; }
-        public IList<DomainMethod> Methods { get; }
+        public IList<DomainMethod> Methods { get; protected set; }
         public IList<DomainEvent> Events { get; }
         public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
-        public IList<Property> Properties { get; }
+        public IList<Property> Properties { get; protected set; }
     }
 }

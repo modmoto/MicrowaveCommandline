@@ -10,7 +10,7 @@ namespace DslModelToCSharp.Application
         private readonly IClassBuilder _classBuilder;
         private readonly ConstBuilder _constBuilder;
         private readonly string _nameSpace;
-        private readonly INameSpaceBuilder _nameSpaceBuilder;
+        private readonly NameSpaceBuilder _nameSpaceBuilder;
         private readonly PropBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 

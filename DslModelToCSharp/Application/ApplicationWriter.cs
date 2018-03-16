@@ -10,6 +10,7 @@ namespace DslModelToCSharp.Application
         private CommandHandlerBuilder _commandHandlerBuilder;
         private RepositoryInterfaceBuilder _repositoryInterfaceBuilder;
         private SynchronousHookBuilder _synchronousHookBuilder;
+        private HookBaseClassBuilder _hookBaseClassBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath)
         {
@@ -18,6 +19,7 @@ namespace DslModelToCSharp.Application
             _commandHandlerBuilder = new CommandHandlerBuilder(applicationNameSpace);
             _repositoryInterfaceBuilder = new RepositoryInterfaceBuilder(applicationNameSpace);
             _synchronousHookBuilder = new SynchronousHookBuilder(applicationNameSpace);
+            _hookBaseClassBuilder = new HookBaseClassBuilder(applicationNameSpace);
         }
         public void Write(DomainTree domainTree, string basePath)
         {
@@ -37,6 +39,9 @@ namespace DslModelToCSharp.Application
 
             var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());
             _fileWriter.WriteToFile(new HookResultBaseClass().Name, "Base", hookResult);
+
+            var hookBase = _hookBaseClassBuilder.Write(new DomainHookBaseClass());
+            _fileWriter.WriteToFile(new DomainHookBaseClass().Name, "Base", hookBase);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }

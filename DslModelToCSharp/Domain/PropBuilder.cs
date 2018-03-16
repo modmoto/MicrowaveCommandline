@@ -37,5 +37,20 @@ namespace DslModelToCSharp
 
             return generatedClass;
         }
+
+        public void BuildForInterface(CodeTypeDeclaration targetClass, IList<Property> properties)
+        {
+            foreach (var property in properties)
+            {
+                targetClass.Members.Add(new CodeMemberProperty
+                {
+                    HasSet = false,
+                    HasGet = false,
+                    GetStatements = {new CodeSnippetExpression($"return this.{property.Name}")},
+                    Name = property.Name,
+                    Type = new CodeTypeReference(property.Type)
+                });
+            }
+        }
     }
 }

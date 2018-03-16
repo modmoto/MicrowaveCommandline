@@ -2,14 +2,7 @@
 
 namespace DslModelToCSharp
 {
-    public interface INameSpaceBuilder
-    {
-        CodeNamespace BuildWithListImport(string domain);
-        CodeNamespace Build(string domain);
-        CodeNamespace BuildWithMvcImport(string domain, string domainClassName);
-    }
-
-    public class NameSpaceBuilder : INameSpaceBuilder
+    public class NameSpaceBuilder
     {
         public CodeNamespace BuildWithListImport(string domain)
         {
@@ -68,6 +61,13 @@ namespace DslModelToCSharp
             nameSpace.Imports.Add(new CodeNamespaceImport("Domain"));
             nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
             return nameSpace;
+        }
+
+        public CodeNamespace BuildWithDomainImport(string nameSpace)
+        {
+            var codeNamespace = Build(nameSpace);
+            codeNamespace.Imports.Add(new CodeNamespaceImport("Domain"));
+            return codeNamespace;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace DslModelToCSharp
         private readonly string _basePathRealClasses;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
-        private readonly INameSpaceBuilder _nameSpaceBuilder;
+        private readonly NameSpaceBuilder _nameSpaceBuilder;
         private readonly PropBuilder _propertyBuilder;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private CommandBuilder _commandBuilder;
@@ -41,7 +41,7 @@ namespace DslModelToCSharp
         public void Write(DomainClass domainClass)
         {
             var nameSpace = _nameSpaceBuilder.BuildWithListImport($"{_domain}.{domainClass.Name}s");
-            var iface = _interfaceBuilder.Build(domainClass);
+            var iface = _interfaceBuilder.BuildForCommand(domainClass);
 
             var targetClass = _classBuilder.BuildPartial(domainClass.Name);
             targetClass.BaseTypes.Add(iface.Name);

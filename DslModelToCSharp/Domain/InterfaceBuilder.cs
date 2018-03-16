@@ -5,7 +5,7 @@ namespace DslModelToCSharp
 {
     public class InterfaceBuilder : IInterfaceBuilder
     {
-        public CodeTypeDeclaration Build(DomainClass userClass)
+        public CodeTypeDeclaration BuildForCommand(DomainClass userClass)
         {
             var iface = new CodeTypeDeclaration($"I{userClass.Name}") {IsInterface = true};
 
@@ -17,7 +17,36 @@ namespace DslModelToCSharp
                     ReturnType = new CodeTypeReference(function.ReturnType)
                 };
 
-                method.Parameters.Add(new CodeParameterDeclarationExpression {Type = new CodeTypeReference($"{userClass.Name}{function.Name}Command"), Name = "command"});
+                method.Parameters.Add(new CodeParameterDeclarationExpression
+                {
+                    Type = new CodeTypeReference($"{userClass.Name}{function.Name}Command"),
+                    Name = "command"
+                });
+
+                iface.Members.Add(method);
+            }
+
+            return iface;
+        }
+
+        public CodeTypeDeclaration Build(DomainClass hookClass)
+        {
+            var iface = new CodeTypeDeclaration($"{hookClass.Name}") {IsInterface = true};
+
+            foreach (var function in hookClass.Methods)
+            {
+                var method = new CodeMemberMethod
+                {
+                    Name = function.Name,
+                    ReturnType = new CodeTypeReference(function.ReturnType)
+                };
+
+                foreach (var parameter in function.Parameters)
+                    method.Parameters.Add(new CodeParameterDeclarationExpression
+                    {
+                        Type = new CodeTypeReference(parameter.Type),
+                        Name = parameter.Name
+                    });
 
                 iface.Members.Add(method);
             }
@@ -28,6 +57,6 @@ namespace DslModelToCSharp
 
     public interface IInterfaceBuilder
     {
-        CodeTypeDeclaration Build(DomainClass userClass);
+        CodeTypeDeclaration BuildForCommand(DomainClass userClass);
     }
 }
