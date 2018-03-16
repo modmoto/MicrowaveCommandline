@@ -11,6 +11,7 @@ namespace DslModelToCSharp.Application
         private RepositoryInterfaceBuilder _repositoryInterfaceBuilder;
         private SynchronousHookBuilder _synchronousHookBuilder;
         private HookBaseClassBuilder _hookBaseClassBuilder;
+        private EventStoreRepositoryInterfaceBuilder _eventStoreRepositoryInterfaceBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath)
         {
@@ -20,6 +21,7 @@ namespace DslModelToCSharp.Application
             _repositoryInterfaceBuilder = new RepositoryInterfaceBuilder(applicationNameSpace);
             _synchronousHookBuilder = new SynchronousHookBuilder(applicationNameSpace);
             _hookBaseClassBuilder = new HookBaseClassBuilder(applicationNameSpace);
+            _eventStoreRepositoryInterfaceBuilder = new EventStoreRepositoryInterfaceBuilder(applicationNameSpace);
         }
         public void Write(DomainTree domainTree, string basePath)
         {
@@ -40,8 +42,11 @@ namespace DslModelToCSharp.Application
             var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());
             _fileWriter.WriteToFile(new HookResultBaseClass().Name, "Base", hookResult);
 
-            var hookBase = _hookBaseClassBuilder.Write(new DomainHookBaseClass());
+            var hookBase = _hookBaseClassBuilder.Build(new DomainHookBaseClass());
             _fileWriter.WriteToFile(new DomainHookBaseClass().Name, "Base", hookBase);
+
+            var eventStoreRepoInterface = _eventStoreRepositoryInterfaceBuilder.Build(new EventStoreRepositoryInterface());
+            _fileWriter.WriteToFile(new EventStoreRepositoryInterface().Name, "Base", eventStoreRepoInterface);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }

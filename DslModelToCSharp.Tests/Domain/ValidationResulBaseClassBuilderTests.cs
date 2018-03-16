@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using DslModel.Domain;
+using DslModelToCSharp.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DslModelToCSharp.Tests
+namespace DslModelToCSharp.Tests.Domain
 {
     [TestClass]
     public class ValidationResulBaseClassBuilderTests : TestBase

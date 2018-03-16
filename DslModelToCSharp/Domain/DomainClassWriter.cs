@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DslModel.Domain;
-using DslModelToCSharp.Domain;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class DomainClassWriter
     {

@@ -1,9 +1,8 @@
-﻿using System;
-using System.CodeDom;
+﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class ConstBuilder
     {

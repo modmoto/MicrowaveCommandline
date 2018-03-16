@@ -2,6 +2,9 @@
 using DslModel.Application;
 using DslModelToCSharp;
 using DslModelToCSharp.Application;
+using DslModelToCSharp.Domain;
+using DslModelToCSharp.HttpAdapter;
+using DslModelToCSharp.SqlAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;

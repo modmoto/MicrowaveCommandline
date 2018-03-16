@@ -1,7 +1,6 @@
 ﻿using DslModel.Domain;
-using DslModelToCSharp.Application;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public interface IDomainWriter
     {

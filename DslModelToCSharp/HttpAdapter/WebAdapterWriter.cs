@@ -1,8 +1,6 @@
-﻿using DslModel.Application;
-using DslModel.Domain;
-using DslModelToCSharp.SqlAdapter;
+﻿using DslModel.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.HttpAdapter
 {
     public class WebAdapterWriter
     {

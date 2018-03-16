@@ -2,7 +2,7 @@
 using System.Linq;
 using DslModel.Domain;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class DomainEventBaseClassWriter
     {

@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using DslModel.Application;
+using DslModelToCSharp.Domain;
 
 namespace DslModelToCSharp.Application
 {
@@ -18,17 +19,12 @@ namespace DslModelToCSharp.Application
             _nameSpaceBuilder = new NameSpaceBuilder();
         }
 
-        public CodeNamespace Write(DomainHookBaseClass hookClass)
+        public CodeNamespace Build(DomainHookBaseClass hookClass)
         {
             var targetClass = _interfaceBuilder.Build(hookClass);
-
             var nameSpace = _nameSpaceBuilder.BuildWithDomainImport(_nameSpace);
-
             _propertyBuilder.BuildForInterface(targetClass, hookClass.Properties);
-
-
             nameSpace.Types.Add(targetClass);
-
             return nameSpace;
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.CodeDom;
 using DslModel.Domain;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class InterfaceBuilder : IInterfaceBuilder
     {

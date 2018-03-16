@@ -1,11 +1,12 @@
 using System.IO;
 using DslModel.Domain;
+using DslModelToCSharp.Domain;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DslModelToCSharp.Tests
+namespace DslModelToCSharp.Tests.Domain
 {
     [TestClass]
     public class DomainClassWriterTests : TestBase

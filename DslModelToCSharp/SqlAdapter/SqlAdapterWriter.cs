@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using DslModel.Domain;
-using DslModelToCSharp.SqlAdapter;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.SqlAdapter
 {
     public class SqlAdapterWriter
     {

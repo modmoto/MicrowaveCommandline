@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DslModel.Domain;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class ListPropBuilder
     {

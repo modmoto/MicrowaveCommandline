@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class NameSpaceBuilder
     {
@@ -39,7 +39,7 @@ namespace DslModelToCSharp
             return nameSpace;
         }
 
-        public CodeNamespace BuildWithTask(string domain, string domainClassName)
+        public CodeNamespace BuildWithTaskAndClassImport(string domain, string domainClassName)
         {
             var nameSpace = BuildWithListImport(domain);
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
@@ -49,7 +49,7 @@ namespace DslModelToCSharp
 
         public CodeNamespace BuildWithEfCore(string domain, string domainClassName)
         {
-            var nameSpace = BuildWithTask(domain, domainClassName);
+            var nameSpace = BuildWithTaskAndClassImport(domain, domainClassName);
             nameSpace.Imports.Add(new CodeNamespaceImport($"Application.{domainClassName}s"));
             nameSpace.Imports.Add(new CodeNamespaceImport($"Microsoft.EntityFrameworkCore"));
             return nameSpace;
@@ -68,6 +68,14 @@ namespace DslModelToCSharp
             var codeNamespace = Build(nameSpace);
             codeNamespace.Imports.Add(new CodeNamespaceImport("Domain"));
             return codeNamespace;
+        }
+
+        public CodeNamespace BuildWithTask(string name)
+        {
+            var nameSpace = BuildWithDomainImport(name);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+            return nameSpace;
         }
     }
 }

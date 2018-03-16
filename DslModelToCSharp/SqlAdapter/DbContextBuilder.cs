@@ -1,8 +1,10 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
+using DslModelToCSharp.Application;
+using DslModelToCSharp.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.SqlAdapter
 {
     public class DbContextBuilder
     {

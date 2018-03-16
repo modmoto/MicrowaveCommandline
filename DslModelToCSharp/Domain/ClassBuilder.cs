@@ -1,7 +1,7 @@
 ﻿using System.CodeDom;
 using System.Reflection;
 
-namespace DslModelToCSharp
+namespace DslModelToCSharp.Domain
 {
     public class ClassBuilder : IClassBuilder
     {

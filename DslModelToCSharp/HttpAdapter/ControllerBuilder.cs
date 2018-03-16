@@ -1,9 +1,9 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
-using DslModelToCSharp.Application;
+using DslModelToCSharp.Domain;
 
-namespace DslModelToCSharp.SqlAdapter
+namespace DslModelToCSharp.HttpAdapter
 {
     public class ControllerBuilder
     {

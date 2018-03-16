@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using DslModel.Domain;
+using DslModelToCSharp.Domain;
 
 namespace DslModelToCSharp.Application
 {
@@ -16,7 +17,7 @@ namespace DslModelToCSharp.Application
 
         public CodeNamespace Build(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilder.BuildWithTask($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var nameSpace = _nameSpaceBuilder.BuildWithTaskAndClassImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
             var iface = new CodeTypeDeclaration($"I{domainClass.Name}Repository") {IsInterface = true};
 
             var createMethod = new CodeMemberMethod
