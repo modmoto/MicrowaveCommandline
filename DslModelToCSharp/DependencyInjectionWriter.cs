@@ -17,7 +17,7 @@ namespace DslModelToCSharp
             _nameSpaceBuilder = new NameSpaceBuilder();
         }
 
-        public void Write(IList<DomainClass> domainClasses, string basePath)
+        public void Write(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, string basePath)
         {
             var codeTypeDeclaration = _classBuilder.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
@@ -52,6 +52,12 @@ namespace DslModelToCSharp
                     $"collection.AddTransient<I{domainClass.Name}Repository, {domainClass.Name}Repository>()"));
                 codeMemberMethod.Statements.Add(new CodeSnippetExpression(
                     $"collection.AddTransient<{domainClass.Name}CommandHandler>()"));
+            }
+
+            foreach (var hook in domainHooks)
+            {
+                codeNamespace.Imports.Add(new CodeNamespaceImport($"Application.{hook.ClassType}s.Hooks"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{hook.Name}Hook>()"));
             }
 
             _fileWriter.WriteToFile(codeTypeDeclaration.Name, "Base", codeNamespace);

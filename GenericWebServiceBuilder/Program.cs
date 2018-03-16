@@ -42,7 +42,7 @@ namespace GenericWebServiceBuilder
                 applicationWriter.Write(domainTree, applicationBasePath);
                 sqlAdapterWriter.Write(domainTree, sqlAdapterBasePath);
                 webAdapterWriter.Write(domainTree, webAdapterBasePath);
-                dependencyInjectionWriter.Write(domainTree.Classes, injectionBasePath);
+                dependencyInjectionWriter.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, injectionBasePath);
             }
         }
     }
