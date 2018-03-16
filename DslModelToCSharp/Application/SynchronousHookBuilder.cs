@@ -28,7 +28,7 @@ namespace DslModelToCSharp.Application
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
 
-            codeTypeDeclaration.BaseTypes.Add(new CodeTypeReference("IDomainHook"));
+            codeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(new DomainHookBaseClass().Name));
 
             var field = new CodeMemberField
             {
@@ -49,9 +49,9 @@ namespace DslModelToCSharp.Application
             codeMemberMethod.Parameters.Add(
                 new CodeParameterDeclarationExpression(new CodeTypeReference(new DomainEventBaseClass().Name),
                     "domainEvent"));
-            codeMemberMethod.ReturnType = new CodeTypeReference(new HookResultBaseClass().Name);
+            codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
-            codeMemberMethod.Name = "ExecuteSave";
+            codeMemberMethod.Name = new DomainHookBaseClass().Methods[0].Name;;
             codeMemberMethod.Statements.Add(new CodeConditionStatement(
                 new CodeSnippetExpression(
                     $"domainEvent is {domainClass.ClassType}{domainClass.MethodName}Event parsedEvent"), 
