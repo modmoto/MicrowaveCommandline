@@ -13,7 +13,7 @@ namespace DslModel.Application
             {
                 new DomainMethod
                 {
-                    Name = "ExecuteSave",
+                    Name = "ExecuteSavely",
                     ReturnType = "HookResult",
                     Parameters = {new Parameter {Name = "domainEvent", Type = "DomainEventBase"}}
                 }
