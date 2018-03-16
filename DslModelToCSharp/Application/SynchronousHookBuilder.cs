@@ -28,7 +28,16 @@ namespace DslModelToCSharp.Application
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
 
             codeTypeDeclaration.BaseTypes.Add(new CodeTypeReference("IDomainHook"));
-            _propBuilder.Build(codeTypeDeclaration, new List<Property> {new Property{Name = "EventType", Type = "Type"}});
+
+            var field = new CodeMemberField
+            {
+                Name = $"EventType {{ get; private set; }} = typeof({domainClass.ClassType}{domainClass.MethodName}Event);NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515",
+                Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                Type = new CodeTypeReference("Type")
+            };
+
+            codeTypeDeclaration.Members.Add(field);
+
             codeNamespace.Types.Add(codeTypeDeclaration);
 
             var constructor = new CodeConstructor();
