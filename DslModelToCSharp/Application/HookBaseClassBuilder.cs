@@ -1,29 +1,30 @@
 ﻿using System.CodeDom;
 using DslModel.Application;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application
 {
     public class HookBaseClassBuilder
     {
         private readonly string _nameSpace;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly PropBuilder _propertyBuilder;
-        private InterfaceBuilder _interfaceBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private InterfaceBuilderUtil _interfaceBuilderUtil;
 
         public HookBaseClassBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _interfaceBuilder = new InterfaceBuilder();
-            _propertyBuilder = new PropBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
+            _interfaceBuilderUtil = new InterfaceBuilderUtil();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
         public CodeNamespace Build(DomainHookBaseClass hookClass)
         {
-            var targetClass = _interfaceBuilder.Build(hookClass);
-            var nameSpace = _nameSpaceBuilder.BuildWithDomainImport(_nameSpace);
-            _propertyBuilder.BuildForInterface(targetClass, hookClass.Properties);
+            var targetClass = _interfaceBuilderUtil.Build(hookClass);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithDomainImport(_nameSpace);
+            _propertyBuilderUtil.BuildForInterface(targetClass, hookClass.Properties);
             nameSpace.Types.Add(targetClass);
             return nameSpace;
         }

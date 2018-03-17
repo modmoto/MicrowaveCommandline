@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.Util
 {
-    public class CommandHandlerPropBuilder
+    public class CommandHandlerPropBuilderUtil
     {
         public IList<Property> Build(DomainClass domainClass)
         {

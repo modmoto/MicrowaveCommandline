@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp.Util
 {
-    public class ConstBuilder
+    public class ConstructorBuilderUtil
     {
         public CodeConstructor BuildPrivate(IList<Property> proterties)
         {

@@ -1,9 +1,9 @@
 ﻿using System.CodeDom;
 using System.Reflection;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp.Util
 {
-    public class ClassBuilder : IClassBuilder
+    public class ClassBuilderUtil : IClassBuilder
     {
         public CodeTypeDeclaration BuildPartial(string name)
         {

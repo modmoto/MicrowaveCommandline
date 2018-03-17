@@ -2,31 +2,32 @@
 using System.Collections.Generic;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.HttpAdapter
 {
     public class ControllerBuilder
     {
         private readonly string _nameSpace;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly ClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
-        private readonly PropBuilder _propBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly ClassBuilderUtil _classBuilderUtil;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
         public ControllerBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _propBuilder = new PropBuilder();
-            _constBuilder = new ConstBuilder();
-            _classBuilder = new ClassBuilder();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
+            _classBuilderUtil = new ClassBuilderUtil();
         }
 
         public CodeNamespace Build(DomainClass domainClass)
         {
             var nameSpace =
-                _nameSpaceBuilder.BuildWithMvcApplicationImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
-            var repository = _classBuilder.Build($"{domainClass.Name}Controller");
+                _nameSpaceBuilderUtil.BuildWithMvcApplicationImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var repository = _classBuilderUtil.Build($"{domainClass.Name}Controller");
 
             repository.BaseTypes.Add(new CodeTypeReference("Controller"));
 
@@ -34,9 +35,9 @@ namespace DslModelToCSharp.HttpAdapter
             {
                 new Property {Name = "Handler", Type = $"{domainClass.Name}CommandHandler"}
             };
-            _propBuilder.Build(repository,
+            _propertyBuilderUtil.Build(repository,
                 properties);
-            var codeConstructor = _constBuilder.BuildPublic(properties);
+            var codeConstructor = _constructorBuilderUtil.BuildPublic(properties);
             repository.Members.Add(codeConstructor);
 
             foreach (var createM in domainClass.CreateMethods)

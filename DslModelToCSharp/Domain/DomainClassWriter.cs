@@ -3,43 +3,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DslModel.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Domain
 {
     public class DomainClassWriter
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _domain;
         private readonly string _basePathRealClasses;
         private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly PropBuilder _propertyBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
         private CommandBuilder _commandBuilder;
-        private ListPropBuilder _listPropBuilder;
+        private ListPropBuilderUtil _listPropBuilderUtil;
         private FileWriter _fileWriterRealClasses;
 
         public DomainClassWriter(string domainNameSpace, string basePath, string basePathRealClasses)
         {
-            _interfaceBuilder = new InterfaceBuilder();
-            _propertyBuilder = new PropBuilder();
-            _classBuilder = new ClassBuilder();
+            _interfaceBuilder = new InterfaceBuilderUtil();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _classBuilder = new ClassBuilderUtil();
             _fileWriter = new FileWriter(basePath);
             _fileWriterRealClasses = new FileWriter(basePathRealClasses);
-            _constBuilder = new ConstBuilder();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
             _staticConstructorBuilder = new StaticConstructorBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _domain = domainNameSpace;
             _basePathRealClasses = basePathRealClasses;
             _commandBuilder = new CommandBuilder();
-            _listPropBuilder = new ListPropBuilder();
+            _listPropBuilderUtil = new ListPropBuilderUtil();
         }
 
         public void Write(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilder.BuildWithListImport($"{_domain}.{domainClass.Name}s");
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport($"{_domain}.{domainClass.Name}s");
             var iface = _interfaceBuilder.BuildForCommand(domainClass);
 
             var targetClass = _classBuilder.BuildPartial(domainClass.Name);
@@ -50,11 +51,11 @@ namespace DslModelToCSharp.Domain
             foreach (var createMethod in domainClass.CreateMethods)
             {
                 var properties = createMethod.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
-                var constructor = _constBuilder.BuildPrivateForCreateMethod(properties, $"{domainClass.Name}{createMethod.Name}Command");
+                var constructor = _constructorBuilderUtil.BuildPrivateForCreateMethod(properties, $"{domainClass.Name}{createMethod.Name}Command");
                 targetClass.Members.Add(constructor);
             }
 
-            targetClass = _listPropBuilder.Build(targetClass, domainClass.ListProperties);
+            targetClass = _listPropBuilderUtil.Build(targetClass, domainClass.ListProperties);
 
             foreach (var listProperty in domainClass.ListProperties)
             {
@@ -68,11 +69,11 @@ namespace DslModelToCSharp.Domain
                 _fileWriter.WriteToFile(command.Types[0].Name, $"{domainClass.Name}s/Commands", command);
             }
 
-            var emptyConstructor = _constBuilder.BuildPrivate(new List<Property>());
+            var emptyConstructor = _constructorBuilderUtil.BuildPrivate(new List<Property>());
 
             var propertiesWithDefaultId = domainClass.Properties;
             propertiesWithDefaultId.Add(new Property {Name = "Id", Type = "Guid"});
-            _propertyBuilder.Build(targetClass, propertiesWithDefaultId);
+            _propertyBuilderUtil.Build(targetClass, propertiesWithDefaultId);
             targetClass.Members.Add(emptyConstructor);
 
             nameSpace.Types.Add(targetClass);
@@ -81,7 +82,7 @@ namespace DslModelToCSharp.Domain
 
             if (!ClassIsAllreadyExisting(domainClass))
             {
-                var nameSpaceRealClass = _nameSpaceBuilder.BuildWithListImport($"{_domain}.{domainClass.Name}s");
+                var nameSpaceRealClass = _nameSpaceBuilderUtil.BuildWithListImport($"{_domain}.{domainClass.Name}s");
                 var targetClassReal = _classBuilder.BuildPartial(domainClass.Name);
                 foreach (var createMethod in domainClass.CreateMethods)
                 {
@@ -127,7 +128,7 @@ namespace DslModelToCSharp.Domain
 
         public void Write(CreationResultBaseClass userClass)
         {
-            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport(_domain);
 
             var targetClass = _classBuilder.Build(userClass.Name);
 
@@ -135,9 +136,9 @@ namespace DslModelToCSharp.Domain
             userClassGenericType.Constraints.Add(" class");
             targetClass.TypeParameters.Add(userClassGenericType);
 
-            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
 
-            _propertyBuilder.Build(targetClass, userClass.Properties);
+            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkConstructor(userClass);
             var errorResultConstructor = BuildErrorConstructor(userClass);

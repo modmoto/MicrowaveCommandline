@@ -1,8 +1,8 @@
 ﻿using DslModel.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.Util
 {
-    public class NameBuilder
+    public class NameBuilderUtil
     {
         public string BuildCommandHandlerName(DomainClass domainClass)
         {

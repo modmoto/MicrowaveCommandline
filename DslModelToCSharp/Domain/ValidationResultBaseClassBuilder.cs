@@ -1,17 +1,18 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Domain
 {
     public class ValidationResultBaseClassBuilder
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _domain;
         private readonly IFileWriter _fileWriter;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly PropBuilder _propertyBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
         public ValidationResultBaseClassBuilder(string domain, string basePath)
@@ -19,21 +20,21 @@ namespace DslModelToCSharp.Domain
             _domain = domain;
             _fileWriter = new FileWriter(basePath);
             _staticConstructorBuilder = new StaticConstructorBuilder();
-            _propertyBuilder = new PropBuilder();
-            _constBuilder = new ConstBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _classBuilder = new ClassBuilder();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _classBuilder = new ClassBuilderUtil();
         }
 
         public void Write(ValidationResultBaseClass userClass)
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
-            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport(_domain);
 
-            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
 
-            _propertyBuilder.Build(targetClass, userClass.Properties);
+            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkResultConstructor(userClass);
 

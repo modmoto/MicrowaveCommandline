@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using DslModel.Application;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application
 {
     public class HookResultBuilder
     {
         private readonly IClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _nameSpace;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly PropBuilder _propertyBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
         public HookResultBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
             _staticConstructorBuilder = new StaticConstructorBuilder();
-            _propertyBuilder = new PropBuilder();
-            _constBuilder = new ConstBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _classBuilder = new ClassBuilder();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _classBuilder = new ClassBuilderUtil();
         }
 
         public CodeNamespace Write(HookResultBaseClass userClass)
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
-            var nameSpace = _nameSpaceBuilder.BuildWithListImport(_nameSpace);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport(_nameSpace);
 
-            var constructor = _constBuilder.BuildPrivate(userClass.Properties);
+            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
 
-            _propertyBuilder.Build(targetClass, userClass.Properties);
+            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkResultConstructor(userClass);
 

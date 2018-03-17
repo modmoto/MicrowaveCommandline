@@ -1,23 +1,24 @@
 ﻿using System.CodeDom;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application
 {
     public class RepositoryInterfaceBuilder
     {
         private readonly string _nameSpace;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
 
         public RepositoryInterfaceBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _nameSpaceBuilder = new NameSpaceBuilder();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
         public CodeNamespace Build(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilder.BuildWithTaskAndClassImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithTaskAndClassImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
             var iface = new CodeTypeDeclaration($"I{domainClass.Name}Repository") {IsInterface = true};
 
             var createMethod = new CodeMemberMethod

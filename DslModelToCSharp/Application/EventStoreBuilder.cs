@@ -3,36 +3,37 @@ using System.Collections.Generic;
 using DslModel.Application;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application
 {
     public class EventStoreBuilder
     {
-        private readonly ClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
-        private readonly ListPropBuilder _listPropBuilder;
+        private readonly ClassBuilderUtil _classBuilderUtil;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly ListPropBuilderUtil _listPropBuilderUtil;
         private readonly string _nameSpace;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
-        private readonly PropBuilder _propBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
         public EventStoreBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _classBuilder = new ClassBuilder();
-            _propBuilder = new PropBuilder();
-            _listPropBuilder = new ListPropBuilder();
-            _constBuilder = new ConstBuilder();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _classBuilderUtil = new ClassBuilderUtil();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _listPropBuilderUtil = new ListPropBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
         }
 
         public CodeNamespace Build(EventStore eventStore, IList<SynchronousDomainHook> hooks)
         {
-            var targetClass = _classBuilder.Build(eventStore.Name);
-            var nameSpace = _nameSpaceBuilder.BuildWithLinq(_nameSpace);
+            var targetClass = _classBuilderUtil.Build(eventStore.Name);
+            var nameSpace = _nameSpaceBuilderUtil.BuildWithLinq(_nameSpace);
 
-            _propBuilder.BuildWithoutSet(targetClass, eventStore.Properties);
-            _listPropBuilder.Build(targetClass, eventStore.ListProperties);
-            var constructor = _constBuilder.BuildPublic(eventStore.Properties);
+            _propertyBuilderUtil.BuildWithoutSet(targetClass, eventStore.Properties);
+            _listPropBuilderUtil.Build(targetClass, eventStore.ListProperties);
+            var constructor = _constructorBuilderUtil.BuildPublic(eventStore.Properties);
 
             foreach (var hook in hooks)
             {

@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp
 {
     public class DependencyInjectionWriter
     {
         private readonly IFileWriter _fileWriter;
-        private ClassBuilder _classBuilder;
-        private NameSpaceBuilder _nameSpaceBuilder;
+        private ClassBuilderUtil _classBuilderUtil;
+        private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
 
         public DependencyInjectionWriter(string basePath)
         {
             _fileWriter = new FileWriter(basePath);
-            _classBuilder = new ClassBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
+            _classBuilderUtil = new ClassBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
         public void Write(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, string basePath)
         {
-            var codeTypeDeclaration = _classBuilder.Build("GeneratedDependencies");
+            var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
-            var codeNamespace = _nameSpaceBuilder.Build("GeneratedWebService");
+            var codeNamespace = _nameSpaceBuilderUtil.Build("GeneratedWebService");
             codeNamespace.Types.Add(codeTypeDeclaration);
 
             codeNamespace.Imports.Add(new CodeNamespaceImport("Application"));

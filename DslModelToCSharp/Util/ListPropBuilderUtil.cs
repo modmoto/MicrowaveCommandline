@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp.Util
 {
-    public class ListPropBuilder
+    public class ListPropBuilderUtil
     {
         public CodeTypeDeclaration Build(CodeTypeDeclaration generatedClass, IList<ListProperty> properties)
         {

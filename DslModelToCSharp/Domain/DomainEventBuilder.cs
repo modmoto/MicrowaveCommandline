@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Domain
 {
-    public class DomainEventBuilder : CSharpClassBuilder
+    public class DomainEventBuilder : ICSharpClassBuilder
     {
         private readonly DomainClass _targetClass;
         private readonly DomainEvent _domainEvent;
         private readonly IClassBuilder _classBuilder;
-        private readonly ConstBuilder _constBuilder;
-        private readonly PropBuilder _propertyBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
         public DomainEventBuilder(DomainClass targetClass, DomainEvent domainEvent)
         {
             _targetClass = targetClass;
             _domainEvent = domainEvent;
-            _propertyBuilder = new PropBuilder();
-            _classBuilder = new ClassBuilder();
-            _constBuilder = new ConstBuilder();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _classBuilder = new ClassBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
         }
 
         private static bool IsCreateEvent(DomainEvent domainEvent)
@@ -31,31 +32,30 @@ namespace DslModelToCSharp.Domain
             CodeTypeDeclaration targetClass)
         {
             var first = domainEvent.Properties.First();
-            targetClass = _propertyBuilder.BuildWithoutSet(targetClass, new List<Property> {first});
+            targetClass = _propertyBuilderUtil.BuildWithoutSet(targetClass, new List<Property> {first});
             var properties = domainEvent.Properties.Except(new List<Property> {first}).ToList();
-            _propertyBuilder.Build(targetClass, properties);
+            _propertyBuilderUtil.Build(targetClass, properties);
         }
 
         private void BuildProperties(DomainEvent domainEvent, CodeTypeDeclaration targetClass)
         {
-            _propertyBuilder.Build(targetClass, domainEvent.Properties);
+            _propertyBuilderUtil.Build(targetClass, domainEvent.Properties);
         }
 
-        public override CodeNamespace BuildNameSpace()
+        public CodeNamespace BuildNameSpace()
         {
             var nameSpace = new CodeNamespace($"Domain.{_targetClass.Name}s");
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             return nameSpace;
         }
 
-        public override CodeTypeDeclaration BuildClassType()
+        public CodeTypeDeclaration BuildClassType()
         {
             var targetClass = _classBuilder.Build(_domainEvent.Name);
-
             return targetClass;
         }
 
-        public override void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties(CodeTypeDeclaration targetClass)
         {
             if (!IsCreateEvent(_domainEvent))
             {
@@ -67,14 +67,14 @@ namespace DslModelToCSharp.Domain
             }
         }
 
-        public override void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor(CodeTypeDeclaration targetClass)
         {
-            var constructor = _constBuilder.BuildPublicWithBaseCall(_domainEvent.Properties,
+            var constructor = _constructorBuilderUtil.BuildPublicWithBaseCall(_domainEvent.Properties,
                 new DomainEventBaseClass().Properties.Skip(1).ToList());
             targetClass.Members.Add(constructor);
         }
 
-        public override void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes(CodeTypeDeclaration targetClass)
         {
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
         }

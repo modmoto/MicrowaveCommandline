@@ -1,15 +1,15 @@
 ﻿using System.CodeDom;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Application
+namespace DslModelToCSharp.Util
 {
-    public class CommandHandlerMethodBuilder
+    public class CommandHandlerMethodBuilderUtil
     {
-        private NameBuilder _nameBuilder;
+        private NameBuilderUtil _nameBuilderUtil;
 
-        public CommandHandlerMethodBuilder()
+        public CommandHandlerMethodBuilderUtil()
         {
-            _nameBuilder = new NameBuilder();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
         public CodeTypeMember BuildGetAllMethod(DomainClass domainClass)
         {
@@ -47,7 +47,7 @@ namespace DslModelToCSharp.Application
             var method = new CodeMemberMethod();
             method.Attributes = MemberAttributes.Public | MemberAttributes.Final;
 
-            var name = _nameBuilder.CreateCommandName(domainClass, createMethod);
+            var name = _nameBuilderUtil.CreateCommandName(domainClass, createMethod);
             method.Parameters.Add(new CodeParameterDeclarationExpression {Type = new CodeTypeReference(name), Name = "command"});
 
             method.Name = $"{createMethod.Name}{domainClass.Name}";
@@ -79,7 +79,7 @@ namespace DslModelToCSharp.Application
             var method = new CodeMemberMethod();
             method.Attributes = MemberAttributes.Public | MemberAttributes.Final;
 
-            var name = _nameBuilder.UpdateCommandName(domainClass, domainMethod);
+            var name = _nameBuilderUtil.UpdateCommandName(domainClass, domainMethod);
             method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference("Guid"), Name = "id" });
             method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference(name), Name = "command" });
 

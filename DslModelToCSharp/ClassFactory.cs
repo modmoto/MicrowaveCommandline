@@ -1,10 +1,10 @@
 ﻿using System.CodeDom;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp
 {
     public class ClassFactory
     {
-        public CodeNamespace BuildInstance(CSharpClassBuilder builder)
+        public CodeNamespace BuildInstance(ICSharpClassBuilder builder)
         {
             var nameSpace = builder.BuildNameSpace();
             var targetClass = builder.BuildClassType();

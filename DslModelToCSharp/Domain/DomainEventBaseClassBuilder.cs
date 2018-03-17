@@ -3,48 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using DslModel.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Domain
 {
-    public class DomainEventBaseClassBuilder : CSharpClassBuilder
+    public class DomainEventBaseClassBuilder : ICSharpClassBuilder
     {
-        private readonly ConstBuilder _constBuilder;
-        private readonly NameSpaceBuilder _nameSpaceBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly IClassBuilder _classBuilder;
-        private readonly PropBuilder _propertyBuilder;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
         public DomainEventBaseClassBuilder()
         {
-            _propertyBuilder = new PropBuilder();
-            _constBuilder = new ConstBuilder();
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _classBuilder = new ClassBuilder();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
+            _constructorBuilderUtil = new ConstructorBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _classBuilder = new ClassBuilderUtil();
         }
 
 
-        public override CodeNamespace BuildNameSpace()
+        public CodeNamespace BuildNameSpace()
         {
-            return _nameSpaceBuilder.BuildWithListImport("Domain");
+            return _nameSpaceBuilderUtil.BuildWithListImport("Domain");
         }
 
-        public override CodeTypeDeclaration BuildClassType()
+        public CodeTypeDeclaration BuildClassType()
         {
             return _classBuilder.Build(new DomainEventBaseClass().Name);
         }
 
-        public override void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties(CodeTypeDeclaration targetClass)
         {
-            _propertyBuilder.Build(targetClass, new DomainEventBaseClass().Properties);
+            _propertyBuilderUtil.Build(targetClass, new DomainEventBaseClass().Properties);
         }
 
-        public override void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor(CodeTypeDeclaration targetClass)
         {
             var properties = new DomainEventBaseClass().Properties;
-            var constructor = _constBuilder.BuildPublicWithIdCreateInBody(properties.Skip(1).ToList(), properties[0].Name);
+            var constructor = _constructorBuilderUtil.BuildPublicWithIdCreateInBody(properties.Skip(1).ToList(), properties[0].Name);
             targetClass.Members.Add(constructor);
         }
 
-        public override void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes(CodeTypeDeclaration targetClass)
         {
         }
     }

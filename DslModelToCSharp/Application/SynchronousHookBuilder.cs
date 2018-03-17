@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using DslModel.Application;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
+using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application
 {
     public class SynchronousHookBuilder
     {
         private readonly string _applicationNameSpace;
-        private NameSpaceBuilder _nameSpaceBuilder;
-        private ClassBuilder _classBuilder;
-        private PropBuilder _propBuilder;
+        private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private ClassBuilderUtil _classBuilderUtil;
+        private PropertyBuilderUtil _propertyBuilderUtil;
 
         public SynchronousHookBuilder(string applicationNameSpace)
         {
             _applicationNameSpace = applicationNameSpace;
-            _nameSpaceBuilder = new NameSpaceBuilder();
-            _classBuilder = new ClassBuilder();
-            _propBuilder = new PropBuilder();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _classBuilderUtil = new ClassBuilderUtil();
+            _propertyBuilderUtil = new PropertyBuilderUtil();
         }
 
         public CodeNamespace Build(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilder.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
-            var codeTypeDeclaration = _classBuilder.BuildPartial($"{domainClass.Name}Hook");
+            var codeNamespace = _nameSpaceBuilderUtil.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
+            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
 
@@ -70,8 +71,8 @@ namespace DslModelToCSharp.Application
 
         public CodeNamespace BuildReplacementClass(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilder.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
-            var codeTypeDeclaration = _classBuilder.BuildPartial($"{domainClass.Name}Hook");
+            var codeNamespace = _nameSpaceBuilderUtil.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
+            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
             codeNamespace.Types.Add(codeTypeDeclaration);

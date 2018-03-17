@@ -1,8 +1,8 @@
 ﻿using System.CodeDom;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp.Util
 {
-    public class NameSpaceBuilder
+    public class NameSpaceBuilderUtil
     {
         public CodeNamespace BuildWithListImport(string domain)
         {

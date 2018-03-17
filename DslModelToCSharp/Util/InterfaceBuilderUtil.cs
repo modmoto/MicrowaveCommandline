@@ -1,9 +1,9 @@
 ﻿using System.CodeDom;
 using DslModel.Domain;
 
-namespace DslModelToCSharp.Domain
+namespace DslModelToCSharp.Util
 {
-    public class InterfaceBuilder : IInterfaceBuilder
+    public class InterfaceBuilderUtil : IInterfaceBuilder
     {
         public CodeTypeDeclaration BuildForCommand(DomainClass userClass)
         {
