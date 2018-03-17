@@ -13,7 +13,7 @@ namespace DslModel.Domain
             Events = new List<DomainEvent>();
         }
 
-        public List<ListProperty> ListProperties { get; }
+        public List<ListProperty> ListProperties { get; protected set; }
         public IList<DomainMethod> Methods { get; protected set; }
         public IList<DomainEvent> Events { get; }
         public IList<CreateMethod> CreateMethods { get; }

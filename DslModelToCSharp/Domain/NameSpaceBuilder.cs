@@ -77,5 +77,12 @@ namespace DslModelToCSharp.Domain
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
             return nameSpace;
         }
+
+        public CodeNamespace BuildWithLinq(string name)
+        {
+            var nameSpace = BuildWithTask(name);
+            nameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
+            return nameSpace;
+        }
     }
 }
