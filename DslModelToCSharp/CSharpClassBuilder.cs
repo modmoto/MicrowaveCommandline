@@ -8,5 +8,6 @@ namespace DslModelToCSharp.Domain
         public abstract CodeTypeDeclaration BuildClassType();
         public abstract void AddClassProperties(CodeTypeDeclaration targetClass);
         public abstract void AddConstructor(CodeTypeDeclaration targetClass);
+        public abstract void AddBaseTypes(CodeTypeDeclaration targetClass);
     }
 }

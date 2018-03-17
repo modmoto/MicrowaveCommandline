@@ -19,7 +19,7 @@ namespace DslModelToCSharp.Tests.Domain
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
-                domainBuilder.Build(domainTree, DomainNameSpace, BasePathDomain);
+                domainBuilder.Build(domainTree, BasePathDomain);
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserCreateEvent.g.cs"),

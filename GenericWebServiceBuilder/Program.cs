@@ -42,7 +42,7 @@ namespace GenericWebServiceBuilder
                 var dslParser = new DslParser(tokenizer, parser);
                 var domainTree = dslParser.Parse(content);
 
-                domainBuilder.Build(domainTree, domainNameSpace, domainBasePath);
+                domainBuilder.Build(domainTree, domainBasePath);
                 applicationWriter.Write(domainTree, applicationBasePath);
                 sqlAdapterWriter.Write(domainTree, sqlAdapterBasePath);
                 webAdapterWriter.Write(domainTree, webAdapterBasePath);

@@ -11,6 +11,7 @@ namespace DslModelToCSharp.Domain
             nameSpace.Types.Add(targetClass);
             builder.AddClassProperties(targetClass);
             builder.AddConstructor(targetClass);
+            builder.AddBaseTypes(targetClass);
             return nameSpace;
         }
     }

@@ -43,5 +43,9 @@ namespace DslModelToCSharp.Domain
             var constructor = _constBuilder.BuildPublicWithIdCreateInBody(properties.Skip(1).ToList(), properties[0].Name);
             targetClass.Members.Add(constructor);
         }
+
+        public override void AddBaseTypes(CodeTypeDeclaration targetClass)
+        {
+        }
     }
 }
