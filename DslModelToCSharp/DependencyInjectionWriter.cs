@@ -23,7 +23,7 @@ namespace DslModelToCSharp
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
-            var codeNamespace = _nameSpaceBuilderUtil.Build("GeneratedWebService");
+            var codeNamespace = _nameSpaceBuilderUtil.Build("Host");
             codeNamespace.Types.Add(codeTypeDeclaration);
 
             codeNamespace.Imports.Add(new CodeNamespaceImport("Application"));

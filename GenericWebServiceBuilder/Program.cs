@@ -15,27 +15,29 @@ namespace GenericWebServiceBuilder
     {
         private static void Main(string[] args)
         {
+            var wsbFile = args.Length >= 1 ? args[0] : "Schema.wsb";
+            var basePathToSolution = args.Length >= 2 ? args[1] : "../";
             var domainNameSpace = "Domain";
             var applicationNameSpace = "Application";
             var sqlAdapterNameSpace = "SqlAdapter";
             var webAdapterNameSpace = "HttpAdapter";
-            var domainBasePath = $"../../GeneratedWebService/{domainNameSpace}/Generated/";
-            var applicationBasePath = $"../../GeneratedWebService/{applicationNameSpace}/Generated/";
-            var applicationRealClassesBasePath = $"../../GeneratedWebService/{applicationNameSpace}/";
-            var sqlAdapterBasePath = $"../../GeneratedWebService/{sqlAdapterNameSpace}/Generated/";
-            var webAdapterBasePath = $"../../GeneratedWebService/{webAdapterNameSpace}/Generated/";
-            var injectionBasePath = "../../GeneratedWebService/GeneratedWebService";
+            var domainBasePath = $"{basePathToSolution}{domainNameSpace}/Generated/";
+            var applicationBasePath = $"{basePathToSolution}{applicationNameSpace}/Generated/";
+            var applicationRealClassesBasePath = $"{basePathToSolution}{applicationNameSpace}/";
+            var sqlAdapterBasePath = $"{basePathToSolution}{sqlAdapterNameSpace}/Generated/";
+            var webAdapterBasePath = $"{basePathToSolution}{webAdapterNameSpace}/Generated/";
+            var injectionBasePath = $"{basePathToSolution}Host";
 
             var tokenizer = new Tokenizer();
             var parser = new Parser();
-            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, "../../GeneratedWebService");
+            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, basePathToSolution);
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new WebAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
             
             var dependencyInjectionWriter = new DependencyInjectionWriter(injectionBasePath);
 
-            using (var reader = new StreamReader("Schema.wsb"))
+            using (var reader = new StreamReader(wsbFile))
             {
                 var content = reader.ReadToEnd();
 

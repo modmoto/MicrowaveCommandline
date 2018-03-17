@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenericWebServiceBuilder": {
+      "commandName": "Project",
+      "commandLineArgs": "Schema.wsb ../../GeneratedWebService/"
+    }
+  }
+}
