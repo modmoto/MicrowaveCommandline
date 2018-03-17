@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
 
@@ -8,22 +9,20 @@ namespace DslModelToCSharp.Domain
     {
         private readonly ConstBuilder _constBuilder;
         private readonly string _domain;
-        private readonly IFileWriter _fileWriter;
         private readonly NameSpaceBuilder _nameSpaceBuilder;
         private readonly IClassBuilder _classBuilder;
         private readonly PropBuilder _propertyBuilder;
 
-        public DomainEventBaseClassWriter(string domain, string basePath)
+        public DomainEventBaseClassWriter(string domain)
         {
             _propertyBuilder = new PropBuilder();
             _constBuilder = new ConstBuilder();
-            _fileWriter = new FileWriter(basePath);
             _nameSpaceBuilder = new NameSpaceBuilder();
             _classBuilder = new ClassBuilder();
             _domain = domain;
         }
 
-        public void Build(string name, IList<Property> properties)
+        public CodeNamespace Build(string name, IList<Property> properties)
         {
             var nameSpace = _nameSpaceBuilder.BuildWithListImport(_domain);
 
@@ -36,7 +35,7 @@ namespace DslModelToCSharp.Domain
             var constructor = _constBuilder.BuildPublicWithIdCreateInBody(properties.Skip(1).ToList(), properties[0].Name);
             generatedClass.Members.Add(constructor);
 
-            _fileWriter.WriteToFile(name, "Base", nameSpace);
+            return nameSpace;
         }
     }
 }
