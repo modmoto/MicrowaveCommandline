@@ -53,6 +53,7 @@ The first word defines that this is a `SynchronouseDomainHook`. The second is th
 An `AsyncDomainHook` also listens to domain events but does this after a given set of time. This mechanism is used to implement eventual consistency in the service. Sending Birthday mails could be one of the applications. The Hook has also a retry counter that can be used to escalate things, for example write an error log when a mail was not able to be sent five times in a row. If the event is handles sucessfully, the hook marks the event as done and goes on with the next one. As this might create a deadlock, the `AsyncDomainHook` iterates over all events, starting from the oldest that is not done and ignoring the ones that are allready done. This mechanism ensures, that all events are being handled, even if there are some errors in between.
 
 ## Roadmap
+Here are some ideas, that i would like to implement, not necessarly in that particular order
 - [ ] @LoadFromDb Syntax to load other domain classes when they are used in a method. 
 - [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
