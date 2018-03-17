@@ -11,4 +11,33 @@ The generated service is implemented in three Layers: Domain, Application and Po
 The Domain is defined in the Schema.wsb file that is usually located in the Host Project. The syntax is as following.
 
 ### DomainClass
+To define a Class that will be persisted in the Database and gets an own endpoint, use this syntax. You can put anything as a type, there will be no error, if the type does not exist. But due to a limitation in the CodeDom Library, you can not use primitive types like `string` or `int`. Also note the [] Braces that define a List of a given type.
+```c#
+DomainClass User {
+	Name: String
+	Age: Int32
+  Posts: [Post]
+}
+```
 
+### Create Methods
+There is currently only one Create Method supported and you define it like this. Create is a keyword, so be sure to write it correct. The Parameters define what the command will look like but not what is mandatory to pass. That should be handled by the Domain. The result will be a wrapper with the created entity or the occured errors.
+```c#
+DomainClass User {
+  Name: String
+	Create(Name: String)
+}
+```
+
+### Update Methods
+All other methods on a domain class are treated like normal mutation methods and can have any wording that you want. The parameters are again used to define the command that gets passed into the method. The {} Braces after the mutations are used to define the domain event, that gets created. They usually are very similar to the parameters, but depending on the usecase the data that you change can have more or less information. Always keep in mind that you have to be able to recreate the domain object with those events.
+```c#
+DomainClass User {
+  Name: String
+	UpdateName(Name: String): {
+		Name: String
+	}
+}
+```
+
+SynchronousDomainHook SendPasswordMail on User.Create
