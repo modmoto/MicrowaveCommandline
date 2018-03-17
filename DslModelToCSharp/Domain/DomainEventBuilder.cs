@@ -78,5 +78,9 @@ namespace DslModelToCSharp.Domain
         {
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
         }
+
+        public void AddConcreteMethods(CodeTypeDeclaration targetClass)
+        {
+        }
     }
 }

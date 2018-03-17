@@ -12,6 +12,7 @@ namespace DslModelToCSharp
             builder.AddClassProperties(targetClass);
             builder.AddConstructor(targetClass);
             builder.AddBaseTypes(targetClass);
+            builder.AddConcreteMethods(targetClass);
             return nameSpace;
         }
     }

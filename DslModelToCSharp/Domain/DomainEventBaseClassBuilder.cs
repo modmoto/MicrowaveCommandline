@@ -48,5 +48,9 @@ namespace DslModelToCSharp.Domain
         public void AddBaseTypes(CodeTypeDeclaration targetClass)
         {
         }
+
+        public void AddConcreteMethods(CodeTypeDeclaration targetClass)
+        {
+        }
     }
 }
