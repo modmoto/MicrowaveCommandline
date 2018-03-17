@@ -21,7 +21,7 @@ DomainClass User {
 ```
 
 ### Create Methods
-There is currently only one Create Method supported and you define it like this. Create is a keyword, so be sure to write it correct. The Parameters define what the command will look like but not what is mandatory to pass. That should be handled by the Domain. The result will be a wrapper with the created entity or the occured errors.
+There is currently only one Create Method supported and you define it like below. Create is a keyword, so be sure to write it correctly. The Parameters define what the command will look like but not what is mandatory to pass. That should be handled by the Domain. The result will be a wrapper with the created entity or the occured errors.
 ```javascript
 DomainClass User {
   Name: String
@@ -40,4 +40,11 @@ DomainClass User {
 }
 ```
 
-SynchronousDomainHook SendPasswordMail on User.Create
+### Synchronous Domain Hook
+A `SynchronouseDomainHook` is used to listen to events that occur and starts his execute method before the events or the changes are persisted. That gives you the opportunity to other things in the domain that are crucial but can not be done in the update method, as you might want to check for another domain rule. For example this could be a mail that has to be sent when a user creates an account. If your requirement is, that the account must not be created if the mail could not be sent (for example when the mail is not registered with the provider), then you should use a `SynchronouseDomainHook`. You define it like this outside the domain class braces:
+
+```javascript
+SynchronousDomainHook SendRegisterMail on User.Create
+```
+
+The first word defines that this is a `SynchronouseDomainHook`. The second is the name of the hook, the on is syntactic Sugar and the last word describes on wich event the Hook gets triggered. In this case, the hook gets triggered, if the Method `Crete` from `User` gets called.
