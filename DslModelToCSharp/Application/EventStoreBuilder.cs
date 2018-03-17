@@ -61,19 +61,7 @@ namespace DslModelToCSharp.Application
             var codeMemberMethod = methodList[0];
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("var enumerator = domainEvents.GetEnumerator()"));
 
-            var codeWhile = new CodeIterationStatement();
-            codeWhile.IncrementStatement = new CodeSnippetStatement("");
-            codeWhile.InitStatement = new CodeSnippetStatement("");
-
-            codeWhile.TestExpression = new CodeSnippetExpression("enumerator.MoveNext()");
-            codeWhile.Statements.Add(new CodeSnippetExpression("var domainEvent = enumerator.Current"));
-            codeWhile.Statements.Add(new CodeSnippetExpression(
-                "var domainHooks = DomainHooks.Where(hook => hook.EventType == domainEvent.GetType())"));
-            codeWhile.Statements.Add(new CodeSnippetExpression("var enumeratorHook = domainHooks.GetEnumerator()"));
-
-            var codeInnerWhile = CreateInnerWhile();
-
-            codeWhile.Statements.Add(codeInnerWhile);
+            var codeWhile = CreateLoopOverDomainEvents();
 
             codeMemberMethod.Statements.Add(codeWhile);
             codeMemberMethod.Statements.Add(
@@ -87,7 +75,25 @@ namespace DslModelToCSharp.Application
             return nameSpace;
         }
 
-        private static CodeIterationStatement CreateInnerWhile()
+        private static CodeIterationStatement CreateLoopOverDomainEvents()
+        {
+            var codeWhile = new CodeIterationStatement();
+            codeWhile.IncrementStatement = new CodeSnippetStatement("");
+            codeWhile.InitStatement = new CodeSnippetStatement("");
+
+            codeWhile.TestExpression = new CodeSnippetExpression("enumerator.MoveNext()");
+            codeWhile.Statements.Add(new CodeSnippetExpression("var domainEvent = enumerator.Current"));
+            codeWhile.Statements.Add(new CodeSnippetExpression(
+                "var domainHooks = DomainHooks.Where(hook => hook.EventType == domainEvent.GetType())"));
+            codeWhile.Statements.Add(new CodeSnippetExpression("var enumeratorHook = domainHooks.GetEnumerator()"));
+
+            var codeInnerWhile = CreateLoopOverHooks();
+
+            codeWhile.Statements.Add(codeInnerWhile);
+            return codeWhile;
+        }
+
+        private static CodeIterationStatement CreateLoopOverHooks()
         {
             var codeInnerWhile = new CodeIterationStatement();
             codeInnerWhile.TestExpression = new CodeSnippetExpression("enumeratorHook.MoveNext()");
