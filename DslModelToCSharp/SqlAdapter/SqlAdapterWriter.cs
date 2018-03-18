@@ -9,7 +9,6 @@ namespace DslModelToCSharp.SqlAdapter
         private readonly IFileWriter _fileWriter;
         private RepositoryBuilder _repositoryBuilder;
         private DbContextBuilder _dbContextBuilder;
-        private EventStoreRepositoryBuilder _eventStoreRepositoryBuilder;
         private ClassFactory _classFactory;
 
         public SqlAdapterWriter(string sqlAdapterNameSpace, string basePath)

@@ -37,6 +37,8 @@
     <Compile Remove="DomainExpected\Generated\Users\UserUpdateNameEvent.g.cs" />
     <Compile Remove="DomainExpected\Post.cs" />
     <Compile Remove="DomainExpected\User.cs" />
+    <Compile Remove="HttpAdapterExpected\Generated\Posts\PostController.g.cs" />
+    <Compile Remove="HttpAdapterExpected\Generated\Users\UserController.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreContext.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreRepository.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Posts\PostRepository.g.cs" />
@@ -60,6 +62,9 @@
     <Folder Include="DomainExpected\Generated\Posts\Commands\" />
     <Folder Include="DomainExpected\Generated\Users\" />
     <Folder Include="DomainExpected\Generated\Users\Commands\" />
+    <Folder Include="HttpAdapterExpected\" />
+    <Folder Include="HttpAdapterExpected\Generated\Posts\" />
+    <Folder Include="HttpAdapterExpected\Generated\Users\" />
     <Folder Include="SqlAdapterExpected\Generated\Base\" />
     <Folder Include="SqlAdapterExpected\Generated\" />
     <Folder Include="SqlAdapterExpected\Generated\Posts\" />
