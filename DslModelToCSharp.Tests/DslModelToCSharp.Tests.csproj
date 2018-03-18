@@ -37,6 +37,10 @@
     <Compile Remove="DomainExpected\Generated\Users\UserUpdateNameEvent.g.cs" />
     <Compile Remove="DomainExpected\Post.cs" />
     <Compile Remove="DomainExpected\User.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreContext.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreRepository.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Posts\PostRepository.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Users\UserRepository.g.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
@@ -56,6 +60,10 @@
     <Folder Include="DomainExpected\Generated\Posts\Commands\" />
     <Folder Include="DomainExpected\Generated\Users\" />
     <Folder Include="DomainExpected\Generated\Users\Commands\" />
+    <Folder Include="SqlAdapterExpected\Generated\Base\" />
+    <Folder Include="SqlAdapterExpected\Generated\" />
+    <Folder Include="SqlAdapterExpected\Generated\Posts\" />
+    <Folder Include="SqlAdapterExpected\Generated\Users\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Schema.wsb">

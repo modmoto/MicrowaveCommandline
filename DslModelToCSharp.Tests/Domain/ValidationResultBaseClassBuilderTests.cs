@@ -11,11 +11,11 @@ namespace DslModelToCSharp.Tests.Domain
         [TestMethod]
         public void Write()
         {
-            var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, BasePathDomain);
+            var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, DomainBasePath);
 
             validationResultBaseClassBuilder.Write(new ValidationResultBaseClass());
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/ValidationResult.g.cs"),
                 File.ReadAllText("Domain/Base/ValidationResult.g.cs"));

@@ -22,10 +22,10 @@ namespace DslModelToCSharp.Tests.Application
                 var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
 
                 var eventStore = storeBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
-                new FileWriter(BasePathApplication).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
+                new FileWriter(ApplicationBasePath).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
             }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/EventStore.g.cs"),
                 File.ReadAllText("Application/Base/EventStore.g.cs"));

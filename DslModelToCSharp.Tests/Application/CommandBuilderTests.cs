@@ -24,13 +24,13 @@ namespace DslModelToCSharp.Tests.Application
                 {
                     var codeNamespaces = commandBuilder.Build(domainClass);
 
-                    var fileWriter = new FileWriter(BasePathDomain);
+                    var fileWriter = new FileWriter(DomainBasePath);
                     foreach (var codeNamespace in codeNamespaces)
                     {
                         fileWriter.WriteToFile(codeNamespace.Types[0].Name, $"{domainClass.Name}s/Commands", codeNamespace);
                     }
 
-                    new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
+                    new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
                     
                 }
             }

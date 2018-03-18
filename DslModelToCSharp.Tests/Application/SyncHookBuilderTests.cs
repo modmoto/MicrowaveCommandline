@@ -22,11 +22,11 @@ namespace DslModelToCSharp.Tests.Application
                 foreach (var hook in domainTree.SynchronousDomainHooks)
                 {
                     var codeNamespace = commandHandlerBuilder.Build(hook);
-                    new FileWriter(BasePathApplication).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace);
+                    new FileWriter(ApplicationBasePath).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace);
                 }
             }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.g.cs"),
                 File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"));
@@ -44,11 +44,11 @@ namespace DslModelToCSharp.Tests.Application
                 foreach (var hook in domainTree.SynchronousDomainHooks)
                 {
                     var codeNamespace = commandHandlerBuilder.BuildReplacementClass(hook);
-                    new FileWriter(BasePathApplication).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace, false);
+                    new FileWriter(ApplicationBasePath).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace, false);
                 }
             }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.cs"),
                 File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.cs"));

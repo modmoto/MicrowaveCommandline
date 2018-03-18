@@ -13,7 +13,7 @@ namespace FileToDslModel.ParseAutomat
             _currentState = new StartState(this);
         }
 
-        public IList<DomainClass> Classes { get; } = new List<DomainClass>();
+        public List<DomainClass> Classes { get; } = new List<DomainClass>();
         public DomainClass CurrentClass { get; set; }
         public DomainEvent CurrentEvent { get; set; }
         public DomainMethod CurrentMethod { get; set; }
@@ -23,7 +23,7 @@ namespace FileToDslModel.ParseAutomat
         public CreateMethod CurrentCreateMethod { get; set; }
         public ListProperty CurrentListProperty { get; set; }
         public SynchronousDomainHook CurrentSynchronousDomainHook { get; set; }
-        public IList<SynchronousDomainHook> SynchronousDomainHooks { get; } = new List<SynchronousDomainHook>();
+        public List<SynchronousDomainHook> SynchronousDomainHooks { get; } = new List<SynchronousDomainHook>();
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {

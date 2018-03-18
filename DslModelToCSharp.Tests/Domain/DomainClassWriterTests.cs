@@ -14,12 +14,12 @@ namespace DslModelToCSharp.Tests.Domain
         [TestMethod]
         public void TestDomainClasses()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, BasePathDomain, BasePathSolution);
+            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
-                domainBuilder.Build(domainTree, BasePathDomain);
+                domainBuilder.Build(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/User.g.cs"),
@@ -29,12 +29,12 @@ namespace DslModelToCSharp.Tests.Domain
         [TestMethod]
         public void TestCreateEvents()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, BasePathDomain, BasePathSolution);
+            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
-                domainBuilder.Build(domainTree, BasePathDomain);
+                domainBuilder.Build(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserCreateEvent.g.cs"),
@@ -44,12 +44,12 @@ namespace DslModelToCSharp.Tests.Domain
         [TestMethod]
         public void TestUpdateEvents()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, BasePathDomain, BasePathSolution);
+            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
             using (var reader = new StreamReader("Schema.wsb"))
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
-                domainBuilder.Build(domainTree, BasePathDomain);
+                domainBuilder.Build(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"),
@@ -61,8 +61,8 @@ namespace DslModelToCSharp.Tests.Domain
         [TestMethod]
         public void CreationResultBase_Builder()
         {
-            new DomainClassWriter(DomainNameSpace, BasePathDomain, BasePathSolution).Write(new CreationResultBaseClass());
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
+            new DomainClassWriter(DomainNameSpace, DomainBasePath, SolutionBasePath).Write(new CreationResultBaseClass());
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"),
                 File.ReadAllText("Domain/Base/CreationResult.g.cs"));
@@ -73,9 +73,9 @@ namespace DslModelToCSharp.Tests.Domain
         {
             var classFactory = new ClassFactory();
             var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder());
-            new FileWriter(BasePathDomain).WriteToFile("DomainEventBase", "Base", baseClass);
+            new FileWriter(DomainBasePath).WriteToFile("DomainEventBase", "Base", baseClass);
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathDomain);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/DomainEventBase.g.cs"),
                 File.ReadAllText("Domain/Base/DomainEventBase.g.cs"));

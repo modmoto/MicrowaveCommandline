@@ -6,10 +6,12 @@ namespace DslModelToCSharp.Tests
     public class TestBase
     {
         protected readonly string DomainNameSpace = "Domain";
-        protected readonly string BasePathDomain = "Domain/";
-        protected readonly string BasePathSolution = "Solution/";
+        protected readonly string DomainBasePath = "Domain/";
+        protected readonly string SolutionBasePath = "Solution/";
         protected readonly string ApplicationNameSpace = "Application";
-        protected readonly string BasePathApplication = "Application/";
+        protected readonly string SqlAdpaterNameSpace = "SqlAdapter";
+        protected readonly string SqlAdpaterBasePath = "SqlAdapter/";
+        protected readonly string ApplicationBasePath = "Application/";
        
         [TestInitialize]
         public void Setup()

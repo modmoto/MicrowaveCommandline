@@ -4,14 +4,14 @@ namespace DslModel.Domain
 {
     public class DomainTree
     {
-        public DomainTree(IList<DomainClass> classes, IList<SynchronousDomainHook> synchronousDomainHooks)
+        public DomainTree(List<DomainClass> classes, List<SynchronousDomainHook> synchronousDomainHooks)
         {
             Classes = classes;
             SynchronousDomainHooks = synchronousDomainHooks;
         }
 
-        public IList<DomainClass> Classes { get; }
-        public IList<SynchronousDomainHook> SynchronousDomainHooks { get; }
+        public List<DomainClass> Classes { get; }
+        public List<SynchronousDomainHook> SynchronousDomainHooks { get; }
     }
 
     public class SynchronousDomainHook

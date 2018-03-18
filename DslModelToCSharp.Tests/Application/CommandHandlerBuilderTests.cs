@@ -22,11 +22,11 @@ namespace DslModelToCSharp.Tests.Application
                 foreach (var domainClass in domainTree.Classes)
                 {
                     var codeNamespace = commandHandlerBuilder.Build(domainClass);
-                    new FileWriter(BasePathApplication).WriteToFile(codeNamespace.Types[0].Name, domainClass.Name + "s", codeNamespace);
+                    new FileWriter(ApplicationBasePath).WriteToFile(codeNamespace.Types[0].Name, domainClass.Name + "s", codeNamespace);
                 }
             }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/PostCommandHandler.g.cs"),
                 File.ReadAllText("Application/Posts/PostCommandHandler.g.cs"));

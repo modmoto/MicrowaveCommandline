@@ -15,9 +15,9 @@ namespace DslModelToCSharp.Tests.Application
 
             var codeNamespace = hookResultBuilder.Write(new HookResultBaseClass());
 
-            new FileWriter(BasePathApplication).WriteToFile(codeNamespace.Types[0].Name, "Base", codeNamespace);
+            new FileWriter(ApplicationBasePath).WriteToFile(codeNamespace.Types[0].Name, "Base", codeNamespace);
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/HookResult.g.cs"),
                 File.ReadAllText("Application/Base/HookResult.g.cs"));
