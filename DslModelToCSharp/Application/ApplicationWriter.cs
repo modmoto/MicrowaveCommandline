@@ -30,6 +30,7 @@ namespace DslModelToCSharp.Application
             _eventStoreRepositoryInterfaceBuilder = new EventStoreRepositoryInterfaceBuilder(applicationNameSpace);
             _eventStoreBuilder = new EventStoreBuilder(applicationNameSpace);
         }
+
         public void Write(DomainTree domainTree, string basePath)
         {
             foreach (var domainClass in domainTree.Classes)

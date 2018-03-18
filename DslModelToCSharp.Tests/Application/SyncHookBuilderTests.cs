@@ -31,5 +31,29 @@ namespace DslModelToCSharp.Tests.Application
             Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.g.cs"),
                 File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"));
         }
+
+        [TestMethod]
+        public void BuildReplacementClass()
+        {
+            var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
+
+            using (var reader = new StreamReader("Schema.wsb"))
+            {
+                var content = reader.ReadToEnd();
+                var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
+                foreach (var hook in domainTree.SynchronousDomainHooks)
+                {
+                    var codeNamespace = commandHandlerBuilder.BuildReplacementClass(hook);
+                    new FileWriter(BasePathApplication).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace, false);
+                }
+            }
+
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(BasePathApplication);
+
+            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.cs"),
+                File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.cs"));
+        }
+
+
     }
 }
