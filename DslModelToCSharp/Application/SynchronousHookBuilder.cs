@@ -22,7 +22,7 @@ namespace DslModelToCSharp.Application
 
         public CodeNamespace Build(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
@@ -69,7 +69,7 @@ namespace DslModelToCSharp.Application
 
         public CodeNamespace BuildReplacementClass(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.Build($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks");
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));

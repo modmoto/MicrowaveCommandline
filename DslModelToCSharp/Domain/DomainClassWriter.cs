@@ -40,7 +40,7 @@ namespace DslModelToCSharp.Domain
 
         public void Write(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport($"{_domain}.{domainClass.Name}s");
+            var nameSpace = _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList().Build();
             var iface = _interfaceBuilder.BuildForCommand(domainClass);
 
             var targetClass = _classBuilder.BuildPartial(domainClass.Name);
@@ -82,7 +82,7 @@ namespace DslModelToCSharp.Domain
 
             if (!ClassIsAllreadyExisting(domainClass))
             {
-                var nameSpaceRealClass = _nameSpaceBuilderUtil.BuildWithListImport($"{_domain}.{domainClass.Name}s");
+                var nameSpaceRealClass = _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList().Build();
                 var targetClassReal = _classBuilder.BuildPartial(domainClass.Name);
                 foreach (var createMethod in domainClass.CreateMethods)
                 {
@@ -128,7 +128,7 @@ namespace DslModelToCSharp.Domain
 
         public void Write(CreationResultBaseClass userClass)
         {
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport(_domain);
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_domain).WithList().Build();
 
             var targetClass = _classBuilder.Build(userClass.Name);
 

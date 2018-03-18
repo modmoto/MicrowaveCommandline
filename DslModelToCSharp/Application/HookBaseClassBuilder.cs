@@ -22,7 +22,7 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(DomainHookBaseClass hookClass)
         {
             var targetClass = _interfaceBuilderUtil.Build(hookClass);
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithDomainImport(_nameSpace);
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().Build();
             _propertyBuilderUtil.BuildForInterface(targetClass, hookClass.Properties);
             nameSpace.Types.Add(targetClass);
             return nameSpace;

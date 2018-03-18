@@ -24,7 +24,15 @@ namespace DslModelToCSharp.SqlAdapter
 
         public CodeNamespace Build(DomainClass domainClass)
         {
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithEfCore($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var nameSpace = _nameSpaceBuilderUtil
+                .WithName($"{_nameSpace}.{domainClass.Name}s")
+                .WithList()
+                .WithTask()
+                .WithDomainEntityNameSpace(domainClass.Name)
+                .WithApplicationEntityNameSpace(domainClass.Name)
+                .WithEfCore()
+                .Build();
+            
             var repository = _classBuilderUtil.Build($"{domainClass.Name}Repository");
 
             repository.BaseTypes.Add(new CodeTypeReference($"I{domainClass.Name}Repository"));

@@ -30,7 +30,7 @@ namespace DslModelToCSharp.Application
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithListImport(_nameSpace);
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithList().Build();
 
             var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
 

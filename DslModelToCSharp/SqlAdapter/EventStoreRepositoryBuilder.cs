@@ -26,7 +26,13 @@ namespace DslModelToCSharp.SqlAdapter
 
         public CodeNamespace BuildNameSpace()
         {
-            return _nameSpaceBuilderUtil.BuildWithDomainListAndApplication("SqlAdapter");
+            return _nameSpaceBuilderUtil
+                .WithName("SqlAdapter")
+                .WithDomain()
+                .WithTask()
+                .WithList()
+                .WithApplication()
+                .Build();
         }
 
         public CodeTypeDeclaration BuildClassType()

@@ -1,95 +1,114 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 
 namespace DslModelToCSharp.Util
 {
     public class NameSpaceBuilderUtil
     {
-        public CodeNamespace BuildWithListImport(string domain)
+        private CodeNamespace _nameSpace;
+
+        public List<CodeNamespaceImport> Imports { get; private set; }
+
+        public NameSpaceBuilderUtil WithList()
         {
-            var nameSpace = Build(domain);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+            return this;
         }
 
-        public CodeNamespace Build(string domain)
+        public NameSpaceBuilderUtil WithTask()
         {
-            var nameSpaceName = domain;
-            var nameSpace = new CodeNamespace(nameSpaceName);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
+            return this;
         }
 
-        public CodeNamespace BuildWithMvcImport(string domain, string domainClassName)
+        public NameSpaceBuilderUtil WithDomain()
         {
-            var nameSpace = BuildWithListImport(domain);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("Domain"));
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Mvc"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("Domain"));
+            return this;
         }
 
-        public CodeNamespace BuildWithMvcApplicationImport(string domain, string domainClassName)
+        public NameSpaceBuilderUtil WithApplication()
         {
-            var nameSpace = BuildWithListImport(domain);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Mvc"));
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Application.{domainClassName}s"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("Application"));
+            return this;
         }
 
-        public CodeNamespace BuildWithTaskAndClassImport(string domain, string domainClassName)
+        public NameSpaceBuilderUtil WithSqlAdapter()
         {
-            var nameSpace = BuildWithListImport(domain);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("SqlAdapter"));
+            return this;
         }
 
-        public CodeNamespace BuildWithEfCore(string domain, string domainClassName)
+        public NameSpaceBuilderUtil WithDependencyInjection()
         {
-            var nameSpace = BuildWithTaskAndClassImport(domain, domainClassName);
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Application.{domainClassName}s"));
-            nameSpace.Imports.Add(new CodeNamespaceImport($"Microsoft.EntityFrameworkCore"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("Microsoft.Extensions.DependencyInjection"));
+            return this;
         }
 
-        public CodeNamespace BuildWithDbImport(string domain)
+        public NameSpaceBuilderUtil WithMvcImport()
         {
-            var nameSpace = new CodeNamespace(domain);
-            nameSpace.Imports.Add(new CodeNamespaceImport("Domain"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Mvc"));
+            return this;
         }
 
-        public CodeNamespace BuildWithDomainImport(string nameSpace)
+        public NameSpaceBuilderUtil WithName(string domain)
         {
-            var codeNamespace = Build(nameSpace);
-            codeNamespace.Imports.Add(new CodeNamespaceImport("Domain"));
-            return codeNamespace;
+            _nameSpace = new CodeNamespace(domain);
+            Imports = new List<CodeNamespaceImport>();
+            Imports.Add(new CodeNamespaceImport("System"));
+
+            return this;
         }
 
-        public CodeNamespace BuildWithTask(string name)
+        public NameSpaceBuilderUtil WithApplicationEntityNameSpace(string domainClassName)
         {
-            var nameSpace = BuildWithDomainImport(name);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport($"Application.{domainClassName}s"));
+            return this;
         }
 
-        public CodeNamespace BuildWithLinq(string name)
+        public NameSpaceBuilderUtil WithHttpAdapterEntityNameSpace(string domainClassName)
         {
-            var nameSpace = BuildWithTask(name);
-            nameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport($"HttpAdapter.{domainClassName}s"));
+            return this;
         }
 
-        public CodeNamespace BuildWithDomainListAndApplication(string name)
+        public NameSpaceBuilderUtil WithDomainEntityNameSpace(string domainClassName)
         {
-            var nameSpace = BuildWithTask(name);
-            nameSpace.Imports.Add(new CodeNamespaceImport("Application"));
-            return nameSpace;
+            Imports.Add(new CodeNamespaceImport($"Domain.{domainClassName}s"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithSqlEntityNameSpace(string domainClassName)
+        {
+            Imports.Add(new CodeNamespaceImport($"SqlAdapter.{domainClassName}s"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithHookEntityNameSpace(string hookClassType)
+        {
+            Imports.Add(new CodeNamespaceImport($"Application.{hookClassType}s.Hooks"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithEfCore()
+        {
+            Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithLinq()
+        {
+            Imports.Add(new CodeNamespaceImport("System.Linq"));
+            return this;
+        }
+
+        public CodeNamespace Build()
+        {
+            foreach (var namespaceImport in Imports)
+            {
+                _nameSpace.Imports.Add(namespaceImport);
+            }
+            return _nameSpace;
         }
     }
 }

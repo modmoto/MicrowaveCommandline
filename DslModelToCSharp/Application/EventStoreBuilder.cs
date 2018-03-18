@@ -28,7 +28,7 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(EventStore eventStore, IList<SynchronousDomainHook> hooks)
         {
             var targetClass = _classBuilderUtil.Build(eventStore.Name);
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithLinq(_nameSpace);
+            _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().WithTask().WithList().WithLinq();
 
             _propertyBuilderUtil.BuildWithoutSet(targetClass, eventStore.Properties);
             _listPropBuilderUtil.Build(targetClass, eventStore.ListProperties);
@@ -37,7 +37,7 @@ namespace DslModelToCSharp.Application
             foreach (var hook in hooks)
             {
                 var hookName = hook.Name + "Hook";
-                nameSpace.Imports.Add(new CodeNamespaceImport($"Application.{hook.ClassType}s.Hooks"));
+                _nameSpaceBuilderUtil.WithHookEntityNameSpace(hook.ClassType);
                 constructor.Parameters.Add(new CodeParameterDeclarationExpression(hookName, hookName));
                 constructor.Statements.Add(new CodeSnippetExpression($"DomainHooks.Add({hookName})"));
             }
@@ -71,6 +71,7 @@ namespace DslModelToCSharp.Application
 
             targetClass.Members.Add(methodList[0]);
 
+            var nameSpace = _nameSpaceBuilderUtil.Build();
             nameSpace.Types.Add(targetClass);
             return nameSpace;
         }

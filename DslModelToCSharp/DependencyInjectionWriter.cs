@@ -22,12 +22,11 @@ namespace DslModelToCSharp
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
-            var codeNamespace = _nameSpaceBuilderUtil.Build("Host");
-            codeNamespace.Types.Add(codeTypeDeclaration);
 
-            codeNamespace.Imports.Add(new CodeNamespaceImport("Application"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("Microsoft.Extensions.DependencyInjection"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("SqlAdapter"));
+            _nameSpaceBuilderUtil.WithName("Host")
+                .WithApplication()
+                .WithDependencyInjection()
+                .WithSqlAdapter();
 
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Attributes = MemberAttributes.Static | MemberAttributes.Public |  MemberAttributes.Final;
@@ -41,9 +40,10 @@ namespace DslModelToCSharp
 
             foreach (var domainClass in domainClasses)
             {
-                codeNamespace.Imports.Add(new CodeNamespaceImport($"Application.{domainClass.Name}s"));
-                codeNamespace.Imports.Add(new CodeNamespaceImport($"HttpAdapter.{domainClass.Name}s"));
-                codeNamespace.Imports.Add(new CodeNamespaceImport($"SqlAdapter.{domainClass.Name}s"));
+                _nameSpaceBuilderUtil
+                    .WithApplicationEntityNameSpace(domainClass.Name)
+                    .WithHttpAdapterEntityNameSpace(domainClass.Name)
+                    .WithSqlEntityNameSpace(domainClass.Name);
 
                 codeMemberMethod.Statements.Add(new CodeSnippetExpression(
                     $"collection.AddTransient<I{domainClass.Name}Repository, {domainClass.Name}Repository>()"));
@@ -53,9 +53,13 @@ namespace DslModelToCSharp
 
             foreach (var hook in domainHooks)
             {
-                codeNamespace.Imports.Add(new CodeNamespaceImport($"Application.{hook.ClassType}s.Hooks"));
+                _nameSpaceBuilderUtil.WithHookEntityNameSpace(hook.ClassType);
                 codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{hook.Name}Hook>()"));
             }
+
+            var codeNamespace = _nameSpaceBuilderUtil.Build();
+
+            codeNamespace.Types.Add(codeTypeDeclaration);
 
             _fileWriter.WriteToFile(codeTypeDeclaration.Name, "Base", codeNamespace);
 

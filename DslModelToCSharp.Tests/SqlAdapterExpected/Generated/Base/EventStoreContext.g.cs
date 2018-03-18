@@ -10,6 +10,7 @@
 
 namespace SqlAdapter
 {
+    using System;
     using Domain;
     using Microsoft.EntityFrameworkCore;
     using Domain.Users;

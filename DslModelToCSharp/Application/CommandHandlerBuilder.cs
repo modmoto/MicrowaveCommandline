@@ -30,7 +30,14 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(DomainClass domainClass)
         {
 
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithMvcImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var nameSpace = _nameSpaceBuilderUtil
+                .WithName($"{_nameSpace}.{domainClass.Name}s")
+                .WithList()
+                .WithTask()
+                .WithDomain()
+                .WithDomainEntityNameSpace(domainClass.Name)
+                .WithMvcImport()
+                .Build();
 
             var commandHandler = _classBuilderUtil.BuildPartial(_nameBuilderUtil.BuildCommandHandlerName(domainClass));
             var codeConstructor = _constructorBuilderUtil.BuildPublic(_commandHandlerPropBuilderUtil.Build(domainClass));

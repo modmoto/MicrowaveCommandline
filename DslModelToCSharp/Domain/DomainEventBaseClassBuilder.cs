@@ -23,7 +23,7 @@ namespace DslModelToCSharp.Domain
 
         public CodeNamespace BuildNameSpace()
         {
-            return _nameSpaceBuilderUtil.BuildWithListImport("Domain");
+            return _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
         }
 
         public CodeTypeDeclaration BuildClassType()

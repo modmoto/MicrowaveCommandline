@@ -20,7 +20,7 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(EventStoreRepositoryInterface hookClass)
         {
             var targetClass = _interfaceBuilderUtil.Build(hookClass);
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithTask(_nameSpace);
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().WithTask().WithList().Build();
             nameSpace.Types.Add(targetClass);
             return nameSpace;
         }

@@ -26,9 +26,11 @@ namespace DslModelToCSharp.SqlAdapter
 
         public CodeNamespace Build(List<DomainClass> domainClasses)
         {
-            var nameSpace = _nameSpaceBuilderUtil.BuildWithDbImport($"{_nameSpace}");
+            _nameSpaceBuilderUtil.WithName($"{_nameSpace}").WithDomain().WithEfCore();
             foreach (var domainClass in domainClasses)
-                nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.Name}s"));
+                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(domainClass.Name);
+
+            var nameSpace = _nameSpaceBuilderUtil.Build();
 
             var eventStore = _classBuilderUtil.Build($"EventStoreContext");
 

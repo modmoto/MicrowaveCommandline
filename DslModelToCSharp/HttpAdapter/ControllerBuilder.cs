@@ -24,8 +24,14 @@ namespace DslModelToCSharp.HttpAdapter
 
         public CodeNamespace Build(DomainClass domainClass)
         {
-            var nameSpace =
-                _nameSpaceBuilderUtil.BuildWithMvcApplicationImport($"{_nameSpace}.{domainClass.Name}s", domainClass.Name);
+            var nameSpace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}.{domainClass.Name}s")
+                .WithList()
+                .WithTask()
+                .WithDomainEntityNameSpace(domainClass.Name)
+                .WithMvcImport()
+                .WithApplicationEntityNameSpace(domainClass.Name)
+                .Build();
+
             var repository = _classBuilderUtil.Build($"{domainClass.Name}Controller");
 
             repository.BaseTypes.Add(new CodeTypeReference("Controller"));

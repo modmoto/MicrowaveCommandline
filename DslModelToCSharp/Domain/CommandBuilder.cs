@@ -28,7 +28,7 @@ namespace DslModelToCSharp.Domain
             var commandList = new List<CodeNamespace>();
             foreach (var method in domainClass.Methods)
             {
-                var commandNameSpace = _nameSpaceBuilderUtil.BuildWithListImport($"Domain.{domainClass.Name}s");
+                var commandNameSpace = _nameSpaceBuilderUtil.WithName($"Domain.{domainClass.Name}s").WithList().Build();
                 var commandName = _nameBuilderUtil.UpdateCommandName(domainClass, method);
                 var properties = method.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
                 var command = _classBuilderUtil.Build(commandName);
@@ -41,7 +41,7 @@ namespace DslModelToCSharp.Domain
 
             foreach (var method in domainClass.CreateMethods)
             {
-                var commandNameSpace = _nameSpaceBuilderUtil.BuildWithListImport($"Domain.{domainClass.Name}s");
+                var commandNameSpace = _nameSpaceBuilderUtil.WithName($"Domain.{domainClass.Name}s").WithList().Build();
                 var commandName = _nameBuilderUtil.CreateCommandName(domainClass, method);
                 var properties = method.Parameters.Select(param => new Property { Name = param.Name, Type = param.Type }).ToList();
                 var command = _classBuilderUtil.Build(commandName);
