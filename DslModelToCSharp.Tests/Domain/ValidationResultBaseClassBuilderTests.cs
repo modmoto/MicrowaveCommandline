@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DslModelToCSharp.Tests.Domain
 {
     [TestClass]
-    public class ValidationResulBaseClassBuilderTests : TestBase
+    public class ValidationResultBaseClassBuilderTests : TestBase
     {
         [TestMethod]
         public void Write()
