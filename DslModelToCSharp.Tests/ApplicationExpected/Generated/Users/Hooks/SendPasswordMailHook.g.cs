@@ -18,7 +18,7 @@ namespace Application.Users.Hooks
     public partial class SendPasswordMailHook : IDomainHook
     {
         
-        public Type EventType { get; private set; }
+        public Type EventType { get; private set; } = typeof(UserCreateEvent);
         
         public HookResult ExecuteSavely(DomainEventBase domainEvent)
         {
