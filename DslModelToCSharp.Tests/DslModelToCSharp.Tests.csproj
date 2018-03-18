@@ -45,12 +45,10 @@
     <Compile Remove="SqlAdapterExpected\Generated\Users\UserRepository.g.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="coveralls.net" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
-    <PackageReference Include="OpenCover" Version="4.6.519" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DslModelToCSharp\DslModelToCSharp.csproj" />
