@@ -9,27 +9,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.SqlAdapter
 {
-        [TestClass]
-        public class DbContextBuilderTests : TestBase
+    [TestClass]
+    public class DbContextBuilderTests : TestBase
+    {
+        [TestMethod]
+        public void Write()
         {
-            [TestMethod]
-            public void Write()
+            var storeBuilder = new DbContextBuilder(SqlAdpaterNameSpace);
+
+            using (var reader = new StreamReader("Schema.wsb"))
             {
-                var storeBuilder = new DbContextBuilder(SqlAdpaterNameSpace);
+                var content = reader.ReadToEnd();
+                var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
 
-                using (var reader = new StreamReader("Schema.wsb"))
-                {
-                    var content = reader.ReadToEnd();
-                    var domainTree = new DslParser(new Tokenizer(), new Parser()).Parse(content);
-
-                    var eventStore = storeBuilder.Build(domainTree.Classes);
-                    new FileWriter(SqlAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
-                }
-
-                new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
-
-                Assert.AreEqual(File.ReadAllText("../../../SqlAdapterExpected/Generated/Base/EventStoreContext.g.cs"),
-                    File.ReadAllText("SqlAdapter/Base/EventStoreContext.g.cs"));
+                var eventStore = storeBuilder.Build(domainTree.Classes);
+                new FileWriter(SqlAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
             }
+
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
+
+            Assert.AreEqual(File.ReadAllText("../../../SqlAdapterExpected/Generated/Base/EventStoreContext.g.cs"),
+                File.ReadAllText("SqlAdapter/Base/EventStoreContext.g.cs"));
         }
+    }
 }
