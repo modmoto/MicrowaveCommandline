@@ -7,7 +7,7 @@ environment:
          secure: MBnad/ilkq6FC4o95aE/cHDTOOGwcBIY/MPprWF/WpyePD34GS/MHIIf4j0CxseI
 
 before_build:
-- appveyor-retry dotnet restore -v Minimal
+- appveyor-retry dotnet restore -v
 build_script:
 - dotnet build
 test_script:
