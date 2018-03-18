@@ -1,6 +1,7 @@
 # GenericWebServiceBuilder
 A code generator that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. The Goal is to only have to implement the relevant Domain logic in your Domain Classes and not care aboute Data Storage or WebApi Implementation. To make this possible the Framework generates code depending on the given Schema.wsb file that defines Domain, WebApi and Database on its own. All that should be left to do is implement the Domainlogic on the generated functions.
 
+[![Build Status](https://travis-ci.org/Lauchi/GenericWebServiceBuilder.svg?branch=master)](https://travis-ci.org/Lauchi/GenericWebServiceBuilder)
 [![Coverage Status](https://coveralls.io/repos/github/Lauchi/GenericWebServiceBuilder/badge.svg?branch=master)](https://coveralls.io/github/Lauchi/GenericWebServiceBuilder?branch=master)
 
 ## Setup
