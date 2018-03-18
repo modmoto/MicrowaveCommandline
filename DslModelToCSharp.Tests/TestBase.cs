@@ -22,6 +22,7 @@ namespace DslModelToCSharp.Tests
             if (Directory.Exists("SqlAdapter")) Directory.Delete("SqlAdapter", true);
             if (Directory.Exists("Application")) Directory.Delete("Application", true);
             if (Directory.Exists("Domain")) Directory.Delete("Domain", true);
+            if (Directory.Exists("Solution")) Directory.Delete("Solution", true);
         }
     }
 }

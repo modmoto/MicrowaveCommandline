@@ -6,6 +6,7 @@ namespace DslModelToCSharp.Application
 {
     public class ApplicationWriter
     {
+        private readonly string _basePath;
         private readonly string _applicationBasePathRealClasses;
         private readonly IFileWriter _fileWriter;
         private HookResultBuilder _hookResultBuilder;
@@ -19,6 +20,7 @@ namespace DslModelToCSharp.Application
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
+            _basePath = basePath;
             _applicationBasePathRealClasses = applicationBasePathRealClasses;
             _fileWriterRealClasses = new FileWriter(_applicationBasePathRealClasses);
             _fileWriter = new FileWriter(basePath);
@@ -31,7 +33,7 @@ namespace DslModelToCSharp.Application
             _eventStoreBuilder = new EventStoreBuilder(applicationNameSpace);
         }
 
-        public void Write(DomainTree domainTree, string basePath)
+        public void Write(DomainTree domainTree)
         {
             foreach (var domainClass in domainTree.Classes)
             {
@@ -65,7 +67,7 @@ namespace DslModelToCSharp.Application
             var eventStoreRepo= _eventStoreBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
             _fileWriter.WriteToFile(new EventStore().Name, "Base", eventStoreRepo);
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
     }
 }

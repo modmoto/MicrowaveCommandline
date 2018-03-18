@@ -2,18 +2,20 @@
 
 namespace DslModelToCSharp.HttpAdapter
 {
-    public class WebAdapterWriter
+    public class HttpAdapterWriter
     {
+        private readonly string _basePath;
         private readonly IFileWriter _fileWriter;
         private ControllerBuilder _repositoryBuilder;
 
-        public WebAdapterWriter(string sqlAdapterNameSpace, string basePath)
+        public HttpAdapterWriter(string sqlAdapterNameSpace, string basePath)
         {
+            _basePath = basePath;
             _fileWriter = new FileWriter(basePath);
             _repositoryBuilder = new ControllerBuilder(sqlAdapterNameSpace);
         }
 
-        public void Write(DomainTree domainTree, string basePath)
+        public void Write(DomainTree domainTree)
         {
             foreach (var domainClass in domainTree.Classes)
             {
@@ -21,7 +23,7 @@ namespace DslModelToCSharp.HttpAdapter
                 _fileWriter.WriteToFile(controller.Types[0].Name, $"{domainClass.Name}s", controller);
             }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
     }
 }

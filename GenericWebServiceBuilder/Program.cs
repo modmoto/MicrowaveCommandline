@@ -32,7 +32,7 @@ namespace GenericWebServiceBuilder
             var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, basePathToSolution);
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
-            var webAdapterWriter = new WebAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
+            var webAdapterWriter = new HttpAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
             
             var dependencyInjectionWriter = new DependencyInjectionWriter(injectionBasePath);
 

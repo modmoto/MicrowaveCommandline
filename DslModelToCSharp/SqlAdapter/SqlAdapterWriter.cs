@@ -6,6 +6,7 @@ namespace DslModelToCSharp.SqlAdapter
     public class SqlAdapterWriter
     {
         private readonly string _sqlAdapterNameSpace;
+        private readonly string _basePath;
         private readonly IFileWriter _fileWriter;
         private RepositoryBuilder _repositoryBuilder;
         private DbContextBuilder _dbContextBuilder;
@@ -14,13 +15,14 @@ namespace DslModelToCSharp.SqlAdapter
         public SqlAdapterWriter(string sqlAdapterNameSpace, string basePath)
         {
             _sqlAdapterNameSpace = sqlAdapterNameSpace;
+            _basePath = basePath;
             _fileWriter = new FileWriter(basePath);
             _repositoryBuilder = new RepositoryBuilder(sqlAdapterNameSpace);
             _dbContextBuilder = new DbContextBuilder(sqlAdapterNameSpace);
             _classFactory = new ClassFactory();
         }
 
-        public void Write(DomainTree domainTree, string basePath)
+        public void Write(DomainTree domainTree)
         {
             foreach (var domainClass in domainTree.Classes)
             {
@@ -33,7 +35,7 @@ namespace DslModelToCSharp.SqlAdapter
 
             var eventStoreRepo = _classFactory.BuildInstance(new EventStoreRepositoryBuilder(_sqlAdapterNameSpace));
             _fileWriter.WriteToFile(eventStoreRepo.Types[0].Name, "Base", eventStoreRepo);
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
+            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
     }
 }
