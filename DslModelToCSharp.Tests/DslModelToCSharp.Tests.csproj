@@ -14,6 +14,7 @@
   <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Base\EventStore.g.cs" />
     <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\IEventStoreRepository.g.cs" />
     <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
     <Compile Remove="DomainExpected\EventStore.cs" />
     <Compile Remove="DomainExpected\EventStoreContext.cs" />
