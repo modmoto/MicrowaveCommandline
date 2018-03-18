@@ -44,9 +44,9 @@ namespace GenericWebServiceBuilder
                 var domainTree = dslParser.Parse(content);
 
                 domainBuilder.Build(domainTree, domainBasePath);
-                applicationWriter.Write(domainTree, applicationBasePath);
-                sqlAdapterWriter.Write(domainTree, sqlAdapterBasePath);
-                webAdapterWriter.Write(domainTree, webAdapterBasePath);
+                applicationWriter.Write(domainTree);
+                sqlAdapterWriter.Write(domainTree);
+                webAdapterWriter.Write(domainTree);
                 dependencyInjectionWriter.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, injectionBasePath);
             }
         }
