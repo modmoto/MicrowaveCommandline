@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using DslModel.Application;
-using DslModelToCSharp.Application;
 using DslModelToCSharp.SqlAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
