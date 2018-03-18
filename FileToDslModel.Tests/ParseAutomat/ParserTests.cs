@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

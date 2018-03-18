@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using DslModel.Application;
 using DslModelToCSharp;
 using DslModelToCSharp.Application;
 using DslModelToCSharp.Domain;

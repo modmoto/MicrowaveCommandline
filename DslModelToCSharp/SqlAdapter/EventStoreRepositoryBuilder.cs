@@ -1,8 +1,7 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Application;
-using DslModel.Domain;
-using DslModelToCSharp.Domain;
+using DslModel.SqlAdapter;
 using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.SqlAdapter
@@ -77,27 +76,6 @@ namespace DslModelToCSharp.SqlAdapter
             memberMethod.Statements.Add(
                 new CodeSnippetExpression("await Context.EventHistory.AddRangeAsync(domainEvents)"));
             targetClass.Members.AddRange(codeMemberMethods.ToArray());
-        }
-    }
-
-    public class EventStoreRepository : DomainClass
-    {
-        public EventStoreRepository()
-        {
-            Name = "EventStoreRepository";
-            Properties = new List<Property>
-            {
-                new Property { Name = "Context", Type = "EventStoreContext"}
-            };
-            Methods = new List<DomainMethod>
-            {
-                new DomainMethod
-                {
-                    Name = new EventStoreRepositoryInterface().Methods[0].Name,
-                    ReturnType = "async Task",
-                    Parameters = { new Parameter { Name = "domainEvents", Type = $"List<{new DomainEventBaseClass().Name}>"}}
-                }
-            };
         }
     }
 }

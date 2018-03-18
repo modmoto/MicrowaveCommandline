@@ -1,8 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using DslModel.Domain;
-using DslModelToCSharp.Application;
-using DslModelToCSharp.Domain;
 using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.SqlAdapter

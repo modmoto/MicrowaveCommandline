@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using DslModelToCSharp.Application;
 using DslModelToCSharp.Domain;
 using FileToDslModel;
 using FileToDslModel.Lexer;

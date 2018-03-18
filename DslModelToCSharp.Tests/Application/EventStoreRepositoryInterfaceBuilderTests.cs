@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using DslModel.Application;
 using DslModelToCSharp.Application;
-using FileToDslModel;
-using FileToDslModel.Lexer;
-using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.Application

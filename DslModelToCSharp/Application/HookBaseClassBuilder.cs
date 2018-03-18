@@ -1,6 +1,5 @@
 ﻿using System.CodeDom;
 using DslModel.Application;
-using DslModelToCSharp.Domain;
 using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Application

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
-using DslModelToCSharp.Application;
 using DslModelToCSharp.Util;
 
 namespace DslModelToCSharp.Domain
