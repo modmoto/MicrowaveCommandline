@@ -5,4 +5,4 @@ dotnet: 2.0.0
 script:
  - dotnet restore
  - dotnet build
- - dotnet vstest ./**.Tests/bin/Release/**/**.Tests.dll
+ - dotnet test
