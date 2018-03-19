@@ -4,7 +4,7 @@
     <IsPackable>false</IsPackable>
     <DebugType>full</DebugType>
   </PropertyGroup>
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
     <PackageReference Include="coveralls.io" Version="1.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
