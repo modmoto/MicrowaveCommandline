@@ -69,7 +69,7 @@ namespace DslModelToCSharp.Application
 
         public CodeNamespace BuildReplacementClass(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").Build();
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").WithList().Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
@@ -83,7 +83,7 @@ namespace DslModelToCSharp.Application
             codeMemberMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("throw new NotImplementedException()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>{\"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting...\"})"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
         }

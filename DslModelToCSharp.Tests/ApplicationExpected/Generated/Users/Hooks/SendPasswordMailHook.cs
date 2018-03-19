@@ -20,7 +20,7 @@ namespace Application.Users.Hooks
         
         private HookResult Execute(DomainEventBase domainEvent)
         {
-            throw new NotImplementedException();
+            return HookResult.ErrorResult(new List<string>{"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting..."});
         }
     }
 }
