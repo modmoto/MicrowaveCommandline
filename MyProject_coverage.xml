@@ -4053,6 +4053,12 @@
       <ModuleName>netstandard</ModuleName>
       <Classes />
     </Module>
+    <Module skippedDueTo="Filter" hash="88-00-CE-1C-B4-DD-BA-E4-5D-66-45-DA-66-2D-89-84-42-9B-45-F7">
+      <ModulePath>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.5\System.ComponentModel.dll</ModulePath>
+      <ModuleTime>2017-12-20T15:43:14Z</ModuleTime>
+      <ModuleName>System.ComponentModel</ModuleName>
+      <Classes />
+    </Module>
     <Module skippedDueTo="Filter" hash="47-5E-28-B2-AE-0D-E4-88-2D-81-90-A5-7C-CF-70-19-97-25-75-51">
       <ModulePath>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.5\System.Security.Cryptography.Primitives.dll</ModulePath>
       <ModuleTime>2017-12-20T15:43:16Z</ModuleTime>
@@ -4063,12 +4069,6 @@
       <ModulePath>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.5\System.Security.Cryptography.Algorithms.dll</ModulePath>
       <ModuleTime>2017-12-20T15:43:16Z</ModuleTime>
       <ModuleName>System.Security.Cryptography.Algorithms</ModuleName>
-      <Classes />
-    </Module>
-    <Module skippedDueTo="Filter" hash="88-00-CE-1C-B4-DD-BA-E4-5D-66-45-DA-66-2D-89-84-42-9B-45-F7">
-      <ModulePath>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.5\System.ComponentModel.dll</ModulePath>
-      <ModuleTime>2017-12-20T15:43:14Z</ModuleTime>
-      <ModuleName>System.ComponentModel</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="09-7C-8E-20-AE-A6-0D-22-D4-19-14-B8-A4-26-17-B8-B2-41-BB-D4">
