@@ -17,8 +17,8 @@ namespace DslModelToCSharp.Tests.Domain
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/ValidationResult.g.cs", Encoding.UTF8),
-                File.ReadAllText("Domain/Base/ValidationResult.g.cs", Encoding.UTF8));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/ValidationResult.g.cs"),
+                File.ReadAllText("Domain/Base/ValidationResult.g.cs"));
         }
     }
 }
