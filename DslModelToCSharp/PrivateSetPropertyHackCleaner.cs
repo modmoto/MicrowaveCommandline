@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace DslModelToCSharp
 {
@@ -12,7 +13,7 @@ namespace DslModelToCSharp
                 {
                     var readAllText = File.ReadAllText(file);
                     var replace = readAllText.Replace("NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515;", "");
-                    File.WriteAllText(file, replace);
+                    File.WriteAllText(file, replace, Encoding.UTF8 );
                 }
                 ReplaceHackPropertyNames(currentDir);
             }
