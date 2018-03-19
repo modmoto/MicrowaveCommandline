@@ -14,3 +14,15 @@ jobs:
       - run:
           name: Test
           command: dotnet test
+      - run:
+          name: InstallCoveralls
+          command: choco install opencover.portable
+      - run:
+          name: InstallCodecov
+          command: choco install codecov
+      - run:
+          name: CreateCoveralls
+          command: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:".\MyProject_coverage.xml" -oldstyle
+      - run:
+          name: SendCoverFiles
+          command: codecov -f .\MyProject_coverage.xml a6fe2e63-4632-4b3b-8d49-baf92f64a609

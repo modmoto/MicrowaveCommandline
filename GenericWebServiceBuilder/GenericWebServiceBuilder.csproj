@@ -13,6 +13,9 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="coveralls.net" Version="0.7.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DslModelToCSharp\DslModelToCSharp.csproj" />
     <ProjectReference Include="..\DslModel\DslModel.csproj" />
     <ProjectReference Include="..\FileToDslModel\FileToDslModel.csproj" />
