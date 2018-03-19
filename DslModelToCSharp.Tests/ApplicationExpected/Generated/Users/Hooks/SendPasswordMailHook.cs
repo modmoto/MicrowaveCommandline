@@ -11,6 +11,7 @@
 namespace Application.Users.Hooks
 {
     using System;
+    using System.Collections.Generic;
     using Domain.Users;
     using Domain;
     
