@@ -53,10 +53,10 @@ namespace DslModelToCSharp.Tests.Domain
                 domainBuilder.Build(domainTree, DomainBasePath);
             }
 
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs", Encoding.UTF8),
-                File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs", Encoding.UTF8));
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateNameEvent.g.cs", Encoding.UTF8),
-                File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs", Encoding.UTF8));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"),
+                File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs"));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateNameEvent.g.cs"),
+                File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"));
         }
 
         [TestMethod]
@@ -65,8 +65,8 @@ namespace DslModelToCSharp.Tests.Domain
             new DomainClassWriter(DomainNameSpace, DomainBasePath, SolutionBasePath).Write(new CreationResultBaseClass());
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs", Encoding.UTF8),
-                File.ReadAllText("Domain/Base/CreationResult.g.cs", Encoding.UTF8));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"),
+                File.ReadAllText("Domain/Base/CreationResult.g.cs"));
         }
 
         [TestMethod]
@@ -78,8 +78,8 @@ namespace DslModelToCSharp.Tests.Domain
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/DomainEventBase.g.cs", Encoding.UTF8),
-                File.ReadAllText("Domain/Base/DomainEventBase.g.cs", Encoding.UTF8));
+            Assert.AreEqual(File.ReadAllText("../../../DomainExpected/Generated/Base/DomainEventBase.g.cs"),
+                File.ReadAllText("Domain/Base/DomainEventBase.g.cs"));
         }
     }
 }
