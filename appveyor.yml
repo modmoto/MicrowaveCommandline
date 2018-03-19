@@ -20,4 +20,4 @@ after_test:
 # generate report for MSTest testing framework:
 - ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle
 
-- cmd: packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover ".\MyProject_coverage.xml" -r %COVERALLS_REPO_TOKEN%
+- cmd: csmacnz.Coveralls --opencover -i .\MyProject_coverage.xml -r %COVERALLS_REPO_TOKEN%
