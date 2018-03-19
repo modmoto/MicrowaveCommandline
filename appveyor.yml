@@ -10,14 +10,14 @@ before_build:
 - appveyor-retry dotnet restore -v Minimal
 build_script:
 - dotnet build
-test_script:
-- dotnet test
 
 after_test:
 # generate report for NUnit testing framework:
 #    -cmd: packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single YOURPROJECT.Tests\bin\debug\YOURPROJECT.Tests.dll" -output:coverage.xml
 
 # generate report for MSTest testing framework:
+- ps: Install-Package coveralls.net
+
 - ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle
 
-- ps: csmacnz.Coveralls --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
+- ps: csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
