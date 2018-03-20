@@ -3,14 +3,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using DslModel.Application;
 using DslModelToCSharp.Application;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.Application
 {
-    [TestFixture]
+    [TestClass]
     public class EventStoreRepositoryInterfaceBuilderTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void Write()
         {
             var storeBuilder = new EventStoreRepositoryInterfaceBuilder(ApplicationNameSpace);

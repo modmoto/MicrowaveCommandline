@@ -1,16 +1,17 @@
 ﻿using System.IO;
+using DslModelToCSharp.HttpAdapter;
 using DslModelToCSharp.SqlAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.SqlAdapter
 {
-    [TestFixture]
+    [TestClass]
     public class SqlAdapterWriterTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void Write()
         {
             var storeBuilder = new SqlAdapterWriter(SqlAdpaterNameSpace, SqlAdpaterBasePath);
