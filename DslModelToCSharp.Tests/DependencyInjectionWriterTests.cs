@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
@@ -22,8 +24,8 @@ namespace DslModelToCSharp.Tests
                     hookResultBuilder.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, "Application/Base/");
                 }
 
-                Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/GeneratedDependencies.g.cs"),
-                    File.ReadAllText("Application/Base/GeneratedDependencies.g.cs"));
+                Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Base/GeneratedDependencies.g.cs"), @"\s+", String.Empty),
+                    Regex.Replace(File.ReadAllText("Application/Base/GeneratedDependencies.g.cs"), @"\s+", String.Empty));
             }
         }
 }
