@@ -20,4 +20,4 @@ after_test:
 
 - ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle
 
-- ps: csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
+# - ps: csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
