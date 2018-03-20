@@ -14,10 +14,10 @@ build_script:
 after_test:
 
 # generate report for MSTest testing framework:
-- ps: Install-Package coveralls.net -Scope CurrentUser -Force
+- ps: Install-Package coveralls.net -Version 0.7.0 -Force
 
-- ps: Install-Package OpenCover -Scope CurrentUser -Force
+- ps: Install-Package OpenCover -Force
 
 - ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle
 
-# - ps: csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
+- ps: csmacnz.Coveralls --opencover -i .\MyProject_coverage.xml --repoToken VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
