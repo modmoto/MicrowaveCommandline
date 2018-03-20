@@ -27,7 +27,7 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/EventStore.g.cs"),
+            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/EventStore.g.cs").Replace("\\n", "\\r\\n"),
                 File.ReadAllText("Application/Base/EventStore.g.cs"));
         }
     }
