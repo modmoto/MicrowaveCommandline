@@ -3,14 +3,14 @@ using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Application
 {
-    [TestClass]
+    [TestFixture]
     public class RepositoryInterfaceBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Build()
         {
             var commandHandlerBuilder = new RepositoryInterfaceBuilder(ApplicationNameSpace);

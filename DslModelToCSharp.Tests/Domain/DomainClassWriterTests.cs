@@ -1,18 +1,17 @@
 using System.IO;
-using System.Text;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Domain
 {
-    [TestClass]
+    [TestFixture]
     public class DomainClassWriterTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void TestDomainClasses()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -27,7 +26,7 @@ namespace DslModelToCSharp.Tests.Domain
                 File.ReadAllText("Domain/Users/User.g.cs"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestCreateEvents()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -42,7 +41,7 @@ namespace DslModelToCSharp.Tests.Domain
                 File.ReadAllText("Domain/Users/UserCreateEvent.g.cs"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestUpdateEvents()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -59,7 +58,7 @@ namespace DslModelToCSharp.Tests.Domain
                 File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"));
         }
 
-        [TestMethod]
+        [Test]
         public void CreationResultBase_Builder()
         {
             new DomainClassWriter(DomainNameSpace, DomainBasePath, SolutionBasePath).Write(new CreationResultBaseClass());
@@ -69,7 +68,7 @@ namespace DslModelToCSharp.Tests.Domain
                 File.ReadAllText("Domain/Base/CreationResult.g.cs"));
         }
 
-        [TestMethod]
+        [Test]
         public void DomainEventBaseClass_Builder()
         {
             var classFactory = new ClassFactory();

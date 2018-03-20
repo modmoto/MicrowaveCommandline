@@ -1,14 +1,14 @@
 ﻿using System.IO;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Domain
 {
-    [TestClass]
+    [TestFixture]
     public class ValidationResultBaseClassBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Write()
         {
             var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, DomainBasePath);

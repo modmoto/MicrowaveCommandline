@@ -3,14 +3,14 @@ using DslModelToCSharp.SqlAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.SqlAdapter
 {
-    [TestClass]
+    [TestFixture]
     public class RepositoryBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Write()
         {
             var storeBuilder = new RepositoryBuilder(SqlAdpaterNameSpace);

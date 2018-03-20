@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using DslModelToCSharp.SqlAdapter;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.SqlAdapter
 {
-    [TestClass]
+    [TestFixture]
     public class EventStoreRepositoryBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Write()
         {
             var classFactory = new ClassFactory();

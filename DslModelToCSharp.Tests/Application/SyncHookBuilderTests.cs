@@ -3,14 +3,14 @@ using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Application
 {
-    [TestClass]
+    [TestFixture]
     public class SyncHookBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void BuildTests()
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
@@ -32,7 +32,7 @@ namespace DslModelToCSharp.Tests.Application
                 File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"));
         }
 
-        [TestMethod]
+        [Test]
         public void BuildReplacementClass()
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);

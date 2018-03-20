@@ -1,8 +1,9 @@
 ﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests
 {
+    [TestFixture]
     public class TestBase
     {
         protected readonly string SolutionBasePath = "Solution/";
@@ -15,7 +16,7 @@ namespace DslModelToCSharp.Tests
         protected readonly string HttpAdpaterNameSpace = "HttpAdapter";
         protected readonly string HttpAdpaterBasePath = "HttpAdapter/";
        
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             if (Directory.Exists("HttpAdapter")) Directory.Delete("HttpAdapter", true);

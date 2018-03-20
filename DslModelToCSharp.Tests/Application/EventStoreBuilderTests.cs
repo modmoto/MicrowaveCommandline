@@ -4,14 +4,14 @@ using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Application
 {
-    [TestClass]
+    [TestFixture]
     public class EventStoreBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Write()
         {
             var storeBuilder = new EventStoreBuilder(ApplicationNameSpace);

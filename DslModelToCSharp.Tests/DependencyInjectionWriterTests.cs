@@ -2,14 +2,14 @@
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests
 {
-        [TestClass]
+        [TestFixture]
         public class DependencyInjectionWriterTests : TestBase
         {
-            [TestMethod]
+            [Test]
             public void Write()
             {
                 var hookResultBuilder = new DependencyInjectionWriter(ApplicationNameSpace);

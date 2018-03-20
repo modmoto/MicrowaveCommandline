@@ -1,14 +1,14 @@
 ﻿using System.IO;
 using DslModel.Application;
 using DslModelToCSharp.Application;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DslModelToCSharp.Tests.Application
 {
-    [TestClass]
+    [TestFixture]
     public class HookResultBuilderTests : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Write()
         {
             var hookResultBuilder = new HookResultBuilder(ApplicationNameSpace);
