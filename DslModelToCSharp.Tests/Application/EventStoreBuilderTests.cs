@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using DslModel.Application;
 using DslModelToCSharp.Application;
 using FileToDslModel;
@@ -28,8 +29,8 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Base/EventStore.g.cs").Replace(Environment.NewLine, ""),
-                File.ReadAllText("Application/Base/EventStore.g.cs").Replace(Environment.NewLine, ""));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Base/EventStore.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Base/EventStore.g.cs"),  @"\s+", String.Empty));
         }
     }
 }
