@@ -31,10 +31,10 @@ namespace DslModelToCSharp.Tests.HttpAdapter
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(HttpAdpaterBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../HttpAdapterExpected/Generated/Users/UserController.g.cs"),
-                File.ReadAllText("HttpAdapter/Users/UserController.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../HttpAdapterExpected/Generated/Posts/PostController.g.cs"),
-                File.ReadAllText("HttpAdapter/Posts/PostController.g.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../HttpAdapterExpected/Generated/Users/UserController.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("HttpAdapter/Users/UserController.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../HttpAdapterExpected/Generated/Posts/PostController.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("HttpAdapter/Posts/PostController.g.cs"), @"\s+", String.Empty));
         }
     }
 }
