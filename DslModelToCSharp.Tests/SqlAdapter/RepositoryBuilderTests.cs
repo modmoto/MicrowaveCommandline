@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using DslModelToCSharp.SqlAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -30,10 +32,10 @@ namespace DslModelToCSharp.Tests.SqlAdapter
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../SqlAdapterExpected/Generated/Users/UserRepository.g.cs"),
-                File.ReadAllText("SqlAdapter/Users/UserRepository.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../SqlAdapterExpected/Generated/Posts/PostRepository.g.cs"),
-                File.ReadAllText("SqlAdapter/Posts/PostRepository.g.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../SqlAdapterExpected/Generated/Users/UserRepository.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("SqlAdapter/Users/UserRepository.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../SqlAdapterExpected/Generated/Posts/PostRepository.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("SqlAdapter/Posts/PostRepository.g.cs"), @"\s+", String.Empty));
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -28,10 +30,10 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/IPostRepository.g.cs"),
-                File.ReadAllText("Application/Posts/IPostRepository.g.cs"));
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/IUserRepository.g.cs"),
-                File.ReadAllText("Application/Users/IUserRepository.g.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/IPostRepository.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Posts/IPostRepository.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/IUserRepository.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Users/IUserRepository.g.cs"), @"\s+", String.Empty));
         }
     }
 }

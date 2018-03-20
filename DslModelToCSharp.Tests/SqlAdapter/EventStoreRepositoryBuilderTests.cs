@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using DslModelToCSharp.SqlAdapter;
 using NUnit.Framework;
 
@@ -16,8 +18,8 @@ namespace DslModelToCSharp.Tests.SqlAdapter
            
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../SqlAdapterExpected/Generated/Base/EventStoreRepository.g.cs"),
-                File.ReadAllText("SqlAdapter/Base/EventStoreRepository.g.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../SqlAdapterExpected/Generated/Base/EventStoreRepository.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("SqlAdapter/Base/EventStoreRepository.g.cs"), @"\s+", String.Empty));
         }
     }
 }

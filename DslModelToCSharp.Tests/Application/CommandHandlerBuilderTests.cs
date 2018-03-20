@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -28,10 +30,10 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/PostCommandHandler.g.cs").Replace("\\r\\n", "").Replace("\\n", "").Replace("\\r", ""),
-                File.ReadAllText("Application/Posts/PostCommandHandler.g.cs").Replace("\\r\\n", "").Replace("\\n", "").Replace("\\r", ""));
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/UserCommandHandler.g.cs").Replace("\\n", "").Replace("\\r\\n", "").Replace("\\n", "").Replace("\\r", ""),
-                File.ReadAllText("Application/Users/UserCommandHandler.g.cs").Replace("\\r\\n", "").Replace("\\n", "").Replace("\\r", ""));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Posts/PostCommandHandler.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Posts/PostCommandHandler.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/UserCommandHandler.g.cs"), @"\s+", String.Empty),
+            Regex.Replace(File.ReadAllText("Application/Users/UserCommandHandler.g.cs"), @"\s+", String.Empty));
         }
     }
 }

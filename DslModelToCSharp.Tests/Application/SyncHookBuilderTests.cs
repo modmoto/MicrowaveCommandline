@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using DslModelToCSharp.Application;
 using FileToDslModel;
 using FileToDslModel.Lexer;
@@ -28,8 +30,8 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.g.cs"),
-                File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"), @"\s+", String.Empty));
         }
 
         [Test]
@@ -50,8 +52,8 @@ namespace DslModelToCSharp.Tests.Application
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 
-            Assert.AreEqual(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.cs"),
-                File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.cs"));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.cs"), @"\s+", String.Empty));
         }
 
 
