@@ -5,7 +5,8 @@ dotnet: 2.0.0
 script:
  - dotnet restore
  - dotnet build
- - pwsh -f "Install-Package coveralls.net -Scope CurrentUser -Force"
- - pwsh -f "Install-Package OpenCover.Console -Scope CurrentUser -Force"
- - pwsh -f "OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle"
- - pwsh -f "csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF"
+ - dotnet test
+# - pwsh -f "Install-Package coveralls.net -Scope CurrentUser -Force"
+# - pwsh -f "Install-Package OpenCover.Console -Scope CurrentUser -Force"
+# - pwsh -f "OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle"
+# - pwsh -f "csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF"
