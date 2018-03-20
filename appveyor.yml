@@ -9,9 +9,7 @@ before_build:
 build_script:
 - dotnet build
 test_script:
-- ps: >-
-    Install-Package coveralls.net -Scope CurrentUser -Force
-    Install-Package OpenCover.Console -Scope CurrentUser -Force
-    .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"opencoverCoverage.xml" -oldstyle
-    $coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-    & $coveralls --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
+- ps: Install-Package coveralls.net -Scope CurrentUser -Force
+- ps: Install-Package OpenCover.Console -Scope CurrentUser -Force
+- ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"opencoverCoverage.xml" -oldstyle
+- ps: (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString() --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
