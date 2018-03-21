@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests
 {
+    [TestClass]
     public class TestBase
     {
         protected readonly string SolutionBasePath = "Solution/";

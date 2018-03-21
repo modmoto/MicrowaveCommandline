@@ -188,6 +188,33 @@ namespace FileToDslModel.Tests.ParseAutomat
         }
 
         [TestMethod]
+        public void Parse_ClassWithMethod_ExceptionAfterName()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "Disable", 2),
+                new DslToken(TokenType.TypeDefSeparator, "Disable", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void Parse_ClassWithMethod_SingleParameter()
         {
             var tokens = new Collection<DslToken>
