@@ -27,6 +27,7 @@
     <Compile Remove="DomainExpected\Generated\Posts\CreatePostEvent.g.cs" />
     <Compile Remove="DomainExpected\Generated\Posts\Post.g.cs" />
     <Compile Remove="DomainExpected\Generated\Posts\PostCreateEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\Commands\UserAddPostCommand.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\Commands\UserCreateCommand.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\Commands\UserUpdateAgeCommand.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\Commands\UserUpdateNameCommand.g.cs" />
