@@ -1,28 +1,13 @@
 version: '1.0.{build}'
-configuration:
-- Release
-platform: Any CPU
-environment:
-  COVERALLS_REPO_TOKEN:
-         secure: MBnad/ilkq6FC4o95aE/cHDTOOGwcBIY/MPprWF/WpyePD34GS/MHIIf4j0CxseI
 
 before_build:
 - appveyor-retry dotnet restore -v Minimal
+- choco install opencover.portable
+- choco install codecov
+
 build_script:
 - dotnet build
 
-after_test:
-
-# generate report for MSTest testing framework:
-- ps: Install-Package coveralls.net -Scope CurrentUser -Force
-
-- ps: Install-Package OpenCover -Scope CurrentUser -Force
-
-- ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"coverage.xml" -oldstyle
-
-# - ps: csmacnz.coveralls.exe --opencover -i .\coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
-
-- ps: |
-      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
-      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-      bash codecov.sh -f "coverage.xml" -t a6fe2e63-4632-4b3b-8d49-baf92f64a609
+test_script:
+- OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"coverage.xml" -oldstyle
+- codecov -f "MyProject_coverage.xml"
