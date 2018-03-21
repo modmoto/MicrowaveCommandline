@@ -25,6 +25,7 @@ namespace FileToDslModel.Lexer
                 new TokenDefinition(TokenType.DomainHookEventDefinition, "^\\w+\\.\\w+"),
 
                 new TokenDefinition(TokenType.CreateMethod, "^Create"),
+                new TokenDefinition(TokenType.LoadToken, "^@Load"),
                 new TokenDefinition(TokenType.DomainClass, "^DomainClass"),
                 new TokenDefinition(TokenType.SynchronousDomainHook, "^SynchronousDomainHook"),
                 new TokenDefinition(TokenType.DomainHookOn, "^on"),

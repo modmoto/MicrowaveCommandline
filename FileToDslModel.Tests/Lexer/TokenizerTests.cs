@@ -171,5 +171,22 @@ namespace FileToDslModel.Tests.Lexer
             Assert.AreEqual("Post", tokens[6].Value);
             Assert.AreEqual(TokenType.ListBracketClose, tokens[7].TokenType);
         }
+
+        [TestMethod]
+        public void Tokenize_LoadToken()
+        {
+            var tokenizer = new Tokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                AddPost(NewPost: @Load Post): {
+                                                    PostId: Guid
+                                                }
+                                            }");
+
+            Assert.AreEqual(17, tokens.Count);
+
+            Assert.AreEqual("NewPost", tokens[5].Value);
+            Assert.AreEqual(TokenType.LoadToken, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
+        }
     }
 }

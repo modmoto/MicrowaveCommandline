@@ -15,6 +15,7 @@
         CreateMethod,
         SynchronousDomainHook,
         DomainHookEventDefinition,
-        DomainHookOn
+        DomainHookOn,
+        LoadToken
     }
 }

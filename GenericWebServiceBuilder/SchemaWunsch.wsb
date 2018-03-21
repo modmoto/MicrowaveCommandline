@@ -13,9 +13,9 @@
 		Name: String
 	}
 
-	AddPost(PostToAdd: Post@LoadFromDb): {
-		PostId: Guid
-	}
+	AddPost(NewPost: @Load Post): {
+        PostId: Guid
+    }
 }
 
 DomainClass Post {
