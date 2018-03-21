@@ -700,6 +700,64 @@ namespace FileToDslModel.Tests.ParseAutomat
         }
 
         [TestMethod]
+        public void Parse_ClassWithListProperty_Exception()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "Posts", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.ListBracketOpen, "[", 2),
+                new DslToken(TokenType.ListBracketClose, "]", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 3)
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithListProperty_TypeDefException()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "Posts", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.ListBracketOpen, "[", 2),
+                new DslToken(TokenType.Value, "Post", 2),
+                new DslToken(TokenType.ObjectBracketClose, "}", 3)
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void Parse_SynchronousHook()
         {
             var tokens = new Collection<DslToken>
