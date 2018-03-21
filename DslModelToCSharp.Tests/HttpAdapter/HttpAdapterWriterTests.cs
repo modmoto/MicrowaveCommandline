@@ -3,14 +3,14 @@ using DslModelToCSharp.HttpAdapter;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.HttpAdapter
 {
-    [TestFixture]
+    [TestClass]
     public class HttpAdapterWriterTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void Write()
         {
             var storeBuilder = new HttpAdapterWriter(HttpAdpaterNameSpace, HttpAdpaterBasePath);

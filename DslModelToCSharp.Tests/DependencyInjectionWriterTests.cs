@@ -4,14 +4,14 @@ using System.Text.RegularExpressions;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests
 {
-        [TestFixture]
+        [TestClass]
         public class DependencyInjectionWriterTests : TestBase
         {
-            [Test]
+            [TestMethod]
             public void Write()
             {
                 var hookResultBuilder = new DependencyInjectionWriter(ApplicationNameSpace);

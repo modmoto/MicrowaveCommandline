@@ -1,19 +1,20 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Text;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
 using FileToDslModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.Domain
 {
-    [TestFixture]
+    [TestClass]
     public class DomainClassWriterTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void TestDomainClasses()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -28,7 +29,7 @@ namespace DslModelToCSharp.Tests.Domain
             Regex.Replace(File.ReadAllText("Domain/Users/User.g.cs"), @"\s+", String.Empty));
         }
 
-        [Test]
+        [TestMethod]
         public void TestCreateEvents()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -43,7 +44,7 @@ namespace DslModelToCSharp.Tests.Domain
                 Regex.Replace(File.ReadAllText("Domain/Users/UserCreateEvent.g.cs"), @"\s+", String.Empty));
         }
 
-        [Test]
+        [TestMethod]
         public void TestUpdateEvents()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -60,7 +61,7 @@ namespace DslModelToCSharp.Tests.Domain
             Regex.Replace(File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"), @"\s+", String.Empty));
         }
 
-        [Test]
+        [TestMethod]
         public void CreationResultBase_Builder()
         {
             new DomainClassWriter(DomainNameSpace, DomainBasePath, SolutionBasePath).Write(new CreationResultBaseClass());
@@ -70,7 +71,7 @@ namespace DslModelToCSharp.Tests.Domain
             Regex.Replace(File.ReadAllText("Domain/Base/CreationResult.g.cs"), @"\s+", String.Empty));
         }
 
-        [Test]
+        [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
             var classFactory = new ClassFactory();

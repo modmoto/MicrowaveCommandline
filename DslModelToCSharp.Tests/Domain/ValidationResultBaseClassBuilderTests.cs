@@ -3,14 +3,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using DslModel.Domain;
 using DslModelToCSharp.Domain;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.Domain
 {
-    [TestFixture]
+    [TestClass]
     public class ValidationResultBaseClassBuilderTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void Write()
         {
             var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, DomainBasePath);

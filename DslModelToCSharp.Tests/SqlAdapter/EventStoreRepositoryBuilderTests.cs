@@ -2,14 +2,14 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using DslModelToCSharp.SqlAdapter;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DslModelToCSharp.Tests.SqlAdapter
 {
-    [TestFixture]
+    [TestClass]
     public class EventStoreRepositoryBuilderTests : TestBase
     {
-        [Test]
+        [TestMethod]
         public void Write()
         {
             var classFactory = new ClassFactory();
