@@ -187,6 +187,7 @@ namespace FileToDslModel.Tests.Lexer
             Assert.AreEqual("NewPost", tokens[5].Value);
             Assert.AreEqual(TokenType.LoadToken, tokens[7].TokenType);
             Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
+            Assert.AreEqual("Post", tokens[8].Value);
         }
     }
 }

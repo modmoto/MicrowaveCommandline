@@ -24,6 +24,7 @@ namespace FileToDslModel.ParseAutomat
         public ListProperty CurrentListProperty { get; set; }
         public SynchronousDomainHook CurrentSynchronousDomainHook { get; set; }
         public List<SynchronousDomainHook> SynchronousDomainHooks { get; } = new List<SynchronousDomainHook>();
+        public bool CurrentParamIsLoadParam { get; set; }
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {
