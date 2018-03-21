@@ -81,6 +81,57 @@ namespace FileToDslModel.Tests.ParseAutomat
         }
 
         [TestMethod]
+        public void Parse_ClassWithProperty_Exception()
+        {
+
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.Value, "User", 1),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithProperty_ExceptionAfterOPening()
+        {
+
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void Parse_ClassWithMethod_AllEmpty()
         {
             var tokens = new Collection<DslToken>
@@ -107,6 +158,33 @@ namespace FileToDslModel.Tests.ParseAutomat
 
             Assert.AreEqual("UserDisableEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_Exception()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "Disable", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -142,6 +220,63 @@ namespace FileToDslModel.Tests.ParseAutomat
 
             Assert.AreEqual("UserUpdateStuffEvent", domainTree.Classes[0].Events[0].Name);
             Assert.AreEqual(0, domainTree.Classes[0].Events[0].Properties.Count);
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_SingleParameter_Exception()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "UpdateStuff", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.Value, "UserName", 2),
+                new DslToken(TokenType.Value, "UserName", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_SingleParameter_ExceptionParamClause()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "UpdateStuff", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.Value, "UserName", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -215,6 +350,64 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual(1, domainTree.Classes[0].Events[0].Properties.Count);
             Assert.AreEqual("UserId", domainTree.Classes[0].Events[0].Properties[0].Name);
             Assert.AreEqual("Guid", domainTree.Classes[0].Events[0].Properties[0].Type);
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_EventWithProperties_EventException()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "UpdateStuff", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.ParameterBracketClose, ")", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+                new DslToken(TokenType.TypeDefSeparator, ":", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_ClassWithMethod_EventWithProperties_Exception()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.Value, "UpdateStuff", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.ParameterBracketClose, ")", 2),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 2),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
         }
 
         [TestMethod]
