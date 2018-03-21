@@ -7,7 +7,7 @@ using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DslModelToCSharp.Tests.Application
+namespace DslModelToCSharp.Tests.Domain
 {
     [TestClass]
     public class CommandBuilderTests : TestBase
@@ -39,6 +39,8 @@ namespace DslModelToCSharp.Tests.Application
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserCreateCommand.g.cs"), @"\s+", String.Empty),
                 Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserCreateCommand.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserAddPostCommand.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserAddPostCommand.g.cs"), @"\s+", String.Empty));
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateAgeCommand.g.cs"), @"\s+", String.Empty),
                 Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserUpdateAgeCommand.g.cs"), @"\s+", String.Empty));
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateNameCommand.g.cs"), @"\s+", String.Empty),

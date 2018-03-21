@@ -57,6 +57,8 @@ namespace DslModelToCSharp.Tests.Domain
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"), @"\s+", String.Empty),
                 Regex.Replace(File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs"), @"\s+", String.Empty));
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserAddPostEvent.g.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Domain/Users/UserAddPostEvent.g.cs"), @"\s+", String.Empty));
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateNameEvent.g.cs"), @"\s+", String.Empty),
             Regex.Replace(File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"), @"\s+", String.Empty));
         }
