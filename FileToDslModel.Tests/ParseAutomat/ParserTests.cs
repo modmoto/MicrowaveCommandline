@@ -575,6 +575,34 @@ namespace FileToDslModel.Tests.ParseAutomat
         }
 
         [TestMethod]
+        public void Parse_ClassWithCreateMethod_OneParam_TypeDefException()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.Value, "User", 1),
+                new DslToken(TokenType.ObjectBracketOpen, "{", 1),
+                new DslToken(TokenType.CreateMethod, "Create", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+                new DslToken(TokenType.Value, "Name", 2),
+                new DslToken(TokenType.ParameterBracketOpen, "(", 2),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void Parse_ClassWithCreateMethod_MutlipleParam()
         {
             var tokens = new Collection<DslToken>
@@ -774,6 +802,78 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("User", domainTree.SynchronousDomainHooks[0].ClassType);
             Assert.AreEqual("Create", domainTree.SynchronousDomainHooks[0].MethodName);
             Assert.AreEqual("SendPasswordMail", domainTree.SynchronousDomainHooks[0].Name);
+        }
+
+        [TestMethod]
+        public void Parse_SynchronousHook_Exception()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_SynchronousHook_ExceptionHook()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.Value, "SendPasswordMail", 1),
+                new DslToken(TokenType.Value, "SendPasswordMail", 1),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Parse_SynchronousHook_ExceptionOn()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.Value, "SendPasswordMail", 1),
+                new DslToken(TokenType.DomainHookOn, "on", 1),
+                new DslToken(TokenType.DomainHookOn, "on", 1),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
         }
     }
 }
