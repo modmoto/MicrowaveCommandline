@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using FileToDslModel.Lexer;
 using FileToDslModel.ParseAutomat;
@@ -27,6 +28,30 @@ namespace FileToDslModel.Tests.ParseAutomat
             Assert.AreEqual("User", domainTree.Classes[0].Name);
             Assert.AreEqual(0, domainTree.Classes[0].Methods.Count);
             Assert.AreEqual(0, domainTree.Classes[0].Properties.Count);
+        }
+
+        [TestMethod]
+        public void Parse_ExceptionTest()
+        {
+
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+                new DslToken(TokenType.DomainClass, "DomainClass", 1),
+            };
+
+            var parser = new Parser();
+            try
+            {
+                parser.Parse(tokens);
+            }
+            catch (NoTransitionException e)
+            {
+                Assert.IsTrue(e.Message.Contains("Unexpected Token"));
+                return;
+            }
+
+            Assert.Fail();
         }
 
         [TestMethod]
