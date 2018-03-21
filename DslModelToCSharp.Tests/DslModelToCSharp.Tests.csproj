@@ -32,6 +32,7 @@
     <Compile Remove="DomainExpected\Generated\Users\Commands\UserUpdateNameCommand.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\CreateUserEvent.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\User.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserAddPostEvent.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\UserCreateEvent.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\UserUpdateAgeEvent.g.cs" />
     <Compile Remove="DomainExpected\Generated\Users\UserUpdateNameEvent.g.cs" />
