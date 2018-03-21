@@ -31,14 +31,23 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(DomainClass domainClass)
         {
 
-            var nameSpace = _nameSpaceBuilderUtil
+            var nsUtil = _nameSpaceBuilderUtil
                 .WithName($"{_nameSpace}.{domainClass.Name}s")
                 .WithList()
                 .WithTask()
                 .WithDomain()
                 .WithDomainEntityNameSpace(domainClass.Name)
-                .WithMvcImport()
-                .Build();
+                .WithMvcImport();
+
+            foreach (var loadMethod in domainClass.LoadMethods)
+            {
+                foreach (var param in loadMethod.LoadParameters)
+                {
+                    nsUtil.WithRepository(param.Type);
+                }
+            }
+
+            var codeNamespace = nsUtil.Build();
 
             var commandHandler = _classBuilderUtil.BuildPartial(_nameBuilderUtil.BuildCommandHandlerName(domainClass));
             var codeConstructor = _constructorBuilderUtil.BuildPublic(_commandHandlerPropBuilderUtil.Build(domainClass));
@@ -68,9 +77,9 @@ namespace DslModelToCSharp.Application
                 commandHandler.Members.Add(methodParsed);
             }
 
-            nameSpace.Types.Add(commandHandler);
+            codeNamespace.Types.Add(commandHandler);
 
-            return nameSpace;
+            return codeNamespace;
         }
     }
 }

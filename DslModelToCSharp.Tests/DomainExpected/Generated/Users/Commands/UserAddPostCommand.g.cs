@@ -20,9 +20,12 @@ namespace Domain.Users
         
         public Post NewPost { get; private set; }
         
-        public UserAddPostCommand(Post NewPost)
+        public Post PostToDelete { get; private set; }
+        
+        public UserAddPostCommand(Post NewPost, Post PostToDelete)
         {
             this.NewPost = NewPost;
+            this.PostToDelete = PostToDelete;
         }
     }
 }

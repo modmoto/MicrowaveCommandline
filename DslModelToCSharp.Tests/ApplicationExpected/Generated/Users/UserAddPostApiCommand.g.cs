@@ -17,11 +17,14 @@ namespace Application.Users
     public class UserAddPostApiCommand
     {
         
-        public Guid PostId { get; private set; }
+        public Guid NewPostId { get; private set; }
         
-        public UserAddPostApiCommand(Guid PostId)
+        public Guid PostToDeleteId { get; private set; }
+        
+        public UserAddPostApiCommand(Guid NewPostId, Guid PostToDeleteId)
         {
-            this.PostId = PostId;
+            this.NewPostId = NewPostId;
+            this.PostToDeleteId = PostToDeleteId;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
+using System.Linq;
 using DslModel.Domain;
 
 namespace DslModelToCSharp.Util
@@ -127,28 +130,52 @@ namespace DslModelToCSharp.Util
             method.Name = $"{domainMethod.Name}{domainClass.Name}";
             method.ReturnType = new CodeTypeReference("async Task<IActionResult>");
 
+            var codeStatements = new List<CodeStatement>();
+            foreach (var loadParam in domainMethod.LoadParameters)
+            {
+                var codeExpressionStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var {loadParam.Name} = await {loadParam.Type}Repository.Get{loadParam.Type}(apiCommand.{loadParam.Name}Id)"));
+                var ifNullStatement = new CodeExpressionStatement(new CodeSnippetExpression($@"if ({loadParam.Name} == null) return new NotFoundObjectResult(new List<string> {{ $""Could not find {loadParam.Type} with ID: {{id}}""}})"));
+                codeStatements.Add(codeExpressionStatement);
+                codeStatements.Add(ifNullStatement);
+            }
+
+            var constArguments = domainMethod.LoadParameters.Select(param => param.Name);
+
+            string constructorSignatur = String.Empty;
+            foreach (var loadParam in constArguments)
+            {
+                constructorSignatur += $"{loadParam}, ";
+            }
+
+            constructorSignatur = constructorSignatur.Substring(0, constructorSignatur.Length - 2);
+            var newCommandStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var command = new {_nameBuilderUtil.UpdateCommandName(domainClass, domainMethod)}({constructorSignatur})"));
+
             method.Statements.Add(new CodeSnippetExpression($"var entity = await {domainClass.Name}Repository.Get{domainClass.Name}(id)"));
+            var ifEntityFoundStatements = new CodeStatement[]
+            {
+                new CodeExpressionStatement(new CodeSnippetExpression($"var validationResult = entity.{domainMethod.Name}(command)")),
+                new CodeConditionStatement(
+                    new CodeSnippetExpression("validationResult.Ok"),
+                    new CodeStatement[] {
+                        new CodeExpressionStatement(new CodeSnippetExpression($"var hookResult = await EventStore.AppendAll(validationResult.DomainEvents)")),
+                        new CodeConditionStatement(
+                            new CodeSnippetExpression("validationResult.Ok"),
+                            new CodeStatement[]
+                            {
+                                new CodeExpressionStatement(new CodeSnippetExpression($"await {domainClass.Name}Repository.Update{domainClass.Name}(entity)")),
+                                new CodeExpressionStatement(new CodeSnippetExpression("return new OkResult()")),
+                            }
+                        ),
+                        new CodeExpressionStatement(new CodeSnippetExpression("return new BadRequestObjectResult(hookResult.Errors)"))
+                    }),
+                new CodeExpressionStatement(new CodeSnippetExpression(@"return new BadRequestObjectResult(validationResult.DomainErrors)"))
+            };
+            var statements = ifEntityFoundStatements.ToList();
+            statements.Insert(0, newCommandStatement);
+            statements.InsertRange(0, codeStatements);
             var conditionalStatement = new CodeConditionStatement(
                 new CodeSnippetExpression("entity != null"),
-                new CodeStatement[]
-                {
-                    new CodeExpressionStatement(new CodeSnippetExpression($"var validationResult = entity.{domainMethod.Name}(command)")),
-                    new CodeConditionStatement(
-                        new CodeSnippetExpression("validationResult.Ok"),
-                        new CodeStatement[] {
-                            new CodeExpressionStatement(new CodeSnippetExpression($"var hookResult = await EventStore.AppendAll(validationResult.DomainEvents)")),
-                            new CodeConditionStatement(
-                                new CodeSnippetExpression("validationResult.Ok"),
-                                new CodeStatement[]
-                                {
-                                    new CodeExpressionStatement(new CodeSnippetExpression($"await {domainClass.Name}Repository.Update{domainClass.Name}(entity)")),
-                                    new CodeExpressionStatement(new CodeSnippetExpression("return new OkResult()")),
-                                }
-                            ),
-                            new CodeExpressionStatement(new CodeSnippetExpression("return new BadRequestObjectResult(hookResult.Errors)"))
-                        }),
-                    new CodeExpressionStatement(new CodeSnippetExpression(@"return new BadRequestObjectResult(validationResult.DomainErrors)"))
-                });
+                statements.ToArray());
 
             method.Statements.Add(conditionalStatement);
             method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find {domainClass.Name} with ID: {{id}}"" }})")));

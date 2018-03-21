@@ -63,7 +63,6 @@
     <Folder Include="DomainExpected\Generated\Base\" />
     <Folder Include="DomainExpected\Generated\Posts\" />
     <Folder Include="DomainExpected\Generated\Posts\Commands\" />
-    <Folder Include="DomainExpected\Generated\Users\" />
     <Folder Include="DomainExpected\Generated\Users\Commands\" />
     <Folder Include="HttpAdapterExpected\" />
     <Folder Include="HttpAdapterExpected\Generated\Posts\" />

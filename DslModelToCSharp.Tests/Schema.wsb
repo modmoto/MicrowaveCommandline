@@ -13,9 +13,10 @@
 		Name: String
 	}
 
-	AddPost(NewPost: @Load Post): {
-    		PostId: Guid
-    }
+	AddPost(NewPost: @Load Post, PostToDelete: @Load Post): {
+		PostId: Guid
+		Deleted: Guid
+	}
 }
 
 DomainClass Post {

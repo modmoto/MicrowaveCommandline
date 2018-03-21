@@ -110,5 +110,11 @@ namespace DslModelToCSharp.Util
             }
             return _nameSpace;
         }
+
+        public NameSpaceBuilderUtil WithRepository(string paramType)
+        {
+            Imports.Add(new CodeNamespaceImport($"Application.{paramType}s"));
+            return this;
+        }
     }
 }
