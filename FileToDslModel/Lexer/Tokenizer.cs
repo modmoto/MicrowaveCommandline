@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FileToDslModel.Lexer
 {
@@ -40,7 +41,7 @@ namespace FileToDslModel.Lexer
             var lineCounter = 1;
             while (!string.IsNullOrWhiteSpace(remainingText))
             {
-                if (remainingText.StartsWith("\r\n"))
+                if (remainingText.StartsWith(Environment.NewLine))
                     lineCounter++;
                 var match = FindMatch(remainingText);
                 if (match.IsMatch)
