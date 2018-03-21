@@ -33,12 +33,16 @@ DomainClass User {
 ```
 
 ### Update Methods
-All other methods on a domain class are treated like normal mutation methods and can have any wording that you want. The parameters are again used to define the command that gets passed into the method. The {} Braces after the mutations are used to define the domain event, that gets created. They usually are very similar to the parameters, but depending on the usecase the data that you change can have more or less information. Always keep in mind that you have to be able to recreate the domain object with those events.
+All other methods on a domain class are treated like normal mutation methods and can have any wording that you want. The parameters are again used to define the command that gets passed into the method. The {} Braces after the mutations are used to define the domain event, that gets created. They usually are very similar to the parameters, but depending on the usecase the data that you change can have more or less information. Always keep in mind that you have to be able to recreate the domain object with those events. In Update Method there is also a `@Load` Keyword, that will automatically load the Entity, so you can use it in the method for validation. This should be used, if you want to add Entities to a list and if you do not want to send the whole entity. The api for the loaded entity only need the guid, the framework loads the rest.
 ```javascript
 DomainClass User {
   Name: String
   UpdateName(Name: String): {
     Name: String
+  }
+  
+  AddPost(NewPost: @Load Post) {
+    NewPostId: Guid
   }
 }
 ```
@@ -57,7 +61,7 @@ An `AsyncDomainHook` also listens to domain events but does this after a given s
 
 ## Roadmap
 Here are some ideas, that i would like to implement, not necessarly in that particular order
-- [ ] @LoadFromDb Syntax to load other domain classes when they are used in a method. 
+- [X] @Load Syntax to load other domain classes when they are used in a method. 
 - [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
 - [ ] Pub/Sub System with Signal R that gets setup within the schema.wsb file between two services effortless
