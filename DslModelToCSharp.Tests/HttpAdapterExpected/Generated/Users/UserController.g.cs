@@ -47,6 +47,12 @@ namespace HttpAdapter.Users
             return await Handler.UpdateNameUser(id, command);
         }
         
+        [HttpPut("{id}/addpost")]
+        public async Task<IActionResult> AddPost(Guid id, [FromBody] UserAddPostApiCommand command)
+        {
+            return await Handler.AddPostUser(id, command);
+        }
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {

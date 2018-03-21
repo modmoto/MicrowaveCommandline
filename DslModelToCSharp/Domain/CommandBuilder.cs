@@ -26,12 +26,31 @@ namespace DslModelToCSharp.Domain
         public List<CodeNamespace> Build(DomainClass domainClass)
         {
             var commandList = new List<CodeNamespace>();
-            foreach (var method in domainClass.Methods)
+            foreach (var method in domainClass.Methods.Except(domainClass.LoadMethods))
             {
                 var commandNameSpace = _nameSpaceBuilderUtil.WithName($"Domain.{domainClass.Name}s").WithList().Build();
                 var commandName = _nameBuilderUtil.UpdateCommandName(domainClass, method);
                 var properties = method.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
-                var loadProperties = method.LoadParameters.Select(param => new Property {Name = $"{param.Type}Id", Type = "Guid"}).ToList();
+                var command = _classBuilderUtil.Build(commandName);
+                var codeConstructor = _constructorBuilderUtil.BuildPublic(properties);
+                _propertyBuilderUtil.Build(command, properties);
+                command.Members.Add(codeConstructor);
+                commandNameSpace.Types.Add(command);
+                commandList.Add(commandNameSpace);
+            }
+
+            foreach (var loadMethod in domainClass.LoadMethods)
+            {
+                var nsBuilder = _nameSpaceBuilderUtil.WithName($"Domain.{domainClass.Name}s").WithList();
+                foreach (var lodParam in loadMethod.LoadParameters)
+                {
+                    nsBuilder.WithDomainEntityNameSpace(lodParam.Type);
+                }
+
+                var commandNameSpace = nsBuilder.Build();
+                var commandName = _nameBuilderUtil.UpdateCommandName(domainClass, loadMethod);
+                var properties = loadMethod.Parameters.Select(param => new Property { Name = param.Name, Type = param.Type }).ToList();
+                var loadProperties = loadMethod.LoadParameters.Select(param => new Property { Name = param.Name, Type = param.Type }).ToList();
                 properties.AddRange(loadProperties);
                 var command = _classBuilderUtil.Build(commandName);
                 var codeConstructor = _constructorBuilderUtil.BuildPublic(properties);

@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using DslModel.Domain;
 using DslModelToCSharp.Util;
 
@@ -12,6 +13,7 @@ namespace DslModelToCSharp.HttpAdapter
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public ControllerBuilder(string nameSpace)
         {
@@ -20,6 +22,7 @@ namespace DslModelToCSharp.HttpAdapter
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _classBuilderUtil = new ClassBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public CodeNamespace Build(DomainClass domainClass)
@@ -52,9 +55,17 @@ namespace DslModelToCSharp.HttpAdapter
                 repository.Members.Add(createMethod);
             }
 
-            foreach (var domainMethod in domainClass.Methods)
+            foreach (var domainMethod in domainClass.Methods.Except(domainClass.LoadMethods))
             {
                 var updateMethod = MakeUpdateMethod(domainClass, domainMethod);
+                updateMethod.CustomAttributes.Add(new CodeAttributeDeclaration("HttpPut",
+                    new CodeAttributeArgument(new CodePrimitiveExpression($"{{id}}/{domainMethod.Name.ToLower()}"))));
+                repository.Members.Add(updateMethod);
+            }
+
+            foreach (var domainMethod in domainClass.LoadMethods)
+            {
+                var updateMethod = MakeUpdateLoadMethod(domainClass, domainMethod);
                 updateMethod.CustomAttributes.Add(new CodeAttributeDeclaration("HttpPut",
                     new CodeAttributeArgument(new CodePrimitiveExpression($"{{id}}/{domainMethod.Name.ToLower()}"))));
                 repository.Members.Add(updateMethod);
@@ -109,7 +120,7 @@ namespace DslModelToCSharp.HttpAdapter
             return getByIdMethod;
         }
 
-        private static CodeMemberMethod MakeUpdateMethod(DomainClass domainClass, DomainMethod domainMethod)
+        private CodeMemberMethod MakeUpdateMethod(DomainClass domainClass, DomainMethod domainMethod)
         {
             var updateMethod = new CodeMemberMethod
             {
@@ -123,7 +134,32 @@ namespace DslModelToCSharp.HttpAdapter
             });
             updateMethod.Parameters.Add(new CodeParameterDeclarationExpression
             {
-                Type = new CodeTypeReference($"[FromBody] {domainClass.Name}{domainMethod.Name}Command"),
+                Type = new CodeTypeReference($"[FromBody] {_nameBuilderUtil.UpdateCommandName(domainClass, domainMethod)}"),
+                Name = "command"
+            });
+
+            updateMethod.Statements.Add(
+                new CodeSnippetExpression($"return await Handler.{domainMethod.Name}{domainClass.Name}(id, command)"));
+
+            updateMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
+            return updateMethod;
+        }
+
+        private CodeMemberMethod MakeUpdateLoadMethod(DomainClass domainClass, DomainMethod domainMethod)
+        {
+            var updateMethod = new CodeMemberMethod
+            {
+                Name = $"{domainMethod.Name}",
+                ReturnType = new CodeTypeReference("async Task<IActionResult>")
+            };
+            updateMethod.Parameters.Add(new CodeParameterDeclarationExpression
+            {
+                Type = new CodeTypeReference("Guid"),
+                Name = "id"
+            });
+            updateMethod.Parameters.Add(new CodeParameterDeclarationExpression
+            {
+                Type = new CodeTypeReference($"[FromBody] {_nameBuilderUtil.UpdateApiCommandName(domainClass, domainMethod)}"),
                 Name = "command"
             });
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DslModel.Domain
 {
@@ -19,5 +21,6 @@ namespace DslModel.Domain
         public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
         public IList<Property> Properties { get; protected set; }
+        public IEnumerable<DomainMethod> LoadMethods => Methods.Where(method => method.LoadParameters.Count > 0);
     }
 }

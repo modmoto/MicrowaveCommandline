@@ -8,21 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Users
+namespace Application.Users
 {
     using System;
     using System.Collections.Generic;
-    using Domain.Posts;
     
     
-    public class UserAddPostCommand
+    public class UserAddPostApiCommand
     {
         
-        public Post NewPost { get; private set; }
+        public Guid PostId { get; private set; }
         
-        public UserAddPostCommand(Post NewPost)
+        public UserAddPostApiCommand(Guid PostId)
         {
-            this.NewPost = NewPost;
+            this.PostId = PostId;
         }
     }
 }

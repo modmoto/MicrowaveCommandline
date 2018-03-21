@@ -28,5 +28,10 @@ namespace DslModelToCSharp.Util
         {
             return $"{domainClass.Name}{method.Name}Event";
         }
+
+        public string UpdateApiCommandName(DomainClass domainClass, DomainMethod method)
+        {
+            return $"{domainClass.Name}{method.Name}ApiCommand";
+        }
     }
 }

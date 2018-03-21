@@ -17,6 +17,7 @@ namespace DslModelToCSharp.Application
         private EventStoreRepositoryInterfaceBuilder _eventStoreRepositoryInterfaceBuilder;
         private FileWriter _fileWriterRealClasses;
         private EventStoreBuilder _eventStoreBuilder;
+        private ApiCommandBuilder _apiCommandBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -31,6 +32,7 @@ namespace DslModelToCSharp.Application
             _hookBaseClassBuilder = new HookBaseClassBuilder(applicationNameSpace);
             _eventStoreRepositoryInterfaceBuilder = new EventStoreRepositoryInterfaceBuilder(applicationNameSpace);
             _eventStoreBuilder = new EventStoreBuilder(applicationNameSpace);
+            _apiCommandBuilder = new ApiCommandBuilder();
         }
 
         public void Write(DomainTree domainTree)
@@ -41,6 +43,11 @@ namespace DslModelToCSharp.Application
                 _fileWriter.WriteToFile(commandHandler.Types[0].Name, $"{domainClass.Name}s", commandHandler);
                 var iRepository = _repositoryInterfaceBuilder.Build(domainClass);
                 _fileWriter.WriteToFile(iRepository.Types[0].Name, $"{domainClass.Name}s", iRepository);
+                foreach (var loadMethod in domainClass.LoadMethods)
+                {
+                    var apiCommand = _apiCommandBuilder.Build(loadMethod, domainClass);
+                    _fileWriter.WriteToFile(apiCommand.Types[0].Name, $"{domainClass.Name}s", apiCommand);
+                }
             }
 
             foreach (var hook in domainTree.SynchronousDomainHooks)

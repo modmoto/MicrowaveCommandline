@@ -15,7 +15,7 @@ namespace DslModelToCSharp.Tests.HttpAdapter
         [TestMethod]
         public void Write()
         {
-            var storeBuilder = new ControllerBuilder(HttpAdpaterNameSpace);
+            var controllerBuilder = new ControllerBuilder(HttpAdpaterNameSpace);
 
             using (var reader = new StreamReader("Schema.wsb"))
             {
@@ -24,7 +24,7 @@ namespace DslModelToCSharp.Tests.HttpAdapter
 
                 foreach (var domainTreeClass in domainTree.Classes)
                 {
-                    var eventStore = storeBuilder.Build(domainTreeClass);
+                    var eventStore = controllerBuilder.Build(domainTreeClass);
                     new FileWriter(HttpAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, domainTreeClass.Name + "s", eventStore);
                 }
             }

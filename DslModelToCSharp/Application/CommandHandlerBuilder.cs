@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Linq;
 using DslModel.Domain;
 using DslModelToCSharp.Util;
 
@@ -55,9 +56,15 @@ namespace DslModelToCSharp.Application
                 commandHandler.Members.Add(method);
             }
 
-            foreach (var method in domainClass.Methods)
+            foreach (var method in domainClass.Methods.Except(domainClass.LoadMethods))
             {
                 var methodParsed = _commandHandlerMethodBuilderUtil.BuildUpdateMethod(method, domainClass);
+                commandHandler.Members.Add(methodParsed);
+            }
+
+            foreach (var method in domainClass.LoadMethods)
+            {
+                var methodParsed = _commandHandlerMethodBuilderUtil.BuildUpdateLoadMethod(method, domainClass);
                 commandHandler.Members.Add(methodParsed);
             }
 
