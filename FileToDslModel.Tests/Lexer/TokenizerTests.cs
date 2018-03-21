@@ -33,6 +33,27 @@ namespace FileToDslModel.Tests.Lexer
         }
 
         [TestMethod]
+        public void Tokenize_LineCounter()
+        {
+            var tokenizer = new Tokenizer();
+            var tokens = tokenizer.Tokenize("DomainClass User{\r\nId: Guid\r\nPosts: [Post]\r\n}");
+
+            Assert.AreEqual(12, tokens.Count);
+            Assert.AreEqual(1, tokens[0].LineNumber);
+            Assert.AreEqual(1, tokens[1].LineNumber);
+            Assert.AreEqual(1, tokens[2].LineNumber);
+            Assert.AreEqual(2, tokens[3].LineNumber);
+            Assert.AreEqual(2, tokens[4].LineNumber);
+            Assert.AreEqual(2, tokens[5].LineNumber);
+            Assert.AreEqual(3, tokens[6].LineNumber);
+            Assert.AreEqual(3, tokens[7].LineNumber);
+            Assert.AreEqual(3, tokens[8].LineNumber);
+            Assert.AreEqual(3, tokens[9].LineNumber);
+            Assert.AreEqual(3, tokens[10].LineNumber);
+            Assert.AreEqual(4, tokens[11].LineNumber);
+        }
+
+        [TestMethod]
         public void Tokenize_DomainClass()
         {
             var tokenizer = new Tokenizer();
