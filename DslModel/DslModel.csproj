@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageVersion>1.1.0</PackageVersion>
     <DebugType>full</DebugType>
   </PropertyGroup>
 </Project>
