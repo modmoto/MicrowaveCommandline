@@ -18,6 +18,11 @@ after_test:
 
 - ps: Install-Package OpenCover -Scope CurrentUser -Force
 
-- ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"MyProject_coverage.xml" -oldstyle
+- ps: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -output:"coverage.xml" -oldstyle
 
-# - ps: csmacnz.coveralls.exe --opencover -i .\MyProject_coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
+# - ps: csmacnz.coveralls.exe --opencover -i .\coverage.xml -r VPxb8MmhXS0IAh4L8qLoPmnRebvb1aoYF
+
+- ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.xml" -t a6fe2e63-4632-4b3b-8d49-baf92f64a609
