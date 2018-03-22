@@ -33,5 +33,10 @@ namespace DslModelToCSharp.Util
         {
             return $"{domainClass.Name}{method.Name}ApiCommand";
         }
+
+        public string BuildErrorMessageFor(Parameter loadParam)
+        {
+            return $"$\"Could not find {loadParam.Type} for {{nameof(apiCommand.{loadParam.Name}Id)}} with ID: {{id}}\"";
+        }
     }
 }
