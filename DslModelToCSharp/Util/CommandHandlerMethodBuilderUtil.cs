@@ -40,7 +40,7 @@ namespace DslModelToCSharp.Util
 
             method.Statements.Add(new CodeSnippetExpression($"var result = await {domainClass.Name}Repository.Get{domainClass.Name}(id)"));
             method.Statements.Add(new CodeSnippetExpression("if (result != null) return new JsonResult(result)"));
-            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find {domainClass.Name} with ID: {{id}}"" }})")));
+            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find Root {domainClass.Name} with ID: {{id}}"" }})")));
 
             return method;
         }
@@ -113,7 +113,7 @@ namespace DslModelToCSharp.Util
                 });
 
             method.Statements.Add(conditionalStatement);
-            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find {domainClass.Name} with ID: {{id}}"" }})")));
+            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find Root {domainClass.Name} with ID: {{id}}"" }})")));
 
             return method;
         }
@@ -130,14 +130,18 @@ namespace DslModelToCSharp.Util
             method.Name = $"{domainMethod.Name}{domainClass.Name}";
             method.ReturnType = new CodeTypeReference("async Task<IActionResult>");
 
+            var newListStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var errorList = new List<string>()"));
+
             var codeStatements = new List<CodeStatement>();
             foreach (var loadParam in domainMethod.LoadParameters)
             {
                 var codeExpressionStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var {loadParam.Name} = await {loadParam.Type}Repository.Get{loadParam.Type}(apiCommand.{loadParam.Name}Id)"));
-                var ifNullStatement = new CodeExpressionStatement(new CodeSnippetExpression($@"if ({loadParam.Name} == null) return new NotFoundObjectResult(new List<string> {{ $""Could not find {loadParam.Type} with ID: {{id}}""}})"));
+                var ifNullStatement = new CodeExpressionStatement(new CodeSnippetExpression($@"if ({loadParam.Name} == null) errorList.Add($""Could not find @Load {loadParam.Type} with ID: {{id}}"")"));
                 codeStatements.Add(codeExpressionStatement);
                 codeStatements.Add(ifNullStatement);
             }
+
+            var ifErrorListStatement = new CodeExpressionStatement(new CodeSnippetExpression($@"if (errorList.Count > 0) return new NotFoundObjectResult(errorList)"));
 
             var constArguments = domainMethod.LoadParameters.Select(param => param.Name);
 
@@ -148,6 +152,7 @@ namespace DslModelToCSharp.Util
             }
 
             constructorSignatur = constructorSignatur.Substring(0, constructorSignatur.Length - 2);
+
             var newCommandStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var command = new {_nameBuilderUtil.UpdateCommandName(domainClass, domainMethod)}({constructorSignatur})"));
 
             method.Statements.Add(new CodeSnippetExpression($"var entity = await {domainClass.Name}Repository.Get{domainClass.Name}(id)"));
@@ -171,14 +176,18 @@ namespace DslModelToCSharp.Util
                 new CodeExpressionStatement(new CodeSnippetExpression(@"return new BadRequestObjectResult(validationResult.DomainErrors)"))
             };
             var statements = ifEntityFoundStatements.ToList();
+
             statements.Insert(0, newCommandStatement);
+            statements.Insert(0, ifErrorListStatement);
             statements.InsertRange(0, codeStatements);
+            statements.Insert(0, newListStatement);
+
             var conditionalStatement = new CodeConditionStatement(
                 new CodeSnippetExpression("entity != null"),
                 statements.ToArray());
 
             method.Statements.Add(conditionalStatement);
-            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find {domainClass.Name} with ID: {{id}}"" }})")));
+            method.Statements.Add(new CodeMethodReturnStatement(new CodeSnippetExpression($@"new NotFoundObjectResult(new List<string> {{ $""Could not find Root {domainClass.Name} with ID: {{id}}"" }})")));
 
             return method;
         }
