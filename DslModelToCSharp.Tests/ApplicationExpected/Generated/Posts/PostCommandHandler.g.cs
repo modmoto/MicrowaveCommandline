@@ -41,7 +41,7 @@ namespace Application.Posts
         {
             var result = await PostRepository.GetPost(id);
             if (result != null) return new JsonResult(result);
-            return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}" });
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root Post with ID: {id}" });
         }
         
         public async Task<IActionResult> CreatePost(PostCreateCommand command)

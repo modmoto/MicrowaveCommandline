@@ -45,7 +45,7 @@ namespace Application.Users
         {
             var result = await UserRepository.GetUser(id);
             if (result != null) return new JsonResult(result);
-            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
         }
         
         public async Task<IActionResult> CreateUser(UserCreateCommand command)
@@ -82,7 +82,7 @@ namespace Application.Users
                 }
                 return new BadRequestObjectResult(validationResult.DomainErrors);
             }
-            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
         }
         
         public async Task<IActionResult> UpdateNameUser(Guid id, UserUpdateNameCommand command)
@@ -103,7 +103,7 @@ namespace Application.Users
                 }
                 return new BadRequestObjectResult(validationResult.DomainErrors);
             }
-            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
         }
         
         public async Task<IActionResult> AddPostUser(Guid id, UserAddPostApiCommand apiCommand)
@@ -111,10 +111,12 @@ namespace Application.Users
             var entity = await UserRepository.GetUser(id);
             if (entity != null)
             {
+                var errorList = new List<string>();
                 var NewPost = await PostRepository.GetPost(apiCommand.NewPostId);
-                if (NewPost == null) return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}"});
+                if (NewPost == null) errorList.Add($"Could not find @Load Post with ID: {id}");
                 var PostToDelete = await PostRepository.GetPost(apiCommand.PostToDeleteId);
-                if (PostToDelete == null) return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}"});
+                if (PostToDelete == null) errorList.Add($"Could not find @Load Post with ID: {id}");
+                if (errorList.Count > 0) return new NotFoundObjectResult(errorList);
                 var command = new UserAddPostCommand(NewPost, PostToDelete);
                 var validationResult = entity.AddPost(command);
                 if (validationResult.Ok)
@@ -129,7 +131,7 @@ namespace Application.Users
                 }
                 return new BadRequestObjectResult(validationResult.DomainErrors);
             }
-            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
         }
     }
 }
