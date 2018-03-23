@@ -164,7 +164,7 @@ namespace DslModelToCSharp.Util
                     new CodeStatement[] {
                         new CodeExpressionStatement(new CodeSnippetExpression($"var hookResult = await EventStore.AppendAll(validationResult.DomainEvents)")),
                         new CodeConditionStatement(
-                            new CodeSnippetExpression("validationResult.Ok"),
+                            new CodeSnippetExpression("hookResult.Ok"),
                             new CodeStatement[]
                             {
                                 new CodeExpressionStatement(new CodeSnippetExpression($"await {domainClass.Name}Repository.Update{domainClass.Name}(entity)")),
