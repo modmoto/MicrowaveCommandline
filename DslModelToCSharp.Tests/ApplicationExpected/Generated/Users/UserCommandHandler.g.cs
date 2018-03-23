@@ -22,13 +22,13 @@ namespace Application.Users
     public partial class UserCommandHandler
     {
         
-        public EventStore EventStore { get; private set; }
+        public IEventStore EventStore { get; private set; }
         
         public IUserRepository UserRepository { get; private set; }
         
         public IPostRepository PostRepository { get; private set; }
         
-        public UserCommandHandler(EventStore EventStore, IUserRepository UserRepository, IPostRepository PostRepository)
+        public UserCommandHandler(IEventStore EventStore, IUserRepository UserRepository, IPostRepository PostRepository)
         {
             this.EventStore = EventStore;
             this.UserRepository = UserRepository;
@@ -73,7 +73,7 @@ namespace Application.Users
                 if (validationResult.Ok)
                 {
                     var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-                    if (validationResult.Ok)
+                    if (hookResult.Ok)
                     {
                         await UserRepository.UpdateUser(entity);
                         return new OkResult();
@@ -94,7 +94,7 @@ namespace Application.Users
                 if (validationResult.Ok)
                 {
                     var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-                    if (validationResult.Ok)
+                    if (hookResult.Ok)
                     {
                         await UserRepository.UpdateUser(entity);
                         return new OkResult();

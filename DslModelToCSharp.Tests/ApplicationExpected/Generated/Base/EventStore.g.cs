@@ -18,7 +18,7 @@ namespace Application
     using Application.Users.Hooks;
     
     
-    public class EventStore
+    public class EventStore : IEventStore
     {
         
         public IEventStoreRepository EventStoreRepository { get; }
