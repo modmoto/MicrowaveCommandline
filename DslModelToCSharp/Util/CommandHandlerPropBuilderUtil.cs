@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DslModel.Domain;
+using DslModelToCSharp.Application;
 
 namespace DslModelToCSharp.Util
 {
@@ -10,7 +11,7 @@ namespace DslModelToCSharp.Util
         {
             var properties = new List<Property>
             {
-                new Property {Name = "EventStore", Type = "EventStore"},
+                new Property {Name = "EventStore", Type = new EventStoreInterface().Name},
                 new Property {Name = $"{domainClass.Name}Repository", Type = $"I{domainClass.Name}Repository"}
             };
             foreach (var loadMethod in domainClass.LoadMethods)

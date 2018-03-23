@@ -28,6 +28,8 @@ namespace DslModelToCSharp.Application
         public CodeNamespace Build(EventStore eventStore, IList<SynchronousDomainHook> hooks)
         {
             var targetClass = _classBuilderUtil.Build(eventStore.Name);
+            targetClass.BaseTypes.Add(new EventStoreInterface().Name);
+
             _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().WithTask().WithList().WithLinq();
 
             _propertyBuilderUtil.BuildWithoutSet(targetClass, eventStore.Properties);

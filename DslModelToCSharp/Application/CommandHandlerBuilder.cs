@@ -13,8 +13,8 @@ namespace DslModelToCSharp.Application
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly NameBuilderUtil _nameBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
-        private PropertyBuilderUtil _propertyBuilderUtil;
-        private CommandHandlerMethodBuilderUtil _commandHandlerMethodBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private readonly CommandHandlerMethodBuilderUtil _commandHandlerMethodBuilderUtil;
 
         public CommandHandlerBuilder(string nameSpace)
         {
