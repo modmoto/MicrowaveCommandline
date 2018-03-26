@@ -7,7 +7,7 @@ before_build:
 
 artifacts:
 - path: '**\*.nupkg'
-- name: AllNugetPackages
+  name: AllNugetPackages
 
 build_script:
 - dotnet build
