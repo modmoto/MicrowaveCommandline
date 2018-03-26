@@ -6,8 +6,8 @@ before_build:
 - choco install codecov
 
 artifacts:
-  - path: '**\*.nupkg'
-  - name: AllNugetPackages
+- path: '**\*.nupkg'
+- name: AllNugetPackages
 
 build_script:
 - dotnet build
