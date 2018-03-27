@@ -6,7 +6,7 @@
     <DebugType>full</DebugType>
     <PackageType>DotnetCliTool</PackageType>
     <PackageId>DotnetWebServiceBuilder</PackageId>
-    <PackageVersion>1.2.1</PackageVersion>
+    <PackageVersion>1.2.2</PackageVersion>
     <Authors>Simon Heiss</Authors>
     <Description>A framework that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. More at https://github.com/Lauchi/GenericWebServiceBuilder </Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
