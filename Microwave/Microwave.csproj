@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>dotnet-mic</AssemblyName>
+    <DebugType>full</DebugType>
+    <PackageType>DotnetCliTool</PackageType>
+    <PackageId>Microwave</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Simon Heiss</Authors>
+    <Description>A framework that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. More at https://github.com/Lauchi/GenericWebServiceBuilder </Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microwave.LanguageParser\Microwave.LanguageParser.csproj">
+      <Project>{BAF09E3B-1D00-4E14-A67C-59A968085A62}</Project>
+      <Name>Microwave.LanguageParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microwave.ServiceParser\Microwave.ServiceParser.csproj">
+      <Project>{7332A0A1-AA53-41A5-96FC-7E5BD2080840}</Project>
+      <Name>Microwave.ServiceParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
