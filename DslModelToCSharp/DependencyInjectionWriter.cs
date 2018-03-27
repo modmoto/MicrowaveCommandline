@@ -28,7 +28,6 @@ namespace DslModelToCSharp
                 .WithDependencyInjection()
                 .WithSqlAdapter();
 
-
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Attributes = MemberAttributes.Static | MemberAttributes.Public |  MemberAttributes.Final;
             codeMemberMethod.Name = "ConfigureGeneratedServices";
