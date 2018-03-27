@@ -3,7 +3,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageVersion>1.0.0</PackageVersion>
-    <PackageId>Microwave.ServiceParser</PackageId>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>

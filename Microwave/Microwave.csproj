@@ -5,7 +5,6 @@
     <AssemblyName>dotnet-mic</AssemblyName>
     <DebugType>full</DebugType>
     <PackageType>DotnetCliTool</PackageType>
-    <PackageId>Microwave</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <Authors>Simon Heiss</Authors>
     <Description>A framework that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. More at https://github.com/Lauchi/GenericWebServiceBuilder </Description>
