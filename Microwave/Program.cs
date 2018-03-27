@@ -2,11 +2,11 @@
 using Microwave.LanguageParser;
 using Microwave.LanguageParser.Lexer;
 using Microwave.LanguageParser.ParseAutomat;
-using Microwave.ServiceParser;
-using Microwave.ServiceParser.Application;
-using Microwave.ServiceParser.Domain;
-using Microwave.ServiceParser.HttpAdapter;
-using Microwave.ServiceParser.SqlAdapter;
+using Microwave.WebServiceGenerator;
+using Microwave.WebServiceGenerator.Application;
+using Microwave.WebServiceGenerator.Domain;
+using Microwave.WebServiceGenerator.HttpAdapter;
+using Microwave.WebServiceGenerator.SqlAdapter;
 
 namespace Microwave
 {

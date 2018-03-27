@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.LanguageParser", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.LanguageModel", "Microwave.LanguageModel\Microwave.LanguageModel.csproj", "{0CA6742E-59CF-40F0-9839-BE27C18762CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.ServiceParser", "Microwave.ServiceParser\Microwave.ServiceParser.csproj", "{7332A0A1-AA53-41A5-96FC-7E5BD2080840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.WebServiceGenerator", "Microwave.WebServiceGenerator\Microwave.WebServiceGenerator.csproj", "{7332A0A1-AA53-41A5-96FC-7E5BD2080840}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.LanguageParser.Tests", "Microwave.LanguageParser.Tests\Microwave.LanguageParser.Tests.csproj", "{FE20D9D4-8623-4FE7-A5AB-69C487DAE05C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.ServiceParser.Tests", "Microwave.ServiceParser.Tests\Microwave.ServiceParser.Tests.csproj", "{52169D58-86B7-467B-9CDB-558093DFFD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microwave.WebServiceGenerator.Tests", "Microwave.WebServiceGenerator.Tests\Microwave.WebServiceGenerator.Tests.csproj", "{52169D58-86B7-467B-9CDB-558093DFFD3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

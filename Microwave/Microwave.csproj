@@ -15,9 +15,9 @@
       <Project>{BAF09E3B-1D00-4E14-A67C-59A968085A62}</Project>
       <Name>Microwave.LanguageParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microwave.ServiceParser\Microwave.ServiceParser.csproj">
+    <ProjectReference Include="..\Microwave.WebServiceGenerator\Microwave.WebServiceGenerator.csproj">
       <Project>{7332A0A1-AA53-41A5-96FC-7E5BD2080840}</Project>
-      <Name>Microwave.ServiceParser</Name>
+      <Name>Microwave.WebServiceGenerator</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

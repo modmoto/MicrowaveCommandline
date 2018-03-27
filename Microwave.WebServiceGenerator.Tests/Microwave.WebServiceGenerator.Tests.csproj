@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="ApplicationExpected\Generated\Posts\**" />
+    <Compile Remove="ApplicationExpected\Generated\Users\**" />
+    <EmbeddedResource Remove="ApplicationExpected\Generated\Posts\**" />
+    <EmbeddedResource Remove="ApplicationExpected\Generated\Users\**" />
+    <None Remove="ApplicationExpected\Generated\Posts\**" />
+    <None Remove="ApplicationExpected\Generated\Users\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ApplicationExpected\Generated\Base\EventStore.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\GeneratedDependencies.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\IDomainHook.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\IEventStoreRepository.g.cs" />
+    <Compile Remove="DomainExpected\AggregateStoreContext.cs" />
+    <Compile Remove="DomainExpected\EventStore.cs" />
+    <Compile Remove="DomainExpected\EventStoreContext.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\CreationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\DomainEventBase.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Base\ValidationResult.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\Commands\PostCreateCommand.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\CreatePostEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\Post.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Posts\PostCreateEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\Commands\UserAddPostCommand.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\Commands\UserCreateCommand.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\Commands\UserUpdateAgeCommand.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\Commands\UserUpdateNameCommand.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\CreateUserEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\User.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserAddPostEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserCreateEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserUpdateAgeEvent.g.cs" />
+    <Compile Remove="DomainExpected\Generated\Users\UserUpdateNameEvent.g.cs" />
+    <Compile Remove="DomainExpected\Post.cs" />
+    <Compile Remove="DomainExpected\User.cs" />
+    <Compile Remove="HttpAdapterExpected\Generated\Posts\PostController.g.cs" />
+    <Compile Remove="HttpAdapterExpected\Generated\Users\UserController.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreContext.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreRepository.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Posts\PostRepository.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Users\UserRepository.g.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microwave.LanguageParser\Microwave.LanguageParser.csproj">
+      <Project>{BAF09E3B-1D00-4E14-A67C-59A968085A62}</Project>
+      <Name>Microwave.LanguageParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microwave.WebServiceGenerator\Microwave.WebServiceGenerator.csproj">
+      <Project>{7332A0A1-AA53-41A5-96FC-7E5BD2080840}</Project>
+      <Name>Microwave.WebServiceGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationExpected\Generated\Base\" />
+    <Folder Include="DomainExpected\Generated\Base\" />
+    <Folder Include="DomainExpected\Generated\Posts\" />
+    <Folder Include="DomainExpected\Generated\Posts\Commands\" />
+    <Folder Include="DomainExpected\Generated\Users\Commands\" />
+    <Folder Include="HttpAdapterExpected\" />
+    <Folder Include="HttpAdapterExpected\Generated\Posts\" />
+    <Folder Include="HttpAdapterExpected\Generated\Users\" />
+    <Folder Include="SqlAdapterExpected\Generated\Base\" />
+    <Folder Include="SqlAdapterExpected\Generated\" />
+    <Folder Include="SqlAdapterExpected\Generated\Posts\" />
+    <Folder Include="SqlAdapterExpected\Generated\Users\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Schema.mic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.CodeDom, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\..\..\.nuget\packages\system.codedom\4.4.0\ref\netstandard2.0\System.CodeDom.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
