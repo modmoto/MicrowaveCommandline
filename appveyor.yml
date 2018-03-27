@@ -9,6 +9,13 @@ artifacts:
 - path: '**\*.nupkg'
   name: AllNugetPackages
 
+deploy:
+  provider: NuGet
+  api_key:
+    secure: eaxBOBHGynI8k6n13m7sjFDbbm3t8r8zUhhXeEnPKxWAqz31GIUO1mLbHW2k9kT1
+  skip_symbols: true
+  artifact: /.*\.nupkg/
+
 build_script:
 - dotnet build
 - dotnet test
