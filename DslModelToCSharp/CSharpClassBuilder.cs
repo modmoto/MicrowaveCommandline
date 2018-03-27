@@ -11,5 +11,7 @@ namespace DslModelToCSharp
         void AddBaseTypes(CodeTypeDeclaration targetClass);
         void AddConcreteMethods(CodeTypeDeclaration targetClass);
 
+
+        // new stuff
     }
 }
