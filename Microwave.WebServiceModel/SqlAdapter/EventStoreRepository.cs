@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microwave.LanguageModel.Application;
 using Microwave.LanguageModel.Domain;
+using Microwave.WebServiceModel.Application;
+using Microwave.WebServiceModel.Domain;
 
-namespace Microwave.LanguageModel.SqlAdapter
+namespace Microwave.WebServiceModel.SqlAdapter
 {
     public class EventStoreRepository : DomainClass
     {

@@ -2,8 +2,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageModel.Domain;
 using Microwave.WebServiceGenerator.Domain;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Tests.Domain
 {

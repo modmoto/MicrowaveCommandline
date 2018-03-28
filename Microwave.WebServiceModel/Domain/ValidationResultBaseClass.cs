@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Microwave.LanguageModel.Domain;
 
-namespace Microwave.LanguageModel.Domain
+namespace Microwave.WebServiceModel.Domain
 {
     public class ValidationResultBaseClass
     {

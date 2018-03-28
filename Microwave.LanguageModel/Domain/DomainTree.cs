@@ -13,11 +13,4 @@ namespace Microwave.LanguageModel.Domain
         public List<DomainClass> Classes { get; }
         public List<SynchronousDomainHook> SynchronousDomainHooks { get; }
     }
-
-    public class SynchronousDomainHook
-    {
-        public string ClassType { get; set; }
-        public string MethodName { get; set; }
-        public string Name { get; set; }
-    }
 }

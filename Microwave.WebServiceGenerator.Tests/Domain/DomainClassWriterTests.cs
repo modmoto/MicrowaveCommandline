@@ -7,6 +7,7 @@ using Microwave.LanguageParser;
 using Microwave.LanguageParser.Lexer;
 using Microwave.LanguageParser.ParseAutomat;
 using Microwave.WebServiceGenerator.Domain;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Tests.Domain
 {

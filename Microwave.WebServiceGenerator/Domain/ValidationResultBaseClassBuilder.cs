@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microwave.LanguageModel.Domain;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {

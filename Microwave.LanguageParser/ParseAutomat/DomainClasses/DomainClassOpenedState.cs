@@ -1,6 +1,7 @@
 ﻿using Microwave.LanguageModel.Domain;
 using Microwave.LanguageParser.Lexer;
 using Microwave.LanguageParser.ParseAutomat.Members;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.LanguageParser.ParseAutomat.DomainClasses
 {

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel.Domain;
+using DomainEventBaseClass = Microwave.WebServiceModel.Domain.DomainEventBaseClass;
 
-namespace Microwave.LanguageModel.Application
+namespace Microwave.WebServiceModel.Application
 {
     public class EventStore : DomainClass
     {

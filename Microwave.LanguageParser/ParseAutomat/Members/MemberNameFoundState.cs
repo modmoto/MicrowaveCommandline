@@ -2,6 +2,7 @@
 using Microwave.LanguageParser.Lexer;
 using Microwave.LanguageParser.ParseAutomat.Members.Methods;
 using Microwave.LanguageParser.ParseAutomat.Members.Properties;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.LanguageParser.ParseAutomat.Members
 {

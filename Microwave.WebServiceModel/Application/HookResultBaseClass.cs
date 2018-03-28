@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel.Domain;
 
-namespace Microwave.LanguageModel.Application
+namespace Microwave.WebServiceModel.Application
 {
     public class HookResultBaseClass
     {

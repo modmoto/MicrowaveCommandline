@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Microwave.LanguageModel.Domain;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {

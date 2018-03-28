@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
-using Microwave.LanguageModel.Application;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceGenerator.Application
 {

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
@@ -10,5 +10,6 @@
       <Project>{0CA6742E-59CF-40F0-9839-BE27C18762CE}</Project>
       <Name>Microwave.LanguageModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microwave.WebServiceModel\Microwave.WebServiceModel.csproj" />
   </ItemGroup>
 </Project>
