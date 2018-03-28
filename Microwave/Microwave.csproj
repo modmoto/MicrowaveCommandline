@@ -21,4 +21,9 @@
       <Name>Microwave.WebServiceGenerator</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Schema.mic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

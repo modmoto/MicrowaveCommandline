@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "GenericWebServiceBuilder": {
+    "Microwave": {
       "commandName": "Project",
-      "commandLineArgs": "Schema.wsb ../../GeneratedWebService/"
+      "commandLineArgs": "Schema.mic ../../../../MicrowaveWebService/"
     }
   }
 }
