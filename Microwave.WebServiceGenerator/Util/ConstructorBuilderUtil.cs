@@ -34,7 +34,7 @@ namespace Microwave.WebServiceGenerator.Util
         {
             var codeConstructor = BuildPublic(userClassProperties);
             codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
-            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + offsetName), new CodeArgumentReferenceExpression("Stopwatch.GetTimestamp();")));
+            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + offsetName), new CodeArgumentReferenceExpression("Stopwatch.GetTimestamp()")));
             return codeConstructor;
         }
 

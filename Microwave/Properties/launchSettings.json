@@ -2,7 +2,7 @@
   "profiles": {
     "Microwave": {
       "commandName": "Project",
-      "commandLineArgs": "Schema.mic ../../../../MicrowaveWebService/"
+      "commandLineArgs": "Schema.mic ../../../../../MicrowaveWebService/"
     }
   }
 }

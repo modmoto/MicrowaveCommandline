@@ -10,7 +10,7 @@ namespace Microwave.WebServiceModel.Domain
         {
             new Property { Name = "Id", Type = "Guid" },
             new Property { Name = "EntityId", Type = "Guid" },
-            new Property { Name = "CreatedAt", Type = "Long" }
+            new Property { Name = "CreatedAt", Type = " long" }
         };
     }
 }
