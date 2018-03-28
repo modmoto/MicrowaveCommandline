@@ -6,7 +6,7 @@
     <DebugType>full</DebugType>
     <PackageId>Microwave</PackageId>
     <PackageType>DotnetCliTool</PackageType>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <Authors>Simon Heiss</Authors>
     <Description>A framework that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. More at https://github.com/Lauchi/Microwave </Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -20,17 +20,5 @@
       <Project>{7332A0A1-AA53-41A5-96FC-7E5BD2080840}</Project>
       <Name>Microwave.WebServiceGenerator</Name>
     </ProjectReference>
-    <Content Include="$(OutputPath)\Microwave.WebServiceGenerator.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib\$(TargetFramework)</PackagePath>
-    </Content>
-    <Content Include="$(OutputPath)\Microwave.LanguageParser.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib\$(TargetFramework)</PackagePath>
-    </Content>
-    <Content Include="$(OutputPath)\Microwave.LanguageModel.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib\$(TargetFramework)</PackagePath>
-    </Content>
   </ItemGroup>
 </Project>
