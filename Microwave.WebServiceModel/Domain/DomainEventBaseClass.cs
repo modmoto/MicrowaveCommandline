@@ -9,8 +9,8 @@ namespace Microwave.WebServiceModel.Domain
         public IList<Property> Properties => new List<Property>
         {
             new Property { Name = "Id", Type = "Guid" },
-            new Property { Name = "EntityId", Type = "Guid" },
-            new Property { Name = "CreatedAt", Type = " long" }
+            new Property { Name = "CreatedAt", Type = " long" },
+            new Property { Name = "EntityId", Type = "Guid" }
         };
     }
 }

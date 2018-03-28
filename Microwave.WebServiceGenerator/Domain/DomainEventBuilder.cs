@@ -71,7 +71,7 @@ namespace Microwave.WebServiceGenerator.Domain
         public void AddConstructor(CodeTypeDeclaration targetClass)
         {
             var constructor = _constructorBuilderUtil.BuildPublicWithBaseCall(_domainEvent.Properties,
-                new DomainEventBaseClass().Properties.Skip(1).ToList());
+                new DomainEventBaseClass().Properties.Skip(2).ToList());
             targetClass.Members.Add(constructor);
         }
 
