@@ -18,6 +18,11 @@ namespace Domain.Users
         
         public User User { get; }
         
+        private UserCreateEvent() : 
+                base(Guid.Empty)
+        {
+        }
+        
         public UserCreateEvent(User User, Guid EntityId) : 
                 base(EntityId)
         {

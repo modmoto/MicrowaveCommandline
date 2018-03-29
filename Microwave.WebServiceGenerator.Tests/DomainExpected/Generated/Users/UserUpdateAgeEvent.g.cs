@@ -18,6 +18,11 @@ namespace Domain.Users
         
         public Int32 Age { get; private set; }
         
+        private UserUpdateAgeEvent() : 
+                base(Guid.Empty)
+        {
+        }
+        
         public UserUpdateAgeEvent(Int32 Age, Guid EntityId) : 
                 base(EntityId)
         {

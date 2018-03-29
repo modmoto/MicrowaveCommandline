@@ -18,6 +18,11 @@ namespace Domain.Users
         
         public String Name { get; private set; }
         
+        private UserUpdateNameEvent() : 
+                base(Guid.Empty)
+        {
+        }
+        
         public UserUpdateNameEvent(String Name, Guid EntityId) : 
                 base(EntityId)
         {

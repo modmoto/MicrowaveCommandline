@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Domain
 
         public CodeNamespace BuildNameSpace()
         {
-            return _nameSpaceBuilderUtil.WithName("Domain").WithList().WithStopWatch().Build();
+            return _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
         }
 
         public CodeTypeDeclaration BuildClassType()
@@ -42,7 +42,9 @@ namespace Microwave.WebServiceGenerator.Domain
         {
             var properties = new DomainEventBaseClass().Properties;
             var constructor = _constructorBuilderUtil.BuildPublicWithIdCreateInBody(properties.Skip(2).ToList(), properties[0].Name, properties[1].Name);
+            var constructorPrivate = _constructorBuilderUtil.BuildPrivate(new List<Property>());
             targetClass.Members.Add(constructor);
+            targetClass.Members.Add(constructorPrivate);
         }
 
         public void AddBaseTypes(CodeTypeDeclaration targetClass)

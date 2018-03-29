@@ -34,7 +34,7 @@ namespace Microwave.WebServiceGenerator.Util
         {
             var codeConstructor = BuildPublic(userClassProperties);
             codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
-            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + offsetName), new CodeArgumentReferenceExpression("Stopwatch.GetTimestamp()")));
+            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + offsetName), new CodeArgumentReferenceExpression("DateTimeOffset.Now")));
             return codeConstructor;
         }
 
@@ -72,6 +72,13 @@ namespace Microwave.WebServiceGenerator.Util
                 constructor.BaseConstructorArgs.Add(new CodeArgumentReferenceExpression(property.Name));
             }
 
+            return constructor;
+        }
+
+        public CodeConstructor BuildPrivateWithEmptyGuidBaseCall(IList<Property> domainEventProperties)
+        {
+            var constructor = BuildPrivate(domainEventProperties);
+            constructor.BaseConstructorArgs.Add(new CodeArgumentReferenceExpression("Guid.Empty"));
             return constructor;
         }
     }

@@ -116,11 +116,5 @@ namespace Microwave.WebServiceGenerator.Util
             Imports.Add(new CodeNamespaceImport($"Application.{paramType}s"));
             return this;
         }
-
-        public NameSpaceBuilderUtil WithStopWatch()
-        {
-            Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            return this;
-        }
     }
 }

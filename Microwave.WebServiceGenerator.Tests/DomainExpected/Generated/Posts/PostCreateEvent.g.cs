@@ -18,6 +18,11 @@ namespace Domain.Posts
         
         public Post Post { get; }
         
+        private PostCreateEvent() : 
+                base(Guid.Empty)
+        {
+        }
+        
         public PostCreateEvent(Post Post, Guid EntityId) : 
                 base(EntityId)
         {

@@ -12,7 +12,6 @@ namespace Domain
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     
     
     public class DomainEventBase
@@ -20,7 +19,7 @@ namespace Domain
         
         public Guid Id { get; private set; }
         
-        public  long CreatedAt { get; private set; }
+        public DateTimeOffset CreatedAt { get; private set; }
         
         public Guid EntityId { get; private set; }
         
@@ -28,7 +27,11 @@ namespace Domain
         {
             this.EntityId = EntityId;
             this.Id = Guid.NewGuid();
-            this.CreatedAt = Stopwatch.GetTimestamp();
+            this.CreatedAt = DateTimeOffset.Now;
+        }
+        
+        private DomainEventBase()
+        {
         }
     }
 }

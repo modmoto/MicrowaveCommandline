@@ -20,6 +20,11 @@ namespace Domain.Users
         
         public Guid Deleted { get; private set; }
         
+        private UserAddPostEvent() : 
+                base(Guid.Empty)
+        {
+        }
+        
         public UserAddPostEvent(Guid PostId, Guid Deleted, Guid EntityId) : 
                 base(EntityId)
         {
