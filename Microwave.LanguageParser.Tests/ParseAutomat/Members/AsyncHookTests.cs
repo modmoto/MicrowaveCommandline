@@ -9,7 +9,7 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
     public class AsyncHookTests
     {
         [TestMethod]
-        public void SynchronousHook()
+        public void SynchronousHook_Create()
         {
             var tokens = new Collection<DslToken>
             {
@@ -23,8 +23,29 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual("User", domainTree.AsyncDomainHooks[0].ClassType);
+            Assert.AreEqual(true, domainTree.AsyncDomainHooks[0].IsCreateHook);
             Assert.AreEqual("Create", domainTree.AsyncDomainHooks[0].MethodName);
             Assert.AreEqual("SendWelcomeMail", domainTree.AsyncDomainHooks[0].Name);
+        }
+
+        [TestMethod]
+        public void SynchronousHook_Update()
+        {
+            var tokens = new Collection<DslToken>
+            {
+                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.Value, "SendBirthdayMail", 1),
+                new DslToken(TokenType.DomainHookOn, "on", 1),
+                new DslToken(TokenType.DomainHookEventDefinition, "User.UpdateAge", 1),
+            };
+
+            var parser = new MicrowaveLanguageParser();
+            var domainTree = parser.Parse(tokens);
+
+            Assert.AreEqual("User", domainTree.AsyncDomainHooks[0].ClassType);
+            Assert.AreEqual(false, domainTree.AsyncDomainHooks[0].IsCreateHook);
+            Assert.AreEqual("UpdateAge", domainTree.AsyncDomainHooks[0].MethodName);
+            Assert.AreEqual("SendBirthdayMail", domainTree.AsyncDomainHooks[0].Name);
         }
 
         [TestMethod]

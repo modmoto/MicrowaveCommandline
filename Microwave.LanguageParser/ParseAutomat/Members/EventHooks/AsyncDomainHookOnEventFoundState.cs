@@ -19,12 +19,13 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
             }
         }
 
-
         private ParseState AsyncDomainHookEventFound(DslToken token)
         {
             var strings = token.Value.Split(".");
             MicrowaveLanguageParser.CurrentAsyncDomainHook.ClassType = strings[0];
             MicrowaveLanguageParser.CurrentAsyncDomainHook.MethodName = strings[1];
+
+            if (strings[1] == "Create") MicrowaveLanguageParser.CurrentAsyncDomainHook.IsCreateHook = true;
            
             MicrowaveLanguageParser.AsyncDomainHooks.Add(MicrowaveLanguageParser.CurrentAsyncDomainHook);
 
