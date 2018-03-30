@@ -19,6 +19,7 @@ namespace Microwave.WebServiceGenerator.Application
         private EventStoreBuilder _eventStoreBuilder;
         private ApiCommandBuilder _apiCommandBuilder;
         private EventStoreInterfaceBuilder _eventStoreInterfaceBuilder;
+        private HangfireQuereInterfaceBuilder _hangfireQuereInterfaceBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -35,6 +36,7 @@ namespace Microwave.WebServiceGenerator.Application
             _eventStoreBuilder = new EventStoreBuilder(applicationNameSpace);
             _apiCommandBuilder = new ApiCommandBuilder();
             _eventStoreInterfaceBuilder = new EventStoreInterfaceBuilder(applicationNameSpace);
+            _hangfireQuereInterfaceBuilder = new HangfireQuereInterfaceBuilder(applicationNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -73,11 +75,14 @@ namespace Microwave.WebServiceGenerator.Application
             var eventStoreRepoInterface = _eventStoreRepositoryInterfaceBuilder.Build(new EventStoreRepositoryInterface());
             _fileWriter.WriteToFile(new EventStoreRepositoryInterface().Name, "Base", eventStoreRepoInterface);
 
-            var eventStore= _eventStoreBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
+            var eventStore = _eventStoreBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
             _fileWriter.WriteToFile(new EventStore().Name, "Base", eventStore);
 
-            var eventStoreInterface= _eventStoreInterfaceBuilder.Build(new EventStoreInterface());
+            var eventStoreInterface = _eventStoreInterfaceBuilder.Build(new EventStoreInterface());
             _fileWriter.WriteToFile(new EventStoreInterface().Name, "Base", eventStoreInterface);
+
+            var hangfireQueue = _hangfireQuereInterfaceBuilder.Build(new HangfireQueueInterface());
+            _fileWriter.WriteToFile(new HangfireQueueInterface().Name, "Base", hangfireQueue);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }

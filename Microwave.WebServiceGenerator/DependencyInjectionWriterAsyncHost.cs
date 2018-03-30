@@ -38,6 +38,7 @@ namespace Microwave.WebServiceGenerator
 
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStore, EventStore>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IHangfireQueue, HangfireQueue>()"));
 
             foreach (var domainClass in domainClasses)
             {
