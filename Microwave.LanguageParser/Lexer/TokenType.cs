@@ -16,6 +16,7 @@
         SynchronousDomainHook,
         DomainHookEventDefinition,
         DomainHookOn,
-        LoadToken
+        LoadToken,
+        AsyncDomainHook,
     }
 }

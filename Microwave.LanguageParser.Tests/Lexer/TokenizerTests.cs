@@ -189,5 +189,44 @@ namespace Microwave.LanguageParser.Tests.Lexer
             Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
             Assert.AreEqual("Post", tokens[8].Value);
         }
+
+        [TestMethod]
+        public void Tokenize_AsyncDomainHook_Create()
+        {
+            var tokenizer = new MicrowaveLanguageTokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                Create()
+                                            }
+
+                                            AsyncDomainHook SendWelcomeMail on User.Create");
+            Assert.AreEqual(11, tokens.Count);
+         
+            Assert.AreEqual(TokenType.AsyncDomainHook, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
+            Assert.AreEqual("SendWelcomeMail", tokens[8].Value);
+            Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
+            Assert.AreEqual("User.Create", tokens[10].Value);
+            Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);
+        }
+
+        [TestMethod]
+        public void Tokenize_AsyncDomainHook_Update()
+        {
+            var tokenizer = new MicrowaveLanguageTokenizer();
+            var tokens = tokenizer.Tokenize(@"DomainClass User{
+                                                Create()
+                                            }
+
+                                            AsyncDomainHook SendBirthdayMail on User.UpdateAge");
+
+            Assert.AreEqual(11, tokens.Count);
+         
+            Assert.AreEqual(TokenType.AsyncDomainHook, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
+            Assert.AreEqual("SendBirthdayMail", tokens[8].Value);
+            Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
+            Assert.AreEqual("User.UpdateAge", tokens[10].Value);
+            Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);
+        }
     }
 }
