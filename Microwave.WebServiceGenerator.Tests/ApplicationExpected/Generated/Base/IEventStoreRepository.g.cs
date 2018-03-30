@@ -20,5 +20,9 @@ namespace Application
     {
         
         Task AddEvents(List<DomainEventBase>  domainEvents);
+        
+        Task RemoveEventsFromQueue(List<DomainEventBase> events);
+        
+        Task<List<DomainEventBase>> GetEventsInQueue<T>();
     }
 }

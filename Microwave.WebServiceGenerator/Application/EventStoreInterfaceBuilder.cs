@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
+using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Application
 {
@@ -43,7 +44,7 @@ namespace Microwave.WebServiceGenerator.Application
                         new Parameter
                         {
                             Name = "domainEvents",
-                            Type = "List<DomainEventBase>"
+                            Type = $"List<{new DomainEventBaseClass().Name}>"
                         }
                     },
                     ReturnType = $"Task<{new HookResultBaseClass().Name}>"
