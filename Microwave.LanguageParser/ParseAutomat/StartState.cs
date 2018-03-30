@@ -18,6 +18,8 @@ namespace Microwave.LanguageParser.ParseAutomat
                     return DomainClassIdentifierFound();
                 case TokenType.SynchronousDomainHook:
                     return SynchronousDomainHookFound();
+                case TokenType.AsyncDomainHook:
+                    return AsyncDomainHookFound();
                 default:
                     throw new NoTransitionException(token);
             }
@@ -27,6 +29,12 @@ namespace Microwave.LanguageParser.ParseAutomat
         {
             return new SynchronousDomainHookFoundState(MicrowaveLanguageParser);
         }
+
+        private ParseState AsyncDomainHookFound()
+        {
+            return new AsyncDomainHookFoundState(MicrowaveLanguageParser);
+        }
+
         private ParseState DomainClassIdentifierFound()
         {
             return new DomainClassIdentifierFoundState(MicrowaveLanguageParser);
