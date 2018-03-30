@@ -2,7 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using Microwave.LanguageModel.Domain;
+using Microwave.LanguageModel;
 
 namespace Microwave.WebServiceGenerator.Util
 {

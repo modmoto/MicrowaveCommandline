@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Microwave.LanguageModel.Domain
+namespace Microwave.LanguageModel
 {
     public class DomainClass
     {

@@ -1,4 +1,4 @@
-﻿using Microwave.LanguageModel.Domain;
+﻿using Microwave.LanguageModel;
 using Microwave.LanguageParser.Lexer;
 
 namespace Microwave.LanguageParser.ParseAutomat.DomainClasses

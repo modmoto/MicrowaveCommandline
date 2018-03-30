@@ -1,6 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
-using Microwave.LanguageModel.Domain;
+using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Domain;
 

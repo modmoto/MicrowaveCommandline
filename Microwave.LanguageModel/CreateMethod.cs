@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Microwave.LanguageModel.Domain
+namespace Microwave.LanguageModel
 {
     public class CreateMethod
     {

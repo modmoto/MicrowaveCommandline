@@ -1,4 +1,4 @@
-﻿namespace Microwave.LanguageModel.Domain
+﻿namespace Microwave.LanguageModel
 {
     public class Parameter
     {

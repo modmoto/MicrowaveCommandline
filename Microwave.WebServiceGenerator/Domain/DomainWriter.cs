@@ -1,4 +1,4 @@
-﻿using Microwave.LanguageModel.Domain;
+﻿using Microwave.LanguageModel;
 using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain

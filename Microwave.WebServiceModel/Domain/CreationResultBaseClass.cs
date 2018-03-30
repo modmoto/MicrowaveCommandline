@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microwave.LanguageModel.Domain;
+using Microwave.LanguageModel;
 
 namespace Microwave.WebServiceModel.Domain
 {

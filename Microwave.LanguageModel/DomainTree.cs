@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microwave.LanguageModel.Domain
+namespace Microwave.LanguageModel
 {
     public class DomainTree
     {

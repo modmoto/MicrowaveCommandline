@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Microwave.LanguageModel.Domain;
+using Microwave.LanguageModel;
 using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceGenerator.Application
