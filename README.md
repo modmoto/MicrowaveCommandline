@@ -2,7 +2,7 @@
 A code generator that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. The Goal is to only have to implement the relevant Domain logic in your Domain Classes and not care aboute Data Storage or WebApi Implementation. To make this possible the Framework generates code depending on the given Schema.wsb file that defines Domain, WebApi and Database on its own. All that should be left to do is implement the Domainlogic on the generated functions.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n3n2qey19pm4ako4?svg=true)](https://ci.appveyor.com/project/Lauchi/genericwebservicebuilder)
-[![Coverage](https://codecov.io/gh/Lauchi/GenericWebServiceBuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Lauchi/GenericWebServiceBuilder)
+[![codecov](https://codecov.io/gh/Lauchi/Microwave/branch/master/graph/badge.svg)](https://codecov.io/gh/Lauchi/Microwave)
 
 ## Setup
 Use the [BootStrapProject](https://github.com/Lauchi/GeneratedWebServiceBootstrap) to get the correct setup for the framework. So far there is no option to use it with another project structure, as the folders have to be exactly named like in the BootStrapProject.
