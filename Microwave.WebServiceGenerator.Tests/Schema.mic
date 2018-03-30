@@ -27,3 +27,7 @@ DomainClass Post {
 }
 
 SynchronousDomainHook SendPasswordMail on User.Create
+
+AsyncDomainHook SendWelcomeMail on User.Create 
+
+AsyncDomainHook SendBirthdayMail on User.UpdateAge

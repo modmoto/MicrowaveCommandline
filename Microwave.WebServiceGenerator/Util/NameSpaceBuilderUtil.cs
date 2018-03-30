@@ -90,6 +90,12 @@ namespace Microwave.WebServiceGenerator.Util
             return this;
         }
 
+        public NameSpaceBuilderUtil WithAsyncHookEntityNameSpace(string hookClassType)
+        {
+            Imports.Add(new CodeNamespaceImport($"Application.{hookClassType}s.AsyncHooks"));
+            return this;
+        }
+
         public NameSpaceBuilderUtil WithEfCore()
         {
             Imports.Add(new CodeNamespaceImport("Microsoft.EntityFrameworkCore"));
@@ -114,6 +120,18 @@ namespace Microwave.WebServiceGenerator.Util
         public NameSpaceBuilderUtil WithRepository(string paramType)
         {
             Imports.Add(new CodeNamespaceImport($"Application.{paramType}s"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithHangfire()
+        {
+            Imports.Add(new CodeNamespaceImport("Hangfire"));
+            return this;
+        }
+
+        public NameSpaceBuilderUtil WithApplicatioBuilder()
+        {
+            Imports.Add(new CodeNamespaceImport("Microsoft.AspNetCore.Builder"));
             return this;
         }
     }

@@ -5,13 +5,13 @@ using Microwave.WebServiceGenerator.Util;
 
 namespace Microwave.WebServiceGenerator
 {
-    public class DependencyInjectionWriter
+    public class DependencyInjectionWriterHost
     {
         private readonly IFileWriter _fileWriter;
         private ClassBuilderUtil _classBuilderUtil;
         private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
 
-        public DependencyInjectionWriter(string basePath)
+        public DependencyInjectionWriterHost(string basePath)
         {
             _fileWriter = new FileWriter(basePath);
             _classBuilderUtil = new ClassBuilderUtil();

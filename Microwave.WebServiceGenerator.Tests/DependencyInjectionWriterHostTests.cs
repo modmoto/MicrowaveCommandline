@@ -14,7 +14,7 @@ namespace Microwave.WebServiceGenerator.Tests
             [TestMethod]
             public void Write()
             {
-                var hookResultBuilder = new DependencyInjectionWriter(ApplicationNameSpace);
+                var hookResultBuilder = new DependencyInjectionWriterHost(ApplicationNameSpace);
 
                 using (var reader = new StreamReader("Schema.mic"))
                 {

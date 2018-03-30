@@ -25,6 +25,7 @@ namespace Microwave
             var applicationRealClassesBasePath = $"{basePathToSolution}{applicationNameSpace}/";
             var sqlAdapterBasePath = $"{basePathToSolution}{sqlAdapterNameSpace}/Generated/";
             var webAdapterBasePath = $"{basePathToSolution}{webAdapterNameSpace}/Generated/";
+            var asynHostBasePath = $"{basePathToSolution}AsyncHost";
             var injectionBasePath = $"{basePathToSolution}Host";
 
             var tokenizer = new MicrowaveLanguageTokenizer();
@@ -33,8 +34,9 @@ namespace Microwave
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new HttpAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
-            
-            var dependencyInjectionWriter = new DependencyInjectionWriter(injectionBasePath);
+            var dependencyInjectionWriterAsyncHost = new DependencyInjectionWriterAsyncHost(asynHostBasePath);
+
+            var dependencyInjectionWriter = new DependencyInjectionWriterHost(injectionBasePath);
 
             using (var reader = new StreamReader(wsbFile))
             {
@@ -48,6 +50,7 @@ namespace Microwave
                 sqlAdapterWriter.Write(domainTree);
                 webAdapterWriter.Write(domainTree);
                 dependencyInjectionWriter.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, injectionBasePath);
+                dependencyInjectionWriterAsyncHost.Write(domainTree.Classes, domainTree.AsyncDomainHooks, injectionBasePath);
             }
         }
     }
