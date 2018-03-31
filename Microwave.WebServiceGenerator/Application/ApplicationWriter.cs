@@ -58,11 +58,11 @@ namespace Microwave.WebServiceGenerator.Application
             {
                 var createdHook = _synchronousHookBuilder.Build(hook);
                 _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks/", createdHook);
-                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/{hook.Name}Hook.cs";
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/Hooks/{hook.Name}Hook.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
-                    _fileWriterRealClasses.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/", buildReplacementClass, false);
+                    _fileWriterRealClasses.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks", buildReplacementClass, false);
                 }
             }
 

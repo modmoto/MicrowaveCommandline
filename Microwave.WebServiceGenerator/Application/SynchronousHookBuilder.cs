@@ -73,12 +73,12 @@ namespace Microwave.WebServiceGenerator.Application
             var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").WithList().Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("Domain"));
             codeNamespace.Types.Add(codeTypeDeclaration);
 
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Parameters.Add(
-                new CodeParameterDeclarationExpression(new CodeTypeReference(new DomainEventBaseClass().Name),
+                new CodeParameterDeclarationExpression(new CodeTypeReference($"{domainClass.ClassType}{domainClass.MethodName}Event"),
                     "domainEvent"));
             codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
             codeMemberMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
