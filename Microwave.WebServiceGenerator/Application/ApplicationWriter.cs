@@ -64,7 +64,7 @@ namespace Microwave.WebServiceGenerator.Application
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
-                    _fileWriterRealClasses.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks", buildReplacementClass, false);
+                    _fileWriterRealClasses.WriteToFile(buildReplacementClass.Types[0].Name, $"{hook.ClassType}s/Hooks", buildReplacementClass, false);
                 }
             }
 
@@ -74,7 +74,7 @@ namespace Microwave.WebServiceGenerator.Application
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);
-                    _fileWriterRealClasses.WriteToFile($"{hook.Name}AsyncHook", $"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
+                    _fileWriterRealClasses.WriteToFile(buildReplacementClass.Types[0].Name, $"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
                 }
             }
 

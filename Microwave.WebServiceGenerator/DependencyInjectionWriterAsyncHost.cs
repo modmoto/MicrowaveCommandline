@@ -11,12 +11,14 @@ namespace Microwave.WebServiceGenerator
         private readonly IFileWriter _fileWriter;
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public DependencyInjectionWriterAsyncHost(string basePath)
         {
             _fileWriter = new FileWriter(basePath);
             _classBuilderUtil = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public void Write(IList<DomainClass> domainClasses, IList<AsyncDomainHook> domainHooks, string basePath)
@@ -55,8 +57,8 @@ namespace Microwave.WebServiceGenerator
             foreach (var hook in domainHooks)
             {
                 _nameSpaceBuilderUtil.WithAsyncHookEntityNameSpace(hook.ClassType);
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{hook.Name}EventHandler>()"));
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{hook.Name}AsyncHook>()"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.BuildAsyncEventHookHandlerName(hook)}>()"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.BuildAsyncEventHookName(hook)}>()"));
             }
 
             var codeNamespace = _nameSpaceBuilderUtil.Build();
@@ -72,9 +74,9 @@ namespace Microwave.WebServiceGenerator
             codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression("app.UseHangfireServer(option)"));
             codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression("app.UseHangfireDashboard()"));
 
-            foreach (var asyncDomainHook in domainHooks)
+            foreach (var hook in domainHooks)
             {
-                codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression($"RecurringJob.AddOrUpdate<{asyncDomainHook.Name}EventHandler>(handler => handler.Run(), Cron.Minutely())"));
+                codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression($"RecurringJob.AddOrUpdate<{_nameBuilderUtil.BuildAsyncEventHookHandlerName(hook)}>(handler => handler.Run(), Cron.Minutely())"));
             }
 
             codeNamespace.Types.Add(codeTypeDeclaration);

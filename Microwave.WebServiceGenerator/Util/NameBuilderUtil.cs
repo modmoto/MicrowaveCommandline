@@ -38,5 +38,15 @@ namespace Microwave.WebServiceGenerator.Util
         {
             return $"$\"Could not find {loadParam.Type} for {{nameof(apiCommand.{loadParam.Name}Id)}} with ID: {{id}}\"";
         }
+
+        public string BuildAsyncEventHookName(AsyncDomainHook hook)
+        {
+            return $"On{hook.ClassType}{hook.MethodName}{hook.Name}AsyncHook";
+        }
+
+        public string BuildAsyncEventHookHandlerName(AsyncDomainHook hook)
+        {
+            return $"On{hook.ClassType}{hook.MethodName}{hook.Name}EventHandler";
+        }
     }
 }

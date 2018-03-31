@@ -11,31 +11,33 @@ namespace Microwave.WebServiceGenerator.Application
         private readonly string _applicationNameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly ClassBuilderUtil _classBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public AsyncHookBuilder(string applicationNameSpace)
         {
             _applicationNameSpace = applicationNameSpace;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _classBuilderUtil = new ClassBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
-        public CodeNamespace BuildReplacementClass(AsyncDomainHook domainClass)
+        public CodeNamespace BuildReplacementClass(AsyncDomainHook hook)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.AsyncHooks").WithList().Build();
-            var codeTypeDeclaration = _classBuilderUtil.Build($"{domainClass.Name}AsyncHook");
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{hook.ClassType}s.AsyncHooks").WithList().Build();
+            var codeTypeDeclaration = _classBuilderUtil.Build(_nameBuilderUtil.BuildAsyncEventHookName(hook));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{hook.ClassType}s"));
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Parameters.Add(
-                new CodeParameterDeclarationExpression(new CodeTypeReference($"{domainClass.ClassType}{domainClass.MethodName}Event"),
+                new CodeParameterDeclarationExpression(new CodeTypeReference($"{hook.ClassType}{hook.MethodName}Event"),
                     "domainEvent"));
             codeMemberMethod.ReturnType = new CodeTypeReference(new HookResultBaseClass().Name);
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {domainClass.Name} that is not implemented was called, aborting...\")"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {hook.Name} that is not implemented was called, aborting...\")"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>())"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
