@@ -12,7 +12,8 @@ namespace Microwave.WebServiceModel.SqlAdapter
             Name = "EventStoreRepository";
             Properties = new List<Property>
             {
-                new Property { Name = "Context", Type = "EventStoreContext"}
+                new Property { Name = "Context", Type = "EventStoreContext"},
+                new Property {Name = "HangfireQueue", Type = new HangfireQueueInterface().Name}
             };
             Methods = new List<DomainMethod>
             {

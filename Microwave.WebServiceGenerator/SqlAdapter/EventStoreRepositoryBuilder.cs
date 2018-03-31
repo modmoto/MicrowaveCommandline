@@ -79,8 +79,9 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             }
 
             var memberMethod = codeMemberMethods[0];
-            memberMethod.Statements.Add(
-                new CodeSnippetExpression("await Context.EventHistory.AddRangeAsync(domainEvents)"));
+            memberMethod.Statements.Add(new CodeSnippetExpression("await Context.EventHistory.AddRangeAsync(domainEvents)"));
+            memberMethod.Statements.Add(new CodeSnippetExpression("await HangfireQueue.AddEvents(domainEvents)"));
+            memberMethod.Statements.Add(new CodeSnippetExpression("await Context.SaveChangesAsync()"));
             targetClass.Members.AddRange(codeMemberMethods.ToArray());
         }
     }
