@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceGenerator
 {
@@ -38,7 +39,7 @@ namespace Microwave.WebServiceGenerator
 
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStore, EventStore>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IHangfireQueue, HangfireQueue>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new HangfireQueueInterface().Name}, HangfireQueue>()"));
 
             foreach (var domainClass in domainClasses)
             {
