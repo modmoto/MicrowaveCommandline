@@ -49,6 +49,7 @@
     <Compile Remove="HttpAdapterExpected\Generated\Users\UserController.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreContext.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Base\EventStoreRepository.g.cs" />
+    <Compile Remove="SqlAdapterExpected\Generated\Base\HangfireQueue.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Posts\PostRepository.g.cs" />
     <Compile Remove="SqlAdapterExpected\Generated\Users\UserRepository.g.cs" />
   </ItemGroup>
