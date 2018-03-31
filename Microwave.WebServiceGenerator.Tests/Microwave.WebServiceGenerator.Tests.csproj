@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Base\EventStore.g.cs" />
+    <Compile Remove="ApplicationExpected\Generated\Base\GeneratedAsyncHostDependencies.g.cs" />
     <Compile Remove="ApplicationExpected\Generated\Base\GeneratedDependencies.g.cs" />
     <Compile Remove="ApplicationExpected\Generated\Base\HookResult.g.cs" />
     <Compile Remove="ApplicationExpected\Generated\Base\IDomainHook.g.cs" />

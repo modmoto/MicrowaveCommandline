@@ -2,10 +2,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
 using Microwave.WebServiceGenerator.SqlAdapter;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
 {
