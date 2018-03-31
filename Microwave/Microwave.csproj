@@ -6,7 +6,7 @@
     <DebugType>full</DebugType>
     <PackageId>Microwave</PackageId>
     <PackageType>DotnetCliTool</PackageType>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.3.0</PackageVersion>
     <Authors>Simon Heiss</Authors>
     <Description>A framework that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. More at https://github.com/Lauchi/Microwave </Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
