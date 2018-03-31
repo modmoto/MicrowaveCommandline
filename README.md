@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [GenericWebServiceBuilder](#genericwebservicebuilder)
+  - [Setup](#setup)
+  - [Architecture of the Generated Service](#architecture-of-the-generated-service)
+  - [The Syntax to generate a Service](#the-syntax-to-generate-a-service)
+    - [DomainClass](#domainclass)
+    - [Create Methods](#create-methods)
+    - [Update Methods](#update-methods)
+    - [Synchronous Domain Hook](#synchronous-domain-hook)
+    - [Asynchronouse Domain Hook](#asynchronouse-domain-hook)
+  - [Roadmap](#roadmap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # GenericWebServiceBuilder
 A code generator that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. The Goal is to only have to implement the relevant Domain logic in your Domain Classes and not care aboute Data Storage or WebApi Implementation. To make this possible the Framework generates code depending on the given Schema.wsb file that defines Domain, WebApi and Database on its own. All that should be left to do is implement the Domainlogic on the generated functions.
 
