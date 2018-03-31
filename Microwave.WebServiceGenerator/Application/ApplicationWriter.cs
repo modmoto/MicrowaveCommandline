@@ -20,6 +20,7 @@ namespace Microwave.WebServiceGenerator.Application
         private ApiCommandBuilder _apiCommandBuilder;
         private EventStoreInterfaceBuilder _eventStoreInterfaceBuilder;
         private HangfireQuereInterfaceBuilder _hangfireQuereInterfaceBuilder;
+        private AsyncHookBuilder _asyncHookBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -37,6 +38,7 @@ namespace Microwave.WebServiceGenerator.Application
             _apiCommandBuilder = new ApiCommandBuilder();
             _eventStoreInterfaceBuilder = new EventStoreInterfaceBuilder(applicationNameSpace);
             _hangfireQuereInterfaceBuilder = new HangfireQuereInterfaceBuilder(applicationNameSpace);
+            _asyncHookBuilder = new AsyncHookBuilder(applicationNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -63,6 +65,16 @@ namespace Microwave.WebServiceGenerator.Application
                 {
                     var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
                     _fileWriterRealClasses.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks", buildReplacementClass, false);
+                }
+            }
+
+            foreach (var hook in domainTree.AsyncDomainHooks)
+            {
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{hook.Name}Hook.cs";
+                if (!File.Exists(formattableString))
+                {
+                    var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);
+                    _fileWriterRealClasses.WriteToFile($"{hook.Name}AsyncHook", $"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
                 }
             }
 
