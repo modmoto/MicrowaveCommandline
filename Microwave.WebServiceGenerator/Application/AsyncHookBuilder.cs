@@ -35,7 +35,8 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>{\"A generated Async Domain Hook Method that is not implemented was called, aborting...\"})"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {domainClass.Name} that is not implemented was called, aborting...\")"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>())"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
         }

@@ -70,7 +70,7 @@ namespace Microwave.WebServiceGenerator.Application
 
             foreach (var hook in domainTree.AsyncDomainHooks)
             {
-                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{hook.Name}Hook.cs";
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{hook.Name}AsyncHook.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);

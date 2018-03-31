@@ -51,7 +51,7 @@ namespace Microwave.WebServiceGenerator.Application
                     "domainEvent"));
             codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
-            codeMemberMethod.Name = new DomainHookBaseClass().Methods[0].Name;;
+            codeMemberMethod.Name = new DomainHookBaseClass().Methods[0].Name;
             codeMemberMethod.Statements.Add(new CodeConditionStatement(
                 new CodeSnippetExpression(
                     $"domainEvent is {domainClass.ClassType}{domainClass.MethodName}Event parsedEvent"), 
