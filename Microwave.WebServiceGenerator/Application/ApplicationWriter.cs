@@ -26,6 +26,7 @@ namespace Microwave.WebServiceGenerator.Application
         private AsyncHookBuilder _asyncHookBuilder;
         private EventAndJobClassBuilder _eventAndJobClassBuilder;
         private NameBuilderUtil _nameBuilderUtil;
+        private AsyncHookCreateEventHandlerBuilder _asyncHookCreateEventHandlerBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -46,6 +47,7 @@ namespace Microwave.WebServiceGenerator.Application
             _asyncHookBuilder = new AsyncHookBuilder(applicationNameSpace);
             _eventAndJobClassBuilder = new EventAndJobClassBuilder(applicationNameSpace);
             _nameBuilderUtil = new NameBuilderUtil();
+            _asyncHookCreateEventHandlerBuilder = new AsyncHookCreateEventHandlerBuilder(applicationNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -77,6 +79,9 @@ namespace Microwave.WebServiceGenerator.Application
 
             foreach (var hook in domainTree.AsyncDomainHooks)
             {
+                var createdHookEventHandler = _asyncHookCreateEventHandlerBuilder.Build(hook);
+                _fileWriter.WriteToFile(createdHookEventHandler.Types[0].Name, $"{hook.ClassType}s/AsyncHooks/", createdHookEventHandler);
+
                 var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.BuildAsyncEventHookName(hook)}.cs";
                 if (!File.Exists(formattableString))
                 {
