@@ -22,14 +22,19 @@ namespace SqlAdapter
         
         public EventStoreContext Context { get; private set; }
         
-        public EventStoreRepository(EventStoreContext Context)
+        public IHangfireQueue HangfireQueue { get; private set; }
+        
+        public EventStoreRepository(EventStoreContext Context, IHangfireQueue HangfireQueue)
         {
             this.Context = Context;
+            this.HangfireQueue = HangfireQueue;
         }
         
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             await Context.EventHistory.AddRangeAsync(domainEvents);
+            await HangfireQueue.AddEvents(domainEvents);
+            await Context.SaveChangesAsync();
         }
     }
 }

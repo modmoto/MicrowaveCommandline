@@ -1,7 +1,7 @@
 ﻿DomainClass User {
 	Name: String
 	Age: Int32
-	Posts: [Post]
+    Posts: [Post]
 
 	Create(Name: String, Age: Int32)
 
@@ -28,6 +28,8 @@ DomainClass Post {
 
 SynchronousDomainHook SendPasswordMail on User.Create
 
-AsyncDomainHook SendWelcomeMail on User.Create 
+AsyncDomainHook SendWelcomeMail on User.Create
+
+AsyncDomainHook SendPasswordMail on User.Create
 
 AsyncDomainHook SendBirthdayMail on User.UpdateAge

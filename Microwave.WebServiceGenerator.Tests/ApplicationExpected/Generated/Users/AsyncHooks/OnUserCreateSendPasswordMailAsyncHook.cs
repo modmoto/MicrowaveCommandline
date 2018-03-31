@@ -8,17 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application
+namespace Application.Users.AsyncHooks
 {
     using System;
-    using Domain;
-    using System.Threading.Tasks;
     using System.Collections.Generic;
+    using Domain.Users;
     
     
-    public interface IEventStoreRepository
+    public class OnUserCreateSendPasswordMailAsyncHook
     {
         
-        Task AddEvents(List<DomainEventBase> domainEvents);
+        public HookResult Execute(UserCreateEvent domainEvent)
+        {
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendPasswordMail that is not implemented was called, aborting...");
+            return HookResult.ErrorResult(new List<string>());
+        }
     }
 }

@@ -33,7 +33,10 @@ namespace Microwave.WebServiceGenerator.Tests.Application
             Assert.IsTrue(File.Exists("Application/Users/UserCommandHandler.g.cs"));
             Assert.IsTrue(File.Exists("Application/Users/Hooks/SendPasswordMailHook.g.cs"));
 
-            Assert.IsTrue(File.Exists("Solution/Users/SendPasswordMailHook.cs"));
+            Assert.IsTrue(File.Exists("Solution/Users/Hooks/SendPasswordMailHook.cs"));
+            Assert.IsTrue(File.Exists("Solution/Users/AsyncHooks/OnUserCreateSendPasswordMailAsyncHook.cs"));
+            Assert.IsTrue(File.Exists("Solution/Users/AsyncHooks/OnUserCreateSendWelcomeMailAsyncHook.cs"));
+            Assert.IsTrue(File.Exists("Solution/Users/AsyncHooks/OnUserUpdateAgeSendBirthdayMailAsyncHook.cs"));
         }
     }
 }

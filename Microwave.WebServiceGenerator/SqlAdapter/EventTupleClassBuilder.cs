@@ -5,7 +5,7 @@ using Microwave.WebServiceGenerator.Util;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
 {
-    public class EventAndJobClassBuilder
+    public class EventTupleClassBuilder
     {
         private readonly string _nameSpace;
         private readonly ClassBuilderUtil _classBuilderUtil;
@@ -13,7 +13,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
-        public EventAndJobClassBuilder(string nameSpace)
+        public EventTupleClassBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
@@ -24,10 +24,10 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
         public CodeNamespace Build(DomainClass domainClasses)
         {
-            var nameSpace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}").WithDomain().Build();
+            var nameSpace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}").Build();
             var generatedClass = _classBuilderUtil.Build(domainClasses.Name);
             _propertyBuilderUtil.Build(generatedClass, domainClasses.Properties);
-            var constructor = _constructorBuilderUtil.BuildPublicWithIdCreateInBody(domainClasses.Properties.Skip(1).ToList(), domainClasses.Properties[0].Name);
+            var constructor = _constructorBuilderUtil.BuildPublic(domainClasses.Properties);
             generatedClass.Members.Add(constructor);
             nameSpace.Types.Add(generatedClass);
             return nameSpace;

@@ -2,19 +2,24 @@
 using Microwave.LanguageModel;
 using Microwave.WebServiceModel.Domain;
 
-namespace Microwave.WebServiceModel.SqlAdapter
+namespace Microwave.WebServiceModel.Application
 {
-    public class EventTupleClass : DomainClass
+    public class EventAndJobClass : DomainClass
     {
-        public EventTupleClass()
+        public EventAndJobClass()
         {
-            Name = "EventTuple";
+            Name = "EventAndJob";
             Properties = new List<Property>
             {
                 new Property
                 {
-                    Name = "DomainType",
-                    Type = " string"
+                    Name = "Id",
+                    Type = "Guid"
+                },
+                new Property
+                {
+                    Name = "DomainEvent",
+                    Type = new DomainEventBaseClass().Name
                 },
                 new Property
                 {

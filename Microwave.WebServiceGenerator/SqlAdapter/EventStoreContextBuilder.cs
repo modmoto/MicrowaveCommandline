@@ -33,9 +33,9 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             var nameSpace = _nameSpaceBuilderUtil.Build();
 
-            var eventStore = _classBuilderUtil.Build($"EventStoreContext");
+            var eventStore = _classBuilderUtil.Build("EventStoreContext");
 
-            eventStore.BaseTypes.Add(new CodeTypeReference($"DbContext"));
+            eventStore.BaseTypes.Add(new CodeTypeReference("DbContext"));
 
             var properties = new List<Property>();
             properties.Add(new Property {Name = "EventHistory", Type = $"DbSet<{new DomainEventBaseClass().Name}>"});

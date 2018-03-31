@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Application;
 using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter

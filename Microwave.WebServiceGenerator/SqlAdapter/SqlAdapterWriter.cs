@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microwave.LanguageModel;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
 {
@@ -12,6 +13,8 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private EventStoreContextBuilder _eventStoreContextBuilder;
         private ClassFactory _classFactory;
         private HangfireContextBuilder _hangfireContextBuilder;
+        private EventTupleClassBuilder _eventTupleClassBuilder;
+        private EventTupleClassBuilder _tupleClassBuilder;
 
         public SqlAdapterWriter(string sqlAdapterNameSpace, string basePath)
         {
@@ -22,6 +25,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _eventStoreContextBuilder = new EventStoreContextBuilder(sqlAdapterNameSpace);
             _classFactory = new ClassFactory();
             _hangfireContextBuilder = new HangfireContextBuilder(sqlAdapterNameSpace);
+            _tupleClassBuilder = new EventTupleClassBuilder(sqlAdapterNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -40,6 +44,10 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             var eventStoreRepo = _classFactory.BuildInstance(new EventStoreRepositoryBuilder(_sqlAdapterNameSpace));
             _fileWriter.WriteToFile(eventStoreRepo.Types[0].Name, "Base", eventStoreRepo);
+
+            var eventTuple = _tupleClassBuilder.Build(new EventTupleClass());
+            _fileWriter.WriteToFile(eventTuple.Types[0].Name, "Base", eventTuple);
+
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
     }
