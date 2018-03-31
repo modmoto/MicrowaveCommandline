@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.SqlAdapter;
+using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
 using Microwave.WebServiceModel.SqlAdapter;
 
@@ -24,6 +25,7 @@ namespace Microwave.WebServiceGenerator.Application
         private HangfireQueueInterfaceBuilder _hangfireQueueInterfaceBuilder;
         private AsyncHookBuilder _asyncHookBuilder;
         private EventAndJobClassBuilder _eventAndJobClassBuilder;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -43,6 +45,7 @@ namespace Microwave.WebServiceGenerator.Application
             _hangfireQueueInterfaceBuilder = new HangfireQueueInterfaceBuilder(applicationNameSpace);
             _asyncHookBuilder = new AsyncHookBuilder(applicationNameSpace);
             _eventAndJobClassBuilder = new EventAndJobClassBuilder(applicationNameSpace);
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public void Write(DomainTree domainTree)
@@ -74,7 +77,7 @@ namespace Microwave.WebServiceGenerator.Application
 
             foreach (var hook in domainTree.AsyncDomainHooks)
             {
-                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{hook.Name}AsyncHook.cs";
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.BuildAsyncEventHookName(hook)}.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);

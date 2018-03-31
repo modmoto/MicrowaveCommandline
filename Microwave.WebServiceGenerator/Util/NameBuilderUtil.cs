@@ -48,5 +48,10 @@ namespace Microwave.WebServiceGenerator.Util
         {
             return $"On{hook.ClassType}{hook.MethodName}{hook.Name}EventHandler";
         }
+
+        public string HooKEventName(AsyncDomainHook domainHook)
+        {
+            return $"{domainHook.ClassType}{domainHook.MethodName}Event";
+        }
     }
 }

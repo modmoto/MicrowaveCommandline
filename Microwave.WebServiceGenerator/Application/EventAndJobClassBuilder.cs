@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
@@ -28,7 +29,9 @@ namespace Microwave.WebServiceGenerator.Application
             var generatedClass = _classBuilderUtil.Build(domainClasses.Name);
             _propertyBuilderUtil.Build(generatedClass, domainClasses.Properties);
             var constructor = _constructorBuilderUtil.BuildPublicWithIdCreateInBody(domainClasses.Properties.Skip(1).ToList(), domainClasses.Properties[0].Name);
+            var constructorEmpty = _constructorBuilderUtil.BuildPrivate(new List<Property>());
             generatedClass.Members.Add(constructor);
+            generatedClass.Members.Add(constructorEmpty);
             nameSpace.Types.Add(generatedClass);
             return nameSpace;
         }
