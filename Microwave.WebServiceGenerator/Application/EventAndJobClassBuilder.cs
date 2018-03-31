@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
+using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceGenerator.Application
 {
@@ -23,7 +24,7 @@ namespace Microwave.WebServiceGenerator.Application
             _propertyBuilderUtil = new PropertyBuilderUtil();
         }
 
-        public CodeNamespace Build(DomainClass domainClasses)
+        public CodeNamespace Build(EventAndJobClass domainClasses)
         {
             var nameSpace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}").WithDomain().Build();
             var generatedClass = _classBuilderUtil.Build(domainClasses.Name);
