@@ -15,7 +15,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         [TestMethod]
         public void Write()
         {
-            var storeBuilder = new DbContextBuilder(SqlAdpaterNameSpace);
+            var storeBuilder = new EventStoreContextBuilder(SqlAdpaterNameSpace);
 
             using (var reader = new StreamReader("Schema.mic"))
             {

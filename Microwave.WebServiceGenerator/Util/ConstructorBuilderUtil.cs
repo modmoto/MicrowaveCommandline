@@ -30,11 +30,17 @@ namespace Microwave.WebServiceGenerator.Util
             return codeConstructor;
         }
 
-        public CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string idName, string offsetName)
+        public CodeConstructor BuildPublicWithIdAndTimeStampCreateInBody(IList<Property> userClassProperties, string idName, string offsetName)
         {
             var codeConstructor = BuildPublic(userClassProperties);
             codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
             codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + offsetName), new CodeArgumentReferenceExpression("DateTimeOffset.Now")));
+            return codeConstructor;
+        }
+        public CodeConstructor BuildPublicWithIdCreateInBody(IList<Property> userClassProperties, string idName)
+        {
+            var codeConstructor = BuildPublic(userClassProperties);
+            codeConstructor.Statements.Add(new CodeAssignStatement(new CodeVariableReferenceExpression("this." + idName), new CodeArgumentReferenceExpression("Guid.NewGuid()")));
             return codeConstructor;
         }
 

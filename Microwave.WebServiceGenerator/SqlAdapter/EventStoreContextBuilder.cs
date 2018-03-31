@@ -6,7 +6,7 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
 {
-    public class DbContextBuilder
+    public class EventStoreContextBuilder
     {
         private readonly string _nameSpace;
         private readonly ClassBuilderUtil _classBuilderUtil;
@@ -15,7 +15,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private NameBuilderUtil _nameBuilderUtil;
 
-        public DbContextBuilder(string nameSpace)
+        public EventStoreContextBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();

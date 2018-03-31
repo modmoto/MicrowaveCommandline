@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using Microwave.LanguageModel;
+using Microwave.WebServiceGenerator.SqlAdapter;
 using Microwave.WebServiceModel.Application;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.Application
 {
@@ -19,8 +21,9 @@ namespace Microwave.WebServiceGenerator.Application
         private EventStoreBuilder _eventStoreBuilder;
         private ApiCommandBuilder _apiCommandBuilder;
         private EventStoreInterfaceBuilder _eventStoreInterfaceBuilder;
-        private HangfireQuereInterfaceBuilder _hangfireQuereInterfaceBuilder;
+        private HangfireQueueInterfaceBuilder _hangfireQueueInterfaceBuilder;
         private AsyncHookBuilder _asyncHookBuilder;
+        private EventAndJobClassBuilder _eventAndJobClassBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -37,8 +40,9 @@ namespace Microwave.WebServiceGenerator.Application
             _eventStoreBuilder = new EventStoreBuilder(applicationNameSpace);
             _apiCommandBuilder = new ApiCommandBuilder();
             _eventStoreInterfaceBuilder = new EventStoreInterfaceBuilder(applicationNameSpace);
-            _hangfireQuereInterfaceBuilder = new HangfireQuereInterfaceBuilder(applicationNameSpace);
+            _hangfireQueueInterfaceBuilder = new HangfireQueueInterfaceBuilder(applicationNameSpace);
             _asyncHookBuilder = new AsyncHookBuilder(applicationNameSpace);
+            _eventAndJobClassBuilder = new EventAndJobClassBuilder(applicationNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -93,8 +97,11 @@ namespace Microwave.WebServiceGenerator.Application
             var eventStoreInterface = _eventStoreInterfaceBuilder.Build(new EventStoreInterface());
             _fileWriter.WriteToFile(new EventStoreInterface().Name, "Base", eventStoreInterface);
 
-            var hangfireQueue = _hangfireQuereInterfaceBuilder.Build(new HangfireQueueInterface());
+            var hangfireQueue = _hangfireQueueInterfaceBuilder.Build(new HangfireQueueInterface());
             _fileWriter.WriteToFile(new HangfireQueueInterface().Name, "Base", hangfireQueue);
+
+            var jobAndEventClass = _eventAndJobClassBuilder.Build(new EventAndJobClass());
+            _fileWriter.WriteToFile(jobAndEventClass.Types[0].Name, "Base", jobAndEventClass);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
