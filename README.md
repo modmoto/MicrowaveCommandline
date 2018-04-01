@@ -4,6 +4,22 @@ A code generator that generates a domain driven webservice with only a schema fi
 [![Build status](https://ci.appveyor.com/api/projects/status/n3n2qey19pm4ako4?svg=true)](https://ci.appveyor.com/project/Lauchi/genericwebservicebuilder)
 [![codecov](https://codecov.io/gh/Lauchi/Microwave/branch/master/graph/badge.svg)](https://codecov.io/gh/Lauchi/Microwave)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Setup](#setup)
+- [Architecture of the Generated Service](#architecture-of-the-generated-service)
+- [The Syntax to generate a Service](#the-syntax-to-generate-a-service)
+  - [DomainClass](#domainclass)
+  - [Create Methods](#create-methods)
+  - [Update Methods](#update-methods)
+  - [Synchronous Domain Hook](#synchronous-domain-hook)
+  - [Asynchronouse Domain Hook](#asynchronouse-domain-hook)
+- [Roadmap](#roadmap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Setup
 Use the [BootStrapProject](https://github.com/Lauchi/GeneratedWebServiceBootstrap) to get the correct setup for the framework. So far there is no option to use it with another project structure, as the folders have to be exactly named like in the BootStrapProject.
 
@@ -56,12 +72,19 @@ SynchronousDomainHook SendRegisterMail on User.Create
 
 The first word defines that this is a `SynchronouseDomainHook`. The second is the name of the hook, the on is syntactic Sugar and the last word describes on wich event the Hook gets triggered. In this case, the hook gets triggered, if the Method `Crete` from `User` gets called.
 
-### Asynchronouse Domain Hook (not implemented yet)
-An `AsyncDomainHook` also listens to domain events but does this after a given set of time. This mechanism is used to implement eventual consistency in the service. Sending Birthday mails could be one of the applications. The Hook has also a retry counter that can be used to escalate things, for example write an error log when a mail was not able to be sent five times in a row. If the event is handles sucessfully, the hook marks the event as done and goes on with the next one. As this might create a deadlock, the `AsyncDomainHook` iterates over all events, starting from the oldest that is not done and ignoring the ones that are allready done. This mechanism ensures, that all events are being handled, even if there are some errors in between.
+### Asynchronouse Domain Hook
+An `AsyncDomainHook` also listens to domain events but does this after a given set of time. This mechanism is used to implement eventual consistency in the service. Sending Birthday mails could be one of the applications. The events are stored in a Queue and used, as soon as the hangfire runs, wich is currently every Minute (cron notation will be coming). You can also trigger it on the hangfire console. If the event is handled sucessfully, it is deleted from the queue. This mechanism ensures, that all events are being handled, even if there are some errors in between.
+
+```javascript
+AsyncDomainHook SendBirthdayMail on User.UpdateAge
+```
 
 ## Roadmap
 Here are some ideas, that i would like to implement, not necessarly in that particular order
 - [X] @Load Syntax to load other domain classes when they are used in a method. 
+- [X] Async Hooks with Hangfire. 
+- [ ] Cron Notation for Async Hooks. 
+- [ ] Retry counter and escape mechanism for async hooks 
 - [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
 - [ ] Pub/Sub System with Signal R that gets setup within the schema.wsb file between two services effortless
