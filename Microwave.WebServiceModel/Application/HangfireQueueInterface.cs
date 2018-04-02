@@ -25,7 +25,7 @@ namespace Microwave.WebServiceModel.Application
                         new Parameter
                         {
                             Name = "handledEvents",
-                            Type = $"List<{new EventJobClass().Name}>"
+                            Type = $"List<{new EventAndJobClass().Name}>"
                         }
                     },
                     ReturnType = "Task"
@@ -33,7 +33,7 @@ namespace Microwave.WebServiceModel.Application
                 new DomainMethod
                 {
                     Name = "GetEvents",
-                    ReturnType = $"Task<List<{new EventJobClass().Name}>>",
+                    ReturnType = $"Task<List<{new EventAndJobClass().Name}>>",
                     Parameters =
                     {
                         new Parameter
