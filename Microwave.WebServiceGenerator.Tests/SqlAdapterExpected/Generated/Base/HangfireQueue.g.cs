@@ -24,12 +24,12 @@ namespace SqlAdapter
         
         public EventJobRegistration RegisteredJobs { get; private set; }
         
-        public HangfireContext Context { get; private set; }
+        public IQueueRepository QueueRepository { get; private set; }
         
-        public HangfireQueue(EventJobRegistration RegisteredJobs, HangfireContext Context)
+        public HangfireQueue(EventJobRegistration RegisteredJobs, IQueueRepository QueueRepository)
         {
             this.RegisteredJobs = RegisteredJobs;
-            this.Context = Context;
+            this.QueueRepository = QueueRepository;
         }
         
         public async Task AddEvents(List<DomainEventBase> domainEvents)
@@ -40,23 +40,20 @@ namespace SqlAdapter
                 foreach (var job in jobsTriggereByEvent)
                 {
                     var combination = new EventAndJob(domainEvent, job.JobName);
-                    Context.EventAndJobQueue.Add(combination);
+                    await QueueRepository.AddEventForJob(combination);
                 }
-            }
-
-            await Context.SaveChangesAsync();
+            };
         }
         
         public async Task<List<EventAndJob>> GetEvents( string jobName)
         {
-            var eventList = await Context.EventAndJobQueue.Include(queue => queue.DomainEvent).Where(eve => eve.JobName == jobName).ToListAsync();
+            var eventList = await QueueRepository.GetEvents(jobName);
             return eventList;
         }
         
         public async Task RemoveEventsFromQueue(List<EventAndJob> handledEvents)
         {
-            Context.EventAndJobQueue.RemoveRange(handledEvents);
-            await Context.SaveChangesAsync();
+            await QueueRepository.RemoveEventsFromQueue(handledEvents);
         }
     }
 }
