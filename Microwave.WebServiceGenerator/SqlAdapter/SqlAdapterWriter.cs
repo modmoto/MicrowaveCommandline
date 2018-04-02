@@ -17,6 +17,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private EventTupleClassBuilder _tupleClassBuilder;
         private EventJobRegistrationClassBuilder _eventJobRegistrationClassBuilder;
         private HangfireQueueBuilder _hangfireQueueBuilder;
+        private QueueRepositoryBuilder _queueRepositoryBuilder;
 
         public SqlAdapterWriter(string sqlAdapterNameSpace, string basePath)
         {
@@ -30,6 +31,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _tupleClassBuilder = new EventTupleClassBuilder(sqlAdapterNameSpace);
             _eventJobRegistrationClassBuilder = new EventJobRegistrationClassBuilder(sqlAdapterNameSpace);
             _hangfireQueueBuilder = new HangfireQueueBuilder(sqlAdapterNameSpace);
+            _queueRepositoryBuilder = new QueueRepositoryBuilder(sqlAdapterNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -57,6 +59,9 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             var hangfireQueue = _hangfireQueueBuilder.Build(new HangfireQueueClass());
             _fileWriter.WriteToFile(hangfireQueue.Types[0].Name, "Base", hangfireQueue);
+
+            var queueRepo = _queueRepositoryBuilder.Build(new QueueRepositoryClass());
+            _fileWriter.WriteToFile(queueRepo.Types[0].Name, "Base", queueRepo);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }

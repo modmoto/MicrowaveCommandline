@@ -6,7 +6,7 @@ using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
 {
-    public class HangfireQueueBuilder
+    public class QueueRepositoryBuilder
     {
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
@@ -14,7 +14,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
 
-        public HangfireQueueBuilder(string nameSpace)
+        public QueueRepositoryBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
@@ -23,7 +23,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _constructorBuilderUtil = new ConstructorBuilderUtil();
         }
 
-        public CodeNamespace Build(HangfireQueueClass hangfireQueue)
+        public CodeNamespace Build(QueueRepositoryClass hangfireQueue)
         {
             var targetClass = _classBuilderUtil.Build(hangfireQueue.Name);
             var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}").WithApplication().WithTask()
@@ -52,24 +52,16 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         {
             var method = new CodeMemberMethod
             {
-                Name = "AddEvents",
+                Name = "AddEventForJob",
                 ReturnType = new CodeTypeReference("async Task"),
                 Attributes = MemberAttributes.Public | MemberAttributes.Final
             };
 
             method.Parameters.Add(new CodeParameterDeclarationExpression(
-                new CodeTypeReference($"List<{new DomainEventBaseClass().Name}>"), "domainEvents"));
+                new CodeTypeReference(new EventAndJobClass().Name), "eventAndJob"));
 
-            //to lazy right now...
-            method.Statements.Add(new CodeSnippetExpression(@"foreach (var domainEvent in domainEvents)
-            {
-                var jobsTriggereByEvent = RegisteredJobs.EventJobs.Where(tuple => domainEvent.GetType().ToString() == tuple.DomainType);
-                foreach (var job in jobsTriggereByEvent)
-                {
-                    var combination = new EventAndJob(domainEvent, job.JobName);
-                    await QueueRepository.AddEventForJob(combination);
-                }
-            }"));
+            method.Statements.Add(new CodeSnippetExpression("Context.EventAndJobQueue.Add(eventAndJob)"));
+            method.Statements.Add(new CodeSnippetExpression("await Context.SaveChangesAsync()"));
 
             return method;
         }
@@ -87,7 +79,8 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
                 new CodeParameterDeclarationExpression(new CodeTypeReference($"List<{new EventAndJobClass().Name}>"),
                     "handledEvents"));
 
-            method.Statements.Add(new CodeSnippetExpression(@"await QueueRepository.RemoveEventsFromQueue(handledEvents)"));
+            method.Statements.Add(new CodeSnippetExpression("Context.EventAndJobQueue.RemoveRange(handledEvents)"));
+            method.Statements.Add(new CodeSnippetExpression("await Context.SaveChangesAsync()"));
 
             return method;
         }
@@ -103,7 +96,8 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             method.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(" string"), "jobName"));
 
-            method.Statements.Add(new CodeSnippetExpression("var eventList = await QueueRepository.GetEvents(jobName)"));
+            method.Statements.Add(new CodeSnippetExpression(
+                "var eventList = await Context.EventAndJobQueue.Include(queue => queue.DomainEvent).Where(eve => eve.JobName == jobName).ToListAsync()"));
             method.Statements.Add(new CodeSnippetExpression("return eventList"));
 
             return method;

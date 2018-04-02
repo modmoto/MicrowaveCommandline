@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator
 {
@@ -41,6 +42,7 @@ namespace Microwave.WebServiceGenerator
 
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStore, EventStore>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<IEventStoreRepository, EventStoreRepository>()"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new QueueRepositoryInterface().Name}, {new QueueRepositoryClass().Name}>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("collection.AddTransient<EventJobRegistration>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new HangfireQueueInterface().Name}, HangfireQueue>()"));
 

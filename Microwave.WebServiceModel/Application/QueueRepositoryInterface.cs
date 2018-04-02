@@ -4,18 +4,18 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceModel.Application
 {
-    public class HangfireQueueInterface : DomainClass
+    public class QueueRepositoryInterface : DomainClass
     {
-        public HangfireQueueInterface()
+        public QueueRepositoryInterface()
         {
-            Name = "IHangfireQueue";
+            Name = "IQueueRepository";
             Methods = new List<DomainMethod>
             {
                 new DomainMethod
                 {
-                    Name = "AddEvents",
+                    Name = "AddEventForJob",
                     ReturnType = "Task",
-                    Parameters = {new Parameter {Name = "domainEvents", Type = $"List<{new DomainEventBaseClass().Name}>"}}
+                    Parameters = {new Parameter {Name = "eventAndJob", Type = new EventAndJobClass().Name}}
                 },
                 new DomainMethod
                 {

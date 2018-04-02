@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel;
+using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceModel.SqlAdapter
 {
@@ -17,8 +18,8 @@ namespace Microwave.WebServiceModel.SqlAdapter
                 },
                 new Property
                 {
-                    Name = "Context",
-                    Type = "HangfireContext"
+                    Name = "QueueRepository",
+                    Type = new QueueRepositoryInterface().Name
                 }
             };
         }

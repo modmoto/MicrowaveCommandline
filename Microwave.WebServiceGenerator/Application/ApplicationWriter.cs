@@ -27,6 +27,7 @@ namespace Microwave.WebServiceGenerator.Application
         private EventAndJobClassBuilder _eventAndJobClassBuilder;
         private NameBuilderUtil _nameBuilderUtil;
         private AsyncHookCreateEventHandlerBuilder _asyncHookCreateEventHandlerBuilder;
+        private QueueRepositoryInterfaceBuilder _queueRepositoryInterfaceBuilder;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -48,6 +49,7 @@ namespace Microwave.WebServiceGenerator.Application
             _eventAndJobClassBuilder = new EventAndJobClassBuilder(applicationNameSpace);
             _nameBuilderUtil = new NameBuilderUtil();
             _asyncHookCreateEventHandlerBuilder = new AsyncHookCreateEventHandlerBuilder(applicationNameSpace);
+            _queueRepositoryInterfaceBuilder = new QueueRepositoryInterfaceBuilder(applicationNameSpace);
         }
 
         public void Write(DomainTree domainTree)
@@ -110,6 +112,9 @@ namespace Microwave.WebServiceGenerator.Application
 
             var jobAndEventClass = _eventAndJobClassBuilder.Build(new EventAndJobClass());
             _fileWriter.WriteToFile(jobAndEventClass.Types[0].Name, "Base", jobAndEventClass);
+
+            var queueRepo = _queueRepositoryInterfaceBuilder.Build(new QueueRepositoryInterface());
+            _fileWriter.WriteToFile(queueRepo.Types[0].Name, "Base", queueRepo);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }
