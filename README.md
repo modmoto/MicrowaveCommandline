@@ -83,6 +83,7 @@ AsyncDomainHook SendBirthdayMail on User.UpdateAge
 Here are some ideas, that i would like to implement, not necessarly in that particular order
 - [X] @Load Syntax to load other domain classes when they are used in a method. 
 - [X] Async Hooks with Hangfire. 
+- [ ] @OnChild Notation for domain classes react to child actions. 
 - [ ] Cron Notation for Async Hooks. 
 - [ ] Retry counter and escape mechanism for async hooks 
 - [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
