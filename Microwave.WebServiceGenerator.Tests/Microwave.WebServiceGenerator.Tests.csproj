@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Schema.mic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

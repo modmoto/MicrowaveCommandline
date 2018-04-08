@@ -19,7 +19,6 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
             }
         }
 
-
         private ParseState SynchronousDomainHookEventFound(DslToken token)
         {
             var strings = token.Value.Split(".");

@@ -16,23 +16,17 @@ namespace Microwave.LanguageParser.ParseAutomat
             {
                 case TokenType.DomainClass:
                     return DomainClassIdentifierFound();
-                case TokenType.SynchronousDomainHook:
-                    return SynchronousDomainHookFound();
-                case TokenType.AsyncDomainHook:
-                    return AsyncDomainHookFound();
+                case TokenType.Value:
+                    return ValueFound(token);
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState SynchronousDomainHookFound()
+        private ParseState ValueFound(DslToken token)
         {
-            return new SynchronousDomainHookFoundState(MicrowaveLanguageParser);
-        }
-
-        private ParseState AsyncDomainHookFound()
-        {
-            return new AsyncDomainHookFoundState(MicrowaveLanguageParser);
+            MicrowaveLanguageParser.CurrentFoundValue = token.Value;
+            return new ValueFoundState(MicrowaveLanguageParser);
         }
 
         private ParseState DomainClassIdentifierFound()

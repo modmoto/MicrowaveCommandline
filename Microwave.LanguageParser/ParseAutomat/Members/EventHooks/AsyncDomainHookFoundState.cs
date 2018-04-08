@@ -13,22 +13,16 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
         {
             switch (token.TokenType)
             {
-                case TokenType.Value:
-                    return AsyncDomainHookNameFound(token);
+                case TokenType.DomainHookOn:
+                    return AsyncDomainHookOnFound();
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState AsyncDomainHookNameFound(DslToken token)
+        private ParseState AsyncDomainHookOnFound()
         {
-            MicrowaveLanguageParser.CurrentAsyncDomainHook = new AsyncDomainHook
-            {
-                Name = token.Value
-            };
-
-
-            return new AsyncDomainHookNameFoundState(MicrowaveLanguageParser);
+            return new AsyncDomainHookOnEventFoundState(MicrowaveLanguageParser);
         }
     }
 }

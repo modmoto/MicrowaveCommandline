@@ -24,12 +24,16 @@ DomainClass Post {
 	Body: String
 
 	Create(Title: String)
+
+	UpdateTitle(Title: String): {
+		Title: String
+	}
 }
 
-SynchronousDomainHook SendPasswordMail on User.Create
+SendPasswordMail synchronously on User.Create
 
-AsyncDomainHook SendWelcomeMail on User.Create
+SendWelcomeMail asynchronously on User.Create
 
-AsyncDomainHook SendPasswordMail on User.Create
+SendPasswordMail asynchronously on User.Create
 
-AsyncDomainHook SendBirthdayMail on User.UpdateAge
+SendBirthdayMail asynchronously on User.UpdateAge

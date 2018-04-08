@@ -38,6 +38,8 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.Methods
             {
                 MicrowaveLanguageParser.CurrentMethod.Parameters.Add(MicrowaveLanguageParser.CurrentParam);
             }
+
+            MicrowaveLanguageParser.CurrentParamIsLoadParam = false;
             return new MethodSingleParamFinishedState(MicrowaveLanguageParser);
         }
     }

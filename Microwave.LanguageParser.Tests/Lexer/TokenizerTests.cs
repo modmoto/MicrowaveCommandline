@@ -145,13 +145,13 @@ namespace Microwave.LanguageParser.Tests.Lexer
             var tokens = tokenizer.Tokenize(@"DomainClass User{
                                                 Create()
                                             }
-                                            SynchronousDomainHook SendPasswordMail on User.Create");
+                                            SendPasswordMail synchronously on User.Create");
             Assert.AreEqual(11, tokens.Count);
 
 
-            Assert.AreEqual(TokenType.SynchronousDomainHook, tokens[7].TokenType);
-            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
-            Assert.AreEqual("SendPasswordMail", tokens[8].Value);
+            Assert.AreEqual(TokenType.SynchronouslyToken, tokens[8].TokenType);
+            Assert.AreEqual(TokenType.Value, tokens[7].TokenType);
+            Assert.AreEqual("SendPasswordMail", tokens[7].Value);
             Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
             Assert.AreEqual("User.Create", tokens[10].Value);
             Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);
@@ -198,12 +198,13 @@ namespace Microwave.LanguageParser.Tests.Lexer
                                                 Create()
                                             }
 
-                                            AsyncDomainHook SendWelcomeMail on User.Create");
+                                            SendWelcomeMail asynchronously on User.Create");
             Assert.AreEqual(11, tokens.Count);
          
-            Assert.AreEqual(TokenType.AsyncDomainHook, tokens[7].TokenType);
-            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
-            Assert.AreEqual("SendWelcomeMail", tokens[8].Value);
+            
+            Assert.AreEqual(TokenType.Value, tokens[7].TokenType);
+            Assert.AreEqual("SendWelcomeMail", tokens[7].Value);
+            Assert.AreEqual(TokenType.AsynchronouslyToken, tokens[8].TokenType);
             Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
             Assert.AreEqual("User.Create", tokens[10].Value);
             Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);
@@ -217,13 +218,13 @@ namespace Microwave.LanguageParser.Tests.Lexer
                                                 Create()
                                             }
 
-                                            AsyncDomainHook SendBirthdayMail on User.UpdateAge");
+                                            SendBirthdayMail asynchronously on User.UpdateAge");
 
             Assert.AreEqual(11, tokens.Count);
          
-            Assert.AreEqual(TokenType.AsyncDomainHook, tokens[7].TokenType);
-            Assert.AreEqual(TokenType.Value, tokens[8].TokenType);
-            Assert.AreEqual("SendBirthdayMail", tokens[8].Value);
+            Assert.AreEqual(TokenType.Value, tokens[7].TokenType);
+            Assert.AreEqual("SendBirthdayMail", tokens[7].Value);
+            Assert.AreEqual(TokenType.AsynchronouslyToken, tokens[8].TokenType);
             Assert.AreEqual(TokenType.DomainHookOn, tokens[9].TokenType);
             Assert.AreEqual("User.UpdateAge", tokens[10].Value);
             Assert.AreEqual(TokenType.DomainHookEventDefinition, tokens[10].TokenType);

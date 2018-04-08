@@ -27,6 +27,7 @@ namespace Microwave.LanguageParser.ParseAutomat
         public bool CurrentParamIsLoadParam { get; set; }
         public AsyncDomainHook CurrentAsyncDomainHook { get; set; }
         public List<AsyncDomainHook> AsyncDomainHooks { get; set; } = new List<AsyncDomainHook>();
+        public string CurrentFoundValue { get; set; }
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {

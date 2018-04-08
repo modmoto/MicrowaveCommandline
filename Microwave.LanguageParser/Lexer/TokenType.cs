@@ -13,10 +13,10 @@
         TypeDefSeparator,
         ParamSeparator,
         CreateMethod,
-        SynchronousDomainHook,
+        SynchronouslyToken,
         DomainHookEventDefinition,
         DomainHookOn,
         LoadToken,
-        AsyncDomainHook,
+        AsynchronouslyToken,
     }
 }

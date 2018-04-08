@@ -27,8 +27,8 @@ namespace Microwave.LanguageParser.Lexer
                 new TokenDefinition(TokenType.CreateMethod, "^Create"),
                 new TokenDefinition(TokenType.LoadToken, "^@Load"),
                 new TokenDefinition(TokenType.DomainClass, "^DomainClass"),
-                new TokenDefinition(TokenType.SynchronousDomainHook, "^SynchronousDomainHook"),
-                new TokenDefinition(TokenType.AsyncDomainHook, "^AsyncDomainHook"),
+                new TokenDefinition(TokenType.SynchronouslyToken, "^synchronously"),
+                new TokenDefinition(TokenType.AsynchronouslyToken, "^asynchronously"),
                 new TokenDefinition(TokenType.DomainHookOn, "^on"),
 
                 new TokenDefinition(TokenType.Value, "^\\w+")

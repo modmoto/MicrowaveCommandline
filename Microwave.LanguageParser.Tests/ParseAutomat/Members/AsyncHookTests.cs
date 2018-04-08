@@ -13,8 +13,8 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
         {
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
                 new DslToken(TokenType.Value, "SendWelcomeMail", 1),
+                new DslToken(TokenType.AsynchronouslyToken, "asynchronously", 1),
                 new DslToken(TokenType.DomainHookOn, "on", 1),
                 new DslToken(TokenType.DomainHookEventDefinition, "User.Create", 1),
             };
@@ -33,8 +33,8 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
         {
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
                 new DslToken(TokenType.Value, "SendBirthdayMail", 1),
+                new DslToken(TokenType.AsynchronouslyToken, "asynchronously", 1),
                 new DslToken(TokenType.DomainHookOn, "on", 1),
                 new DslToken(TokenType.DomainHookEventDefinition, "User.UpdateAge", 1),
             };
@@ -53,8 +53,8 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
         {
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
-                new DslToken(TokenType.SynchronousDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.AsynchronouslyToken, "SynchronouslyToken", 1),
+                new DslToken(TokenType.SynchronouslyToken, "SynchronouslyToken", 1),
             };
 
             var parser = new MicrowaveLanguageParser();
@@ -76,7 +76,7 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
         {
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.AsynchronouslyToken, "SynchronouslyToken", 1),
                 new DslToken(TokenType.Value, "SendPasswordMail", 1),
                 new DslToken(TokenType.Value, "SendPasswordMail", 1),
             };
@@ -100,7 +100,7 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
         {
             var tokens = new Collection<DslToken>
             {
-                new DslToken(TokenType.AsyncDomainHook, "SynchronousDomainHook", 1),
+                new DslToken(TokenType.AsynchronouslyToken, "SynchronouslyToken", 1),
                 new DslToken(TokenType.Value, "SendPasswordMail", 1),
                 new DslToken(TokenType.DomainHookOn, "on", 1),
                 new DslToken(TokenType.DomainHookOn, "on", 1),

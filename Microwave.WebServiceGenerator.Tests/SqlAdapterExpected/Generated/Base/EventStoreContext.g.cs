@@ -34,6 +34,8 @@ namespace SqlAdapter
         
         public DbSet<Post> Posts { get; private set; }
         
+        public DbSet<PostUpdateTitleEvent> PostUpdateTitleEvents { get; private set; }
+        
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
         
         public EventStoreContext(DbContextOptions<EventStoreContext> options) : 

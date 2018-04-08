@@ -35,6 +35,12 @@ namespace HttpAdapter.Posts
             return await Handler.CreatePost(command);
         }
         
+        [HttpPut("{id}/updatetitle")]
+        public async Task<IActionResult> UpdateTitle(Guid id, [FromBody] PostUpdateTitleCommand command)
+        {
+            return await Handler.UpdateTitlePost(id, command);
+        }
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost(Guid id)
         {

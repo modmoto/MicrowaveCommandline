@@ -59,5 +59,26 @@ namespace Application.Posts
             }
             return new BadRequestObjectResult(createResult.DomainErrors);
         }
+        
+        public async Task<IActionResult> UpdateTitlePost(Guid id, PostUpdateTitleCommand command)
+        {
+            var entity = await PostRepository.GetPost(id);
+            if (entity != null)
+            {
+                var validationResult = entity.UpdateTitle(command);
+                if (validationResult.Ok)
+                {
+                    var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
+                    if (hookResult.Ok)
+                    {
+                        await PostRepository.UpdatePost(entity);
+                        return new OkResult();
+                    }
+                    return new BadRequestObjectResult(hookResult.Errors);
+                }
+                return new BadRequestObjectResult(validationResult.DomainErrors);
+            }
+            return new NotFoundObjectResult(new List<string> { $"Could not find Root Post with ID: {id}" });
+        }
     }
 }
