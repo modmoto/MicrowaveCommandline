@@ -26,6 +26,9 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/User.g.cs"), @"\s+", String.Empty),
             Regex.Replace(File.ReadAllText("Domain/Users/User.g.cs"), @"\s+", String.Empty));
+
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Posts/Post.g.cs"), @"\s+", String.Empty),
+            Regex.Replace(File.ReadAllText("Domain/Posts/Post.g.cs"), @"\s+", String.Empty));
         }
 
         [TestMethod]

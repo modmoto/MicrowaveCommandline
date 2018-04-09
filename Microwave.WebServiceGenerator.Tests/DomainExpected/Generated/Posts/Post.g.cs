@@ -16,15 +16,17 @@ namespace Domain.Posts
     
     public interface IPost
     {
+
+        ValidationResult UpdateTitle(PostUpdateTitleCommand command);
     }
     
     public partial class Post : IPost
     {
-        
+
         public String Title { get; private set; }
-        
+
         public String Body { get; private set; }
-        
+
         public Guid Id { get; private set; }
         
         private Post(Guid Id, PostCreateCommand command)
