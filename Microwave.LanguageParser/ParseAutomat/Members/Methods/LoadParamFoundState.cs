@@ -2,9 +2,9 @@
 
 namespace Microwave.LanguageParser.ParseAutomat.Members.Methods
 {
-    internal class MethodParamTypeDefSeparatorFoundState : ParseState
+    internal class LoadParamFoundState : ParseState
     {
-        public MethodParamTypeDefSeparatorFoundState(MicrowaveLanguageParser microwaveLanguageParser) : base(microwaveLanguageParser)
+        public LoadParamFoundState(MicrowaveLanguageParser microwaveLanguageParser) : base(microwaveLanguageParser)
         {
         }
 
@@ -14,22 +14,15 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.Methods
             {
                 case TokenType.Value:
                     return MethodParamTypeFound(token);
-                case TokenType.LoadToken:
-                    return LoadTypeFound();
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState LoadTypeFound()
-        {
-            return new LoadParamFoundState(MicrowaveLanguageParser);
-        }
-
         private ParseState MethodParamTypeFound(DslToken token)
         {
             MicrowaveLanguageParser.CurrentParam.Type = token.Value;
-            MicrowaveLanguageParser.CurrentMethod.Parameters.Add(MicrowaveLanguageParser.CurrentParam);
+            MicrowaveLanguageParser.CurrentMethod.LoadParameters.Add(MicrowaveLanguageParser.CurrentParam);
             return new MethodSingleParamFinishedState(MicrowaveLanguageParser);
         }
     }

@@ -26,7 +26,7 @@ namespace Microwave.LanguageParser.ParseAutomat.DomainClasses
                 case TokenType.ObjectBracketClose:
                     return DomainClassClosed();
                 case TokenType.Value:
-                    return PropertyStarted(token);
+                    return MemberStarted(token);
                 default:
                     throw new NoTransitionException(token);
             }
@@ -40,7 +40,7 @@ namespace Microwave.LanguageParser.ParseAutomat.DomainClasses
             return new CreateMethodFoundState(MicrowaveLanguageParser);
         }
 
-        private ParseState PropertyStarted(DslToken token)
+        private ParseState MemberStarted(DslToken token)
         {
             MicrowaveLanguageParser.CurrentMemberName = token.Value;
             MicrowaveLanguageParser.CurrentEvent = new DomainEvent { Name = $"{MicrowaveLanguageParser.CurrentClass.Name}{token.Value}Event" };
