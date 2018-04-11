@@ -67,7 +67,7 @@ DomainClass User {
 A `SynchronouseDomainHook` is used to listen to events that occur and starts his execute method before the events or the changes are persisted. That gives you the opportunity to other things in the domain that are crucial but can not be done in the update method, as you might want to check for another domain rule. For example this could be a mail that has to be sent when a user creates an account. If your requirement is, that the account must not be created if the mail could not be sent (for example when the mail is not registered with the provider), then you should use a `SynchronouseDomainHook`. You define it like this outside the domain class braces:
 
 ```javascript
-SynchronousDomainHook SendRegisterMail on User.Create
+SendRegisterMail synchronously on User.Create
 ```
 
 The first word defines that this is a `SynchronouseDomainHook`. The second is the name of the hook, the on is syntactic Sugar and the last word describes on wich event the Hook gets triggered. In this case, the hook gets triggered, if the Method `Crete` from `User` gets called.
@@ -76,7 +76,7 @@ The first word defines that this is a `SynchronouseDomainHook`. The second is th
 An `AsyncDomainHook` also listens to domain events but does this after a given set of time. This mechanism is used to implement eventual consistency in the service. Sending Birthday mails could be one of the applications. The events are stored in a Queue and used, as soon as the hangfire runs, wich is currently every Minute (cron notation will be coming). You can also trigger it on the hangfire console. If the event is handled sucessfully, it is deleted from the queue. This mechanism ensures, that all events are being handled, even if there are some errors in between.
 
 ```javascript
-AsyncDomainHook SendBirthdayMail on User.UpdateAge
+SendBirthdayMail asynchronously on User.UpdateAge
 ```
 
 ## Roadmap
