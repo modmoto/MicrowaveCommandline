@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.LanguageParser.Lexer;
 using Microwave.LanguageParser.ParseAutomat;
 
-namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
+namespace Microwave.LanguageParser.Tests.ParseAutomat.Members.Hooks
 {
     [TestClass]
     public class SynchronousHookTests

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.LanguageParser.Lexer;
+using Microwave.LanguageParser.ParseAutomat.Members;
 
 namespace Microwave.LanguageParser.ParseAutomat
 {
@@ -27,13 +28,16 @@ namespace Microwave.LanguageParser.ParseAutomat
         public AsyncDomainHook CurrentAsyncDomainHook { get; set; }
         public List<AsyncDomainHook> AsyncDomainHooks { get; set; } = new List<AsyncDomainHook>();
         public string CurrentFoundValue { get; set; }
+        public OnChildDomainHook CurrentOnChildHook { get; set; }
+        public OnChildHookMethod CurrentOnChildHookMethod { get; set; }
+        public List<OnChildDomainHook> ChildHooks { get; set; } = new List<OnChildDomainHook>();
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {
             foreach (var token in tokens)
                 _currentState = _currentState.Parse(token);
 
-            return new DomainTree(Classes, SynchronousDomainHooks, AsyncDomainHooks);
+            return new DomainTree(Classes, SynchronousDomainHooks, AsyncDomainHooks, ChildHooks);
         }
     }
 }

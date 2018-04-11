@@ -1,5 +1,6 @@
 ﻿using Microwave.LanguageModel;
 using Microwave.LanguageParser.Lexer;
+using Microwave.LanguageParser.ParseAutomat.Members.EventHooks;
 using Microwave.LanguageParser.ParseAutomat.Members.Methods;
 using Microwave.LanguageParser.ParseAutomat.Members.Properties;
 using Microwave.WebServiceModel.Domain;
@@ -20,9 +21,26 @@ namespace Microwave.LanguageParser.ParseAutomat.Members
                     return PropertySeparatorFound();
                 case TokenType.ParameterBracketOpen:
                     return MethodParamOpenFound();
+                case TokenType.DomainHookOn:
+                    return DomainHookOnFound();
                 default:
                     throw new NoTransitionException(token);
             }
+        }
+
+        private ParseState DomainHookOnFound()
+        {
+            MicrowaveLanguageParser.CurrentOnChildHook = new OnChildDomainHook()
+            {
+                Name = MicrowaveLanguageParser.CurrentMemberName,
+            };
+
+            MicrowaveLanguageParser.CurrentOnChildHookMethod = new OnChildHookMethod
+            {
+                ReturnType = new ValidationResultBaseClass().Name
+            };
+
+            return new OnChildFoundState(MicrowaveLanguageParser);
         }
 
         private ParseState MethodParamOpenFound()

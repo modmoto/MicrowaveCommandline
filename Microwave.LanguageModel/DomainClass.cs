@@ -12,6 +12,7 @@ namespace Microwave.LanguageModel
             ListProperties = new List<ListProperty>();
             CreateMethods = new List<CreateMethod>();
             Events = new List<DomainEvent>();
+            ChildHookMethods = new List<OnChildHookMethod>();
         }
 
         public List<ListProperty> ListProperties { get; protected set; }
@@ -20,6 +21,7 @@ namespace Microwave.LanguageModel
         public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
         public IList<Property> Properties { get; protected set; }
+        public List<OnChildHookMethod> ChildHookMethods { get; protected set; }
         public IEnumerable<DomainMethod> LoadMethods => Methods.Where(method => method.LoadParameters.Count > 0);
     }
 }
