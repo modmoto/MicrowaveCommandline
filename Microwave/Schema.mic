@@ -20,6 +20,7 @@
 }
 
 DomainClass Post {
+	Title: String
 	Body: String
 
 	Create(Title: String)
@@ -27,8 +28,6 @@ DomainClass Post {
 	UpdateTitle(Title: String): {
 		Title: String
 	}
-
-	Title: String
 }
 
 SendPasswordMail synchronously on User.Create
