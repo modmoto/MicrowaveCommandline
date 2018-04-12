@@ -16,7 +16,7 @@ namespace Microwave.WebServiceGenerator.Domain
         {
             var codeTypeReference = new CodeTypeReference(classType);
 
-            var method = createBaseMethod(propsInMethod, codeTypeReference, resultName);
+            var method = CreateBaseMethod(propsInMethod, codeTypeReference, resultName);
 
             var methodSignature = CreateMethodCallToConstructor(argumentsPassedToConst, classType, "", isOk);
 
@@ -28,7 +28,7 @@ namespace Microwave.WebServiceGenerator.Domain
             return method;
         }
 
-        private static CodeMemberMethod createBaseMethod(IList<Property> propsInMethod, CodeTypeReference codeTypeReference, string name)
+        private static CodeMemberMethod CreateBaseMethod(IList<Property> propsInMethod, CodeTypeReference codeTypeReference, string name)
         {
             var method = new CodeMemberMethod
             {
@@ -74,7 +74,7 @@ namespace Microwave.WebServiceGenerator.Domain
         {
             var codeTypeReference = new CodeTypeReference(classType);
 
-            var method = createBaseMethod(propsInMethod, codeTypeReference, resultName);
+            var method = CreateBaseMethod(propsInMethod, codeTypeReference, resultName);
             codeTypeReference.TypeArguments.Add(genericType);
             method.ReturnType = codeTypeReference;
 

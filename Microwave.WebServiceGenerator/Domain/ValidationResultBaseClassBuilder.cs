@@ -27,7 +27,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _classBuilder = new ClassBuilderUtil();
         }
 
-        public void Write(ValidationResultBaseClass userClass)
+        public CodeNamespace Build(ValidationResultBaseClass userClass)
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
@@ -46,8 +46,7 @@ namespace Microwave.WebServiceGenerator.Domain
             targetClass.Members.Add(errorResultConstructor);
 
             nameSpace.Types.Add(targetClass);
-
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
+            return nameSpace;
         }
 
         private CodeMemberMethod BuildErrorResultConstructor(ValidationResultBaseClass userClass)

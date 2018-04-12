@@ -68,7 +68,9 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         [TestMethod]
         public void CreationResultBase_Builder()
         {
-            new DomainClassWriter(DomainNameSpace, DomainBasePath, SolutionBasePath).Write(new CreationResultBaseClass());
+            var creationResult = new CreationResultBaseClassBuilder(DomainNameSpace).Build(new CreationResultBaseClass());
+            new FileWriter(DomainBasePath).WriteToFile("CreationResult", "Base", creationResult);
+
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"), @"\s+", String.Empty),

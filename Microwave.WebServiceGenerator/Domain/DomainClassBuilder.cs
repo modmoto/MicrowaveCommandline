@@ -8,7 +8,7 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class DomainClassWriter
+    public class DomainClassBuilder
     {
         private readonly IClassBuilder _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
@@ -23,7 +23,7 @@ namespace Microwave.WebServiceGenerator.Domain
         private ListPropBuilderUtil _listPropBuilderUtil;
         private FileWriter _fileWriterRealClasses;
 
-        public DomainClassWriter(string domainNameSpace, string basePath, string basePathRealClasses)
+        public DomainClassBuilder(string domainNameSpace, string basePath, string basePathRealClasses)
         {
             _interfaceBuilder = new InterfaceBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
@@ -39,7 +39,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _listPropBuilderUtil = new ListPropBuilderUtil();
         }
 
-        public void Write(DomainClass domainClass)
+        public CodeNamespace Build(DomainClass domainClass)
         {
             var nameSpace = _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList().Build();
             var iface = _interfaceBuilder.BuildForCommand(domainClass);
@@ -118,68 +118,14 @@ namespace Microwave.WebServiceGenerator.Domain
 
                 _fileWriterRealClasses.WriteToFile(domainClass.Name, "Domain", nameSpaceRealClass, false);
             }
-           
+
+            return nameSpace;
         }
 
         private bool ClassIsAllreadyExisting(DomainClass domainClass)
         {
             var formattableString = $"{_basePathRealClasses}/Domain/{domainClass.Name}.cs";
             return File.Exists(formattableString);
-        }
-
-        public void Write(CreationResultBaseClass userClass)
-        {
-            var nameSpace = _nameSpaceBuilderUtil.WithName(_domain).WithList().Build();
-
-            var targetClass = _classBuilder.Build(userClass.Name);
-
-            var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
-            userClassGenericType.Constraints.Add(" class");
-            targetClass.TypeParameters.Add(userClassGenericType);
-
-            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
-
-            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
-
-            var buildOkResultConstructor = BuildOkConstructor(userClass);
-            var errorResultConstructor = BuildErrorConstructor(userClass);
-
-            targetClass.Members.Add(constructor);
-            targetClass.Members.Add(buildOkResultConstructor);
-            targetClass.Members.Add(errorResultConstructor);
-
-            nameSpace.Types.Add(targetClass);
-
-            _fileWriter.WriteToFile(userClass.Name, "Base", nameSpace);
-        }
-
-        private CodeMemberMethod BuildErrorConstructor(CreationResultBaseClass userClass)
-        {
-            var properties = userClass.Properties.Take(3).ToList();
-            properties.Add(new Property {Name = "null"});
-            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResultGeneric(new List<string>
-                {
-                    $"new {userClass.Properties[1].Type}()",
-                    userClass.Properties[2].Name,
-                    "null"
-                },
-                new List<Property> { userClass.Properties[2] }, userClass.Name,
-                userClass.GenericType);
-            return errorResultConstructor;
-        }
-
-        private CodeMemberMethod BuildOkConstructor(CreationResultBaseClass userClass)
-        {
-            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResultGeneric(
-                new List<string>
-                {
-                    userClass.Properties[1].Name,
-                    $"new {userClass.Properties[2].Type}()",
-                    userClass.Properties[3].Name
-                },
-                new List<Property> {userClass.Properties[1], userClass.Properties[3]}, userClass.Name,
-                userClass.GenericType);
-            return buildOkResultConstructor;
         }
     }
 }
