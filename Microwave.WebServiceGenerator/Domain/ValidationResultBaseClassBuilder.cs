@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Domain
 {
     public class ValidationResultBaseClassBuilder
     {
-        private readonly IClassBuilder _classBuilder;
+        private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _domain;
         private readonly IFileWriter _fileWriter;

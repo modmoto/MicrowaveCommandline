@@ -11,7 +11,7 @@ namespace Microwave.WebServiceGenerator.Domain
     {
         private readonly DomainClass _targetClass;
         private readonly DomainEvent _domainEvent;
-        private readonly IClassBuilder _classBuilder;
+        private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
 

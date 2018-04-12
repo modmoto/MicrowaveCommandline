@@ -9,7 +9,7 @@ namespace Microwave.WebServiceGenerator.Application
 {
     public class HookResultBuilder
     {
-        private readonly IClassBuilder _classBuilder;
+        private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _nameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;

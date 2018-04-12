@@ -10,7 +10,7 @@ namespace Microwave.WebServiceGenerator.Domain
 {
     public class DomainClassBuilder
     {
-        private readonly IClassBuilder _classBuilder;
+        private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _domain;
         private readonly string _basePathRealClasses;

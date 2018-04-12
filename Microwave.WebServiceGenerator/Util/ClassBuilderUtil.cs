@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Microwave.WebServiceGenerator.Util
 {
-    public class ClassBuilderUtil : IClassBuilder
+    public class ClassBuilderUtil
     {
         public CodeTypeDeclaration BuildPartial(string name)
         {
@@ -19,11 +19,11 @@ namespace Microwave.WebServiceGenerator.Util
             targetClass.TypeAttributes = TypeAttributes.Public;
             return targetClass;
         }
-    }
 
-    public interface IClassBuilder
-    {
-        CodeTypeDeclaration Build(string name);
-        CodeTypeDeclaration BuildPartial(string name);
+        public CodeTypeDeclaration BuildAsInterface(string name)
+        {
+            var iface = new CodeTypeDeclaration($"I{name}") {IsInterface = true};
+            return iface;
+        }
     }
 }
