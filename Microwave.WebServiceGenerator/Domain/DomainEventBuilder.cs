@@ -7,7 +7,7 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class DomainEventBuilder : ICSharpClassBuilder
+    public class DomainEventBuilder : IPlainDataObjectBuilder
     {
         private readonly DomainClass _targetClass;
         private readonly DomainEvent _domainEvent;
@@ -80,10 +80,6 @@ namespace Microwave.WebServiceGenerator.Domain
         public void AddBaseTypes(CodeTypeDeclaration targetClass)
         {
             targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
-        }
-
-        public void AddConcreteMethods(CodeTypeDeclaration targetClass)
-        {
         }
     }
 }

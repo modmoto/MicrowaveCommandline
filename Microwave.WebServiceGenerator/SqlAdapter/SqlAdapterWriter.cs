@@ -11,7 +11,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly IFileWriter _fileWriter;
         private RepositoryBuilder _repositoryBuilder;
         private EventStoreContextBuilder _eventStoreContextBuilder;
-        private ClassFactory _classFactory;
+        private ClassBuilderDirector _classBuilderDirector;
         private HangfireContextBuilder _hangfireContextBuilder;
         private EventTupleClassBuilder _eventTupleClassBuilder;
         private EventTupleClassBuilder _tupleClassBuilder;
@@ -26,7 +26,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _fileWriter = new FileWriter(basePath);
             _repositoryBuilder = new RepositoryBuilder(sqlAdapterNameSpace);
             _eventStoreContextBuilder = new EventStoreContextBuilder(sqlAdapterNameSpace);
-            _classFactory = new ClassFactory();
+            _classBuilderDirector = new ClassBuilderDirector();
             _hangfireContextBuilder = new HangfireContextBuilder(sqlAdapterNameSpace);
             _tupleClassBuilder = new EventTupleClassBuilder(sqlAdapterNameSpace);
             _eventJobRegistrationClassBuilder = new EventJobRegistrationClassBuilder(sqlAdapterNameSpace);
@@ -48,7 +48,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             var hangfireContext = _hangfireContextBuilder.Build(domainTree.Classes.ToList());
             _fileWriter.WriteToFile(hangfireContext.Types[0].Name, "Base", hangfireContext);
 
-            var eventStoreRepo = _classFactory.BuildInstance(new EventStoreRepositoryBuilder(_sqlAdapterNameSpace));
+            var eventStoreRepo = _classBuilderDirector.BuildInstance(new EventStoreRepositoryBuilder(_sqlAdapterNameSpace));
             _fileWriter.WriteToFile(eventStoreRepo.Types[0].Name, "Base", eventStoreRepo);
 
             var eventTuple = _tupleClassBuilder.Build(new EventTupleClass());

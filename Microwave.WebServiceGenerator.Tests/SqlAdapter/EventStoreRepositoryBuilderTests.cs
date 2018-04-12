@@ -12,7 +12,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         [TestMethod]
         public void Write()
         {
-            var classFactory = new ClassFactory();
+            var classFactory = new ClassBuilderDirector();
             var buildInstance = classFactory.BuildInstance(new EventStoreRepositoryBuilder(SqlAdpaterNameSpace));
             new FileWriter(SqlAdpaterNameSpace).WriteToFile(buildInstance.Types[0].Name, "Base/", buildInstance);
            

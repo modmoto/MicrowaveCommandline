@@ -2,9 +2,9 @@
 
 namespace Microwave.WebServiceGenerator
 {
-    public class ClassFactory
+    public class PlainObjectBuilderDirector
     {
-        public CodeNamespace BuildInstance(ICSharpClassBuilder builder)
+        public CodeNamespace BuildInstance(IPlainDataObjectBuilder builder)
         {
             var nameSpace = builder.BuildNameSpace();
             var targetClass = builder.BuildClassType();
@@ -12,7 +12,6 @@ namespace Microwave.WebServiceGenerator
             builder.AddClassProperties(targetClass);
             builder.AddConstructor(targetClass);
             builder.AddBaseTypes(targetClass);
-            builder.AddConcreteMethods(targetClass);
             return nameSpace;
         }
     }

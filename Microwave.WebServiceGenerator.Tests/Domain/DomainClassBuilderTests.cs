@@ -80,7 +80,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         [TestMethod]
         public void DomainEventBaseClass_Builder()
         {
-            var classFactory = new ClassFactory();
+            var classFactory = new ClassBuilderDirector();
             var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder());
             new FileWriter(DomainBasePath).WriteToFile("DomainEventBase", "Base", baseClass);
 

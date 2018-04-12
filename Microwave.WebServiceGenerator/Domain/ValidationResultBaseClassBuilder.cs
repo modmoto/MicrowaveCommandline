@@ -6,47 +6,23 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class ValidationResultBaseClassBuilder
+    public class ValidationResultBaseClassBuilder : IPlainDataObjectBuilder
     {
+        private readonly ValidationResultBaseClass _resultBaseClass;
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
-        private readonly string _domain;
-        private readonly IFileWriter _fileWriter;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
 
-        public ValidationResultBaseClassBuilder(string domain, string basePath)
+        public ValidationResultBaseClassBuilder(ValidationResultBaseClass resultBaseClass)
         {
-            _domain = domain;
-            _fileWriter = new FileWriter(basePath);
+            _resultBaseClass = resultBaseClass;
             _staticConstructorBuilder = new StaticConstructorBuilder();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
-        }
-
-        public CodeNamespace Build(ValidationResultBaseClass userClass)
-        {
-            var targetClass = _classBuilder.Build(userClass.Name);
-
-            var nameSpace = _nameSpaceBuilderUtil.WithName(_domain).WithList().Build();
-
-            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
-
-            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
-
-            var buildOkResultConstructor = BuildOkResultConstructor(userClass);
-
-            var errorResultConstructor = BuildErrorResultConstructor(userClass);
-
-            targetClass.Members.Add(constructor);
-            targetClass.Members.Add(buildOkResultConstructor);
-            targetClass.Members.Add(errorResultConstructor);
-
-            nameSpace.Types.Add(targetClass);
-            return nameSpace;
         }
 
         private CodeMemberMethod BuildErrorResultConstructor(ValidationResultBaseClass userClass)
@@ -63,6 +39,41 @@ namespace Microwave.WebServiceGenerator.Domain
                 new List<string> {userClass.Properties[1].Name, $"new {userClass.Properties[2].Type}()"},
                 new List<Property> {userClass.Properties[1]}, userClass.Name);
             return buildOkResultConstructor;
+        }
+
+        public CodeNamespace BuildNameSpace()
+        {
+            var nameSpace = _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
+            return nameSpace;
+
+        }
+
+        public CodeTypeDeclaration BuildClassType()
+        {
+            var targetClass = _classBuilder.Build(_resultBaseClass.Name);
+            return targetClass;
+        }
+
+        public void AddClassProperties(CodeTypeDeclaration targetClass)
+        {
+            _propertyBuilderUtil.Build(targetClass, _resultBaseClass.Properties);
+        }
+
+        public void AddConstructor(CodeTypeDeclaration targetClass)
+        {
+            var constructor = _constructorBuilderUtil.BuildPrivate(_resultBaseClass.Properties);
+
+            var buildOkResultConstructor = BuildOkResultConstructor(_resultBaseClass);
+
+            var errorResultConstructor = BuildErrorResultConstructor(_resultBaseClass);
+
+            targetClass.Members.Add(constructor);
+            targetClass.Members.Add(buildOkResultConstructor);
+            targetClass.Members.Add(errorResultConstructor);
+        }
+
+        public void AddBaseTypes(CodeTypeDeclaration targetClass)
+        {
         }
     }
 }

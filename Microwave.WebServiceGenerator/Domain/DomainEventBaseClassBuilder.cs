@@ -7,7 +7,7 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class DomainEventBaseClassBuilder : ICSharpClassBuilder
+    public class DomainEventBaseClassBuilder : IConcreteClassBuilder
     {
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;

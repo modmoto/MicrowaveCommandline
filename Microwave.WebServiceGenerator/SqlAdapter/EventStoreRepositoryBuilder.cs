@@ -6,7 +6,7 @@ using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
 {
-    public class EventStoreRepositoryBuilder : ICSharpClassBuilder
+    public class EventStoreRepositoryBuilder : IConcreteClassBuilder
     {
         private readonly string _nameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;

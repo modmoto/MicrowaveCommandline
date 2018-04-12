@@ -13,9 +13,9 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         [TestMethod]
         public void Write()
         {
-            var validationResultBaseClassBuilder = new ValidationResultBaseClassBuilder(DomainNameSpace, DomainBasePath);
+            var plainObjectBuilderDirector = new PlainObjectBuilderDirector();
+            var validationResult = plainObjectBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
 
-            var validationResult = validationResultBaseClassBuilder.Build(new ValidationResultBaseClass());
             new FileWriter(DomainBasePath).WriteToFile("ValidationResult", "Base", validationResult);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
