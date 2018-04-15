@@ -21,14 +21,14 @@ namespace Microwave.LanguageParser.ParseAutomat.Members
                     return PropertySeparatorFound();
                 case TokenType.ParameterBracketOpen:
                     return MethodParamOpenFound();
-                case TokenType.DomainHookOn:
-                    return DomainHookOnFound();
+                case TokenType.OnChild:
+                    return OnChildFound();
                 default:
                     throw new NoTransitionException(token);
             }
         }
 
-        private ParseState DomainHookOnFound()
+        private ParseState OnChildFound()
         {
             MicrowaveLanguageParser.CurrentOnChildHook = new OnChildDomainHook()
             {

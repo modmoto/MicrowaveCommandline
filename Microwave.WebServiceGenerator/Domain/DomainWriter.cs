@@ -33,7 +33,7 @@ namespace Microwave.WebServiceGenerator.Domain
                 _fileWriter.WriteToFile(domainClassBuild.Types[1].Name, $"{domainClass.Name}s", domainClassBuild);
             }
 
-           var validationResult =  _plainObjectBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
+            var validationResult =  _plainObjectBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
             _fileWriter.WriteToFile(new ValidationResultBaseClass().Name, "Base", validationResult);
 
             var codeNamespace = _creationResultBaseClassBuilder.Build(new CreationResultBaseClass());
