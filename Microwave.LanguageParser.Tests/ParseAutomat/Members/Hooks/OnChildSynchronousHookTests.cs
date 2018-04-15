@@ -17,7 +17,7 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members.Hooks
                 new DslToken(TokenType.Value, "User", 1),
                 new DslToken(TokenType.ObjectBracketOpen, "{", 1),
                 new DslToken(TokenType.Value, "CheckAgeRequirement", 1),
-                new DslToken(TokenType.DomainHookOn, "on", 1),
+                new DslToken(TokenType.OnChild, "OnChild", 1),
                 new DslToken(TokenType.DomainHookEventDefinition, "Post.UpdateTitle", 1),
                 new DslToken(TokenType.ObjectBracketClose, "}", 2)
 

@@ -18,7 +18,7 @@
 		Deleted: Guid
 	}
 
-	CheckAgeRequirement on Post.UpdateTitle
+	CheckAgeRequirement onChild Post.UpdateTitle
 }
 
 DomainClass Post {

@@ -18,5 +18,6 @@
         DomainHookOn,
         LoadToken,
         AsynchronouslyToken,
+        OnChild
     }
 }
