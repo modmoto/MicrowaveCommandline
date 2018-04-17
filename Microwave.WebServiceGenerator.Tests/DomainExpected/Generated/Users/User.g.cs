@@ -15,17 +15,17 @@ namespace Domain.Users
     using Domain.Posts;
     
     
-    public interface IUser
+    public abstract UserBase
     {
         
-        ValidationResult UpdateAge(UserUpdateAgeCommand command);
+       public abstract ValidationResult UpdateAge(UserUpdateAgeCommand command);
         
-        ValidationResult UpdateName(UserUpdateNameCommand command);
+       public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
         
-        ValidationResult AddPost(UserAddPostCommand command);
+       public abstract ValidationResult AddPost(UserAddPostCommand command);
     }
     
-    public partial class User : IUser
+    public partial class User : UserBase
     {
         
         public List<Post> Posts { get; private set; } = new List<Post>();

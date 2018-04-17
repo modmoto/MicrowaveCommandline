@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Reflection;
 using Microwave.LanguageModel;
 
 namespace Microwave.WebServiceGenerator.Util
@@ -7,14 +8,16 @@ namespace Microwave.WebServiceGenerator.Util
     {
         public CodeTypeDeclaration BuildForCommand(DomainClass userClass)
         {
-            var iface = new CodeTypeDeclaration($"I{userClass.Name}") {IsInterface = true};
+            var iface = new CodeTypeDeclaration($"{userClass.Name}Base");
+            iface.TypeAttributes = TypeAttributes.Abstract | TypeAttributes.Public;
 
             foreach (var function in userClass.Methods)
             {
                 var method = new CodeMemberMethod
                 {
                     Name = function.Name,
-                    ReturnType = new CodeTypeReference(function.ReturnType)
+                    ReturnType = new CodeTypeReference(function.ReturnType),
+                    Attributes = MemberAttributes.Abstract | MemberAttributes.Public
                 };
 
                 method.Parameters.Add(new CodeParameterDeclarationExpression

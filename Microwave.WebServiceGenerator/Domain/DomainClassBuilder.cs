@@ -110,8 +110,8 @@ namespace Microwave.WebServiceGenerator.Domain
                         ReturnType = new CodeTypeReference(domainMethod.ReturnType)
                     };
                     method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"), Name = "command" });
-                    method.Attributes = MemberAttributes.Final | MemberAttributes.Public;
-                    method.Statements.Add(new CodeSnippetExpression("return ValidationResult.ErrorResult(new List<string>{\"A generated Domain Update Method that is not implemented was called, aborting...\"})"));
+                    method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
+                    method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
                     targetClassReal.Members.Add(method);
                 }
                 nameSpaceRealClass.Types.Add(targetClassReal);
