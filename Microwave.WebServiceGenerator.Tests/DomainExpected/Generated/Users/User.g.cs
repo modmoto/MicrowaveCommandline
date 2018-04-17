@@ -15,14 +15,14 @@ namespace Domain.Users
     using Domain.Posts;
     
     
-    public abstract UserBase
+    public abstract class UserBase
     {
         
-       public abstract ValidationResult UpdateAge(UserUpdateAgeCommand command);
+        public abstract ValidationResult UpdateAge(UserUpdateAgeCommand command);
         
-       public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
+        public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
         
-       public abstract ValidationResult AddPost(UserAddPostCommand command);
+        public abstract ValidationResult AddPost(UserAddPostCommand command);
     }
     
     public partial class User : UserBase

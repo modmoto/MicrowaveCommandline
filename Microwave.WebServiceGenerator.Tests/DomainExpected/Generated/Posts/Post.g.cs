@@ -16,17 +16,17 @@ namespace Domain.Posts
     
     public abstract class PostBase
     {
-
-       public abstract ValidationResult UpdateTitle(PostUpdateTitleCommand command);
+        
+        public abstract ValidationResult UpdateTitle(PostUpdateTitleCommand command);
     }
     
     public partial class Post : PostBase
     {
-
+        
         public String Title { get; private set; }
-
+        
         public String Body { get; private set; }
-
+        
         public Guid Id { get; private set; }
         
         private Post(Guid Id, PostCreateCommand command)
