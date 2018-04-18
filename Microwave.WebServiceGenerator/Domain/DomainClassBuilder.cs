@@ -13,29 +13,19 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly string _domain;
-        private readonly string _basePathRealClasses;
-        private readonly IFileWriter _fileWriter;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
-        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
-        private CommandBuilder _commandBuilder;
         private ListPropBuilderUtil _listPropBuilderUtil;
-        private FileWriter _fileWriterRealClasses;
 
-        public DomainClassBuilder(string domainNameSpace, string basePath, string basePathRealClasses)
+        public DomainClassBuilder(string domainNameSpace)
         {
             _interfaceBuilder = new InterfaceBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
-            _fileWriter = new FileWriter(basePath);
-            _fileWriterRealClasses = new FileWriter(basePathRealClasses);
             _constructorBuilderUtil = new ConstructorBuilderUtil();
-            _staticConstructorBuilder = new StaticConstructorBuilder();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _domain = domainNameSpace;
-            _basePathRealClasses = basePathRealClasses;
-            _commandBuilder = new CommandBuilder();
             _listPropBuilderUtil = new ListPropBuilderUtil();
         }
 
@@ -63,13 +53,6 @@ namespace Microwave.WebServiceGenerator.Domain
                 nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{listProperty.Type}s"));
             }
 
-            var commands = _commandBuilder.Build(domainClass);
-
-            foreach (var command in commands)
-            {
-                _fileWriter.WriteToFile(command.Types[0].Name, $"{domainClass.Name}s/Commands", command);
-            }
-
             var emptyConstructor = _constructorBuilderUtil.BuildPrivate(new List<Property>());
 
             var propertiesWithDefaultId = domainClass.Properties;
@@ -79,53 +62,7 @@ namespace Microwave.WebServiceGenerator.Domain
 
             nameSpace.Types.Add(targetClass);
 
-            _fileWriter.WriteToFile(domainClass.Name, nameSpace.Name.Split(".")[1], nameSpace);
-
-            if (!ClassIsAllreadyExisting(domainClass))
-            {
-                var nameSpaceRealClass = _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList().Build();
-                var targetClassReal = _classBuilder.BuildPartial(domainClass.Name);
-                foreach (var createMethod in domainClass.CreateMethods)
-                {
-                    var method = new CodeMemberMethod
-                    {
-                        Name = createMethod.Name,
-                        ReturnType = new CodeTypeReference($"{new CreationResultBaseClass().Name}<{domainClass.Name}>")
-                    };
-
-                    method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{createMethod.Name}Command"), Name = "command" });
-
-                    method.Statements.Add(new CodeSnippetExpression("var newGuid = Guid.NewGuid()"));
-                    method.Statements.Add(new CodeSnippetExpression($"var entity = new {domainClass.Name}(newGuid, command)"));
-                    method.Statements.Add(new CodeSnippetExpression($"return CreationResult<{domainClass.Name}>.OkResult(new List<DomainEventBase> {{ new {domainClass.Name}CreateEvent(entity, newGuid) }}, entity)"));
-                    method.Attributes = MemberAttributes.Final | MemberAttributes.Public | MemberAttributes.Static;
-                    targetClassReal.Members.Add(method);
-                }
-
-                foreach (var domainMethod in domainClass.Methods)
-                {
-                    var method = new CodeMemberMethod
-                    {
-                        Name = domainMethod.Name,
-                        ReturnType = new CodeTypeReference(domainMethod.ReturnType)
-                    };
-                    method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"), Name = "command" });
-                    method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
-                    method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
-                    targetClassReal.Members.Add(method);
-                }
-                nameSpaceRealClass.Types.Add(targetClassReal);
-
-                _fileWriterRealClasses.WriteToFile(domainClass.Name, "Domain", nameSpaceRealClass, false);
-            }
-
             return nameSpace;
-        }
-
-        private bool ClassIsAllreadyExisting(DomainClass domainClass)
-        {
-            var formattableString = $"{_basePathRealClasses}/Domain/{domainClass.Name}.cs";
-            return File.Exists(formattableString);
         }
     }
 }

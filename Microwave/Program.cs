@@ -23,6 +23,7 @@ namespace Microwave
             var domainBasePath = $"{basePathToSolution}{domainNameSpace}/Generated/";
             var applicationBasePath = $"{basePathToSolution}{applicationNameSpace}/Generated/";
             var applicationRealClassesBasePath = $"{basePathToSolution}{applicationNameSpace}/";
+            var domainRealClassesBasePath = $"{basePathToSolution}{domainNameSpace}/";
             var sqlAdapterBasePath = $"{basePathToSolution}{sqlAdapterNameSpace}/Generated/";
             var webAdapterBasePath = $"{basePathToSolution}{webAdapterNameSpace}/Generated/";
             var asynHostBasePath = $"{basePathToSolution}AsyncHost";
@@ -30,7 +31,7 @@ namespace Microwave
 
             var tokenizer = new MicrowaveLanguageTokenizer();
             var parser = new MicrowaveLanguageParser();
-            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, basePathToSolution);
+            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, domainRealClassesBasePath);
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new HttpAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
