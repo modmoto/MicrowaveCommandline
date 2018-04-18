@@ -29,7 +29,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _domainClassFirstBuilder = new DomainClassFirstBuilder(domain);
         }
 
-        public void Build(DomainTree domainTree, string basePath)
+        public void Write(DomainTree domainTree, string basePath)
         {
             foreach (var domainClass in domainTree.Classes)
             {

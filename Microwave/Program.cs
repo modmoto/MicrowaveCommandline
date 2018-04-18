@@ -46,7 +46,7 @@ namespace Microwave
                 var dslParser = new DslParser(tokenizer, parser);
                 var domainTree = dslParser.Parse(content);
 
-                domainBuilder.Build(domainTree, domainBasePath);
+                domainBuilder.Write(domainTree, domainBasePath);
                 applicationWriter.Write(domainTree);
                 sqlAdapterWriter.Write(domainTree);
                 webAdapterWriter.Write(domainTree);

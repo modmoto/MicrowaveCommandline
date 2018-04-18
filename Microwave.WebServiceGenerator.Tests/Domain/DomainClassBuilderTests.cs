@@ -21,7 +21,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Build(domainTree, DomainBasePath);
+                domainBuilder.Write(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/User.g.cs"), @"\s+", String.Empty),
@@ -32,6 +32,24 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         }
 
         [TestMethod]
+        public void TestDomainClassesFirstWrite()
+        {
+            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
+            using (var reader = new StreamReader("Schema.mic"))
+            {
+                var content = reader.ReadToEnd();
+                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
+                domainBuilder.Write(domainTree, DomainBasePath);
+            }
+
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/User.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Solution/User.cs"), @"\s+", String.Empty));
+
+            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Post.cs"), @"\s+", String.Empty),
+                Regex.Replace(File.ReadAllText("Solution/Post.cs"), @"\s+", String.Empty));
+        }
+
+        [TestMethod]
         public void TestCreateEvents()
         {
             var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
@@ -39,7 +57,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Build(domainTree, DomainBasePath);
+                domainBuilder.Write(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserCreateEvent.g.cs"), @"\s+", String.Empty),
@@ -54,7 +72,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
             {
                 var content = reader.ReadToEnd();
                 var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Build(domainTree, DomainBasePath);
+                domainBuilder.Write(domainTree, DomainBasePath);
             }
 
             Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"), @"\s+", String.Empty),

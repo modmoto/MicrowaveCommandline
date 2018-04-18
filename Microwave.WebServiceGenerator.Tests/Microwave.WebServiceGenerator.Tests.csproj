@@ -95,4 +95,10 @@
       <HintPath>..\..\..\.nuget\packages\system.codedom\4.4.0\ref\netstandard2.0\System.CodeDom.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DomainExpected\Generated\Post.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DomainExpected\Generated\User.cs" />
+  </ItemGroup>
 </Project>
