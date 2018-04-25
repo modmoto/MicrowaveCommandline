@@ -12,6 +12,7 @@ namespace Domain.Users
 {
     using System;
     using System.Collections.Generic;
+    using Domain.Posts;
     
     
     public partial class User
@@ -37,6 +38,11 @@ namespace Domain.Users
         public override ValidationResult AddPost(UserAddPostCommand command)
         {
             return ValidationResult.ErrorResult(new List<string>{"The Method \"AddPost\" in Class \"User\" that is not implemented was called, aborting..."});
+        }
+        
+        public override ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent hookEvent)
+        {
+            return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnPostUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
         }
     }
 }

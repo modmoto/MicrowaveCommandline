@@ -23,7 +23,15 @@ namespace Microwave.WebServiceGenerator.Domain
 
         public CodeNamespace Build(DomainClass domainClass)
         {
-            var nameSpaceRealClass = _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList().Build();
+            _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList();
+
+            foreach (var childHookMethod in domainClass.ChildHookMethods)
+            {
+                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(childHookMethod.OriginEntity);
+            }
+
+            var nameSpaceRealClass = _nameSpaceBuilderUtil.Build();
+
             var targetClassReal = _classBuilder.BuildPartial(domainClass.Name);
             foreach (var createMethod in domainClass.CreateMethods)
             {
@@ -54,6 +62,20 @@ namespace Microwave.WebServiceGenerator.Domain
                 method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
                 targetClassReal.Members.Add(method);
             }
+
+            foreach (var domainMethod in domainClass.ChildHookMethods)
+            {
+                var method = new CodeMemberMethod
+                {
+                    Name = domainMethod.Name,
+                    ReturnType = new CodeTypeReference(domainMethod.ReturnType)
+                };
+                method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainMethod.Parameters[0].Name}"), Name = "hookEvent" });
+                method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
+                method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
+                targetClassReal.Members.Add(method);
+            }
+
             nameSpaceRealClass.Types.Add(targetClassReal);
 
             return nameSpaceRealClass;

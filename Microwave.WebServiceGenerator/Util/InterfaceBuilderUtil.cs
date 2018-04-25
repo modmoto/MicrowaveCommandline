@@ -6,12 +6,12 @@ namespace Microwave.WebServiceGenerator.Util
 {
     public class InterfaceBuilderUtil : IInterfaceBuilder
     {
-        public CodeTypeDeclaration BuildForCommand(DomainClass userClass)
+        public CodeTypeDeclaration BuildForCommand(DomainClass generatedClass)
         {
-            var iface = new CodeTypeDeclaration($"{userClass.Name}Base");
+            var iface = new CodeTypeDeclaration($"{generatedClass.Name}Base");
             iface.TypeAttributes = TypeAttributes.Abstract | TypeAttributes.Public;
 
-            foreach (var function in userClass.Methods)
+            foreach (var function in generatedClass.Methods)
             {
                 var method = new CodeMemberMethod
                 {
@@ -22,9 +22,28 @@ namespace Microwave.WebServiceGenerator.Util
 
                 method.Parameters.Add(new CodeParameterDeclarationExpression
                 {
-                    Type = new CodeTypeReference($"{userClass.Name}{function.Name}Command"),
+                    Type = new CodeTypeReference($"{generatedClass.Name}{function.Name}Command"),
                     Name = "command"
                 });
+
+                iface.Members.Add(method);
+            }
+
+            foreach (var function in generatedClass.ChildHookMethods)
+            {
+                var method = new CodeMemberMethod
+                {
+                    Name = function.Name,
+                    ReturnType = new CodeTypeReference(function.ReturnType),
+                    Attributes = MemberAttributes.Abstract | MemberAttributes.Public
+                };
+
+                foreach (var parameter in function.Parameters)
+                    method.Parameters.Add(new CodeParameterDeclarationExpression
+                    {
+                        Type = new CodeTypeReference(parameter.Type),
+                        Name = parameter.Name
+                    });
 
                 iface.Members.Add(method);
             }
@@ -60,6 +79,6 @@ namespace Microwave.WebServiceGenerator.Util
 
     public interface IInterfaceBuilder
     {
-        CodeTypeDeclaration BuildForCommand(DomainClass userClass);
+        CodeTypeDeclaration BuildForCommand(DomainClass generatedClass);
     }
 }

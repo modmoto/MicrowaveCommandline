@@ -27,7 +27,8 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
             MicrowaveLanguageParser.CurrentOnChildHook.MethodName = token.Value.Split('.')[1];
 
             MicrowaveLanguageParser.CurrentOnChildHookMethod.Name = $@"{MicrowaveLanguageParser.CurrentMemberName}_On{token.Value.Replace(".", "")}";
-            MicrowaveLanguageParser.CurrentOnChildHookMethod.Parameters.Add(new Parameter {Name = token.Value.Replace(".", ""), Type = token.Value.Replace(".", "") });
+            MicrowaveLanguageParser.CurrentOnChildHookMethod.OriginEntity = token.Value.Split('.')[0];
+            MicrowaveLanguageParser.CurrentOnChildHookMethod.Parameters.Add(new Parameter {Name = $"{token.Value.Replace(".", "")}Event", Type = $"{token.Value.Replace(".", "")}Event" });
 
             MicrowaveLanguageParser.CurrentClass.ChildHookMethods.Add(MicrowaveLanguageParser.CurrentOnChildHookMethod);
             MicrowaveLanguageParser.ChildHooks.Add(MicrowaveLanguageParser.CurrentOnChildHook);

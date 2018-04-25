@@ -23,6 +23,8 @@ namespace Domain.Users
         public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
         
         public abstract ValidationResult AddPost(UserAddPostCommand command);
+        
+        public abstract ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent PostUpdateTitleEvent);
     }
     
     public partial class User : UserBase
