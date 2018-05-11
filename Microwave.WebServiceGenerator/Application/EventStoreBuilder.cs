@@ -104,7 +104,7 @@ namespace Microwave.WebServiceGenerator.Application
             codeInnerWhile.InitStatement = new CodeSnippetStatement("");
             codeInnerWhile.Statements.Add(new CodeSnippetExpression("var domainHook = enumeratorHook.Current"));
             codeInnerWhile.Statements.Add(new CodeSnippetExpression(
-                $"var validationResult = domainHook.{new DomainHookBaseClass().Methods[0].Name}(domainEvent)"));
+                $"var validationResult = await domainHook.{new DomainHookBaseClass().Methods[0].Name}(domainEvent)"));
 
             codeInnerWhile.Statements.Add(CreateIfState());
             return codeInnerWhile;

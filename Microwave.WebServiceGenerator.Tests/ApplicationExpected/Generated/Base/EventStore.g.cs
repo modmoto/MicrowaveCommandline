@@ -46,7 +46,7 @@ namespace Application
                 )
                 {
                     var domainHook = enumeratorHook.Current;
-                    var validationResult = domainHook.ExecuteSavely(domainEvent);
+                    var validationResult = await domainHook.ExecuteSavely(domainEvent);
                     if (!validationResult.Ok)
                     {
                         return validationResult;

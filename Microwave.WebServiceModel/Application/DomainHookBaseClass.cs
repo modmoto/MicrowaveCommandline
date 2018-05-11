@@ -14,7 +14,7 @@ namespace Microwave.WebServiceModel.Application
                 new DomainMethod
                 {
                     Name = "ExecuteSavely",
-                    ReturnType = "HookResult",
+                    ReturnType = "Task<HookResult>",
                     Parameters = {new Parameter {Name = "domainEvent", Type = "DomainEventBase"}}
                 }
             };

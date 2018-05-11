@@ -11,6 +11,7 @@
 namespace Application.Users.Hooks
 {
     using System;
+    using System.Threading.Tasks;
     using Domain.Users;
     using Domain;
     
@@ -20,11 +21,11 @@ namespace Application.Users.Hooks
         
         public Type EventType { get; private set; } = typeof(UserCreateEvent);
         
-        public HookResult ExecuteSavely(DomainEventBase domainEvent)
+        public async Task<HookResult> ExecuteSavely(DomainEventBase domainEvent)
         {
             if (domainEvent is UserCreateEvent parsedEvent)
             {
-                return Execute(parsedEvent);
+                return await Execute(parsedEvent);
             }
             throw new Exception("Event is not in the correct list");
         }

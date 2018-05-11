@@ -9,7 +9,7 @@ namespace Microwave.WebServiceGenerator.Application
         private readonly string _nameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
-        private InterfaceBuilderUtil _interfaceBuilderUtil;
+        private readonly InterfaceBuilderUtil _interfaceBuilderUtil;
 
         public HookBaseClassBuilder(string nameSpace)
         {
@@ -22,7 +22,7 @@ namespace Microwave.WebServiceGenerator.Application
         public CodeNamespace Build(DomainHookBaseClass hookClass)
         {
             var targetClass = _interfaceBuilderUtil.Build(hookClass);
-            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().Build();
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().WithTask().Build();
             _propertyBuilderUtil.BuildForInterface(targetClass, hookClass.Properties);
             nameSpace.Types.Add(targetClass);
             return nameSpace;

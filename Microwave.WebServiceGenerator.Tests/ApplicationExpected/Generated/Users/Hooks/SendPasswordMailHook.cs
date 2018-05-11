@@ -11,6 +11,7 @@
 namespace Application.Users.Hooks
 {
     using System;
+    using System.Threading.Tasks;
     using System.Collections.Generic;
     using Domain.Users;
     using Domain;
@@ -19,9 +20,9 @@ namespace Application.Users.Hooks
     public partial class SendPasswordMailHook
     {
         
-        public HookResult Execute(UserCreateEvent domainEvent)
+        public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
-            return HookResult.ErrorResult(new List<string>{"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting..."});
+            return await Task.FromResult(HookResult.ErrorResult(new List<string>{"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting..."}));
         }
     }
 }

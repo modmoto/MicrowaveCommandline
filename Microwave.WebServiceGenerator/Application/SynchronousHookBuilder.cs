@@ -21,7 +21,9 @@ namespace Microwave.WebServiceGenerator.Application
 
         public CodeNamespace Build(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").Build();
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks")
+                .WithTask()
+                .Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain"));
@@ -47,7 +49,7 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Parameters.Add(
                 new CodeParameterDeclarationExpression(new CodeTypeReference(new DomainEventBaseClass().Name),
                     "domainEvent"));
-            codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
+            codeMemberMethod.ReturnType = new CodeTypeReference($"async {new DomainHookBaseClass().Methods[0].ReturnType}");
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = new DomainHookBaseClass().Methods[0].Name;
             codeMemberMethod.Statements.Add(new CodeConditionStatement(
@@ -55,7 +57,7 @@ namespace Microwave.WebServiceGenerator.Application
                     $"domainEvent is {domainClass.ClassType}{domainClass.MethodName}Event parsedEvent"), 
                 new CodeStatement[]
                 {
-                    new CodeExpressionStatement(new  CodeSnippetExpression("return Execute(parsedEvent)"))
+                    new CodeExpressionStatement(new  CodeSnippetExpression("return await Execute(parsedEvent)"))
                 }
             ));
 
@@ -68,7 +70,7 @@ namespace Microwave.WebServiceGenerator.Application
 
         public CodeNamespace BuildReplacementClass(SynchronousDomainHook domainClass)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").WithList().Build();
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.ClassType}s.Hooks").WithTask().WithList().Build();
             var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{domainClass.ClassType}s"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("Domain"));
@@ -78,11 +80,11 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Parameters.Add(
                 new CodeParameterDeclarationExpression(new CodeTypeReference($"{domainClass.ClassType}{domainClass.MethodName}Event"),
                     "domainEvent"));
-            codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
+            codeMemberMethod.ReturnType = new CodeTypeReference($"async {new DomainHookBaseClass().Methods[0].ReturnType}");
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>{\"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting...\"})"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return await Task.FromResult(HookResult.ErrorResult(new List<string>{\"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting...\"}))"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
         }

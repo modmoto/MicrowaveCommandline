@@ -12,6 +12,7 @@ namespace Application
 {
     using System;
     using Domain;
+    using System.Threading.Tasks;
     
     
     public interface IDomainHook
@@ -22,6 +23,6 @@ namespace Application
             get;
         }
         
-        HookResult ExecuteSavely(DomainEventBase domainEvent);
+        Task<HookResult> ExecuteSavely(DomainEventBase domainEvent);
     }
 }
