@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 
@@ -27,6 +28,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             var nameSpace = _nameSpaceBuilderUtil
                 .WithName($"{_nameSpace}.{domainClass.Name}s")
                 .WithList()
+                .WithLinq()
                 .WithTask()
                 .WithDomainEntityNameSpace(domainClass.Name)
                 .WithApplicationEntityNameSpace(domainClass.Name)
@@ -55,9 +57,40 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             var getAllMethod = MakeGetAllMethod(domainClass);
             repository.Members.Add(getAllMethod);
 
+            var getParentMethods = MakeGetParentMethods(domainClass);
+            repository.Members.AddRange(getParentMethods);
+
             nameSpace.Types.Add(repository);
 
             return nameSpace;
+        }
+
+        private CodeMemberMethod[] MakeGetParentMethods(DomainClass domainClass)
+        {
+            var parentMethods = new List<CodeMemberMethod>();
+
+            foreach (var onChildHookMethod in domainClass.ChildHookMethods)
+            {
+                var childEntityName = onChildHookMethod.OriginEntity;
+                var getByIdMethod = new CodeMemberMethod
+                {
+                    Name = $"Get{childEntityName}Parent",
+                    ReturnType = new CodeTypeReference($"async Task<{domainClass.Name}>")
+                };
+                getByIdMethod.Parameters.Add(
+                    new CodeParameterDeclarationExpression {Type = new CodeTypeReference("Guid"), Name = "childId"});
+
+                getByIdMethod.Statements.Add(
+                    new CodeSnippetExpression(
+                        $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}" +
+                        $".FirstOrDefaultAsync(parent => parent.{childEntityName}s.Any(child => child.Id == childId))"));
+
+                getByIdMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
+
+                parentMethods.Add(getByIdMethod);
+            }
+
+            return parentMethods.ToArray();
         }
 
         private static CodeMemberMethod MakeGetAllMethod(DomainClass domainClass)

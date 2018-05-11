@@ -12,6 +12,7 @@ namespace SqlAdapter.Users
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Domain.Users;
     using Application.Users;
@@ -48,6 +49,11 @@ namespace SqlAdapter.Users
         public async Task<List<User>> GetUsers()
         {
             return await EventStore.Users.Include(entity => entity.Posts).ToListAsync();
+        }
+        
+        public async Task<User> GetPostParent(Guid childId)
+        {
+            return await EventStore.Users.Include(entity => entity.Posts).FirstOrDefaultAsync(parent => parent.Posts.Any(child => child.Id == childId));
         }
     }
 }

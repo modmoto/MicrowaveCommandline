@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 
@@ -59,7 +60,30 @@ namespace Microwave.WebServiceGenerator.Application
             iface.Members.Add(getAllMethod);
             nameSpace.Types.Add(iface);
 
+            iface.Members.AddRange(MakeGetParentMethods(domainClass));
+
             return nameSpace;
+        }
+
+        private CodeMemberMethod[] MakeGetParentMethods(DomainClass domainClass)
+        {
+            var parentMethods = new List<CodeMemberMethod>();
+
+            foreach (var onChildHookMethod in domainClass.ChildHookMethods)
+            {
+                var childEntityName = onChildHookMethod.OriginEntity;
+                var getByIdMethod = new CodeMemberMethod
+                {
+                    Name = $"Get{childEntityName}Parent",
+                    ReturnType = new CodeTypeReference($"Task<{domainClass.Name}>")
+                };
+                getByIdMethod.Parameters.Add(
+                    new CodeParameterDeclarationExpression {Type = new CodeTypeReference("Guid"), Name = "childId"});
+
+                parentMethods.Add(getByIdMethod);
+            }
+
+            return parentMethods.ToArray();
         }
     }
 }
