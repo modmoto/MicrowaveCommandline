@@ -70,11 +70,11 @@ namespace Microwave.WebServiceGenerator.Application
             if (hook.IsCreateHook) codeWhile.Statements.Add(new CodeSnippetExpression($"var newCreateEvent = new {hook.ClassType}{hook.MethodName}Event(entity, domainEvent.EntityId)"));
             if (hook.IsCreateHook)
             {
-                codeWhile.Statements.Add(new CodeSnippetExpression($"var hookResult = AsyncHook.Execute(newCreateEvent)"));
+                codeWhile.Statements.Add(new CodeSnippetExpression($"var hookResult = await AsyncHook.Execute(newCreateEvent)"));
             }
             else
             {
-                codeWhile.Statements.Add(new CodeSnippetExpression($"var hookResult = AsyncHook.Execute(domainEvent)"));
+                codeWhile.Statements.Add(new CodeSnippetExpression($"var hookResult = await AsyncHook.Execute(domainEvent)"));
             }
             codeWhile.Statements.Add(CreateIfState());
 

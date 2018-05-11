@@ -11,14 +11,12 @@ namespace Microwave.WebServiceGenerator.Application
         private readonly string _applicationNameSpace;
         private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private ClassBuilderUtil _classBuilderUtil;
-        private PropertyBuilderUtil _propertyBuilderUtil;
 
         public SynchronousHookBuilder(string applicationNameSpace)
         {
             _applicationNameSpace = applicationNameSpace;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _classBuilderUtil = new ClassBuilderUtil();
-            _propertyBuilderUtil = new PropertyBuilderUtil();
         }
 
         public CodeNamespace Build(SynchronousDomainHook domainClass)
@@ -81,7 +79,7 @@ namespace Microwave.WebServiceGenerator.Application
                 new CodeParameterDeclarationExpression(new CodeTypeReference($"{domainClass.ClassType}{domainClass.MethodName}Event"),
                     "domainEvent"));
             codeMemberMethod.ReturnType = new CodeTypeReference(new DomainHookBaseClass().Methods[0].ReturnType);
-            codeMemberMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
+            codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>{\"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting...\"})"));

@@ -23,7 +23,10 @@ namespace Microwave.WebServiceGenerator.Application
 
         public CodeNamespace BuildReplacementClass(AsyncDomainHook hook)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{hook.ClassType}s.AsyncHooks").WithList().Build();
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{hook.ClassType}s.AsyncHooks")
+                .WithList()
+                .WithTask()
+                .Build();
             var codeTypeDeclaration = _classBuilderUtil.Build(_nameBuilderUtil.BuildAsyncEventHookName(hook));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{hook.ClassType}s"));
 
@@ -33,12 +36,12 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Parameters.Add(
                 new CodeParameterDeclarationExpression(new CodeTypeReference($"{hook.ClassType}{hook.MethodName}Event"),
                     "domainEvent"));
-            codeMemberMethod.ReturnType = new CodeTypeReference(new HookResultBaseClass().Name);
+            codeMemberMethod.ReturnType = new CodeTypeReference($"async Task<{new HookResultBaseClass().Name}>");
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {hook.Name} that is not implemented was called, aborting...\")"));
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return HookResult.ErrorResult(new List<string>())"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {_nameBuilderUtil.BuildAsyncEventHookName(hook)} that is not implemented was called, aborting...\")"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("return await Task.FromResult(HookResult.ErrorResult(new List<string>()))"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
         }
