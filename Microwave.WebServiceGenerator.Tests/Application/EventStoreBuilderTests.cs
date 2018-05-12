@@ -18,14 +18,8 @@ namespace Microwave.WebServiceGenerator.Tests.Application
         {
             var storeBuilder = new EventStoreBuilder(ApplicationNameSpace);
 
-            using (var reader = new StreamReader("Schema.mic"))
-            {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-
-                var eventStore = storeBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
-                new FileWriter(ApplicationBasePath).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
-            }
+            var eventStore = storeBuilder.Build(new EventStore());
+            new FileWriter(ApplicationBasePath).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 

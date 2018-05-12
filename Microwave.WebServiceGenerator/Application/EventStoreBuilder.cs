@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Application
             _constructorBuilderUtil = new ConstructorBuilderUtil();
         }
 
-        public CodeNamespace Build(EventStore eventStore, IList<SynchronousDomainHook> hooks)
+        public CodeNamespace Build(EventStore eventStore)
         {
             var targetClass = _classBuilderUtil.Build(eventStore.Name);
             targetClass.BaseTypes.Add(new EventStoreInterface().Name);
@@ -33,16 +33,7 @@ namespace Microwave.WebServiceGenerator.Application
             _nameSpaceBuilderUtil.WithName(_nameSpace).WithDomain().WithTask().WithList().WithLinq();
 
             _propertyBuilderUtil.BuildWithoutSet(targetClass, eventStore.Properties);
-            _listPropBuilderUtil.Build(targetClass, eventStore.ListProperties);
             var constructor = _constructorBuilderUtil.BuildPublic(eventStore.Properties);
-
-            foreach (var hook in hooks)
-            {
-                var hookName = hook.Name + "Hook";
-                _nameSpaceBuilderUtil.WithHookEntityNameSpace(hook.ClassType);
-                constructor.Parameters.Add(new CodeParameterDeclarationExpression(hookName, hookName));
-                constructor.Statements.Add(new CodeSnippetExpression($"DomainHooks.Add({hookName})"));
-            }
 
             targetClass.Members.Add(constructor);
 
@@ -61,6 +52,7 @@ namespace Microwave.WebServiceGenerator.Application
             }
 
             var codeMemberMethod = methodList[0];
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("var domainEventsFromHooks = new List<DomainEventBase>()"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("var enumerator = domainEvents.GetEnumerator()"));
 
             var codeWhile = CreateLoopOverDomainEvents();
@@ -68,6 +60,8 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Statements.Add(codeWhile);
             codeMemberMethod.Statements.Add(
                 new CodeSnippetExpression("await EventStoreRepository.AddEvents(domainEvents)"));
+            codeMemberMethod.Statements.Add(
+                new CodeSnippetExpression("await EventStoreRepository.AddEvents(domainEventsFromHooks)"));
             codeMemberMethod.Statements.Add(
                 new CodeSnippetExpression($"return {new HookResultBaseClass().Name}.OkResult()"));
 
@@ -107,6 +101,9 @@ namespace Microwave.WebServiceGenerator.Application
                 $"var validationResult = await domainHook.{new DomainHookBaseClass().Methods[0].Name}(domainEvent)"));
 
             codeInnerWhile.Statements.Add(CreateIfState());
+
+            codeInnerWhile.Statements.Add(new CodeSnippetExpression("domainEventsFromHooks.AddRange(validationResult.DomainEvents)"));
+
             return codeInnerWhile;
         }
 

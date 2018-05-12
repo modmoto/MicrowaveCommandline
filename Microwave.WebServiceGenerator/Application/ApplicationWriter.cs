@@ -101,7 +101,7 @@ namespace Microwave.WebServiceGenerator.Application
             var eventStoreRepoInterface = _eventStoreRepositoryInterfaceBuilder.Build(new EventStoreRepositoryInterface());
             _fileWriter.WriteToFile(new EventStoreRepositoryInterface().Name, "Base", eventStoreRepoInterface);
 
-            var eventStore = _eventStoreBuilder.Build(new EventStore(), domainTree.SynchronousDomainHooks);
+            var eventStore = _eventStoreBuilder.Build(new EventStore());
             _fileWriter.WriteToFile(new EventStore().Name, "Base", eventStore);
 
             var eventStoreInterface = _eventStoreInterfaceBuilder.Build(new EventStoreInterface());

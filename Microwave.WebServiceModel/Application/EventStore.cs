@@ -20,11 +20,8 @@ namespace Microwave.WebServiceModel.Application
             };
             Properties = new List<Property>
             {
-                new Property {Name = "EventStoreRepository", Type = new EventStoreRepositoryInterface().Name}
-            };
-            ListProperties = new List<ListProperty>
-            {
-                new ListProperty {Name = "DomainHooks", Type = new DomainHookBaseClass().Name}
+                new Property {Name = "EventStoreRepository", Type = new EventStoreRepositoryInterface().Name},
+                new Property {Name = "DomainHooks", Type = $"IEnumerable<{new DomainHookBaseClass().Name}>"}
             };
             Methods = new List<DomainMethod>
             {
