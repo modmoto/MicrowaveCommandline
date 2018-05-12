@@ -21,7 +21,7 @@ namespace Microwave.WebServiceGenerator.Tests
                     var content = reader.ReadToEnd();
                     var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
 
-                    hookResultBuilder.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, "Application/Base/");
+                    hookResultBuilder.Write(domainTree.Classes, domainTree.SynchronousDomainHooks, domainTree.OnChildHooks, "Application/Base/");
                 }
 
                 Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Base/GeneratedDependencies.g.cs"), @"\s+", String.Empty),

@@ -20,7 +20,7 @@ namespace Microwave.WebServiceGenerator
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
-        public void Write(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, string basePath)
+        public void Write(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, IList<OnChildDomainHook> childDomainHooks, string basePath)
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
@@ -59,7 +59,12 @@ namespace Microwave.WebServiceGenerator
             foreach (var hook in domainHooks)
             {
                 _nameSpaceBuilderUtil.WithHookEntityNameSpace(hook.ClassType);
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{hook.Name}Hook>()"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
+            }
+
+            foreach (var hook in childDomainHooks)
+            {
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
             }
 
             var codeNamespace = _nameSpaceBuilderUtil.Build();
