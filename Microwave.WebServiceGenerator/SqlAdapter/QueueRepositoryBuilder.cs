@@ -1,7 +1,6 @@
 ﻿using System.CodeDom;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
-using Microwave.WebServiceModel.Domain;
 using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter

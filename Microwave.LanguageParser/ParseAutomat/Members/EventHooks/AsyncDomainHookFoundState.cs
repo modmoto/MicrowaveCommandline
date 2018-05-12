@@ -1,5 +1,4 @@
-﻿using Microwave.LanguageModel;
-using Microwave.LanguageParser.Lexer;
+﻿using Microwave.LanguageParser.Lexer;
 
 namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
 {

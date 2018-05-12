@@ -2,9 +2,6 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
 using Microwave.WebServiceGenerator.Application;
 using Microwave.WebServiceModel.Application;
 

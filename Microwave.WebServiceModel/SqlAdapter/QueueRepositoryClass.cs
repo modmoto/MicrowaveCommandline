@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel;
-using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceModel.SqlAdapter
 {

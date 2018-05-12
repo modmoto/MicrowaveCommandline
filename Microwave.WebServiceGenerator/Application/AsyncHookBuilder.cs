@@ -2,7 +2,6 @@
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
-using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Application
 {

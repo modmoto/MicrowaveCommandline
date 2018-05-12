@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microwave.LanguageModel;
 using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat.Members;
 
 namespace Microwave.LanguageParser.ParseAutomat
 {
