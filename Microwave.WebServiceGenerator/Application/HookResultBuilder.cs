@@ -30,18 +30,19 @@ namespace Microwave.WebServiceGenerator.Application
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 
-            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithList().Build();
+            var nameSpace = _nameSpaceBuilderUtil.WithName(_nameSpace).WithList().WithDomain().Build();
 
             var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
 
             _propertyBuilderUtil.Build(targetClass, userClass.Properties);
 
             var buildOkResultConstructor = BuildOkResultConstructor(userClass);
-
+            var buildOkResultOverloadConstructor = BuildOkResultOverloadConstructor(userClass);
             var errorResultConstructor = BuildErrorResultConstructor(userClass);
 
             targetClass.Members.Add(constructor);
             targetClass.Members.Add(buildOkResultConstructor);
+            targetClass.Members.Add(buildOkResultOverloadConstructor);
             targetClass.Members.Add(errorResultConstructor);
 
             nameSpace.Types.Add(targetClass);
@@ -52,16 +53,24 @@ namespace Microwave.WebServiceGenerator.Application
         private CodeMemberMethod BuildErrorResultConstructor(HookResultBaseClass userClass)
         {
             var errorResultConstructor = _staticConstructorBuilder.BuildErrorResult(
-                new List<string> {userClass.Properties[1].Name},
-                new List<Property> {userClass.Properties[1]}, userClass.Name);
+                new List<string> {$"new {userClass.Properties[1].Type}()", userClass.Properties[2].Name},
+                new List<Property> {userClass.Properties[2]}, userClass.Name);
             return errorResultConstructor;
         }
 
         private CodeMemberMethod BuildOkResultConstructor(HookResultBaseClass userClass)
         {
             var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(
-                new List<string> { $"new {userClass.Properties[1].Type}()" },
+                new List<string> { $"new {userClass.Properties[1].Type}()", $"new {userClass.Properties[2].Type}()" },
                 new List<Property>(), userClass.Name);
+            return buildOkResultConstructor;
+        }
+
+        private CodeMemberMethod BuildOkResultOverloadConstructor(HookResultBaseClass userClass)
+        {
+            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResult(
+                new List<string> { userClass.Properties[1].Name, $"new {userClass.Properties[2].Type}()" },
+                new List<Property>{userClass.Properties[1]}, userClass.Name);
             return buildOkResultConstructor;
         }
     }

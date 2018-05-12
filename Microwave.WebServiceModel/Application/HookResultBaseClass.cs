@@ -10,6 +10,7 @@ namespace Microwave.WebServiceModel.Application
         public IList<Property> Properties => new List<Property>
         {
             new Property {Name = "Ok", Type = "Boolean" },
+            new Property {Name = "DomainEvents", Type = "List<DomainEventBase>" },
             new Property {Name = "Errors", Type = "List<string>"}
         };
     }
