@@ -36,7 +36,7 @@ namespace Microwave.WebServiceGenerator.Util
 
         public string BuildErrorMessageFor(Parameter loadParam)
         {
-            return $"$\"Could not find {loadParam.Type} for {{nameof(apiCommand.{loadParam.Name}Id)}} with ID: {{id}}\"";
+            return $"$\"Could not find {loadParam.Type} for {{nameof(apiCommand.{loadParam.Name}Id)}} with ID: {{apiCommand.{loadParam.Name}Id}}\"";
         }
 
         public string BuildAsyncEventHookName(AsyncDomainHook hook)
