@@ -10,12 +10,14 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ClassBuilderUtil _classBuilder;
         private readonly string _domain;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public DomainClassFirstBuilder(string domainNameSpace)
         {
             _classBuilder = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _domain = domainNameSpace;
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public CodeNamespace Build(DomainClass domainClass)
@@ -64,12 +66,12 @@ namespace Microwave.WebServiceGenerator.Domain
             {
                 var method = new CodeMemberMethod
                 {
-                    Name = domainMethod.Name,
+                    Name = _nameBuilderUtil.OnChildHookMethodName(domainMethod),
                     ReturnType = new CodeTypeReference(domainMethod.ReturnType)
                 };
                 method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainMethod.Parameters[0].Name}"), Name = "hookEvent" });
                 method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
-                method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
+                method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{_nameBuilderUtil.OnChildHookMethodName(domainMethod)}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
                 targetClassReal.Members.Add(method);
             }
 

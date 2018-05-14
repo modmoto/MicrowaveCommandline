@@ -58,5 +58,10 @@ namespace Microwave.WebServiceGenerator.Util
         {
             return $"{hook.Name}_On{hook.ClassType}{hook.MethodName}";
         }
+
+        public string OnChildHookMethodName(OnChildHookMethod hook)
+        {
+            return $"{hook.Name}_On{hook.OriginEntity}{hook.MethodName}";
+        }
     }
 }

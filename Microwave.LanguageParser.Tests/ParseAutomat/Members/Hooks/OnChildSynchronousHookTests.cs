@@ -26,7 +26,9 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members.Hooks
             var parser = new MicrowaveLanguageParser();
             var domainTree = parser.Parse(tokens);
 
-            Assert.AreEqual("CheckAgeRequirement_OnPostUpdateTitle", domainTree.Classes[0].ChildHookMethods[0].Name);
+            Assert.AreEqual("CheckAgeRequirement", domainTree.Classes[0].ChildHookMethods[0].Name);
+            Assert.AreEqual("Post", domainTree.Classes[0].ChildHookMethods[0].OriginEntity);
+            Assert.AreEqual("UpdateTitle", domainTree.Classes[0].ChildHookMethods[0].MethodName);
             Assert.AreEqual("ValidationResult", domainTree.Classes[0].ChildHookMethods[0].ReturnType);
             Assert.AreEqual("PostUpdateTitleEvent", domainTree.Classes[0].ChildHookMethods[0].Parameters[0].Type);
             Assert.AreEqual("PostUpdateTitleEvent", domainTree.Classes[0].ChildHookMethods[0].Parameters[0].Name);

@@ -6,6 +6,13 @@ namespace Microwave.WebServiceGenerator.Util
 {
     public class InterfaceBuilderUtil : IInterfaceBuilder
     {
+        private NameBuilderUtil _nameBuilderUtil;
+
+        public InterfaceBuilderUtil()
+        {
+            _nameBuilderUtil = new NameBuilderUtil();
+        }
+
         public CodeTypeDeclaration BuildForCommand(DomainClass generatedClass)
         {
             var iface = new CodeTypeDeclaration($"{generatedClass.Name}Base");
@@ -33,7 +40,7 @@ namespace Microwave.WebServiceGenerator.Util
             {
                 var method = new CodeMemberMethod
                 {
-                    Name = function.Name,
+                    Name = _nameBuilderUtil.OnChildHookMethodName(function),
                     ReturnType = new CodeTypeReference(function.ReturnType),
                     Attributes = MemberAttributes.Abstract | MemberAttributes.Public
                 };
