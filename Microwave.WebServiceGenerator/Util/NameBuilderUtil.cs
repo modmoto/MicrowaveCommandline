@@ -34,17 +34,17 @@ namespace Microwave.WebServiceGenerator.Util
             return $"{domainClass.Name}{method.Name}ApiCommand";
         }
 
-        public string BuildErrorMessageFor(Parameter loadParam)
+        public string ErrorMessageFor(Parameter loadParam)
         {
             return $"$\"Could not find {loadParam.Type} for {{nameof(apiCommand.{loadParam.Name}Id)}} with ID: {{apiCommand.{loadParam.Name}Id}}\"";
         }
 
-        public string BuildAsyncEventHookName(AsyncDomainHook hook)
+        public string AsyncEventHookName(AsyncDomainHook hook)
         {
             return $"On{hook.ClassType}{hook.MethodName}{hook.Name}AsyncHook";
         }
 
-        public string BuildAsyncEventHookHandlerName(AsyncDomainHook hook)
+        public string AsyncEventHookHandlerName(AsyncDomainHook hook)
         {
             return $"On{hook.ClassType}{hook.MethodName}{hook.Name}EventHandler";
         }
@@ -52,6 +52,11 @@ namespace Microwave.WebServiceGenerator.Util
         public string HooKEventName(AsyncDomainHook domainHook)
         {
             return $"{domainHook.ClassType}{domainHook.MethodName}Event";
+        }
+
+        public string OnChildHookMethodName(OnChildDomainHook hook)
+        {
+            return $"{hook.Name}_On{hook.ClassType}{hook.MethodName}";
         }
     }
 }

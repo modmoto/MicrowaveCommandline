@@ -26,7 +26,7 @@ namespace Microwave.WebServiceGenerator.Application
                 .WithList()
                 .WithTask()
                 .Build();
-            var codeTypeDeclaration = _classBuilderUtil.Build(_nameBuilderUtil.BuildAsyncEventHookName(hook));
+            var codeTypeDeclaration = _classBuilderUtil.Build(_nameBuilderUtil.AsyncEventHookName(hook));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{hook.ClassType}s"));
 
             codeNamespace.Types.Add(codeTypeDeclaration);
@@ -39,7 +39,7 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {_nameBuilderUtil.BuildAsyncEventHookName(hook)} that is not implemented was called, aborting...\")"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {_nameBuilderUtil.AsyncEventHookName(hook)} that is not implemented was called, aborting...\")"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("return await Task.FromResult(HookResult.ErrorResult(new List<string>()))"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;

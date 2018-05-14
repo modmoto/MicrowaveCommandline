@@ -77,12 +77,18 @@ namespace Microwave.WebServiceGenerator.Application
                 }
             }
 
+            foreach (var hook in domainTree.OnChildHooks)
+            {
+                var createdHook = _synchronousHookBuilder.Build(hook);
+                _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.OriginEntity}s/Hooks/", createdHook);
+            }
+
             foreach (var hook in domainTree.AsyncDomainHooks)
             {
                 var createdHookEventHandler = _asyncHookCreateEventHandlerBuilder.Build(hook);
                 _fileWriter.WriteToFile(createdHookEventHandler.Types[0].Name, $"{hook.ClassType}s/AsyncHooks/", createdHookEventHandler);
 
-                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.BuildAsyncEventHookName(hook)}.cs";
+                var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.AsyncEventHookName(hook)}.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);

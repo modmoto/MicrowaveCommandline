@@ -29,7 +29,7 @@ namespace Microwave.WebServiceGenerator.Application
 
         public CodeNamespace Build(AsyncDomainHook hook)
         {
-            var targetClass = _classBuilderUtil.Build(_nameBuilderUtil.BuildAsyncEventHookHandlerName(hook));
+            var targetClass = _classBuilderUtil.Build(_nameBuilderUtil.AsyncEventHookHandlerName(hook));
             var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_nameSpace}.{hook.ClassType}s.AsyncHooks").WithApplication().WithTask().WithList().WithDomainEntityNameSpace(hook.ClassType).Build();
             codeNamespace.Types.Add(targetClass);
 
@@ -97,7 +97,7 @@ namespace Microwave.WebServiceGenerator.Application
             var nameBuilderUtil = new NameBuilderUtil();
             Properties = new List<Property>
             {
-                new Property {Name = "AsyncHook", Type = nameBuilderUtil.BuildAsyncEventHookName(hook)},
+                new Property {Name = "AsyncHook", Type = nameBuilderUtil.AsyncEventHookName(hook)},
                 new Property {Name = "HangfireQueue", Type = "IHangfireQueue"}
             };
 

@@ -136,7 +136,7 @@ namespace Microwave.WebServiceGenerator.Util
             foreach (var loadParam in domainMethod.LoadParameters)
             {
                 var codeExpressionStatement = new CodeExpressionStatement(new CodeSnippetExpression($"var {loadParam.Name} = await {loadParam.Type}Repository.Get{loadParam.Type}(apiCommand.{loadParam.Name}Id)"));
-                var ifNullStatement = new CodeExpressionStatement(new CodeSnippetExpression($"if ({loadParam.Name} == null) errorList.Add({_nameBuilderUtil.BuildErrorMessageFor(loadParam)})"));
+                var ifNullStatement = new CodeExpressionStatement(new CodeSnippetExpression($"if ({loadParam.Name} == null) errorList.Add({_nameBuilderUtil.ErrorMessageFor(loadParam)})"));
                 codeStatements.Add(codeExpressionStatement);
                 codeStatements.Add(ifNullStatement);
             }

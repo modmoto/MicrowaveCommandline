@@ -2,5 +2,6 @@
 {
     public class OnChildDomainHook : SynchronousDomainHook
     {
+        public string OriginEntity { get; set; }
     }
 }

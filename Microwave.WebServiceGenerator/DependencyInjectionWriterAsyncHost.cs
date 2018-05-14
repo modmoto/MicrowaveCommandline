@@ -59,8 +59,8 @@ namespace Microwave.WebServiceGenerator
             foreach (var hook in domainHooks)
             {
                 _nameSpaceBuilderUtil.WithAsyncHookEntityNameSpace(hook.ClassType);
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.BuildAsyncEventHookHandlerName(hook)}>()"));
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.BuildAsyncEventHookName(hook)}>()"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.AsyncEventHookHandlerName(hook)}>()"));
+                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{_nameBuilderUtil.AsyncEventHookName(hook)}>()"));
             }
 
             var codeNamespace = _nameSpaceBuilderUtil.Build();
@@ -78,7 +78,7 @@ namespace Microwave.WebServiceGenerator
 
             foreach (var hook in domainHooks)
             {
-                codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression($"RecurringJob.AddOrUpdate<{_nameBuilderUtil.BuildAsyncEventHookHandlerName(hook)}>(handler => handler.Run(), Cron.Minutely())"));
+                codeMemberMethodApplicationConfig.Statements.Add(new CodeSnippetExpression($"RecurringJob.AddOrUpdate<{_nameBuilderUtil.AsyncEventHookHandlerName(hook)}>(handler => handler.Run(), Cron.Minutely())"));
             }
 
             codeNamespace.Types.Add(codeTypeDeclaration);

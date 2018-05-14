@@ -33,6 +33,7 @@ namespace Microwave.LanguageParser.ParseAutomat.Members
             MicrowaveLanguageParser.CurrentOnChildHook = new OnChildDomainHook()
             {
                 Name = MicrowaveLanguageParser.CurrentMemberName,
+                OriginEntity = MicrowaveLanguageParser.CurrentClass.Name
             };
 
             MicrowaveLanguageParser.CurrentOnChildHookMethod = new OnChildHookMethod
