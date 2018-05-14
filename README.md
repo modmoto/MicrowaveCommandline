@@ -16,6 +16,7 @@ A code generator that generates a domain driven webservice with only a schema fi
   - [Update Methods](#update-methods)
   - [Synchronous Domain Hook](#synchronous-domain-hook)
   - [Asynchronouse Domain Hook](#asynchronouse-domain-hook)
+  - [OnChild Hook](#onchild-hook)
 - [Roadmap](#roadmap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -79,16 +80,31 @@ An `AsyncDomainHook` also listens to domain events but does this after a given s
 SendBirthdayMail asynchronously on User.UpdateAge
 ```
 
+### OnChild Hook
+An `OnChildDomain` is used to react to events that a child of a Domain Object produces. This is basically a `SynchronouseDomainHook` that does alle the loading and stuff for you, so you only have to implement the actual Method. This Method can be used for checking things or updating the parent object wich also includes generating domain events.
+
+```javascript
+DomainClass User {
+  Name: String
+  Age: Int32
+  Posts: [Post]
+  
+  CheckAgeRequirement onChild Post.UpdateTitle
+}
+```
+
+In this example the Class User will get a Method called `CheckAgeRequirement_OnPostUpdateTitle` wich is calles, as soon as a child of the `User` creates a `PostUpdateTitleEvent`.
+
 ## Roadmap
 Here are some ideas, that i would like to implement, not necessarly in that particular order
 - [X] @Load Syntax to load other domain classes when they are used in a method. 
 - [X] Async Hooks with Hangfire. 
-- [ ] @OnChild Notation for domain classes react to child actions. 
+- [X] @OnChild Notation for domain classes react to child actions. 
+- [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Cron Notation for Async Hooks. 
 - [ ] Retry counter and escape mechanism for async hooks 
-- [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
 - [ ] Pub/Sub System with Signal R that gets setup within the schema.wsb file between two services effortless
-- [ ] Authentication or at leas a place where one could implement it
+- [ ] Authentication or at least a place where one could implement it
 - [ ] Use domain events in generated hooks to update the entitys
 - [ ] implement replay function with domain events
