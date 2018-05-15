@@ -5,16 +5,18 @@ namespace Microwave.WebServiceGenerator.Util
 {
     public class DefaultClassBuilder : IPlainDataObjectBuilder
     {
-        private readonly string _nameSpace;
+        private readonly string _nameSpaceName;
         private readonly DomainClass _generatedClass;
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
 
-        public DefaultClassBuilder(string nameSpace, DomainClass generatedClass)
+        public DefaultClassBuilder(string nameSpaceName, DomainClass generatedClass)
         {
-            _nameSpace = nameSpace;
+            _nameSpaceName = nameSpaceName;
             _generatedClass = generatedClass;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
@@ -22,29 +24,35 @@ namespace Microwave.WebServiceGenerator.Util
             _propertyBuilderUtil = new PropertyBuilderUtil();
         }
 
-        public virtual CodeNamespace BuildNameSpace()
+        public void AddNameSpace()
         {
-            return _nameSpaceBuilderUtil.WithName($"{_nameSpace}").Build();
+            _nameSpace = _nameSpaceBuilderUtil.WithName($"{_nameSpaceName}").Build();
         }
 
-        public virtual CodeTypeDeclaration BuildClassType()
+        public void AddClassType()
         {
-            return _classBuilderUtil.Build(_generatedClass.Name);
+            _targetClass = _classBuilderUtil.Build(_generatedClass.Name);
         }
 
-        public virtual void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties()
         {
-            _propertyBuilderUtil.Build(targetClass, _generatedClass.Properties);
+            _propertyBuilderUtil.Build(_targetClass, _generatedClass.Properties);
         }
 
-        public virtual void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor()
         {
             var constructor = _constructorBuilderUtil.BuildPublic(_generatedClass.Properties);
-            targetClass.Members.Add(constructor);
+            _targetClass.Members.Add(constructor);
         }
 
-        public virtual void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes()
         {
+        }
+
+        public CodeNamespace Build()
+        {
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
         }
     }
 }

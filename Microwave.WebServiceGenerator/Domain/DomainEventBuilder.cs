@@ -9,15 +9,17 @@ namespace Microwave.WebServiceGenerator.Domain
 {
     public class DomainEventBuilder : IPlainDataObjectBuilder
     {
-        private readonly DomainClass _targetClass;
+        private readonly DomainClass _classModell;
         private readonly DomainEvent _domainEvent;
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
 
-        public DomainEventBuilder(DomainClass targetClass, DomainEvent domainEvent)
+        public DomainEventBuilder(DomainClass classModell, DomainEvent domainEvent)
         {
-            _targetClass = targetClass;
+            _classModell = classModell;
             _domainEvent = domainEvent;
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
@@ -29,57 +31,60 @@ namespace Microwave.WebServiceGenerator.Domain
             return domainEvent.Name.StartsWith(domainEvent.Properties[0].Type + new CreateMethod().Name);
         }
 
-        private void BuildPropertiesWithoutSelfLink(DomainEvent domainEvent,
-            CodeTypeDeclaration targetClass)
+        private void BuildPropertiesWithoutSelfLink(DomainEvent domainEvent)
         {
             var first = domainEvent.Properties.First();
-            targetClass = _propertyBuilderUtil.BuildWithoutSet(targetClass, new List<Property> {first});
+            _targetClass = _propertyBuilderUtil.BuildWithoutSet(_targetClass, new List<Property> {first});
             var properties = domainEvent.Properties.Except(new List<Property> {first}).ToList();
-            _propertyBuilderUtil.Build(targetClass, properties);
+            _propertyBuilderUtil.Build(_targetClass, properties);
         }
 
-        private void BuildProperties(DomainEvent domainEvent, CodeTypeDeclaration targetClass)
+        private void BuildProperties(DomainEvent domainEvent)
         {
-            _propertyBuilderUtil.Build(targetClass, domainEvent.Properties);
+            _propertyBuilderUtil.Build(_targetClass, domainEvent.Properties);
         }
 
-        public CodeNamespace BuildNameSpace()
+        public void AddNameSpace()
         {
-            var nameSpace = new CodeNamespace($"Domain.{_targetClass.Name}s");
-            nameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            return nameSpace;
+            _nameSpace = new CodeNamespace($"Domain.{_classModell.Name}s");
+            _nameSpace.Imports.Add(new CodeNamespaceImport("System"));
         }
 
-        public CodeTypeDeclaration BuildClassType()
+        public void AddClassType()
         {
-            var targetClass = _classBuilder.Build(_domainEvent.Name);
-            return targetClass;
+            _targetClass = _classBuilder.Build(_domainEvent.Name);
         }
 
-        public void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties()
         {
             if (!IsCreateEvent(_domainEvent))
             {
-                BuildProperties(_domainEvent, targetClass);
+                BuildProperties(_domainEvent);
             }
             else
             {
-                BuildPropertiesWithoutSelfLink(_domainEvent, targetClass);
+                BuildPropertiesWithoutSelfLink(_domainEvent);
             }
         }
 
-        public void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor()
         {
             var constructor = _constructorBuilderUtil.BuildPublicWithBaseCall(_domainEvent.Properties,
                 new DomainEventBaseClass().Properties.Skip(2).ToList());
             var constructorPrivate = _constructorBuilderUtil.BuildPrivateWithEmptyGuidBaseCall(new List<Property>());
-            targetClass.Members.Add(constructorPrivate);
-            targetClass.Members.Add(constructor);
+            _targetClass.Members.Add(constructorPrivate);
+            _targetClass.Members.Add(constructor);
         }
 
-        public void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes()
         {
-            targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
+            _targetClass.BaseTypes.Add(new CodeTypeReference(new DomainEventBaseClass().Name));
+        }
+
+        public CodeNamespace Build()
+        {
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
         }
     }
 }

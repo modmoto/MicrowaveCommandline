@@ -18,13 +18,12 @@ namespace Microwave.WebServiceGenerator
 
         public CodeNamespace BuildInstance(IPlainDataObjectBuilder builder)
         {
-            var nameSpace = builder.BuildNameSpace();
-            var targetClass = builder.BuildClassType();
-            nameSpace.Types.Add(targetClass);
-            builder.AddClassProperties(targetClass);
-            builder.AddConstructor(targetClass);
-            builder.AddBaseTypes(targetClass);
-            return nameSpace;
+            builder.AddNameSpace();
+            builder.AddClassType();
+            builder.AddClassProperties();
+            builder.AddConstructor();
+            builder.AddBaseTypes();
+            return builder.Build();
         }
     }
 }

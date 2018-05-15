@@ -14,6 +14,9 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly IStaticConstructorBuilder _staticConstructorBuilder;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
+
 
         public ValidationResultBaseClassBuilder(ValidationResultBaseClass resultBaseClass)
         {
@@ -41,25 +44,22 @@ namespace Microwave.WebServiceGenerator.Domain
             return buildOkResultConstructor;
         }
 
-        public CodeNamespace BuildNameSpace()
+        public void AddNameSpace()
         {
-            var nameSpace = _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
-            return nameSpace;
-
+            _nameSpace = _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
         }
 
-        public CodeTypeDeclaration BuildClassType()
+        public void AddClassType()
         {
-            var targetClass = _classBuilder.Build(_resultBaseClass.Name);
-            return targetClass;
+            _targetClass = _classBuilder.Build(_resultBaseClass.Name);
         }
 
-        public void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties()
         {
-            _propertyBuilderUtil.Build(targetClass, _resultBaseClass.Properties);
+            _propertyBuilderUtil.Build(_targetClass, _resultBaseClass.Properties);
         }
 
-        public void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor()
         {
             var constructor = _constructorBuilderUtil.BuildPrivate(_resultBaseClass.Properties);
 
@@ -67,13 +67,19 @@ namespace Microwave.WebServiceGenerator.Domain
 
             var errorResultConstructor = BuildErrorResultConstructor(_resultBaseClass);
 
-            targetClass.Members.Add(constructor);
-            targetClass.Members.Add(buildOkResultConstructor);
-            targetClass.Members.Add(errorResultConstructor);
+            _targetClass.Members.Add(constructor);
+            _targetClass.Members.Add(buildOkResultConstructor);
+            _targetClass.Members.Add(errorResultConstructor);
         }
 
-        public void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes()
         {
+        }
+
+        public CodeNamespace Build()
+        {
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
         }
     }
 }
