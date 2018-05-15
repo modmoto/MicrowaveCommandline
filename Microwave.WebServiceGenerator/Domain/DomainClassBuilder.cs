@@ -6,69 +6,90 @@ using Microwave.WebServiceGenerator.Util;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class DomainClassBuilder
+    public class DomainClassBuilder : IConcreteClassBuilder
     {
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
-        private readonly string _domain;
+        private readonly DomainClass _domainClass;
         private readonly IInterfaceBuilder _interfaceBuilder;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly ListPropBuilderUtil _listPropBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
+        private CodeTypeDeclaration _baseClass;
 
-        public DomainClassBuilder(string domainNameSpace)
+        public DomainClassBuilder(DomainClass domainClass)
         {
             _interfaceBuilder = new InterfaceBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
-            _domain = domainNameSpace;
+            _domainClass = domainClass;
             _listPropBuilderUtil = new ListPropBuilderUtil();
         }
 
-        public CodeNamespace Build(DomainClass domainClass)
+        public CodeNamespace Build()
         {
-            _nameSpaceBuilderUtil.WithName($"{_domain}.{domainClass.Name}s").WithList();
+            _nameSpace.Types.Add(_targetClass);
+            _nameSpace.Types.Add(_baseClass);
 
-            foreach (var childHookMethod in domainClass.ChildHookMethods)
+            return _nameSpace;
+        }
+
+        public void AddNameSpace()
+        {
+            _nameSpaceBuilderUtil.WithName($"Domain.{_domainClass.Name}s").WithList();
+
+            foreach (var childHookMethod in _domainClass.ChildHookMethods)
             {
                 _nameSpaceBuilderUtil.WithDomainEntityNameSpace(childHookMethod.OriginEntity);
             }
 
-            var nameSpace = _nameSpaceBuilderUtil.Build();
+            foreach (var listProperty in _domainClass.ListProperties)
+            {
+                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(listProperty.Type);
+            }
 
-            var iface = _interfaceBuilder.BuildForCommand(domainClass);
+            _nameSpace = _nameSpaceBuilderUtil.Build();
+        }
 
-            var targetClass = _classBuilder.BuildPartial(domainClass.Name);
-            targetClass.BaseTypes.Add(iface.Name);
+        public void AddClassType()
+        {
+            _targetClass = _classBuilder.BuildPartial(_domainClass.Name);
+            _baseClass = _interfaceBuilder.BuildForCommand(_domainClass);
+        }
 
-            foreach (var createMethod in domainClass.CreateMethods)
+        public void AddClassProperties()
+        {
+            _listPropBuilderUtil.Build(_targetClass, _domainClass.ListProperties);
+
+            var propertiesWithDefaultId = _domainClass.Properties;
+            propertiesWithDefaultId.Add(new Property {Name = "Id", Type = "Guid"});
+            _propertyBuilderUtil.Build(_targetClass, propertiesWithDefaultId);
+        }
+
+        public void AddConstructor()
+        {
+            foreach (var createMethod in _domainClass.CreateMethods)
             {
                 var properties = createMethod.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
-                var constructor = _constructorBuilderUtil.BuildPrivateForCreateMethod(properties, $"{domainClass.Name}{createMethod.Name}Command");
-                targetClass.Members.Add(constructor);
+                var constructor = _constructorBuilderUtil.BuildPrivateForCreateMethod(properties, $"{_domainClass.Name}{createMethod.Name}Command");
+                _targetClass.Members.Add(constructor);
             }
-
-            targetClass = _listPropBuilderUtil.Build(targetClass, domainClass.ListProperties);
-
-            foreach (var listProperty in domainClass.ListProperties)
-            {
-                nameSpace.Imports.Add(new CodeNamespaceImport($"Domain.{listProperty.Type}s"));
-            }
-
 
             var emptyConstructor = _constructorBuilderUtil.BuildPrivate(new List<Property>());
+            _targetClass.Members.Add(emptyConstructor);
+        }
 
-            var propertiesWithDefaultId = domainClass.Properties;
-            propertiesWithDefaultId.Add(new Property {Name = "Id", Type = "Guid"});
-            _propertyBuilderUtil.Build(targetClass, propertiesWithDefaultId);
-            targetClass.Members.Add(emptyConstructor);
+        public void AddBaseTypes()
+        {
+            _targetClass.BaseTypes.Add(_baseClass.Name);
+        }
 
-            nameSpace.Types.Add(targetClass);
-            nameSpace.Types.Add(iface);
-
-            return nameSpace;
+        public void AddConcreteMethods()
+        {
         }
     }
 }
