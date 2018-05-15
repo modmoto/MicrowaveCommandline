@@ -14,7 +14,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         public void Build()
         {
             var hangfireQueue = new HangfireQueueBuilder(SqlAdpaterNameSpace).Build(new HangfireQueueClass());
-            new FileWriter(SqlAdpaterBasePath).WriteToFile(hangfireQueue.Types[0].Name, "Base", hangfireQueue);
+            new FileWriter(SqlAdpaterBasePath).WriteToFile("Base", hangfireQueue);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
 

@@ -87,7 +87,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         public void CreationResultBase_Builder()
         {
             var creationResult = new CreationResultBaseClassBuilder(DomainNameSpace).Build(new CreationResultBaseClass());
-            new FileWriter(DomainBasePath).WriteToFile("CreationResult", "Base", creationResult);
+            new FileWriter(DomainBasePath).WriteToFile("Base", creationResult);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 
@@ -100,7 +100,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         {
             var classFactory = new ClassBuilderDirector();
             var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));
-            new FileWriter(DomainBasePath).WriteToFile("DomainEventBase", "Base", baseClass);
+            new FileWriter(DomainBasePath).WriteToFile("Base", baseClass);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
 

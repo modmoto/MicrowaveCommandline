@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Tests.HttpAdapter
                 foreach (var domainTreeClass in domainTree.Classes)
                 {
                     var eventStore = controllerBuilder.Build(domainTreeClass);
-                    new FileWriter(HttpAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, domainTreeClass.Name + "s", eventStore);
+                    new FileWriter(HttpAdpaterNameSpace).WriteToFile(domainTreeClass.Name + "s", eventStore);
                 }
             }
 

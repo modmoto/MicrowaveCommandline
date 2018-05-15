@@ -40,29 +40,29 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             foreach (var domainClass in domainTree.Classes)
             {
                 var repo = _repositoryBuilder.Build(domainClass);
-                _fileWriter.WriteToFile(repo.Types[0].Name, $"{domainClass.Name}s", repo);
+                _fileWriter.WriteToFile($"{domainClass.Name}s", repo);
             }
 
             var dbContext = _eventStoreContextBuilder.Build(domainTree.Classes.ToList());
-            _fileWriter.WriteToFile(dbContext.Types[0].Name, "Base", dbContext);
+            _fileWriter.WriteToFile("Base", dbContext);
 
             var hangfireContext = _hangfireContextBuilder.Build(domainTree.Classes.ToList());
-            _fileWriter.WriteToFile(hangfireContext.Types[0].Name, "Base", hangfireContext);
+            _fileWriter.WriteToFile("Base", hangfireContext);
 
             var eventStoreRepo = _classBuilderDirector.BuildInstance(new EventStoreRepositoryBuilder(new EventStoreRepository()));
-            _fileWriter.WriteToFile(eventStoreRepo.Types[0].Name, "Base", eventStoreRepo);
+            _fileWriter.WriteToFile("Base", eventStoreRepo);
 
             var eventTuple = _classBuilderDirector.BuildInstance(new DefaultClassBuilder(_sqlAdapterNameSpace, new EventTupleClass()));
-            _fileWriter.WriteToFile(eventTuple.Types[0].Name, "Base", eventTuple);
+            _fileWriter.WriteToFile("Base", eventTuple);
 
             var eventJobRegistration = _eventJobRegistrationClassBuilder.Build(domainTree.AsyncDomainHooks);
-            _fileWriter.WriteToFile(eventJobRegistration.Types[0].Name, "Base", eventJobRegistration);
+            _fileWriter.WriteToFile("Base", eventJobRegistration);
 
             var hangfireQueue = _hangfireQueueBuilder.Build(new HangfireQueueClass());
-            _fileWriter.WriteToFile(hangfireQueue.Types[0].Name, "Base", hangfireQueue);
+            _fileWriter.WriteToFile("Base", hangfireQueue);
 
             var queueRepo = _queueRepositoryBuilder.Build(new QueueRepositoryClass());
-            _fileWriter.WriteToFile(queueRepo.Types[0].Name, "Base", queueRepo);
+            _fileWriter.WriteToFile("Base", queueRepo);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }

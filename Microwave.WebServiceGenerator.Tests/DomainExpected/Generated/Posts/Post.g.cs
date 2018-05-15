@@ -14,12 +14,6 @@ namespace Domain.Posts
     using System.Collections.Generic;
     
     
-    public abstract class PostBase
-    {
-        
-        public abstract ValidationResult UpdateTitle(PostUpdateTitleCommand command);
-    }
-    
     public partial class Post : PostBase
     {
         
@@ -38,5 +32,11 @@ namespace Domain.Posts
         private Post()
         {
         }
+    }
+    
+    public abstract class PostBase
+    {
+        
+        public abstract ValidationResult UpdateTitle(PostUpdateTitleCommand command);
     }
 }

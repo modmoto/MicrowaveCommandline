@@ -15,7 +15,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         {
             var classFactory = new ClassBuilderDirector();
             var buildInstance = classFactory.BuildInstance(new EventStoreRepositoryBuilder(new EventStoreRepository()));
-            new FileWriter(SqlAdpaterNameSpace).WriteToFile(buildInstance.Types[0].Name, "Base/", buildInstance);
+            new FileWriter(SqlAdpaterNameSpace).WriteToFile("Base/", buildInstance);
            
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
 

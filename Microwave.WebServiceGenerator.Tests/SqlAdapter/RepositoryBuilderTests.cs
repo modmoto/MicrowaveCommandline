@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
                 foreach (var domainTreeClass in domainTree.Classes)
                 {
                     var eventStore = storeBuilder.Build(domainTreeClass);
-                    new FileWriter(SqlAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, domainTreeClass.Name + "s", eventStore);
+                    new FileWriter(SqlAdpaterNameSpace).WriteToFile(domainTreeClass.Name + "s", eventStore);
                 }
                 
             }

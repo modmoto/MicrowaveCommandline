@@ -17,7 +17,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
 
             var codeNamespace = hookResultBuilder.Write(new HookResultBaseClass());
 
-            new FileWriter(ApplicationBasePath).WriteToFile(codeNamespace.Types[0].Name, "Base", codeNamespace);
+            new FileWriter(ApplicationBasePath).WriteToFile("Base", codeNamespace);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 

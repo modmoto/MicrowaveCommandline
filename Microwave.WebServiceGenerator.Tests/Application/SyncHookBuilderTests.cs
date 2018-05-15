@@ -24,7 +24,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
                 foreach (var hook in domainTree.SynchronousDomainHooks)
                 {
                     var codeNamespace = commandHandlerBuilder.Build(hook);
-                    new FileWriter(ApplicationBasePath).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace);
+                    new FileWriter(ApplicationBasePath).WriteToFile(hook.ClassType + "s/Hooks/", codeNamespace);
                 }
             }
 
@@ -46,7 +46,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
                 foreach (var hook in domainTree.SynchronousDomainHooks)
                 {
                     var codeNamespace = commandHandlerBuilder.BuildReplacementClass(hook);
-                    new FileWriter(ApplicationBasePath).WriteToFile($"{hook.Name}Hook", hook.ClassType + "s/Hooks/", codeNamespace, false);
+                    new FileWriter(ApplicationBasePath).WriteToFile(hook.ClassType + "s/Hooks/", codeNamespace, false);
                 }
             }
 

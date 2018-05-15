@@ -26,7 +26,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
                     foreach (var method in domainClass.LoadMethods)
                     {
                         var codeNamespace = commandBuilder.Build(method, domainClass);
-                        new FileWriter(ApplicationBasePath).WriteToFile(codeNamespace.Types[0].Name, domainClass.Name + "s", codeNamespace);
+                        new FileWriter(ApplicationBasePath).WriteToFile(domainClass.Name + "s", codeNamespace);
                     }                        
                 }
             }

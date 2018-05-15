@@ -29,7 +29,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
                     var fileWriter = new FileWriter(DomainBasePath);
                     foreach (var codeNamespace in codeNamespaces)
                     {
-                        fileWriter.WriteToFile(codeNamespace.Types[0].Name, $"{domainClass.Name}s/Commands", codeNamespace);
+                        fileWriter.WriteToFile($"{domainClass.Name}s/Commands", codeNamespace);
                     }
 
                     new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);

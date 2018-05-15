@@ -43,8 +43,6 @@ namespace Microwave.WebServiceGenerator.Domain
             var targetClass = _classBuilder.BuildPartial(domainClass.Name);
             targetClass.BaseTypes.Add(iface.Name);
 
-            nameSpace.Types.Add(iface);
-
             foreach (var createMethod in domainClass.CreateMethods)
             {
                 var properties = createMethod.Parameters.Select(param => new Property {Name = param.Name, Type = param.Type}).ToList();
@@ -68,6 +66,7 @@ namespace Microwave.WebServiceGenerator.Domain
             targetClass.Members.Add(emptyConstructor);
 
             nameSpace.Types.Add(targetClass);
+            nameSpace.Types.Add(iface);
 
             return nameSpace;
         }

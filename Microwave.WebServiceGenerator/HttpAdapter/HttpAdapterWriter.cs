@@ -20,7 +20,7 @@ namespace Microwave.WebServiceGenerator.HttpAdapter
             foreach (var domainClass in domainTree.Classes)
             {
                 var controller = _repositoryBuilder.Build(domainClass);
-                _fileWriter.WriteToFile(controller.Types[0].Name, $"{domainClass.Name}s", controller);
+                _fileWriter.WriteToFile($"{domainClass.Name}s", controller);
             }
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);

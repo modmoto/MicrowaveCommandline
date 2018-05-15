@@ -15,18 +15,6 @@ namespace Domain.Users
     using Domain.Posts;
     
     
-    public abstract class UserBase
-    {
-        
-        public abstract ValidationResult UpdateAge(UserUpdateAgeCommand command);
-        
-        public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
-        
-        public abstract ValidationResult AddPost(UserAddPostCommand command);
-        
-        public abstract ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent PostUpdateTitleEvent);
-    }
-    
     public partial class User : UserBase
     {
         
@@ -48,5 +36,17 @@ namespace Domain.Users
         private User()
         {
         }
+    }
+    
+    public abstract class UserBase
+    {
+        
+        public abstract ValidationResult UpdateAge(UserUpdateAgeCommand command);
+        
+        public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
+        
+        public abstract ValidationResult AddPost(UserAddPostCommand command);
+        
+        public abstract ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent PostUpdateTitleEvent);
     }
 }

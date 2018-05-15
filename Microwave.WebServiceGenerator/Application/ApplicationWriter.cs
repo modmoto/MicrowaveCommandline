@@ -55,70 +55,70 @@ namespace Microwave.WebServiceGenerator.Application
             foreach (var domainClass in domainTree.Classes)
             {
                 var commandHandler = _commandHandlerBuilder.Build(domainClass);
-                _fileWriter.WriteToFile(commandHandler.Types[0].Name, $"{domainClass.Name}s", commandHandler);
+                _fileWriter.WriteToFile($"{domainClass.Name}s", commandHandler);
                 var iRepository = _repositoryInterfaceBuilder.Build(domainClass);
-                _fileWriter.WriteToFile(iRepository.Types[0].Name, $"{domainClass.Name}s", iRepository);
+                _fileWriter.WriteToFile($"{domainClass.Name}s", iRepository);
                 foreach (var loadMethod in domainClass.LoadMethods)
                 {
                     var apiCommand = _apiCommandBuilder.Build(loadMethod, domainClass);
-                    _fileWriter.WriteToFile(apiCommand.Types[0].Name, $"{domainClass.Name}s", apiCommand);
+                    _fileWriter.WriteToFile($"{domainClass.Name}s", apiCommand);
                 }
             }
 
             foreach (var hook in domainTree.SynchronousDomainHooks)
             {
                 var createdHook = _synchronousHookBuilder.Build(hook);
-                _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.ClassType}s/Hooks/", createdHook);
+                _fileWriter.WriteToFile($"{hook.ClassType}s/Hooks/", createdHook);
                 var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/Hooks/{hook.Name}Hook.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
-                    _fileWriterRealClasses.WriteToFile(buildReplacementClass.Types[0].Name, $"{hook.ClassType}s/Hooks", buildReplacementClass, false);
+                    _fileWriterRealClasses.WriteToFile($"{hook.ClassType}s/Hooks", buildReplacementClass, false);
                 }
             }
 
             foreach (var hook in domainTree.OnChildHooks)
             {
                 var createdHook = _synchronousHookBuilder.Build(hook);
-                _fileWriter.WriteToFile($"{hook.Name}Hook", $"{hook.OriginEntity}s/Hooks/", createdHook);
+                _fileWriter.WriteToFile($"{hook.OriginEntity}s/Hooks/", createdHook);
             }
 
             foreach (var hook in domainTree.AsyncDomainHooks)
             {
                 var createdHookEventHandler = _asyncHookCreateEventHandlerBuilder.Build(hook);
-                _fileWriter.WriteToFile(createdHookEventHandler.Types[0].Name, $"{hook.ClassType}s/AsyncHooks/", createdHookEventHandler);
+                _fileWriter.WriteToFile($"{hook.ClassType}s/AsyncHooks/", createdHookEventHandler);
 
                 var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.AsyncEventHookName(hook)}.cs";
                 if (!File.Exists(formattableString))
                 {
                     var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);
-                    _fileWriterRealClasses.WriteToFile(buildReplacementClass.Types[0].Name, $"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
+                    _fileWriterRealClasses.WriteToFile($"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
                 }
             }
 
             var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());
-            _fileWriter.WriteToFile(new HookResultBaseClass().Name, "Base", hookResult);
+            _fileWriter.WriteToFile("Base", hookResult);
 
             var hookBase = _hookBaseClassBuilder.Build(new DomainHookBaseClass());
-            _fileWriter.WriteToFile(new DomainHookBaseClass().Name, "Base", hookBase);
+            _fileWriter.WriteToFile("Base", hookBase);
 
             var eventStoreRepoInterface = _eventStoreRepositoryInterfaceBuilder.Build(new EventStoreRepositoryInterface());
-            _fileWriter.WriteToFile(new EventStoreRepositoryInterface().Name, "Base", eventStoreRepoInterface);
+            _fileWriter.WriteToFile("Base", eventStoreRepoInterface);
 
             var eventStore = _eventStoreBuilder.Build(new EventStore());
-            _fileWriter.WriteToFile(new EventStore().Name, "Base", eventStore);
+            _fileWriter.WriteToFile("Base", eventStore);
 
             var eventStoreInterface = _eventStoreInterfaceBuilder.Build(new EventStoreInterface());
-            _fileWriter.WriteToFile(new EventStoreInterface().Name, "Base", eventStoreInterface);
+            _fileWriter.WriteToFile("Base", eventStoreInterface);
 
             var hangfireQueue = _hangfireQueueInterfaceBuilder.Build(new HangfireQueueInterface());
-            _fileWriter.WriteToFile(new HangfireQueueInterface().Name, "Base", hangfireQueue);
+            _fileWriter.WriteToFile("Base", hangfireQueue);
 
             var jobAndEventClass = _eventAndJobClassBuilder.Build(new EventAndJobClass());
-            _fileWriter.WriteToFile(jobAndEventClass.Types[0].Name, "Base", jobAndEventClass);
+            _fileWriter.WriteToFile("Base", jobAndEventClass);
 
             var queueRepo = _queueRepositoryInterfaceBuilder.Build(new QueueRepositoryInterface());
-            _fileWriter.WriteToFile(queueRepo.Types[0].Name, "Base", queueRepo);
+            _fileWriter.WriteToFile("Base", queueRepo);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(_basePath);
         }

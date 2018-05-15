@@ -14,6 +14,8 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly ClassBuilderUtil _classBuilder;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
 
         public DomainEventBaseClassBuilder(DomainEventBaseClass domainEventBaseClass)
         {
@@ -25,36 +27,42 @@ namespace Microwave.WebServiceGenerator.Domain
         }
 
 
-        public CodeNamespace BuildNameSpace()
+        public void AddNameSpace()
         {
-            return _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
+            _nameSpace =  _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
         }
 
-        public CodeTypeDeclaration BuildClassType()
+        public void AddClassType()
         {
-            return _classBuilder.Build(new DomainEventBaseClass().Name);
+            _targetClass =  _classBuilder.Build(new DomainEventBaseClass().Name);
         }
 
-        public void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties()
         {
-            _propertyBuilderUtil.Build(targetClass, _domainEventBaseClass.Properties);
+            _propertyBuilderUtil.Build(_targetClass, _domainEventBaseClass.Properties);
         }
 
-        public void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor()
         {
             var properties = _domainEventBaseClass.Properties;
             var constructor = _constructorBuilderUtil.BuildPublicWithIdAndTimeStampCreateInBody(properties.Skip(2).ToList(), properties[0].Name, properties[1].Name);
             var constructorPrivate = _constructorBuilderUtil.BuildPrivate(new List<Property>());
-            targetClass.Members.Add(constructor);
-            targetClass.Members.Add(constructorPrivate);
+            _targetClass.Members.Add(constructor);
+            _targetClass.Members.Add(constructorPrivate);
         }
 
-        public void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes()
         {
         }
 
-        public void AddConcreteMethods(CodeTypeDeclaration targetClass)
+        public void AddConcreteMethods()
         {
+        }
+
+        public CodeNamespace Build()
+        {
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
         }
     }
 }

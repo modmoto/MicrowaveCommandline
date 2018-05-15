@@ -34,33 +34,33 @@ namespace Microwave.WebServiceGenerator.Domain
                 foreach (var domainEvent in domainClass.Events)
                 {
                     var domainEventClass = _classBuilderDirector.BuildInstance(new DomainEventBuilder(domainClass, domainEvent));
-                    _fileWriter.WriteToFile(domainEventClass.Types[0].Name, $"{domainClass.Name}s", domainEventClass);
+                    _fileWriter.WriteToFile($"{domainClass.Name}s", domainEventClass);
                 }
 
                 var domainClassBuild = _classBuilder.Build(domainClass);
-                _fileWriter.WriteToFile(domainClassBuild.Types[1].Name, $"{domainClass.Name}s", domainClassBuild);
+                _fileWriter.WriteToFile($"{domainClass.Name}s", domainClassBuild);
 
                 var domainClassFirst = _domainClassFirstBuilder.Build(domainClass);
                 if (!ClassIsAllreadyExisting(domainClass))
                 {
-                    _fileWriterOneTime.WriteToFile(domainClassFirst.Types[0].Name, "", domainClassFirst, false);
+                    _fileWriterOneTime.WriteToFile("", domainClassFirst, false);
                 }
 
                 var commands = _commandBuilder.Build(domainClass);
                 foreach (var command in commands)
                 {
-                    _fileWriter.WriteToFile(command.Types[0].Name, $"{domainClass.Name}s/Commands", command);
+                    _fileWriter.WriteToFile($"{domainClass.Name}s/Commands", command);
                 }
             }
 
             var validationResult =  _classBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
-            _fileWriter.WriteToFile(new ValidationResultBaseClass().Name, "Base", validationResult);
+            _fileWriter.WriteToFile("Base", validationResult);
 
             var codeNamespace = _creationResultBaseClassBuilder.Build(new CreationResultBaseClass());
-            _fileWriter.WriteToFile(new CreationResultBaseClass().Name, "Base", codeNamespace);
+            _fileWriter.WriteToFile("Base", codeNamespace);
 
             var domainEventBaseClass = _classBuilderDirector.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));
-            _fileWriter.WriteToFile(new DomainEventBaseClass().Name, "Base", domainEventBaseClass);
+            _fileWriter.WriteToFile("Base", domainEventBaseClass);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }

@@ -83,7 +83,7 @@ namespace Microwave.WebServiceGenerator
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
-            _fileWriter.WriteToFile(codeTypeDeclaration.Name, "Base", codeNamespace);
+            _fileWriter.WriteToFile("Base", codeNamespace);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
         }

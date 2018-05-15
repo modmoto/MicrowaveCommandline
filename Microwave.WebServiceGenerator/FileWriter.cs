@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator
 {
     public interface IFileWriter
     {
-        void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace, bool isGeneratedFile = true);
+        void WriteToFile(string folderName, CodeNamespace nameSpace, bool isGeneratedFile = true);
     }
 
     public class FileWriter : IFileWriter
@@ -19,8 +19,9 @@ namespace Microwave.WebServiceGenerator
             _basePath = basePath;
         }
 
-        public void WriteToFile(string fileName, string folderName, CodeNamespace nameSpace, bool isGeneratedFile = true)
+        public void WriteToFile(string folderName, CodeNamespace nameSpace, bool isGeneratedFile = true)
         {
+            var fileName = nameSpace.Types[0].Name;
             var targetUnit = new CodeCompileUnit();
             targetUnit.Namespaces.Add(nameSpace);
 

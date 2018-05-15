@@ -13,6 +13,8 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly EventStoreRepository _eventStoreRepository;
+        private CodeTypeDeclaration _targetClass;
+        private CodeNamespace _nameSpace;
 
         public EventStoreRepositoryBuilder(EventStoreRepository eventStoreRepository)
         {
@@ -24,9 +26,9 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         }
 
 
-        public CodeNamespace BuildNameSpace()
+        public void AddNameSpace()
         {
-            return _nameSpaceBuilderUtil
+            _nameSpace =  _nameSpaceBuilderUtil
                 .WithName("SqlAdapter")
                 .WithDomain()
                 .WithTask()
@@ -35,28 +37,28 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
                 .Build();
         }
 
-        public CodeTypeDeclaration BuildClassType()
+        public void AddClassType()
         {
-            return _classBuilderUtil.Build(_eventStoreRepository.Name);
+            _targetClass = _classBuilderUtil.Build(_eventStoreRepository.Name);
         }
 
-        public void AddClassProperties(CodeTypeDeclaration targetClass)
+        public void AddClassProperties()
         {
-            _propertyBuilderUtil.Build(targetClass, _eventStoreRepository.Properties);
+            _propertyBuilderUtil.Build(_targetClass, _eventStoreRepository.Properties);
         }
 
-        public void AddConstructor(CodeTypeDeclaration targetClass)
+        public void AddConstructor()
         {
             var codeConstructor = _constructorBuilderUtil.BuildPublic(_eventStoreRepository.Properties);
-            targetClass.Members.Add(codeConstructor);
+            _targetClass.Members.Add(codeConstructor);
         }
 
-        public void AddBaseTypes(CodeTypeDeclaration targetClass)
+        public void AddBaseTypes()
         {
-            targetClass.BaseTypes.Add(new CodeTypeReference(new EventStoreRepositoryInterface().Name));
+            _targetClass.BaseTypes.Add(new CodeTypeReference(new EventStoreRepositoryInterface().Name));
         }
 
-        public void AddConcreteMethods(CodeTypeDeclaration targetClass)
+        public void AddConcreteMethods()
         {
             var codeMemberMethods = new List<CodeMemberMethod>();
             foreach (var method in _eventStoreRepository.Methods)
@@ -82,7 +84,13 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             memberMethod.Statements.Add(new CodeSnippetExpression("await Context.EventHistory.AddRangeAsync(domainEvents)"));
             memberMethod.Statements.Add(new CodeSnippetExpression("await HangfireQueue.AddEvents(domainEvents)"));
             memberMethod.Statements.Add(new CodeSnippetExpression("await Context.SaveChangesAsync()"));
-            targetClass.Members.AddRange(codeMemberMethods.ToArray());
+            _targetClass.Members.AddRange(codeMemberMethods.ToArray());
+        }
+
+        public CodeNamespace Build()
+        {
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
         }
     }
 }

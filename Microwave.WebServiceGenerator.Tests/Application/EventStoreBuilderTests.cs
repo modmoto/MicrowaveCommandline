@@ -16,7 +16,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
             var storeBuilder = new EventStoreBuilder(ApplicationNameSpace);
 
             var eventStore = storeBuilder.Build(new EventStore());
-            new FileWriter(ApplicationBasePath).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
+            new FileWriter(ApplicationBasePath).WriteToFile("Base/", eventStore);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
 

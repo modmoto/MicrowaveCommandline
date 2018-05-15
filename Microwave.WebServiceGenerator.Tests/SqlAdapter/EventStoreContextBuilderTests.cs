@@ -23,7 +23,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
                 var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
 
                 var eventStore = storeBuilder.Build(domainTree.Classes);
-                new FileWriter(SqlAdpaterNameSpace).WriteToFile(eventStore.Types[0].Name, "Base/", eventStore);
+                new FileWriter(SqlAdpaterNameSpace).WriteToFile("Base/", eventStore);
             }
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
