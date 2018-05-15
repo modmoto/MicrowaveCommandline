@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microwave.LanguageModel;
 
-namespace Microwave.WebServiceGenerator.Domain
+namespace Microwave.WebServiceGenerator.Util
 {
-    public class StaticConstructorBuilder : IStaticConstructorBuilder
+    public class StaticConstructorBuilderUtil
     {
         public CodeMemberMethod BuildOkResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType)
         {
@@ -92,13 +92,5 @@ namespace Microwave.WebServiceGenerator.Domain
         {
             return BuildResult(argumentsPassedToConst, propsInMethod, classType, "ErrorResult", false);
         }
-    }
-
-    public interface IStaticConstructorBuilder
-    {
-        CodeMemberMethod BuildOkResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType);
-        CodeMemberMethod BuildOkResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType, string genericType);
-        CodeMemberMethod BuildErrorResultGeneric(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType, string genericType);
-        CodeMemberMethod BuildErrorResult(IList<string> argumentsPassedToConst, IList<Property> propsInMethod, string classType);
     }
 }

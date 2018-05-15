@@ -12,7 +12,7 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
-        private readonly StaticConstructorBuilder _staticConstructorBuilder;
+        private readonly StaticConstructorBuilderUtil _staticConstructorBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private CodeNamespace _nameSpace;
         private CodeTypeDeclaration _targetClass;
@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
-            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _staticConstructorBuilderUtil = new StaticConstructorBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
@@ -74,7 +74,7 @@ namespace Microwave.WebServiceGenerator.Domain
         {
             var properties = userClass.Properties.Take(3).ToList();
             properties.Add(new Property { Name = "null" });
-            var errorResultConstructor = _staticConstructorBuilder.BuildErrorResultGeneric(new List<string>
+            var errorResultConstructor = _staticConstructorBuilderUtil.BuildErrorResultGeneric(new List<string>
                 {
                     $"new {userClass.Properties[1].Type}()",
                     userClass.Properties[2].Name,
@@ -87,7 +87,7 @@ namespace Microwave.WebServiceGenerator.Domain
 
         private CodeMemberMethod BuildOkConstructor(CreationResultBaseClass userClass)
         {
-            var buildOkResultConstructor = _staticConstructorBuilder.BuildOkResultGeneric(
+            var buildOkResultConstructor = _staticConstructorBuilderUtil.BuildOkResultGeneric(
                 new List<string>
                 {
                     userClass.Properties[1].Name,

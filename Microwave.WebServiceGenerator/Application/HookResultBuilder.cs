@@ -14,12 +14,12 @@ namespace Microwave.WebServiceGenerator.Application
         private readonly string _nameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
-        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
+        private readonly StaticConstructorBuilderUtil _staticConstructorBuilder;
 
         public HookResultBuilder(string nameSpace)
         {
             _nameSpace = nameSpace;
-            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _staticConstructorBuilder = new StaticConstructorBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();

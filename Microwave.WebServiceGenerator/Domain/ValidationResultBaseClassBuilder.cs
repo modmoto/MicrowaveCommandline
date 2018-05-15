@@ -13,7 +13,7 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
-        private readonly IStaticConstructorBuilder _staticConstructorBuilder;
+        private readonly StaticConstructorBuilderUtil _staticConstructorBuilder;
         private CodeNamespace _nameSpace;
         private CodeTypeDeclaration _targetClass;
 
@@ -21,7 +21,7 @@ namespace Microwave.WebServiceGenerator.Domain
         public ValidationResultBaseClassBuilder(ValidationResultBaseClass resultBaseClass)
         {
             _resultBaseClass = resultBaseClass;
-            _staticConstructorBuilder = new StaticConstructorBuilder();
+            _staticConstructorBuilder = new StaticConstructorBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
