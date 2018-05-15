@@ -9,7 +9,6 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly string _basePathRealClasses;
         private readonly FileWriter _fileWriter;
         private readonly ClassBuilderDirector _classBuilderDirector;
-        private readonly CreationResultBaseClassBuilder _creationResultBaseClassBuilder;
         private readonly CommandBuilder _commandBuilder;
         private readonly FileWriter _fileWriterOneTime;
         private readonly DomainClassFirstBuilder _domainClassFirstBuilder;
@@ -20,7 +19,6 @@ namespace Microwave.WebServiceGenerator.Domain
             _fileWriter = new FileWriter(basePath);
             _fileWriterOneTime = new FileWriter(basePathRealClasses);
             _classBuilderDirector = new ClassBuilderDirector();
-            _creationResultBaseClassBuilder = new CreationResultBaseClassBuilder(domain);
             _commandBuilder = new CommandBuilder();
             _domainClassFirstBuilder = new DomainClassFirstBuilder(domain);
         }
@@ -54,7 +52,7 @@ namespace Microwave.WebServiceGenerator.Domain
             var validationResult =  _classBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
             _fileWriter.WriteToFile("Base", validationResult);
 
-            var codeNamespace = _creationResultBaseClassBuilder.Build(new CreationResultBaseClass());
+            var codeNamespace = _classBuilderDirector.BuildInstance(new CreationResultBaseClassBuilder(new CreationResultBaseClass()));
             _fileWriter.WriteToFile("Base", codeNamespace);
 
             var domainEventBaseClass = _classBuilderDirector.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));

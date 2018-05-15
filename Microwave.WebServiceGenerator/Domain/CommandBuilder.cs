@@ -11,8 +11,8 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
-        private PropertyBuilderUtil _propertyBuilderUtil;
-        private NameBuilderUtil _nameBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private readonly NameBuilderUtil _nameBuilderUtil;
 
         public CommandBuilder()
         {

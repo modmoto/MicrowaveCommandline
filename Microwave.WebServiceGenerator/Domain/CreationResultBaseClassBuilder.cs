@@ -7,48 +7,67 @@ using Microwave.WebServiceModel.Domain;
 
 namespace Microwave.WebServiceGenerator.Domain
 {
-    public class CreationResultBaseClassBuilder
+    public class CreationResultBaseClassBuilder : IPlainDataObjectBuilder
     {
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
-        private ClassBuilderUtil _classBuilder;
-        private ConstructorBuilderUtil _constructorBuilderUtil;
-        private StaticConstructorBuilder _staticConstructorBuilder;
-        private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
-        private string _domain;
+        private readonly ClassBuilderUtil _classBuilder;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly StaticConstructorBuilder _staticConstructorBuilder;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
+        private readonly CreationResultBaseClass _userClass;
 
-        public CreationResultBaseClassBuilder(string domainNameSpace)
+
+        public CreationResultBaseClassBuilder(CreationResultBaseClass userClass)
         {
+            _userClass = userClass;
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _staticConstructorBuilder = new StaticConstructorBuilder();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
-            _domain = domainNameSpace;
         }
 
-        public CodeNamespace Build(CreationResultBaseClass userClass)
+        public CodeNamespace Build()
         {
-            var nameSpace = _nameSpaceBuilderUtil.WithName(_domain).WithList().Build();
+            _nameSpace.Types.Add(_targetClass);
+            return _nameSpace;
+        }
 
-            var targetClass = _classBuilder.Build(userClass.Name);
+        public void AddNameSpace()
+        {
+            _nameSpace = _nameSpaceBuilderUtil.WithName("Domain").WithList().Build();
+        }
 
-            var userClassGenericType = new CodeTypeParameter(userClass.GenericType);
+        public void AddClassType()
+        {
+            _targetClass = _classBuilder.Build(_userClass.Name);
+
+            var userClassGenericType = new CodeTypeParameter(_userClass.GenericType);
             userClassGenericType.Constraints.Add(" class");
-            targetClass.TypeParameters.Add(userClassGenericType);
+            _targetClass.TypeParameters.Add(userClassGenericType);
 
-            var constructor = _constructorBuilderUtil.BuildPrivate(userClass.Properties);
+        }
 
-            _propertyBuilderUtil.Build(targetClass, userClass.Properties);
+        public void AddClassProperties()
+        {
+            _propertyBuilderUtil.Build(_targetClass, _userClass.Properties);
+        }
 
-            var buildOkResultConstructor = BuildOkConstructor(userClass);
-            var errorResultConstructor = BuildErrorConstructor(userClass);
+        public void AddConstructor()
+        {
+            var constructor = _constructorBuilderUtil.BuildPrivate(_userClass.Properties);
+            var buildOkResultConstructor = BuildOkConstructor(_userClass);
+            var errorResultConstructor = BuildErrorConstructor(_userClass);
 
-            targetClass.Members.Add(constructor);
-            targetClass.Members.Add(buildOkResultConstructor);
-            targetClass.Members.Add(errorResultConstructor);
+            _targetClass.Members.Add(constructor);
+            _targetClass.Members.Add(buildOkResultConstructor);
+            _targetClass.Members.Add(errorResultConstructor);
+        }
 
-            nameSpace.Types.Add(targetClass);
-            return nameSpace;
+        public void AddBaseTypes()
+        {
         }
 
         private CodeMemberMethod BuildErrorConstructor(CreationResultBaseClass userClass)
