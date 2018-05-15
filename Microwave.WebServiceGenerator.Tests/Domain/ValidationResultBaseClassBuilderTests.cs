@@ -13,8 +13,8 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         [TestMethod]
         public void Write()
         {
-            var plainObjectBuilderDirector = new PlainObjectBuilderDirector();
-            var validationResult = plainObjectBuilderDirector.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
+            var director = new ClassBuilderDirector();
+            var validationResult = director.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));
 
             new FileWriter(DomainBasePath).WriteToFile("ValidationResult", "Base", validationResult);
 

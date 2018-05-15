@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.WebServiceGenerator.SqlAdapter;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
 {
@@ -13,7 +14,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         public void Write()
         {
             var classFactory = new ClassBuilderDirector();
-            var buildInstance = classFactory.BuildInstance(new EventStoreRepositoryBuilder(SqlAdpaterNameSpace));
+            var buildInstance = classFactory.BuildInstance(new EventStoreRepositoryBuilder(new EventStoreRepository()));
             new FileWriter(SqlAdpaterNameSpace).WriteToFile(buildInstance.Types[0].Name, "Base/", buildInstance);
            
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microwave.LanguageModel;
+using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.SqlAdapter
@@ -13,8 +14,8 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private EventStoreContextBuilder _eventStoreContextBuilder;
         private ClassBuilderDirector _classBuilderDirector;
         private HangfireContextBuilder _hangfireContextBuilder;
-        private EventTupleClassBuilder _eventTupleClassBuilder;
-        private EventTupleClassBuilder _tupleClassBuilder;
+        private DefaultClassBuilder _defaultClassBuilder;
+        private DefaultClassBuilder _tupleClassBuilder;
         private EventJobRegistrationClassBuilder _eventJobRegistrationClassBuilder;
         private HangfireQueueBuilder _hangfireQueueBuilder;
         private QueueRepositoryBuilder _queueRepositoryBuilder;
@@ -28,7 +29,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _eventStoreContextBuilder = new EventStoreContextBuilder(sqlAdapterNameSpace);
             _classBuilderDirector = new ClassBuilderDirector();
             _hangfireContextBuilder = new HangfireContextBuilder(sqlAdapterNameSpace);
-            _tupleClassBuilder = new EventTupleClassBuilder(sqlAdapterNameSpace);
+            _tupleClassBuilder = new DefaultClassBuilder(sqlAdapterNameSpace, new EventTupleClass());
             _eventJobRegistrationClassBuilder = new EventJobRegistrationClassBuilder(sqlAdapterNameSpace);
             _hangfireQueueBuilder = new HangfireQueueBuilder(sqlAdapterNameSpace);
             _queueRepositoryBuilder = new QueueRepositoryBuilder(sqlAdapterNameSpace);
@@ -48,10 +49,10 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             var hangfireContext = _hangfireContextBuilder.Build(domainTree.Classes.ToList());
             _fileWriter.WriteToFile(hangfireContext.Types[0].Name, "Base", hangfireContext);
 
-            var eventStoreRepo = _classBuilderDirector.BuildInstance(new EventStoreRepositoryBuilder(_sqlAdapterNameSpace));
+            var eventStoreRepo = _classBuilderDirector.BuildInstance(new EventStoreRepositoryBuilder(new EventStoreRepository()));
             _fileWriter.WriteToFile(eventStoreRepo.Types[0].Name, "Base", eventStoreRepo);
 
-            var eventTuple = _tupleClassBuilder.Build(new EventTupleClass());
+            var eventTuple = _classBuilderDirector.BuildInstance(new DefaultClassBuilder(_sqlAdapterNameSpace, new EventTupleClass()));
             _fileWriter.WriteToFile(eventTuple.Types[0].Name, "Base", eventTuple);
 
             var eventJobRegistration = _eventJobRegistrationClassBuilder.Build(domainTree.AsyncDomainHooks);

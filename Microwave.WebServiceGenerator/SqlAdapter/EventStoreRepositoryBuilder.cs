@@ -8,15 +8,15 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 {
     public class EventStoreRepositoryBuilder : IConcreteClassBuilder
     {
-        private readonly string _nameSpace;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private readonly EventStoreRepository _eventStoreRepository;
 
-        public EventStoreRepositoryBuilder(string nameSpace)
+        public EventStoreRepositoryBuilder(EventStoreRepository eventStoreRepository)
         {
-            _nameSpace = nameSpace;
+            _eventStoreRepository = eventStoreRepository;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
@@ -37,17 +37,17 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
         public CodeTypeDeclaration BuildClassType()
         {
-            return _classBuilderUtil.Build(new EventStoreRepository().Name);
+            return _classBuilderUtil.Build(_eventStoreRepository.Name);
         }
 
         public void AddClassProperties(CodeTypeDeclaration targetClass)
         {
-            _propertyBuilderUtil.Build(targetClass, new EventStoreRepository().Properties);
+            _propertyBuilderUtil.Build(targetClass, _eventStoreRepository.Properties);
         }
 
         public void AddConstructor(CodeTypeDeclaration targetClass)
         {
-            var codeConstructor = _constructorBuilderUtil.BuildPublic(new EventStoreRepository().Properties);
+            var codeConstructor = _constructorBuilderUtil.BuildPublic(_eventStoreRepository.Properties);
             targetClass.Members.Add(codeConstructor);
         }
 
@@ -59,7 +59,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         public void AddConcreteMethods(CodeTypeDeclaration targetClass)
         {
             var codeMemberMethods = new List<CodeMemberMethod>();
-            foreach (var method in new EventStoreRepository().Methods)
+            foreach (var method in _eventStoreRepository.Methods)
             {
                 var codeMemberMethod = new CodeMemberMethod();
                 codeMemberMethod.Name = method.Name;

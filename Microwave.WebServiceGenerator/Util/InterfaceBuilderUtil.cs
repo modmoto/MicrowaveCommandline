@@ -6,7 +6,7 @@ namespace Microwave.WebServiceGenerator.Util
 {
     public class InterfaceBuilderUtil : IInterfaceBuilder
     {
-        private NameBuilderUtil _nameBuilderUtil;
+        private readonly NameBuilderUtil _nameBuilderUtil;
 
         public InterfaceBuilderUtil()
         {

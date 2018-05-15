@@ -99,7 +99,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         public void DomainEventBaseClass_Builder()
         {
             var classFactory = new ClassBuilderDirector();
-            var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder());
+            var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));
             new FileWriter(DomainBasePath).WriteToFile("DomainEventBase", "Base", baseClass);
 
             new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);

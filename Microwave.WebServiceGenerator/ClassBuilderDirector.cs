@@ -15,5 +15,16 @@ namespace Microwave.WebServiceGenerator
             builder.AddConcreteMethods(targetClass);
             return nameSpace;
         }
+
+        public CodeNamespace BuildInstance(IPlainDataObjectBuilder builder)
+        {
+            var nameSpace = builder.BuildNameSpace();
+            var targetClass = builder.BuildClassType();
+            nameSpace.Types.Add(targetClass);
+            builder.AddClassProperties(targetClass);
+            builder.AddConstructor(targetClass);
+            builder.AddBaseTypes(targetClass);
+            return nameSpace;
+        }
     }
 }
