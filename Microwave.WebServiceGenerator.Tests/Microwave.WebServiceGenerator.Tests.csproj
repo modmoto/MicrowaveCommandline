@@ -81,12 +81,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SqlAdapterExpected\Generated\Base\" />
-    <Folder Include="SqlAdapterExpected\Generated\" />
-    <Folder Include="SqlAdapterExpected\Generated\Posts\" />
-    <Folder Include="SqlAdapterExpected\Generated\Users\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Schema.mic">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.WebServiceGenerator.SqlAdapter;
+using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
 {
@@ -13,23 +8,35 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
     public class DbContextBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void WriteDbContext()
         {
             var storeBuilder = new EventStoreContextBuilder(SqlAdpaterNameSpace);
+            var eventStore = storeBuilder.Build(DomainTree.Classes);
+            TestUtils.SnapshotTest(eventStore);
+        }
 
-            using (var reader = new StreamReader("Schema.mic"))
-            {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
+        [TestMethod]
+        public void WriteHangfireContext()
+        {
+            var storeBuilder = new HangfireContextBuilder(SqlAdpaterNameSpace);
+            var eventStore = storeBuilder.Build(DomainTree.Classes);
+            TestUtils.SnapshotTest(eventStore);
+        }
 
-                var eventStore = storeBuilder.Build(domainTree.Classes);
-                new FileWriter(SqlAdpaterNameSpace).WriteToFile("Base/", eventStore);
-            }
+        [TestMethod]
+        public void EventJobRegistration()
+        {
+            var storeBuilder = new EventJobRegistrationClassBuilder(SqlAdpaterNameSpace);
+            var eventStore = storeBuilder.Build(DomainTree.AsyncDomainHooks);
+            TestUtils.SnapshotTest(eventStore);
+        }
 
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(SqlAdpaterBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../SqlAdapterExpected/Generated/Base/EventStoreContext.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("SqlAdapter/Base/EventStoreContext.g.cs"), @"\s+", String.Empty));
+        [TestMethod]
+        public void QueueRepositoryBuilder()
+        {
+            var storeBuilder = new QueueRepositoryBuilder(SqlAdpaterNameSpace);
+            var eventStore = storeBuilder.Build(new QueueRepositoryClass());
+            TestUtils.SnapshotTest(eventStore);
         }
     }
 }
