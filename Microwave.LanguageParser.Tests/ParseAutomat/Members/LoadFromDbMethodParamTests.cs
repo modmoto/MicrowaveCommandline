@@ -93,17 +93,8 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members
                 new DslToken(TokenType.Value, "NewPost", 2),
                 new DslToken(TokenType.TypeDefSeparator, ":", 2),
                 new DslToken(TokenType.LoadToken, "@Load", 2),
-                new DslToken(TokenType.LoadToken, "@Load", 2),
                 new DslToken(TokenType.Value, "Post", 2),
-                new DslToken(TokenType.ParamSeparator, ",", 2),
-                new DslToken(TokenType.Value, "SecondPost", 2),
-                new DslToken(TokenType.TypeDefSeparator, ":", 2),
                 new DslToken(TokenType.Value, "Post", 2),
-                new DslToken(TokenType.ParameterBracketClose, ")", 2),
-                new DslToken(TokenType.TypeDefSeparator, ":", 2),
-                new DslToken(TokenType.ObjectBracketOpen, "{", 2),
-                new DslToken(TokenType.ObjectBracketClose, "}", 2),
-                new DslToken(TokenType.ObjectBracketClose, "}", 3)
             };
 
             var parser = new MicrowaveLanguageParser();
