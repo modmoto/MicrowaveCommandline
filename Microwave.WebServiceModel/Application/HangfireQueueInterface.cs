@@ -39,7 +39,7 @@ namespace Microwave.WebServiceModel.Application
                         new Parameter
                         {
                             Name = "jobName",
-                            Type = $" string"
+                            Type = " string"
                         }
                     }
                 }

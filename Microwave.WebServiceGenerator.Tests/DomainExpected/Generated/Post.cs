@@ -19,6 +19,7 @@ namespace Domain.Posts
         
         public static CreationResult<Post> Create(PostCreateCommand command)
         {
+            // TODO: Implement this method;
             var newGuid = Guid.NewGuid();
             var entity = new Post(newGuid, command);
             return CreationResult<Post>.OkResult(new List<DomainEventBase> { new PostCreateEvent(entity, newGuid) }, entity);
@@ -26,6 +27,7 @@ namespace Domain.Posts
         
         public override ValidationResult UpdateTitle(PostUpdateTitleCommand command)
         {
+            // TODO: Implement this method;
             return ValidationResult.ErrorResult(new List<string>{"The Method \"UpdateTitle\" in Class \"Post\" that is not implemented was called, aborting..."});
         }
     }

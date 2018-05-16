@@ -22,6 +22,7 @@ namespace Application.Users.Hooks
         
         public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
+            // TODO: Implement this method;
             return await Task.FromResult(HookResult.ErrorResult(new List<string>{"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting..."}));
         }
     }

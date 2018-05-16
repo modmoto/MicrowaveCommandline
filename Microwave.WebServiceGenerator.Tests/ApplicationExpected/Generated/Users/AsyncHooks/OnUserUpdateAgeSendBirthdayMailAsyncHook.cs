@@ -21,6 +21,7 @@ namespace Application.Users.AsyncHooks
         
         public async Task<HookResult> Execute(UserUpdateAgeEvent domainEvent)
         {
+            // TODO: Implement this method;
             Console.WriteLine("ERROR: The generated Async Domain Hook Method OnUserUpdateAgeSendBirthdayMailAsyncHook that is not implemented was called, aborting...");
             return await Task.FromResult(HookResult.ErrorResult(new List<string>()));
         }

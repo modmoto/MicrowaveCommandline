@@ -42,6 +42,7 @@ namespace Microwave.WebServiceGenerator.Domain
 
                 method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{createMethod.Name}Command"), Name = "command" });
 
+                method.Statements.Add(new CodeSnippetExpression("// TODO: Implement this method"));
                 method.Statements.Add(new CodeSnippetExpression("var newGuid = Guid.NewGuid()"));
                 method.Statements.Add(new CodeSnippetExpression($"var entity = new {domainClass.Name}(newGuid, command)"));
                 method.Statements.Add(new CodeSnippetExpression($"return CreationResult<{domainClass.Name}>.OkResult(new List<DomainEventBase> {{ new {domainClass.Name}CreateEvent(entity, newGuid) }}, entity)"));
@@ -58,6 +59,8 @@ namespace Microwave.WebServiceGenerator.Domain
                 };
                 method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClass.Name}{domainMethod.Name}Command"), Name = "command" });
                 method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
+
+                method.Statements.Add(new CodeSnippetExpression("// TODO: Implement this method"));
                 method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{domainMethod.Name}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
                 targetClassReal.Members.Add(method);
             }
@@ -71,6 +74,8 @@ namespace Microwave.WebServiceGenerator.Domain
                 };
                 method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainMethod.Parameters[0].Name}"), Name = "hookEvent" });
                 method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
+
+                method.Statements.Add(new CodeSnippetExpression("// TODO: Implement this method"));
                 method.Statements.Add(new CodeSnippetExpression($"return ValidationResult.ErrorResult(new List<string>{{\"The Method \\\"{_nameBuilderUtil.OnChildHookMethodName(domainMethod)}\\\" in Class \\\"{domainClass.Name}\\\" that is not implemented was called, aborting...\"}})"));
                 targetClassReal.Members.Add(method);
             }

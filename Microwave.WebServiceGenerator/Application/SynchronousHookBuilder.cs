@@ -157,6 +157,7 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression("// TODO: Implement this method"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("return await Task.FromResult(HookResult.ErrorResult(new List<string>{\"A generated Synchronouse Doman Hook Method that is not implemented was called, aborting...\"}))"));
             codeTypeDeclaration.Members.Add(codeMemberMethod);
             return codeNamespace;
