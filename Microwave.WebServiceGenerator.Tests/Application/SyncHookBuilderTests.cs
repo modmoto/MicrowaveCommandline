@@ -29,5 +29,17 @@ namespace Microwave.WebServiceGenerator.Tests.Application
                 TestUtils.SnapshotTest(codeNamespace, false);
             }
         }
+
+        [TestMethod]
+        public void BuildOnChildHook()
+        {
+            var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
+
+            foreach (var hook in DomainTree.OnChildHooks)
+            {
+                var codeNamespace = commandHandlerBuilder.Build(hook);
+                TestUtils.SnapshotTest(codeNamespace, false);
+            }
+        }
     }
 }

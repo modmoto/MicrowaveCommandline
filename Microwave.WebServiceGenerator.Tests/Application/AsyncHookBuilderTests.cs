@@ -17,6 +17,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
             }
         }
 
+        [TestMethod]
         public void BuildCommandHandlers()
         {
             foreach (var hook in DomainTree.AsyncDomainHooks)
