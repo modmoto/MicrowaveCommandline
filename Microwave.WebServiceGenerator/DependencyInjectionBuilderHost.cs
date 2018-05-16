@@ -7,20 +7,18 @@ using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator
 {
-    public class DependencyInjectionWriterHost
+    public class DependencyInjectionBuilderHost
     {
-        private readonly IFileWriter _fileWriter;
         private ClassBuilderUtil _classBuilderUtil;
         private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
 
-        public DependencyInjectionWriterHost(string basePath)
+        public DependencyInjectionBuilderHost()
         {
-            _fileWriter = new FileWriter(basePath);
             _classBuilderUtil = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
-        public void Write(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, IList<OnChildDomainHook> childDomainHooks, string basePath)
+        public CodeNamespace Build(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, IList<OnChildDomainHook> childDomainHooks)
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
@@ -71,9 +69,7 @@ namespace Microwave.WebServiceGenerator
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
-            _fileWriter.WriteToFile("Base", codeNamespace);
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
+            return codeNamespace;
         }
     }
 }

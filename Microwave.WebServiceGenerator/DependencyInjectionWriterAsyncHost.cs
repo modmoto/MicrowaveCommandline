@@ -9,20 +9,18 @@ namespace Microwave.WebServiceGenerator
 {
     public class DependencyInjectionWriterAsyncHost
     {
-        private readonly IFileWriter _fileWriter;
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private NameBuilderUtil _nameBuilderUtil;
 
-        public DependencyInjectionWriterAsyncHost(string basePath)
+        public DependencyInjectionWriterAsyncHost()
         {
-            _fileWriter = new FileWriter(basePath);
             _classBuilderUtil = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _nameBuilderUtil = new NameBuilderUtil();
         }
 
-        public void Write(IList<DomainClass> domainClasses, IList<AsyncDomainHook> domainHooks, string basePath)
+        public CodeNamespace Write(IList<DomainClass> domainClasses, IList<AsyncDomainHook> domainHooks)
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
@@ -83,9 +81,7 @@ namespace Microwave.WebServiceGenerator
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
-            _fileWriter.WriteToFile("Base", codeNamespace);
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(basePath);
+            return codeNamespace;
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.WebServiceGenerator.Domain;
 
 namespace Microwave.WebServiceGenerator.Tests.Domain
@@ -17,36 +11,15 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         {
             var commandBuilder = new CommandBuilder();
 
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var domainClass in DomainTree.Classes)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
+                var codeNamespaces = commandBuilder.Build(domainClass);
 
-                foreach (var domainClass in domainTree.Classes)
+                foreach (var codeNamespace in codeNamespaces)
                 {
-                    var codeNamespaces = commandBuilder.Build(domainClass);
-
-                    var fileWriter = new FileWriter(DomainBasePath);
-                    foreach (var codeNamespace in codeNamespaces)
-                    {
-                        fileWriter.WriteToFile($"{domainClass.Name}s/Commands", codeNamespace);
-                    }
-
-                    new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
-                    
+                    TestUtils.SnapshotTest(codeNamespace);
                 }
             }
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserCreateCommand.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserCreateCommand.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserAddPostCommand.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserAddPostCommand.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateAgeCommand.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserUpdateAgeCommand.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/Commands/UserUpdateNameCommand.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/Commands/UserUpdateNameCommand.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Posts/Commands/PostCreateCommand.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Posts/Commands/PostCreateCommand.g.cs"), @"\s+", String.Empty));
         }
     }
 }

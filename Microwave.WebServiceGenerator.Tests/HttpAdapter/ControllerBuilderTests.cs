@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.WebServiceGenerator.HttpAdapter;
 
 namespace Microwave.WebServiceGenerator.Tests.HttpAdapter
@@ -17,24 +11,11 @@ namespace Microwave.WebServiceGenerator.Tests.HttpAdapter
         {
             var controllerBuilder = new ControllerBuilder(HttpAdpaterNameSpace);
 
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var domainTreeClass in DomainTree.Classes)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-
-                foreach (var domainTreeClass in domainTree.Classes)
-                {
-                    var eventStore = controllerBuilder.Build(domainTreeClass);
-                    new FileWriter(HttpAdpaterNameSpace).WriteToFile(domainTreeClass.Name + "s", eventStore);
-                }
+                var controller = controllerBuilder.Build(domainTreeClass);
+                TestUtils.SnapshotTest(controller);
             }
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(HttpAdpaterBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../HttpAdapterExpected/Generated/Users/UserController.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("HttpAdapter/Users/UserController.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../HttpAdapterExpected/Generated/Posts/PostController.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("HttpAdapter/Posts/PostController.g.cs"), @"\s+", String.Empty));
         }
     }
 }

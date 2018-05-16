@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microwave.WebServiceGenerator.Application;
 
 namespace Microwave.WebServiceGenerator.Tests.Application
@@ -17,21 +11,11 @@ namespace Microwave.WebServiceGenerator.Tests.Application
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
 
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var hook in DomainTree.SynchronousDomainHooks)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                foreach (var hook in domainTree.SynchronousDomainHooks)
-                {
-                    var codeNamespace = commandHandlerBuilder.Build(hook);
-                    new FileWriter(ApplicationBasePath).WriteToFile(hook.ClassType + "s/Hooks/", codeNamespace);
-                }
+                var codeNamespace = commandHandlerBuilder.Build(hook);
+                TestUtils.SnapshotTest(codeNamespace);
             }
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.g.cs"), @"\s+", String.Empty));
         }
 
         [TestMethod]
@@ -39,23 +23,11 @@ namespace Microwave.WebServiceGenerator.Tests.Application
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
 
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var hook in DomainTree.SynchronousDomainHooks)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                foreach (var hook in domainTree.SynchronousDomainHooks)
-                {
-                    var codeNamespace = commandHandlerBuilder.BuildReplacementClass(hook);
-                    new FileWriter(ApplicationBasePath).WriteToFile(hook.ClassType + "s/Hooks/", codeNamespace, false);
-                }
+                var codeNamespace = commandHandlerBuilder.BuildReplacementClass(hook);
+                TestUtils.SnapshotTest(codeNamespace, false);
             }
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(ApplicationBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../ApplicationExpected/Generated/Users/Hooks/SendPasswordMailHook.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Application/Users/Hooks/SendPasswordMailHook.cs"), @"\s+", String.Empty));
         }
-
-
     }
 }

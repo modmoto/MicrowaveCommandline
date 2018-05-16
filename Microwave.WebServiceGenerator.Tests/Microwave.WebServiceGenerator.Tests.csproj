@@ -16,6 +16,15 @@
     <None Remove="ApplicationExpected\Generated\Posts\**" />
     <None Remove="ApplicationExpected\Generated\Users\**" />
     <None Remove="ApplicationExpected\Generated\Users\AsyncHooks\**" />
+    <Compile Remove="GeneratedExpected\**" />
+    <EmbeddedResource Remove="GeneratedExpected\**" />
+    <None Remove="GeneratedExpected\**" />
+    <Compile Remove="GeneratedExpected\Application.Users.AsyncHooks\**" />
+    <EmbeddedResource Remove="GeneratedExpected\Application.Users.AsyncHooks\**" />
+    <None Remove="GeneratedExpected\Application.Users.AsyncHooks\**" />
+    <Compile Remove="GeneratedExpected\Application.Users\**" />
+    <EmbeddedResource Remove="GeneratedExpected\Application.Users\**" />
+    <None Remove="GeneratedExpected\Application.Users\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ApplicationExpected\Generated\Base\EventStore.g.cs" />
@@ -72,14 +81,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ApplicationExpected\Generated\Base\" />
-    <Folder Include="DomainExpected\Generated\Base\" />
-    <Folder Include="DomainExpected\Generated\Posts\" />
-    <Folder Include="DomainExpected\Generated\Posts\Commands\" />
-    <Folder Include="DomainExpected\Generated\Users\Commands\" />
-    <Folder Include="HttpAdapterExpected\" />
-    <Folder Include="HttpAdapterExpected\Generated\Posts\" />
-    <Folder Include="HttpAdapterExpected\Generated\Users\" />
     <Folder Include="SqlAdapterExpected\Generated\Base\" />
     <Folder Include="SqlAdapterExpected\Generated\" />
     <Folder Include="SqlAdapterExpected\Generated\Posts\" />

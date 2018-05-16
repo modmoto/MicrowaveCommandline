@@ -1,10 +1,4 @@
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microwave.LanguageParser;
-using Microwave.LanguageParser.Lexer;
-using Microwave.LanguageParser.ParseAutomat;
 using Microwave.WebServiceGenerator.Domain;
 using Microwave.WebServiceModel.Domain;
 
@@ -16,83 +10,42 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         [TestMethod]
         public void TestDomainClasses()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var domainClass in DomainTree.Classes)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Write(domainTree, DomainBasePath);
+                var codeNamespace = new ClassBuilderDirector().BuildInstance(new DomainClassBuilder(domainClass));
+                TestUtils.SnapshotTest(codeNamespace);
             }
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/User.g.cs"), @"\s+", String.Empty),
-            Regex.Replace(File.ReadAllText("Domain/Users/User.g.cs"), @"\s+", String.Empty));
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Posts/Post.g.cs"), @"\s+", String.Empty),
-            Regex.Replace(File.ReadAllText("Domain/Posts/Post.g.cs"), @"\s+", String.Empty));
         }
 
         [TestMethod]
         public void TestDomainClassesFirstWrite()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var domainClass in DomainTree.Classes)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Write(domainTree, DomainBasePath);
+                var domainClassFirstBuilder = new DomainClassFirstBuilder(DomainNameSpace);
+                var codeNamespace = domainClassFirstBuilder.Build(domainClass);
+                TestUtils.SnapshotTest(codeNamespace, false);
             }
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/User.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Solution/User.cs"), @"\s+", String.Empty));
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Post.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Solution/Post.cs"), @"\s+", String.Empty));
         }
 
         [TestMethod]
-        public void TestCreateEvents()
+        public void TestEvents()
         {
-            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
-            using (var reader = new StreamReader("Schema.mic"))
+            foreach (var domainClass in DomainTree.Classes)
             {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Write(domainTree, DomainBasePath);
+                foreach (var domainEvent in domainClass.Events)
+                {
+                    var codeNamespace = new ClassBuilderDirector().BuildInstance(new DomainEventBuilder(domainClass, domainEvent));
+                    TestUtils.SnapshotTest(codeNamespace);
+                }
             }
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserCreateEvent.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/UserCreateEvent.g.cs"), @"\s+", String.Empty));
-        }
-
-        [TestMethod]
-        public void TestUpdateEvents()
-        {
-            var domainBuilder = new DomainWriter(DomainNameSpace, DomainBasePath, SolutionBasePath);
-            using (var reader = new StreamReader("Schema.mic"))
-            {
-                var content = reader.ReadToEnd();
-                var domainTree = new DslParser(new MicrowaveLanguageTokenizer(), new MicrowaveLanguageParser()).Parse(content);
-                domainBuilder.Write(domainTree, DomainBasePath);
-            }
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateAgeEvent.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/UserUpdateAgeEvent.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserAddPostEvent.g.cs"), @"\s+", String.Empty),
-                Regex.Replace(File.ReadAllText("Domain/Users/UserAddPostEvent.g.cs"), @"\s+", String.Empty));
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Users/UserUpdateNameEvent.g.cs"), @"\s+", String.Empty),
-            Regex.Replace(File.ReadAllText("Domain/Users/UserUpdateNameEvent.g.cs"), @"\s+", String.Empty));
         }
 
         [TestMethod]
         public void CreationResultBase_Builder()
         {
             var creationResult = new ClassBuilderDirector().BuildInstance(new CreationResultBaseClassBuilder(new CreationResultBaseClass()));
-            new FileWriter(DomainBasePath).WriteToFile("Base", creationResult);
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Base/CreationResult.g.cs"), @"\s+", String.Empty),
-            Regex.Replace(File.ReadAllText("Domain/Base/CreationResult.g.cs"), @"\s+", String.Empty));
+            TestUtils.SnapshotTest(creationResult);
         }
 
         [TestMethod]
@@ -100,12 +53,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         {
             var classFactory = new ClassBuilderDirector();
             var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));
-            new FileWriter(DomainBasePath).WriteToFile("Base", baseClass);
-
-            new PrivateSetPropertyHackCleaner().ReplaceHackPropertyNames(DomainBasePath);
-
-            Assert.AreEqual(Regex.Replace(File.ReadAllText("../../../DomainExpected/Generated/Base/DomainEventBase.g.cs"), @"\s+", String.Empty),
-            Regex.Replace(File.ReadAllText("Domain/Base/DomainEventBase.g.cs"), @"\s+", String.Empty));
+            TestUtils.SnapshotTest(baseClass);
         }
     }
 }
