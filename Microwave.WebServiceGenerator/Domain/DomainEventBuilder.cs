@@ -16,6 +16,7 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private CodeNamespace _nameSpace;
         private CodeTypeDeclaration _targetClass;
+        private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
 
         public DomainEventBuilder(DomainClass classModell, DomainEvent domainEvent)
         {
@@ -24,6 +25,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _classBuilder = new ClassBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
+            _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
         private static bool IsCreateEvent(DomainEvent domainEvent)
@@ -46,8 +48,7 @@ namespace Microwave.WebServiceGenerator.Domain
 
         public void AddNameSpace()
         {
-            _nameSpace = new CodeNamespace($"Domain.{_classModell.Name}s");
-            _nameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            _nameSpace = _nameSpaceBuilderUtil.WithName($"Domain.{_classModell.Name}s").Build();
         }
 
         public void AddClassType()

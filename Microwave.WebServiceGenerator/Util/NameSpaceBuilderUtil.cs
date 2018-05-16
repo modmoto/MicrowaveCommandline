@@ -56,7 +56,6 @@ namespace Microwave.WebServiceGenerator.Util
             _nameSpace = new CodeNamespace(domain);
             Imports = new List<CodeNamespaceImport>();
             Imports.Add(new CodeNamespaceImport("System"));
-
             return this;
         }
 
