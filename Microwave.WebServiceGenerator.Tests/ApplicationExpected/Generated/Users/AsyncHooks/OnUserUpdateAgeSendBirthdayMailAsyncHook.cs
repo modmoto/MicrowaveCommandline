@@ -12,16 +12,17 @@ namespace Application.Users.AsyncHooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Users;
     
     
     public class OnUserUpdateAgeSendBirthdayMailAsyncHook
     {
         
-        public HookResult Execute(UserUpdateAgeEvent domainEvent)
+        public async Task<HookResult> Execute(UserUpdateAgeEvent domainEvent)
         {
-            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendBirthdayMail that is not implemented was called, aborting...");
-            return HookResult.ErrorResult(new List<string>());
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method OnUserUpdateAgeSendBirthdayMailAsyncHook that is not implemented was called, aborting...");
+            return await Task.FromResult(HookResult.ErrorResult(new List<string>()));
         }
     }
 }

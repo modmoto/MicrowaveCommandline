@@ -7,11 +7,11 @@ namespace Microwave.WebServiceGenerator.Application
 {
     public class ApiCommandBuilder
     {
-        private ConstructorBuilderUtil _constructorBuilderUtil;
-        private PropertyBuilderUtil _propertyBuilderUtil;
-        private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
-        private NameBuilderUtil _nameBuilderUtil;
-        private ClassBuilderUtil _classBuilderUtil;
+        private readonly ConstructorBuilderUtil _constructorBuilderUtil;
+        private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private readonly NameBuilderUtil _nameBuilderUtil;
+        private readonly ClassBuilderUtil _classBuilderUtil;
 
         public ApiCommandBuilder()
         {

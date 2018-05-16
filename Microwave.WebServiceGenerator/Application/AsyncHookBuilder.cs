@@ -5,44 +5,68 @@ using Microwave.WebServiceModel.Application;
 
 namespace Microwave.WebServiceGenerator.Application
 {
-    public class AsyncHookBuilder
+    public class AsyncHookBuilder : IConcreteClassBuilder
     {
-        private readonly string _applicationNameSpace;
+        private readonly AsyncDomainHook _hook;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly ClassBuilderUtil _classBuilderUtil;
-        private NameBuilderUtil _nameBuilderUtil;
+        private readonly NameBuilderUtil _nameBuilderUtil;
+        private CodeNamespace _nameSpace;
+        private CodeTypeDeclaration _targetClass;
 
-        public AsyncHookBuilder(string applicationNameSpace)
+        public AsyncHookBuilder(AsyncDomainHook hook)
         {
-            _applicationNameSpace = applicationNameSpace;
+            _hook = hook;
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _classBuilderUtil = new ClassBuilderUtil();
             _nameBuilderUtil = new NameBuilderUtil();
         }
 
-        public CodeNamespace BuildReplacementClass(AsyncDomainHook hook)
+        public void AddNameSpace()
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{hook.ClassType}s.AsyncHooks")
+            _nameSpace = _nameSpaceBuilderUtil.WithName($"Application.{_hook.ClassType}s.AsyncHooks")
                 .WithList()
                 .WithTask()
+                .WithDomainEntityNameSpace(_hook.ClassType)
                 .Build();
-            var codeTypeDeclaration = _classBuilderUtil.Build(_nameBuilderUtil.AsyncEventHookName(hook));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"Domain.{hook.ClassType}s"));
+        }
 
-            codeNamespace.Types.Add(codeTypeDeclaration);
+        public void AddClassType()
+        {
+            _targetClass = _classBuilderUtil.Build(_nameBuilderUtil.AsyncEventHookName(_hook));
+            _nameSpace.Types.Add(_targetClass);
+        }
 
+        public void AddClassProperties()
+        {
+        }
+
+        public void AddConstructor()
+        {
+        }
+
+        public void AddBaseTypes()
+        {
+        }
+
+        public void AddConcreteMethods()
+        {
             var codeMemberMethod = new CodeMemberMethod();
             codeMemberMethod.Parameters.Add(
-                new CodeParameterDeclarationExpression(new CodeTypeReference($"{hook.ClassType}{hook.MethodName}Event"),
+                new CodeParameterDeclarationExpression(new CodeTypeReference($"{_hook.ClassType}{_hook.MethodName}Event"),
                     "domainEvent"));
             codeMemberMethod.ReturnType = new CodeTypeReference($"async Task<{new HookResultBaseClass().Name}>");
             codeMemberMethod.Attributes = MemberAttributes.Public | MemberAttributes.Final;
             codeMemberMethod.Name = "Execute";
 
-            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {_nameBuilderUtil.AsyncEventHookName(hook)} that is not implemented was called, aborting...\")"));
+            codeMemberMethod.Statements.Add(new CodeSnippetExpression($"Console.WriteLine(\"ERROR: The generated Async Domain Hook Method {_nameBuilderUtil.AsyncEventHookName(_hook)} that is not implemented was called, aborting...\")"));
             codeMemberMethod.Statements.Add(new CodeSnippetExpression("return await Task.FromResult(HookResult.ErrorResult(new List<string>()))"));
-            codeTypeDeclaration.Members.Add(codeMemberMethod);
-            return codeNamespace;
+            _targetClass.Members.Add(codeMemberMethod);
+        }
+
+        public CodeNamespace Build()
+        {
+            return _nameSpace;
         }
     }
 }

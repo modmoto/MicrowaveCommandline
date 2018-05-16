@@ -12,16 +12,17 @@ namespace Application.Users.AsyncHooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Users;
     
     
     public class OnUserCreateSendWelcomeMailAsyncHook
     {
         
-        public HookResult Execute(UserCreateEvent domainEvent)
+        public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendWelcomeMail that is not implemented was called, aborting...");
-            return HookResult.ErrorResult(new List<string>());
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method OnUserCreateSendWelcomeMailAsyncHook that is not implemented was called, aborting...");
+            return await Task.FromResult(HookResult.ErrorResult(new List<string>()));
         }
     }
 }

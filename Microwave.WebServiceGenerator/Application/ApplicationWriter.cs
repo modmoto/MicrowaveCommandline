@@ -21,11 +21,11 @@ namespace Microwave.WebServiceGenerator.Application
         private ApiCommandBuilder _apiCommandBuilder;
         private EventStoreInterfaceBuilder _eventStoreInterfaceBuilder;
         private HangfireQueueInterfaceBuilder _hangfireQueueInterfaceBuilder;
-        private AsyncHookBuilder _asyncHookBuilder;
         private EventAndJobClassBuilder _eventAndJobClassBuilder;
         private NameBuilderUtil _nameBuilderUtil;
         private AsyncHookCreateEventHandlerBuilder _asyncHookCreateEventHandlerBuilder;
         private QueueRepositoryInterfaceBuilder _queueRepositoryInterfaceBuilder;
+        private ClassBuilderDirector _classBuilderDirector;
 
         public ApplicationWriter(string applicationNameSpace, string basePath,string applicationBasePathRealClasses)
         {
@@ -43,11 +43,11 @@ namespace Microwave.WebServiceGenerator.Application
             _apiCommandBuilder = new ApiCommandBuilder();
             _eventStoreInterfaceBuilder = new EventStoreInterfaceBuilder(applicationNameSpace);
             _hangfireQueueInterfaceBuilder = new HangfireQueueInterfaceBuilder(applicationNameSpace);
-            _asyncHookBuilder = new AsyncHookBuilder(applicationNameSpace);
             _eventAndJobClassBuilder = new EventAndJobClassBuilder(applicationNameSpace);
             _nameBuilderUtil = new NameBuilderUtil();
             _asyncHookCreateEventHandlerBuilder = new AsyncHookCreateEventHandlerBuilder(applicationNameSpace);
             _queueRepositoryInterfaceBuilder = new QueueRepositoryInterfaceBuilder(applicationNameSpace);
+            _classBuilderDirector = new ClassBuilderDirector();
         }
 
         public void Write(DomainTree domainTree)
@@ -91,7 +91,7 @@ namespace Microwave.WebServiceGenerator.Application
                 var formattableString = $"{_applicationBasePathRealClasses}{hook.ClassType}s/AsyncHooks/{_nameBuilderUtil.AsyncEventHookName(hook)}.cs";
                 if (!File.Exists(formattableString))
                 {
-                    var buildReplacementClass = _asyncHookBuilder.BuildReplacementClass(hook);
+                    var buildReplacementClass = _classBuilderDirector.BuildInstance(new AsyncHookBuilder(hook));
                     _fileWriterRealClasses.WriteToFile($"{hook.ClassType}s/AsyncHooks", buildReplacementClass, false);
                 }
             }
