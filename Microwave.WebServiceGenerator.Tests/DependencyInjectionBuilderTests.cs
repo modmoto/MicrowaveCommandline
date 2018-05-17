@@ -6,7 +6,7 @@ namespace Microwave.WebServiceGenerator.Tests
     public class DependencyInjectionBuilderTests : TestBase
     {
         [TestMethod]
-        public void BuildDiAsyncHost()
+        public void BuildDependencyInjectionAsyncHost()
         {
             var hookResultBuilder = new DependencyInjectionBuilderAsyncHost();
             var codeNamespace = hookResultBuilder.Write(DomainTree.Classes, DomainTree.AsyncDomainHooks);
@@ -14,7 +14,7 @@ namespace Microwave.WebServiceGenerator.Tests
         }
 
         [TestMethod]
-        public void BuildDiHost()
+        public void BuildDependencyInjectionHost()
         {
             var hookResultBuilder = new DependencyInjectionBuilderHost();
             var codeNamespace = hookResultBuilder.Build(DomainTree.Classes, DomainTree.SynchronousDomainHooks, DomainTree.OnChildHooks);

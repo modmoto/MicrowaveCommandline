@@ -11,16 +11,14 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ClassBuilderDirector _classBuilderDirector;
         private readonly CommandBuilder _commandBuilder;
         private readonly FileWriter _fileWriterOneTime;
-        private readonly DomainClassFirstBuilder _domainClassFirstBuilder;
 
-        public DomainWriter(string domain, string basePath, string basePathRealClasses)
+        public DomainWriter(string basePath, string basePathRealClasses)
         {
             _basePathRealClasses = basePathRealClasses;
             _fileWriter = new FileWriter(basePath);
             _fileWriterOneTime = new FileWriter(basePathRealClasses);
             _classBuilderDirector = new ClassBuilderDirector();
             _commandBuilder = new CommandBuilder();
-            _domainClassFirstBuilder = new DomainClassFirstBuilder(domain);
         }
 
         public void Write(DomainTree domainTree, string basePath)
@@ -36,7 +34,7 @@ namespace Microwave.WebServiceGenerator.Domain
                 var domainClassBuild = _classBuilderDirector.BuildInstance(new DomainClassBuilder(domainClass));
                 _fileWriter.WriteToFile($"{domainClass.Name}s", domainClassBuild);
 
-                var domainClassFirst = _domainClassFirstBuilder.Build(domainClass);
+                var domainClassFirst = _classBuilderDirector.BuildInstance(new DomainClassFirstBuilder(domainClass));
                 if (!ClassIsAllreadyExisting(domainClass))
                 {
                     _fileWriterOneTime.WriteToFile("", domainClassFirst, false);

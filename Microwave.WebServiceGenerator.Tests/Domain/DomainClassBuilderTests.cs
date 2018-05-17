@@ -22,8 +22,8 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         {
             foreach (var domainClass in DomainTree.Classes)
             {
-                var domainClassFirstBuilder = new DomainClassFirstBuilder(DomainNameSpace);
-                var codeNamespace = domainClassFirstBuilder.Build(domainClass);
+                var domainClassFirstBuilder = new DomainClassFirstBuilder(domainClass);
+                var codeNamespace = new ClassBuilderDirector().BuildInstance(domainClassFirstBuilder);
                 TestUtils.SnapshotTest(codeNamespace, false);
             }
         }
