@@ -8,10 +8,10 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class HookResultBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildHookResult()
         {
             var hookResultBuilder = new HookResultBuilder(ApplicationNameSpace);
-            var codeNamespace = hookResultBuilder.Write(new HookResultBaseClass());
+            var codeNamespace = hookResultBuilder.Build(new HookResultBaseClass());
             TestUtils.SnapshotTest(codeNamespace);
         }
     }

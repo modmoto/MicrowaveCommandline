@@ -7,13 +7,13 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class RepositoryInterfaceBuilderTests : TestBase
     {
         [TestMethod]
-        public void Build()
+        public void BuildRepositoryInterface()
         {
-            var commandHandlerBuilder = new RepositoryInterfaceBuilder(ApplicationNameSpace);
+            var builder = new RepositoryInterfaceBuilder(ApplicationNameSpace);
 
             foreach (var domainClass in DomainTree.Classes)
             {
-                var codeNamespace = commandHandlerBuilder.Build(domainClass);
+                var codeNamespace = builder.Build(domainClass);
                 TestUtils.SnapshotTest(codeNamespace);
             }
         }

@@ -7,13 +7,13 @@ using Microwave.WebServiceModel.SqlAdapter;
 
 namespace Microwave.WebServiceGenerator
 {
-    public class DependencyInjectionWriterAsyncHost
+    public class DependencyInjectionBuilderAsyncHost
     {
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private NameBuilderUtil _nameBuilderUtil;
 
-        public DependencyInjectionWriterAsyncHost()
+        public DependencyInjectionBuilderAsyncHost()
         {
             _classBuilderUtil = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();

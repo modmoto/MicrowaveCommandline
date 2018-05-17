@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
     public class DbContextBuilderTests : TestBase
     {
         [TestMethod]
-        public void WriteDbContext()
+        public void BuildDbContext()
         {
             var storeBuilder = new EventStoreContextBuilder(SqlAdpaterNameSpace);
             var eventStore = storeBuilder.Build(DomainTree.Classes);
@@ -16,7 +16,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         }
 
         [TestMethod]
-        public void WriteHangfireContext()
+        public void BuildHangfireContext()
         {
             var storeBuilder = new HangfireContextBuilder(SqlAdpaterNameSpace);
             var eventStore = storeBuilder.Build(DomainTree.Classes);
@@ -24,7 +24,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         }
 
         [TestMethod]
-        public void EventJobRegistration()
+        public void BuildEventJobRegistration()
         {
             var storeBuilder = new EventJobRegistrationClassBuilder(SqlAdpaterNameSpace);
             var eventStore = storeBuilder.Build(DomainTree.AsyncDomainHooks);
@@ -32,7 +32,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
         }
 
         [TestMethod]
-        public void QueueRepositoryBuilder()
+        public void BuildQueueRepositoryBuilder()
         {
             var storeBuilder = new QueueRepositoryBuilder(SqlAdpaterNameSpace);
             var eventStore = storeBuilder.Build(new QueueRepositoryClass());

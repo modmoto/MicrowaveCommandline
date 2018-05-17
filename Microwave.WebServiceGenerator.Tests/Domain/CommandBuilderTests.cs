@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
     public class CommandBuilderTests : TestBase
     {
         [TestMethod]
-        public void Build()
+        public void BuildCommand()
         {
             var commandBuilder = new CommandBuilder();
 

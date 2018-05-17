@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class HookBaseClassBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildHookBaseCkass()
         {
             var hookResultBuilder = new HookBaseClassBuilder(ApplicationNameSpace);
             var codeNamespace = hookResultBuilder.Build(new DomainHookBaseClass());

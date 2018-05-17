@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class SyncHookBuilderTests : TestBase
     {
         [TestMethod]
-        public void BuildTests()
+        public void BuildSynchronousHook()
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
 
@@ -19,7 +19,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
         }
 
         [TestMethod]
-        public void BuildReplacementClass()
+        public void BuildSynchronousHookReplacementClass()
         {
             var commandHandlerBuilder = new SynchronousHookBuilder(ApplicationNameSpace);
 

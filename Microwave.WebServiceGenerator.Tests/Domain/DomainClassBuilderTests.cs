@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
     public class DomainClassWriterTests : TestBase
     {
         [TestMethod]
-        public void TestDomainClasses()
+        public void BuildDomainClasses()
         {
             foreach (var domainClass in DomainTree.Classes)
             {
@@ -18,7 +18,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         }
 
         [TestMethod]
-        public void TestDomainClassesFirstWrite()
+        public void BuildDomainClassesFirstWrite()
         {
             foreach (var domainClass in DomainTree.Classes)
             {
@@ -29,7 +29,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         }
 
         [TestMethod]
-        public void TestEvents()
+        public void BuildEvents()
         {
             foreach (var domainClass in DomainTree.Classes)
             {
@@ -42,14 +42,14 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
         }
 
         [TestMethod]
-        public void CreationResultBase_Builder()
+        public void BuildCreationResultBase()
         {
             var creationResult = new ClassBuilderDirector().BuildInstance(new CreationResultBaseClassBuilder(new CreationResultBaseClass()));
             TestUtils.SnapshotTest(creationResult);
         }
 
         [TestMethod]
-        public void DomainEventBaseClass_Builder()
+        public void BuildDomainEventBaseClass()
         {
             var classFactory = new ClassBuilderDirector();
             var baseClass = classFactory.BuildInstance(new DomainEventBaseClassBuilder(new DomainEventBaseClass()));

@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
     public class RepositoryBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildRepository()
         {
             var storeBuilder = new RepositoryBuilder(SqlAdpaterNameSpace);
 

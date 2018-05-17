@@ -25,7 +25,7 @@ namespace Microwave.WebServiceGenerator.Application
             _classBuilder = new ClassBuilderUtil();
         }
 
-        public CodeNamespace Write(HookResultBaseClass userClass)
+        public CodeNamespace Build(HookResultBaseClass userClass)
         {
             var targetClass = _classBuilder.Build(userClass.Name);
 

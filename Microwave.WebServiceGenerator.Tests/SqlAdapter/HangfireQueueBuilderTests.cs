@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
     public class HangfireQueueBuilderTests : TestBase
     {
         [TestMethod]
-        public void Build()
+        public void BuildHAngfireQueue()
         {
             var hangfireQueue = new HangfireQueueBuilder(SqlAdpaterNameSpace).Build(new HangfireQueueClass());
             TestUtils.SnapshotTest(hangfireQueue);

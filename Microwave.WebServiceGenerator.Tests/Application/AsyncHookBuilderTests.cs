@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class AsyncHookBuilderTests : TestBase
     {
         [TestMethod]
-        public void BuildTests()
+        public void BuildAsyncHook()
         {
             foreach (var hook in DomainTree.AsyncDomainHooks)
             {

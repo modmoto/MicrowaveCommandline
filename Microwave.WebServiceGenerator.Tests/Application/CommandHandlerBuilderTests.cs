@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class CommandHandlerBuilderTests : TestBase
     {
         [TestMethod]
-        public void Build()
+        public void BuildCommandHandler()
         {
             var commandHandlerBuilder = new CommandHandlerBuilder(ApplicationNameSpace);
 

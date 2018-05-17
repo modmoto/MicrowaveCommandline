@@ -35,7 +35,7 @@ namespace Microwave
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new HttpAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
-            var dependencyInjectionWriterAsyncHost = new DependencyInjectionWriterAsyncHost();
+            var dependencyInjectionWriterAsyncHost = new DependencyInjectionBuilderAsyncHost();
 
             var dependencyInjectionWriter = new DependencyInjectionBuilderHost();
 

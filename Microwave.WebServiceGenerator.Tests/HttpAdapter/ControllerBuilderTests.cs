@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.HttpAdapter
     public class ControllerBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildController()
         {
             var controllerBuilder = new ControllerBuilder(HttpAdpaterNameSpace);
 

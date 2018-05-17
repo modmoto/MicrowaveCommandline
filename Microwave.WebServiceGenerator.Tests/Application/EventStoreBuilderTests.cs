@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class EventStoreBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildEventStore()
         {
             var storeBuilder = new EventStoreBuilder(ApplicationNameSpace);
 

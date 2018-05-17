@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.Domain
     public class ValidationResultBaseClassBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildValidationResult()
         {
             var director = new ClassBuilderDirector();
             var validationResult = director.BuildInstance(new ValidationResultBaseClassBuilder(new ValidationResultBaseClass()));

@@ -96,7 +96,7 @@ namespace Microwave.WebServiceGenerator.Application
                 }
             }
 
-            var hookResult = _hookResultBuilder.Write(new HookResultBaseClass());
+            var hookResult = _hookResultBuilder.Build(new HookResultBaseClass());
             _fileWriter.WriteToFile("Base", hookResult);
 
             var hookBase = _hookBaseClassBuilder.Build(new DomainHookBaseClass());

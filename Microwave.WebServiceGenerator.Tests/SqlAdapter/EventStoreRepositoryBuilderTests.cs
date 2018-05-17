@@ -8,7 +8,7 @@ namespace Microwave.WebServiceGenerator.Tests.SqlAdapter
     public class EventStoreRepositoryBuilderTests : TestBase
     {
         [TestMethod]
-        public void Write()
+        public void BuildEventStoreRepository()
         {
             var classFactory = new ClassBuilderDirector();
             var buildInstance = classFactory.BuildInstance(new EventStoreRepositoryBuilder(new EventStoreRepository()));

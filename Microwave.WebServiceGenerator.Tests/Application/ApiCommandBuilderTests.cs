@@ -7,7 +7,7 @@ namespace Microwave.WebServiceGenerator.Tests.Application
     public class ApiCommandBuilderTests : TestBase
     {
         [TestMethod]
-        public void Build()
+        public void BuildApiCommand()
         {
             var commandBuilder = new ApiCommandBuilder();
 
