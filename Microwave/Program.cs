@@ -31,7 +31,7 @@ namespace Microwave
 
             var tokenizer = new MicrowaveLanguageTokenizer();
             var parser = new MicrowaveLanguageParser();
-            var domainBuilder = new DomainWriter(domainNameSpace, domainBasePath, domainRealClassesBasePath);
+            var domainBuilder = new DomainWriter(domainBasePath, domainRealClassesBasePath);
             var applicationWriter = new ApplicationWriter(applicationNameSpace, applicationBasePath, applicationRealClassesBasePath);
             var sqlAdapterWriter = new SqlAdapterWriter(sqlAdapterNameSpace, sqlAdapterBasePath);
             var webAdapterWriter = new HttpAdapterWriter(webAdapterNameSpace, webAdapterBasePath);
