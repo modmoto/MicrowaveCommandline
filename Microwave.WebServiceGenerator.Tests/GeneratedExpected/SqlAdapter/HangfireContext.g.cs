@@ -28,6 +28,8 @@ namespace SqlAdapter
         
         public DbSet<UserAddPostEvent> UserAddPostEvents { get; private set; }
         
+        public DbSet<UserAddPinnedPostEvent> UserAddPinnedPostEvents { get; private set; }
+        
         public DbSet<UserCreateEvent> UserCreateEvents { get; private set; }
         
         public DbSet<PostUpdateTitleEvent> PostUpdateTitleEvents { get; private set; }

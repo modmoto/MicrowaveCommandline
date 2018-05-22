@@ -2,6 +2,7 @@
 	Name: String
 	Age: Int32
     Posts: [Post]
+    PinnedPost: Post
 
 	Create(Name: String, Age: Int32)
 
@@ -17,7 +18,11 @@
 		PostId: Guid
 		Deleted: Guid
 	}
-	
+
+	AddPinnedPost(NewPost: @Load Post): {
+        PostId: Guid
+    }
+
 	CheckAgeRequirement onChild Post.UpdateTitle
 }
 

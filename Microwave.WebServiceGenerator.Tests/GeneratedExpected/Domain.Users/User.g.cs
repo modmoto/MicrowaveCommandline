@@ -24,6 +24,8 @@ namespace Domain.Users
         
         public Int32 Age { get; private set; }
         
+        public Post PinnedPost { get; private set; }
+        
         public Guid Id { get; private set; }
         
         private User(Guid Id, UserCreateCommand command)
@@ -46,6 +48,8 @@ namespace Domain.Users
         public abstract ValidationResult UpdateName(UserUpdateNameCommand command);
         
         public abstract ValidationResult AddPost(UserAddPostCommand command);
+        
+        public abstract ValidationResult AddPinnedPost(UserAddPinnedPostCommand command);
         
         public abstract ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent PostUpdateTitleEvent);
     }
