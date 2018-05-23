@@ -4,7 +4,7 @@ using Microwave.LanguageModel;
 
 namespace Microwave.WebServiceGenerator.Util
 {
-    public class InterfaceBuilderUtil : IInterfaceBuilder
+    public class InterfaceBuilderUtil
     {
         private readonly NameBuilderUtil _nameBuilderUtil;
 
@@ -38,6 +38,7 @@ namespace Microwave.WebServiceGenerator.Util
 
             foreach (var function in generatedClass.ChildHookMethods)
             {
+
                 var method = new CodeMemberMethod
                 {
                     Name = _nameBuilderUtil.OnChildHookMethodName(function),
@@ -45,12 +46,13 @@ namespace Microwave.WebServiceGenerator.Util
                     Attributes = MemberAttributes.Abstract | MemberAttributes.Public
                 };
 
-                foreach (var parameter in function.Parameters)
-                    method.Parameters.Add(new CodeParameterDeclarationExpression
-                    {
-                        Type = new CodeTypeReference(parameter.Type),
-                        Name = parameter.Name
-                    });
+                var domainClassName = _nameBuilderUtil.GetClassName(function, generatedClass.Properties, generatedClass.ListProperties);
+
+                method.Parameters.Add(new CodeParameterDeclarationExpression
+                {
+                    Type = new CodeTypeReference($"{domainClassName}{function.MethodName}Event"),
+                    Name = "hookEvent"
+                });
 
                 iface.Members.Add(method);
             }
@@ -82,10 +84,5 @@ namespace Microwave.WebServiceGenerator.Util
 
             return iface;
         }
-    }
-
-    public interface IInterfaceBuilder
-    {
-        CodeTypeDeclaration BuildForCommand(DomainClass generatedClass);
     }
 }

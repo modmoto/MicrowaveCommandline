@@ -28,7 +28,8 @@ namespace Microwave.WebServiceGenerator.Domain
 
             foreach (var childHookMethod in _domainClass.ChildHookMethods)
             {
-                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(childHookMethod.OriginEntity);
+                var className = _nameBuilderUtil.GetClassName(childHookMethod, _domainClass.Properties, _domainClass.ListProperties);
+                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(className);
             }
 
             _nameSpaceRealClass = _nameSpaceBuilderUtil.Build();
@@ -93,7 +94,10 @@ namespace Microwave.WebServiceGenerator.Domain
                     Name = _nameBuilderUtil.OnChildHookMethodName(domainMethod),
                     ReturnType = new CodeTypeReference(domainMethod.ReturnType)
                 };
-                method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainMethod.Parameters[0].Name}"), Name = "hookEvent" });
+
+                var domainClassName = _nameBuilderUtil.GetClassName(domainMethod, _domainClass.Properties, _domainClass.ListProperties);
+
+                method.Parameters.Add(new CodeParameterDeclarationExpression { Type = new CodeTypeReference($"{domainClassName}{domainMethod.MethodName}Event"), Name = "hookEvent" });
                 method.Attributes = MemberAttributes.Public | MemberAttributes.Override;
 
                 method.Statements.Add(new CodeSnippetExpression("// TODO: Implement this method"));

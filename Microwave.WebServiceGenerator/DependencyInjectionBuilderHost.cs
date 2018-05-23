@@ -18,7 +18,7 @@ namespace Microwave.WebServiceGenerator
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
         }
 
-        public CodeNamespace Build(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks, IList<OnChildDomainHook> childDomainHooks)
+        public CodeNamespace Build(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks)
         {
             var codeTypeDeclaration = _classBuilderUtil.Build("GeneratedDependencies");
             codeTypeDeclaration.Attributes = MemberAttributes.Final | MemberAttributes.Public;
@@ -52,16 +52,16 @@ namespace Microwave.WebServiceGenerator
                     $"collection.AddTransient<I{domainClass.Name}Repository, {domainClass.Name}Repository>()"));
                 codeMemberMethod.Statements.Add(new CodeSnippetExpression(
                     $"collection.AddTransient<{domainClass.Name}CommandHandler>()"));
+
+                foreach (var hook in domainClass.ChildHookMethods)
+                {
+                    codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
+                }
             }
 
             foreach (var hook in domainHooks)
             {
                 _nameSpaceBuilderUtil.WithHookEntityNameSpace(hook.ClassType);
-                codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
-            }
-
-            foreach (var hook in childDomainHooks)
-            {
                 codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
             }
 

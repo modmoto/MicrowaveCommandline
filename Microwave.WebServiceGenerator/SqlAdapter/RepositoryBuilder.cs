@@ -12,6 +12,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly ClassBuilderUtil _classBuilderUtil;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public RepositoryBuilder(string nameSpace)
         {
@@ -20,6 +21,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _propertyBuilderUtil = new PropertyBuilderUtil();
             _constructorBuilderUtil = new ConstructorBuilderUtil();
             _classBuilderUtil = new ClassBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public CodeNamespace Build(DomainClass domainClass)
@@ -70,7 +72,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             foreach (var onChildHookMethod in domainClass.ChildHookMethods)
             {
-                var childEntityName = onChildHookMethod.OriginEntity;
+                var childEntityName = onChildHookMethod.OriginFieldName;
                 var getByIdMethod = new CodeMemberMethod
                 {
                     Name = $"Get{childEntityName}Parent",
@@ -82,7 +84,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
                 getByIdMethod.Statements.Add(
                     new CodeSnippetExpression(
                         $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}" +
-                        $".FirstOrDefaultAsync(parent => parent.{childEntityName}s.Any(child => child.Id == childId))"));
+                        $".FirstOrDefaultAsync(parent => parent.{childEntityName}.Any(child => child.Id == childId))"));
 
                 getByIdMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
 
@@ -130,7 +132,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         {
             var loadNestedListsArgument = string.Empty;
             foreach (var listProperty in domainClass.ListProperties)
-                loadNestedListsArgument += $".Include(entity => entity.{listProperty.Type}s)";
+                loadNestedListsArgument += $".Include(entity => entity.{listProperty.Name})";
 
             return loadNestedListsArgument;
         }

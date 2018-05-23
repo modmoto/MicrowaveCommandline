@@ -11,13 +11,14 @@ namespace Microwave.WebServiceGenerator.Domain
         private readonly ClassBuilderUtil _classBuilder;
         private readonly ConstructorBuilderUtil _constructorBuilderUtil;
         private readonly DomainClass _domainClass;
-        private readonly IInterfaceBuilder _interfaceBuilder;
+        private readonly InterfaceBuilderUtil _interfaceBuilder;
         private readonly NameSpaceBuilderUtil _nameSpaceBuilderUtil;
         private readonly PropertyBuilderUtil _propertyBuilderUtil;
         private readonly ListPropBuilderUtil _listPropBuilderUtil;
         private CodeNamespace _nameSpace;
         private CodeTypeDeclaration _targetClass;
         private CodeTypeDeclaration _baseClass;
+        private readonly NameBuilderUtil _nameBuilderUtil;
 
         public DomainClassBuilder(DomainClass domainClass)
         {
@@ -28,6 +29,7 @@ namespace Microwave.WebServiceGenerator.Domain
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
             _domainClass = domainClass;
             _listPropBuilderUtil = new ListPropBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public CodeNamespace Build()
@@ -44,7 +46,8 @@ namespace Microwave.WebServiceGenerator.Domain
 
             foreach (var childHookMethod in _domainClass.ChildHookMethods)
             {
-                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(childHookMethod.OriginEntity);
+                var domainClassName = _nameBuilderUtil.GetClassName(childHookMethod, _domainClass.Properties, _domainClass.ListProperties);
+                _nameSpaceBuilderUtil.WithDomainEntityNameSpace(domainClassName);
             }
 
             foreach (var listProperty in _domainClass.ListProperties)

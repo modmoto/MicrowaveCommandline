@@ -27,6 +27,6 @@ namespace Application.Users
         
         Task<List<User>> GetUsers();
         
-        Task<User> GetPostParent(Guid childId);
+        Task<User> GetMyPostsParent(Guid childId);
     }
 }

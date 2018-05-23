@@ -27,16 +27,14 @@ namespace Microwave.LanguageParser.ParseAutomat
         public AsyncDomainHook CurrentAsyncDomainHook { get; set; }
         public List<AsyncDomainHook> AsyncDomainHooks { get; set; } = new List<AsyncDomainHook>();
         public string CurrentFoundValue { get; set; }
-        public OnChildDomainHook CurrentOnChildHook { get; set; }
         public OnChildHookMethod CurrentOnChildHookMethod { get; set; }
-        public List<OnChildDomainHook> ChildHooks { get; set; } = new List<OnChildDomainHook>();
 
         public DomainTree Parse(IEnumerable<DslToken> tokens)
         {
             foreach (var token in tokens)
                 _currentState = _currentState.Parse(token);
 
-            return new DomainTree(Classes, SynchronousDomainHooks, AsyncDomainHooks, ChildHooks);
+            return new DomainTree(Classes, SynchronousDomainHooks, AsyncDomainHooks);
         }
     }
 }

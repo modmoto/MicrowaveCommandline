@@ -23,16 +23,12 @@ namespace Microwave.LanguageParser.ParseAutomat.Members.EventHooks
 
         private ParseState DomainHookEventDefinitionFound(DslToken token)
         {
-            MicrowaveLanguageParser.CurrentOnChildHook.ClassType = token.Value.Split('.')[0];
-            MicrowaveLanguageParser.CurrentOnChildHook.MethodName = token.Value.Split('.')[1];
-
             MicrowaveLanguageParser.CurrentOnChildHookMethod.Name = MicrowaveLanguageParser.CurrentMemberName;
+            MicrowaveLanguageParser.CurrentOnChildHookMethod.ContainingClassName = MicrowaveLanguageParser.CurrentClass.Name;
+            MicrowaveLanguageParser.CurrentOnChildHookMethod.OriginFieldName = token.Value.Split('.')[0];
             MicrowaveLanguageParser.CurrentOnChildHookMethod.MethodName = token.Value.Split('.')[1];
-            MicrowaveLanguageParser.CurrentOnChildHookMethod.OriginEntity = token.Value.Split('.')[0];
-            MicrowaveLanguageParser.CurrentOnChildHookMethod.Parameters.Add(new Parameter {Name = $"{token.Value.Replace(".", "")}Event", Type = $"{token.Value.Replace(".", "")}Event" });
 
             MicrowaveLanguageParser.CurrentClass.ChildHookMethods.Add(MicrowaveLanguageParser.CurrentOnChildHookMethod);
-            MicrowaveLanguageParser.ChildHooks.Add(MicrowaveLanguageParser.CurrentOnChildHook);
 
             return new DomainClassOpenedState(MicrowaveLanguageParser);
         }

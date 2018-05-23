@@ -133,31 +133,5 @@ namespace Application.Users
             }
             return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
         }
-        
-        public async Task<IActionResult> AddPinnedPostUser(Guid id, UserAddPinnedPostApiCommand apiCommand)
-        {
-            var entity = await UserRepository.GetUser(id);
-            if (entity != null)
-            {
-                var errorList = new List<string>();
-                var NewPost = await PostRepository.GetPost(apiCommand.NewPostId);
-                if (NewPost == null) errorList.Add($"Could not find Post for {nameof(apiCommand.NewPostId)} with ID: {apiCommand.NewPostId}");
-                if (errorList.Count > 0) return new NotFoundObjectResult(errorList);
-                var command = new UserAddPinnedPostCommand(NewPost);
-                var validationResult = entity.AddPinnedPost(command);
-                if (validationResult.Ok)
-                {
-                    var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-                    if (hookResult.Ok)
-                    {
-                        await UserRepository.UpdateUser(entity);
-                        return new OkResult();
-                    }
-                    return new BadRequestObjectResult(hookResult.Errors);
-                }
-                return new BadRequestObjectResult(validationResult.DomainErrors);
-            }
-            return new NotFoundObjectResult(new List<string> { $"Could not find Root User with ID: {id}" });
-        }
     }
 }

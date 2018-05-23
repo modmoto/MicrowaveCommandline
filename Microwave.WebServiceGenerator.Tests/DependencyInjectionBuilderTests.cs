@@ -17,7 +17,7 @@ namespace Microwave.WebServiceGenerator.Tests
         public void BuildDependencyInjectionHost()
         {
             var hookResultBuilder = new DependencyInjectionBuilderHost();
-            var codeNamespace = hookResultBuilder.Build(DomainTree.Classes, DomainTree.SynchronousDomainHooks, DomainTree.OnChildHooks);
+            var codeNamespace = hookResultBuilder.Build(DomainTree.Classes, DomainTree.SynchronousDomainHooks);
             TestUtils.SnapshotTest(codeNamespace);
         }
     }

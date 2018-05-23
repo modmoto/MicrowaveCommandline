@@ -1,8 +1,7 @@
 ﻿DomainClass User {
 	Name: String
 	Age: Int32
-    Posts: [Post]
-    PinnedPost: Post
+    MyPosts: [Post]
 
 	Create(Name: String, Age: Int32)
 
@@ -19,11 +18,8 @@
 		Deleted: Guid
 	}
 
-	AddPinnedPost(NewPost: @Load Post): {
-        PostId: Guid
-    }
 
-	CheckAgeRequirement onChild Post.UpdateTitle
+	CheckAgeRequirement onChild MyPosts.UpdateTitle
 }
 
 DomainClass Post {

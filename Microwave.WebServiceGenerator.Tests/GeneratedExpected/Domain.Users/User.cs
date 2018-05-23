@@ -44,16 +44,10 @@ namespace Domain.Users
             return ValidationResult.ErrorResult(new List<string>{"The Method \"AddPost\" in Class \"User\" that is not implemented was called, aborting..."});
         }
         
-        public override ValidationResult AddPinnedPost(UserAddPinnedPostCommand command)
+        public override ValidationResult CheckAgeRequirement_OnMyPostsUpdateTitle(PostUpdateTitleEvent hookEvent)
         {
             // TODO: Implement this method;
-            return ValidationResult.ErrorResult(new List<string>{"The Method \"AddPinnedPost\" in Class \"User\" that is not implemented was called, aborting..."});
-        }
-        
-        public override ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent hookEvent)
-        {
-            // TODO: Implement this method;
-            return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnPostUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
+            return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnMyPostsUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
         }
     }
 }

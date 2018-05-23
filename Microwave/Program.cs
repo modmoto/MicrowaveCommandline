@@ -50,7 +50,7 @@ namespace Microwave
                 applicationWriter.Write(domainTree);
                 sqlAdapterWriter.Write(domainTree);
                 webAdapterWriter.Write(domainTree);
-                var codeNamespace = dependencyInjectionWriter.Build(domainTree.Classes, domainTree.SynchronousDomainHooks, domainTree.OnChildHooks);
+                var codeNamespace = dependencyInjectionWriter.Build(domainTree.Classes, domainTree.SynchronousDomainHooks);
                 new FileWriter(injectionBasePath).WriteToFile("Base/", codeNamespace);
                 var write = dependencyInjectionWriterAsyncHost.Write(domainTree.Classes, domainTree.AsyncDomainHooks);
                 new FileWriter(asynHostBasePath).WriteToFile("Base/", write);

@@ -18,7 +18,7 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members.Hooks
                 new DslToken(TokenType.ObjectBracketOpen, "{", 1),
                 new DslToken(TokenType.Value, "CheckAgeRequirement", 1),
                 new DslToken(TokenType.OnChild, "OnChild", 1),
-                new DslToken(TokenType.DomainHookEventDefinition, "Post.UpdateTitle", 1),
+                new DslToken(TokenType.DomainHookEventDefinition, "PinnedPost.UpdateTitle", 1),
                 new DslToken(TokenType.ObjectBracketClose, "}", 2)
 
             };
@@ -27,15 +27,11 @@ namespace Microwave.LanguageParser.Tests.ParseAutomat.Members.Hooks
             var domainTree = parser.Parse(tokens);
 
             Assert.AreEqual("CheckAgeRequirement", domainTree.Classes[0].ChildHookMethods[0].Name);
-            Assert.AreEqual("Post", domainTree.Classes[0].ChildHookMethods[0].OriginEntity);
+            Assert.AreEqual("PinnedPost", domainTree.Classes[0].ChildHookMethods[0].OriginFieldName);
+            Assert.AreEqual("User", domainTree.Classes[0].ChildHookMethods[0].ContainingClassName);
             Assert.AreEqual("UpdateTitle", domainTree.Classes[0].ChildHookMethods[0].MethodName);
             Assert.AreEqual("ValidationResult", domainTree.Classes[0].ChildHookMethods[0].ReturnType);
-            Assert.AreEqual("PostUpdateTitleEvent", domainTree.Classes[0].ChildHookMethods[0].Parameters[0].Type);
-            Assert.AreEqual("PostUpdateTitleEvent", domainTree.Classes[0].ChildHookMethods[0].Parameters[0].Name);
-            Assert.AreEqual(1, domainTree.Classes[0].ChildHookMethods[0].Parameters.Count);
-            Assert.AreEqual("Post", domainTree.OnChildHooks[0].ClassType);
-            Assert.AreEqual("UpdateTitle", domainTree.OnChildHooks[0].MethodName);
-            Assert.AreEqual("CheckAgeRequirement", domainTree.OnChildHooks[0].Name);
+            Assert.AreEqual(0, domainTree.Classes[0].ChildHookMethods[0].Parameters.Count);
         }
     }
 }

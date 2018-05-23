@@ -1,5 +1,6 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using Microwave.LanguageModel;
 using Microwave.WebServiceGenerator.Util;
 using Microwave.WebServiceModel.Application;
@@ -71,48 +72,49 @@ namespace Microwave.WebServiceGenerator.Application
             return codeNamespace;
         }
 
-        private CodeStatement[] HookExecution(OnChildDomainHook hook)
+        private CodeStatement[] BuildHookExecution(OnChildHookMethod hook)
         {
             return new CodeStatement[]
             {
-                new CodeExpressionStatement(new  CodeSnippetExpression($"var parent = await {hook.OriginEntity}Repository.Get{hook.ClassType}Parent(parsedEvent.EntityId)")),
+                new CodeExpressionStatement(new  CodeSnippetExpression($"var parent = await {hook.ContainingClassName}Repository.Get{hook.OriginFieldName}Parent(parsedEvent.EntityId)")),
                 new CodeExpressionStatement(new  CodeSnippetExpression($"var domainResult = parent.{_nameBuilderUtil.OnChildHookMethodName(hook)}(parsedEvent)")),
                 new CodeConditionStatement(
                     new CodeSnippetExpression(
                         $"domainResult.Ok"),
                     new CodeStatement[]
                     {
-                        new CodeExpressionStatement(new  CodeSnippetExpression($"{hook.OriginEntity}Repository.Update{hook.OriginEntity}(parent)")),
+                        new CodeExpressionStatement(new  CodeSnippetExpression($"await {hook.ContainingClassName}Repository.Update{hook.ContainingClassName}(parent)")),
                         new CodeExpressionStatement(new  CodeSnippetExpression($"return HookResult.OkResult(domainResult.DomainEvents)")),
 
                     })
             };
         }
 
-        public CodeNamespace Build(OnChildDomainHook domainClass)
+        public CodeNamespace BuildOnChildHook(OnChildHookMethod onChildHook, List<Property> classProperties, List<ListProperty> classListProperties)
         {
-            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{domainClass.OriginEntity}s.Hooks")
+            var domainClassName = _nameBuilderUtil.GetClassName(onChildHook, classProperties, classListProperties);
+            var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{onChildHook.ContainingClassName}s.Hooks")
                 .WithTask()
                 .WithDomain()
-                .WithApplicationEntityNameSpace(domainClass.ClassType)
-                .WithDomainEntityNameSpace(domainClass.ClassType)
+                .WithApplicationEntityNameSpace(onChildHook.ContainingClassName)
+                .WithDomainEntityNameSpace(domainClassName)
                 .Build();
 
-            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{domainClass.Name}Hook");
+            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{onChildHook.Name}Hook");
 
             codeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(new DomainHookBaseClass().Name));
 
             var codeConstructor = _constructorBuilderUtil.BuildPublic(new List<Property>
             {
-                new Property {Name = $"{domainClass.OriginEntity}Repository", Type = $"I{domainClass.OriginEntity}Repository"}
+                new Property {Name = $"{onChildHook.ContainingClassName}Repository", Type = $"I{onChildHook.ContainingClassName}Repository"}
             });
             codeTypeDeclaration.Members.Add(codeConstructor);
 
-            _propertyBuilderUtil.Build(codeTypeDeclaration, new List<Property>{new Property {Name = $"{domainClass.OriginEntity}Repository", Type = $"I{domainClass.OriginEntity}Repository"}});
+            _propertyBuilderUtil.Build(codeTypeDeclaration, new List<Property>{new Property {Name = $"{onChildHook.ContainingClassName}Repository", Type = $"I{onChildHook.ContainingClassName}Repository"}});
 
             var field = new CodeMemberField
             {
-                Name = $"EventType {{ get; private set; }} = typeof({domainClass.ClassType}{domainClass.MethodName}Event);NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515",
+                Name = $"EventType {{ get; private set; }} = typeof({domainClassName}{onChildHook.MethodName}Event);NewHackGuid302315ed-3a05-4992-9f76-4cf075cde515",
                 Attributes = MemberAttributes.Public | MemberAttributes.Final,
                 Type = new CodeTypeReference("Type")
             };
@@ -130,8 +132,8 @@ namespace Microwave.WebServiceGenerator.Application
             codeMemberMethod.Name = new DomainHookBaseClass().Methods[0].Name;
             codeMemberMethod.Statements.Add(new CodeConditionStatement(
                 new CodeSnippetExpression(
-                    $"domainEvent is {domainClass.ClassType}{domainClass.MethodName}Event parsedEvent"),
-                HookExecution(domainClass)
+                    $"domainEvent is {domainClassName}{onChildHook.MethodName}Event parsedEvent"),
+                BuildHookExecution(onChildHook)
             ));
 
             codeMemberMethod.Statements.Add(

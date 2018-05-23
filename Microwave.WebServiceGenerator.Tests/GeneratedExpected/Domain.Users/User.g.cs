@@ -18,13 +18,11 @@ namespace Domain.Users
     public partial class User : UserBase
     {
         
-        public List<Post> Posts { get; private set; } = new List<Post>();
+        public List<Post> MyPosts { get; private set; } = new List<Post>();
         
         public String Name { get; private set; }
         
         public Int32 Age { get; private set; }
-        
-        public Post PinnedPost { get; private set; }
         
         public Guid Id { get; private set; }
         
@@ -49,8 +47,6 @@ namespace Domain.Users
         
         public abstract ValidationResult AddPost(UserAddPostCommand command);
         
-        public abstract ValidationResult AddPinnedPost(UserAddPinnedPostCommand command);
-        
-        public abstract ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent PostUpdateTitleEvent);
+        public abstract ValidationResult CheckAgeRequirement_OnMyPostsUpdateTitle(PostUpdateTitleEvent hookEvent);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microwave.LanguageModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microwave.LanguageModel;
 
 namespace Microwave.WebServiceGenerator.Util
 {
@@ -54,14 +56,14 @@ namespace Microwave.WebServiceGenerator.Util
             return $"{domainHook.ClassType}{domainHook.MethodName}Event";
         }
 
-        public string OnChildHookMethodName(OnChildDomainHook hook)
-        {
-            return $"{hook.Name}_On{hook.ClassType}{hook.MethodName}";
-        }
-
         public string OnChildHookMethodName(OnChildHookMethod hook)
         {
-            return $"{hook.Name}_On{hook.OriginEntity}{hook.MethodName}";
+            return $"{hook.Name}_On{hook.OriginFieldName}{hook.MethodName}";
+        }
+
+        public string GetClassName(OnChildHookMethod onChildHook, List<Property> classListProperties, List<ListProperty> listProperties)
+        {
+            return classListProperties.FirstOrDefault(prop => prop.Name == onChildHook.OriginFieldName)?.Type ?? listProperties.FirstOrDefault(prop => prop.Name == onChildHook.OriginFieldName)?.Type;
         }
     }
 }

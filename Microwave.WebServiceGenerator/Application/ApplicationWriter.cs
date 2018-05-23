@@ -63,6 +63,12 @@ namespace Microwave.WebServiceGenerator.Application
                     var apiCommand = _apiCommandBuilder.Build(loadMethod, domainClass);
                     _fileWriter.WriteToFile($"{domainClass.Name}s", apiCommand);
                 }
+
+                foreach (var hook in domainClass.ChildHookMethods)
+                {
+                    var createdHook = _synchronousHookBuilder.BuildOnChildHook(hook, domainClass.Properties, domainClass.ListProperties);
+                    _fileWriter.WriteToFile($"{hook.ContainingClassName}s/Hooks/", createdHook);
+                }
             }
 
             foreach (var hook in domainTree.SynchronousDomainHooks)
@@ -75,12 +81,6 @@ namespace Microwave.WebServiceGenerator.Application
                     var buildReplacementClass = _synchronousHookBuilder.BuildReplacementClass(hook);
                     _fileWriterRealClasses.WriteToFile($"{hook.ClassType}s/Hooks", buildReplacementClass, false);
                 }
-            }
-
-            foreach (var hook in domainTree.OnChildHooks)
-            {
-                var createdHook = _synchronousHookBuilder.Build(hook);
-                _fileWriter.WriteToFile($"{hook.OriginEntity}s/Hooks/", createdHook);
             }
 
             foreach (var hook in domainTree.AsyncDomainHooks)

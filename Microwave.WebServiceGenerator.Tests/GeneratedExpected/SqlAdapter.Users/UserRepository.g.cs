@@ -43,17 +43,17 @@ namespace SqlAdapter.Users
         
         public async Task<User> GetUser(Guid id)
         {
-            return await EventStore.Users.Include(entity => entity.Posts).FirstOrDefaultAsync(entity => entity.Id == id);
+            return await EventStore.Users.Include(entity => entity.MyPosts).FirstOrDefaultAsync(entity => entity.Id == id);
         }
         
         public async Task<List<User>> GetUsers()
         {
-            return await EventStore.Users.Include(entity => entity.Posts).ToListAsync();
+            return await EventStore.Users.Include(entity => entity.MyPosts).ToListAsync();
         }
         
-        public async Task<User> GetPostParent(Guid childId)
+        public async Task<User> GetMyPostsParent(Guid childId)
         {
-            return await EventStore.Users.Include(entity => entity.Posts).FirstOrDefaultAsync(parent => parent.Posts.Any(child => child.Id == childId));
+            return await EventStore.Users.Include(entity => entity.MyPosts).FirstOrDefaultAsync(parent => parent.MyPosts.Any(child => child.Id == childId));
         }
     }
 }

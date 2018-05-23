@@ -71,7 +71,7 @@ namespace Microwave.WebServiceGenerator.Application
 
             foreach (var onChildHookMethod in domainClass.ChildHookMethods)
             {
-                var childEntityName = onChildHookMethod.OriginEntity;
+                var childEntityName = onChildHookMethod.OriginFieldName;
                 var getByIdMethod = new CodeMemberMethod
                 {
                     Name = $"Get{childEntityName}Parent",

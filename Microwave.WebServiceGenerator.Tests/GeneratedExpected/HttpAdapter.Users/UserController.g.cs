@@ -53,12 +53,6 @@ namespace HttpAdapter.Users
             return await Handler.AddPostUser(id, command);
         }
         
-        [HttpPut("{id}/addpinnedpost")]
-        public async Task<IActionResult> AddPinnedPost(Guid id, [FromBody] UserAddPinnedPostApiCommand command)
-        {
-            return await Handler.AddPinnedPostUser(id, command);
-        }
-        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {

@@ -20,7 +20,7 @@ namespace Microwave.LanguageModel
         public IList<DomainEvent> Events { get; }
         public IList<CreateMethod> CreateMethods { get; }
         public string Name { get; set; }
-        public IList<Property> Properties { get; protected set; }
+        public List<Property> Properties { get; protected set; }
         public List<OnChildHookMethod> ChildHookMethods { get; protected set; }
         public IEnumerable<DomainMethod> LoadMethods => Methods.Where(method => method.LoadParameters.Count > 0);
     }
