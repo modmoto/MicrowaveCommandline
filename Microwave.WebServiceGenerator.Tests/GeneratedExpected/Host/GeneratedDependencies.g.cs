@@ -36,7 +36,8 @@ namespace Host
             collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly);
             collection.AddTransient<IUserRepository, UserRepository>();
             collection.AddTransient<UserCommandHandler>();
-            collection.AddTransient<IDomainHook, CheckAgeRequirementHook>();
+            collection.AddTransient<IDomainHook, CheckAgeRequirement_OnMyPostsUpdateTitleHook>();
+            collection.AddTransient<IDomainHook, CheckAgeRequirement_OnPinnedPostUpdateTitleHook>();
             collection.AddTransient<IPostRepository, PostRepository>();
             collection.AddTransient<PostCommandHandler>();
             collection.AddTransient<IDomainHook, SendPasswordMailHook>();

@@ -49,5 +49,11 @@ namespace Domain.Users
             // TODO: Implement this method;
             return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnMyPostsUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
         }
+        
+        public override ValidationResult CheckAgeRequirement_OnPinnedPostUpdateTitle(PostUpdateTitleEvent hookEvent)
+        {
+            // TODO: Implement this method;
+            return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnPinnedPostUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
+        }
     }
 }

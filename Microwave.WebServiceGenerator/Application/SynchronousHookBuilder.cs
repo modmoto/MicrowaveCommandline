@@ -93,6 +93,7 @@ namespace Microwave.WebServiceGenerator.Application
         public CodeNamespace BuildOnChildHook(OnChildHookMethod onChildHook, List<Property> classProperties, List<ListProperty> classListProperties)
         {
             var domainClassName = _nameBuilderUtil.GetClassName(onChildHook, classProperties, classListProperties);
+            var methodName = _nameBuilderUtil.OnChildHookMethodName(onChildHook);
             var codeNamespace = _nameSpaceBuilderUtil.WithName($"{_applicationNameSpace}.{onChildHook.ContainingClassName}s.Hooks")
                 .WithTask()
                 .WithDomain()
@@ -100,7 +101,7 @@ namespace Microwave.WebServiceGenerator.Application
                 .WithDomainEntityNameSpace(domainClassName)
                 .Build();
 
-            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{onChildHook.Name}Hook");
+            var codeTypeDeclaration = _classBuilderUtil.BuildPartial($"{methodName}Hook");
 
             codeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(new DomainHookBaseClass().Name));
 

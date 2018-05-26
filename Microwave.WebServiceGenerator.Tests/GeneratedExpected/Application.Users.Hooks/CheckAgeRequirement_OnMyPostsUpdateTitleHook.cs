@@ -17,14 +17,14 @@ namespace Application.Users.Hooks
     using Domain.Posts;
     
     
-    public partial class CheckAgeRequirementHook : IDomainHook
+    public partial class CheckAgeRequirement_OnMyPostsUpdateTitleHook : IDomainHook
     {
         
         public IUserRepository UserRepository { get; private set; }
         
         public Type EventType { get; private set; } = typeof(PostUpdateTitleEvent);
         
-        public CheckAgeRequirementHook(IUserRepository UserRepository)
+        public CheckAgeRequirement_OnMyPostsUpdateTitleHook(IUserRepository UserRepository)
         {
             this.UserRepository = UserRepository;
         }

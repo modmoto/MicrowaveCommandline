@@ -11,11 +11,13 @@ namespace Microwave.WebServiceGenerator
     {
         private ClassBuilderUtil _classBuilderUtil;
         private NameSpaceBuilderUtil _nameSpaceBuilderUtil;
+        private NameBuilderUtil _nameBuilderUtil;
 
         public DependencyInjectionBuilderHost()
         {
             _classBuilderUtil = new ClassBuilderUtil();
             _nameSpaceBuilderUtil = new NameSpaceBuilderUtil();
+            _nameBuilderUtil = new NameBuilderUtil();
         }
 
         public CodeNamespace Build(IList<DomainClass> domainClasses, IList<SynchronousDomainHook> domainHooks)
@@ -55,7 +57,8 @@ namespace Microwave.WebServiceGenerator
 
                 foreach (var hook in domainClass.ChildHookMethods)
                 {
-                    codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {hook.Name}Hook>()"));
+                    var onChildHookMethodName = _nameBuilderUtil.OnChildHookMethodName(hook);
+                    codeMemberMethod.Statements.Add(new CodeSnippetExpression($"collection.AddTransient<{new DomainHookBaseClass().Name}, {onChildHookMethodName}Hook>()"));
                 }
             }
 
