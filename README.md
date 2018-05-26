@@ -81,19 +81,19 @@ SendBirthdayMail asynchronously on User.UpdateAge
 ```
 
 ### OnChild Hook
-An `OnChildDomain` is used to react to events that a child of a Domain Object produces. This is basically a `SynchronouseDomainHook` that does alle the loading and stuff for you, so you only have to implement the actual Method. This Method can be used for checking things or updating the parent object wich also includes generating domain events.
+An `OnChildDomain` is used to react to events that happen in the specified child property of a Domain Object. This is basically a `SynchronouseDomainHook` that does alle the loading and stuff for you, so you only have to implement the actual Method. This Method can be used for checking things or updating the parent object wich also includes generating domain events.
 
 ```javascript
 DomainClass User {
   Name: String
   Age: Int32
-  Posts: [Post]
+  MyPosts: [Post]
   
-  CheckAgeRequirement onChild Post.UpdateTitle
+  CheckAgeRequirement onChild MyPosts.UpdateTitle
 }
 ```
 
-In this example the Class User will get a Method called `CheckAgeRequirement_OnPostUpdateTitle` wich is calles, as soon as a child of the `User` creates a `PostUpdateTitleEvent`.
+In this example the Class User will get a Method called `CheckAgeRequirement_OnPostUpdateTitle` wich is called, as soon as a `Post` in the field `MyPosts` creates a `PostUpdateTitleEvent`. You can also listen to fields with 1 to 1 relations.
 
 ## Roadmap
 Here are some ideas, that i would like to implement, not necessarly in that particular order
