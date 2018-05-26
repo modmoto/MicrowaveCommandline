@@ -2,6 +2,7 @@
 	Name: String
 	Age: Int32
     MyPosts: [Post]
+    PinnedPost: Post
 
 	Create(Name: String, Age: Int32)
 
@@ -18,8 +19,9 @@
 		Deleted: Guid
 	}
 
-
 	CheckAgeRequirement onChild MyPosts.UpdateTitle
+
+	CheckAgeRequirement onChild PinnedPost.UpdateTitle
 }
 
 DomainClass Post {

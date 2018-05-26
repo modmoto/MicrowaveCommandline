@@ -73,25 +73,45 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             foreach (var onChildHookMethod in domainClass.ChildHookMethods)
             {
                 var childEntityName = onChildHookMethod.OriginFieldName;
-                var getByIdMethod = new CodeMemberMethod
+                var getParentMethod = new CodeMemberMethod
                 {
                     Name = $"Get{childEntityName}Parent",
                     ReturnType = new CodeTypeReference($"async Task<{domainClass.Name}>")
                 };
-                getByIdMethod.Parameters.Add(
+                getParentMethod.Parameters.Add(
                     new CodeParameterDeclarationExpression {Type = new CodeTypeReference("Guid"), Name = "childId"});
 
-                getByIdMethod.Statements.Add(
-                    new CodeSnippetExpression(
-                        $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}" +
-                        $".FirstOrDefaultAsync(parent => parent.{childEntityName}.Any(child => child.Id == childId))"));
+                if (onChildHookMethodIsListProperty(onChildHookMethod, domainClass.ListProperties))
+                {
+                    getParentMethod.Statements.Add(
+                        new CodeSnippetExpression(
+                            $"return await EventStore.{domainClass.Name}s{LoadNestedArgument(domainClass)}" +
+                            $".FirstOrDefaultAsync(parent => parent.{childEntityName}.Any(child => child.Id == childId))"));
+                }
+                else
+                {
+                    getParentMethod.Statements.Add(
+                        new CodeSnippetExpression(
+                            $"return await EventStore.{domainClass.Name}s{LoadNestedArgument(domainClass)}" +
+                            $".FirstOrDefaultAsync(parent => parent.{childEntityName}.Id == childId)"));
+                }
 
-                getByIdMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
+                getParentMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
 
-                parentMethods.Add(getByIdMethod);
+                parentMethods.Add(getParentMethod);
             }
 
             return parentMethods.ToArray();
+        }
+
+        private bool onChildHookMethodIsListProperty(OnChildHookMethod onChildHookMethod, List<ListProperty> domainClassListProperties)
+        {
+            foreach (var listProperty in domainClassListProperties)
+            {
+                if (listProperty.Name == onChildHookMethod.OriginFieldName) return true;
+            }
+
+            return false;
         }
 
         private static CodeMemberMethod MakeGetAllMethod(DomainClass domainClass)
@@ -104,7 +124,7 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             getAllMethod.Statements.Add(
                 new CodeSnippetExpression(
-                    $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}.ToListAsync()"));
+                    $"return await EventStore.{domainClass.Name}s{LoadNestedArgument(domainClass)}.ToListAsync()"));
 
             getAllMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return getAllMethod;
@@ -122,17 +142,19 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
 
             getByIdMethod.Statements.Add(
                 new CodeSnippetExpression(
-                    $"return await EventStore.{domainClass.Name}s{LoadNestedListsArgument(domainClass)}.FirstOrDefaultAsync(entity => entity.Id == id)"));
+                    $"return await EventStore.{domainClass.Name}s{LoadNestedArgument(domainClass)}.FirstOrDefaultAsync(entity => entity.Id == id)"));
 
             getByIdMethod.Attributes = MemberAttributes.Final | MemberAttributes.Public;
             return getByIdMethod;
         }
 
-        private static string LoadNestedListsArgument(DomainClass domainClass)
+        private static string LoadNestedArgument(DomainClass domainClass)
         {
             var loadNestedListsArgument = string.Empty;
-            foreach (var listProperty in domainClass.ListProperties)
-                loadNestedListsArgument += $".Include(entity => entity.{listProperty.Name})";
+            foreach (var listProperty in domainClass.ChildHookMethods)
+                loadNestedListsArgument += $".Include(entity => entity.{listProperty.OriginFieldName})";
+            foreach (var childHook in domainClass.ListProperties)
+                loadNestedListsArgument += $".Include(entity => entity.{childHook.Name})";
 
             return loadNestedListsArgument;
         }
