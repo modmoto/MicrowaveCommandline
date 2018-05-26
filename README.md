@@ -102,6 +102,7 @@ Here are some ideas, that i would like to implement, not necessarly in that part
 - [X] @Load Syntax to load other domain classes when they are used in a method. 
 - [X] Async Hooks with Hangfire. 
 - [X] @OnChild Notation for domain classes react to child actions. 
+- [ ] Querry Class to make api more flexible and introduce CQRS 
 - [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Cron Notation for Async Hooks. 
 - [ ] Retry counter and escape mechanism for async hooks 
