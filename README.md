@@ -88,12 +88,14 @@ DomainClass User {
   Name: String
   Age: Int32
   MyPosts: [Post]
+  PinnedPost: Post
   
   CheckAgeRequirement onChild MyPosts.UpdateTitle
+  CheckAgeRequirement onChild PinnedPost.UpdateTitle
 }
 ```
 
-In this example the Class User will get a Method called `CheckAgeRequirement_OnPostUpdateTitle` wich is called, as soon as a `Post` in the field `MyPosts` creates a `PostUpdateTitleEvent`. You can also listen to fields with 1 to 1 relations.
+In this example the Class User will get a Method called `CheckAgeRequirement_OnPostUpdateTitle` wich is called, as soon as a `Post` in the field `MyPosts` creates a `PostUpdateTitleEvent`. You can also listen to fields with 1 to 1 relations (see `PinnedPost`)
 
 ## Roadmap
 Here are some ideas, that i would like to implement, not necessarly in that particular order
