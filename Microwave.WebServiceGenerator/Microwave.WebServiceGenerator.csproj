@@ -6,7 +6,7 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="4.4.0" />
+    <PackageReference Include="System.CodeDom" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microwave.LanguageModel\Microwave.LanguageModel.csproj">

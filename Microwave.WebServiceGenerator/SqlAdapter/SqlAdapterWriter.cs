@@ -10,15 +10,13 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
         private readonly string _sqlAdapterNameSpace;
         private readonly string _basePath;
         private readonly IFileWriter _fileWriter;
-        private RepositoryBuilder _repositoryBuilder;
-        private EventStoreContextBuilder _eventStoreContextBuilder;
-        private ClassBuilderDirector _classBuilderDirector;
-        private HangfireContextBuilder _hangfireContextBuilder;
-        private DefaultClassBuilder _defaultClassBuilder;
-        private DefaultClassBuilder _tupleClassBuilder;
-        private EventJobRegistrationClassBuilder _eventJobRegistrationClassBuilder;
-        private HangfireQueueBuilder _hangfireQueueBuilder;
-        private QueueRepositoryBuilder _queueRepositoryBuilder;
+        private readonly RepositoryBuilder _repositoryBuilder;
+        private readonly EventStoreContextBuilder _eventStoreContextBuilder;
+        private readonly ClassBuilderDirector _classBuilderDirector;
+        private readonly HangfireContextBuilder _hangfireContextBuilder;
+        private readonly EventJobRegistrationClassBuilder _eventJobRegistrationClassBuilder;
+        private readonly HangfireQueueBuilder _hangfireQueueBuilder;
+        private readonly QueueRepositoryBuilder _queueRepositoryBuilder;
 
         public SqlAdapterWriter(string sqlAdapterNameSpace, string basePath)
         {
@@ -29,7 +27,6 @@ namespace Microwave.WebServiceGenerator.SqlAdapter
             _eventStoreContextBuilder = new EventStoreContextBuilder(sqlAdapterNameSpace);
             _classBuilderDirector = new ClassBuilderDirector();
             _hangfireContextBuilder = new HangfireContextBuilder(sqlAdapterNameSpace);
-            _tupleClassBuilder = new DefaultClassBuilder(sqlAdapterNameSpace, new EventTupleClass());
             _eventJobRegistrationClassBuilder = new EventJobRegistrationClassBuilder(sqlAdapterNameSpace);
             _hangfireQueueBuilder = new HangfireQueueBuilder(sqlAdapterNameSpace);
             _queueRepositoryBuilder = new QueueRepositoryBuilder(sqlAdapterNameSpace);
