@@ -1,4 +1,4 @@
-# GenericWebServiceBuilder
+# Microwave
 A code generator that generates a domain driven webservice with only a schema file to describe Models and generating functions to implement domain logic. The Goal is to only have to implement the relevant Domain logic in your Domain Classes and not care aboute Data Storage or WebApi Implementation. To make this possible the Framework generates code depending on the given Schema.wsb file that defines Domain, WebApi and Database on its own. All that should be left to do is implement the Domainlogic on the generated functions.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n3n2qey19pm4ako4?svg=true)](https://ci.appveyor.com/project/Lauchi/genericwebservicebuilder)
@@ -103,7 +103,6 @@ Here are some ideas, that i would like to implement, not necessarly in that part
 - [X] Async Hooks with Hangfire. 
 - [X] @OnChild Notation for domain classes react to child actions. 
 - [ ] Querry Class to make api more flexible and introduce CQRS 
-- [ ] Add entity and aggregate separation, to be more domain driven. Entities should only contain IDs, Aggregates are the current DomainClass
 - [ ] Cron Notation for Async Hooks. 
 - [ ] Retry counter and escape mechanism for async hooks 
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
