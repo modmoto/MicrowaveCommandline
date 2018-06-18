@@ -102,7 +102,8 @@ Here are some ideas, that i would like to implement, not necessarly in that part
 - [X] @Load Syntax to load other domain classes when they are used in a method. 
 - [X] Async Hooks with Hangfire. 
 - [X] @OnChild Notation for domain classes react to child actions. 
-- [ ] Querry Class to make api more flexible and introduce CQRS 
+- [ ] Querry Class to make api more flexible and introduce CQRS  
+- [ ] @LoadReadModel to load extra data in commands, that do not come from api
 - [ ] Cron Notation for Async Hooks. 
 - [ ] Retry counter and escape mechanism for async hooks 
 - [ ] Add Grapqhl endpoint for being able to do useful filtering besides id
